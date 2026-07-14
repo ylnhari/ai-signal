@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A daily curated brief on AI infrastructure — model releases, inference engines, open weights, hardware.">
+<title>AI Signal</title>
+<style>
+:root{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+    --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+    --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+  --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+  --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+}
+:root[data-theme="light"]{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+}
+*{box-sizing:border-box}
+body,.ai-signal{margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;
+  -webkit-font-smoothing:antialiased;}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px 72px;}
+.mono{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;}
+.serif{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px;}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:20;background:var(--bar);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);}
+.topbar-inner{max-width:720px;margin:0 auto;padding:12px 20px 10px;}
+.wordmark{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-weight:600;letter-spacing:.12em;font-size:.86rem;text-align:center;
+  text-transform:uppercase;color:var(--ink);}
+.cursor{color:var(--accent);animation:pulse 2s steps(1) infinite;}
+@keyframes pulse{0%,49%{opacity:1}50%,100%{opacity:.15}}
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-top:10px;padding-bottom:2px;
+  scrollbar-width:thin;}
+.chip{flex:0 0 auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;letter-spacing:.04em;padding:4px 10px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted);
+  cursor:pointer;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);
+  border-color:var(--accent);}
+
+/* day section */
+.day{padding-top:34px;}
+.day-head{display:flex;justify-content:space-between;align-items:baseline;
+  gap:16px;border-bottom:1px solid var(--line);padding-bottom:10px;
+  margin-bottom:22px;}
+.day-date{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-weight:500;font-size:1.5rem;margin:0;}
+.day-stats{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;color:var(--muted);text-align:right;
+  font-variant-numeric:tabular-nums;max-width:44%;}
+@media (max-width:560px){
+  .day-head{flex-direction:column;gap:4px;}
+  .day-stats{text-align:left;max-width:100%;}
+}
+
+.eyebrow{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  text-transform:uppercase;letter-spacing:.08em;font-size:.7rem;
+  color:var(--muted);margin:26px 0 12px;}
+
+/* urgent / open pitch */
+.urgent{background:var(--urgent-bg);border-left:3px solid var(--urgent);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:0 0 8px;}
+.urgent-eyebrow{color:var(--urgent);margin:0 0 6px;}
+.urgent-title{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.15rem;margin:0 0 6px;color:var(--ink);}
+.urgent .why{margin:0 0 8px;color:var(--ink);font-size:.95rem;}
+.urgent-link{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;color:var(--urgent);}
+
+/* story card */
+.story{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:18px 20px;margin:0 0 16px;}
+.story h3{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-weight:600;font-size:clamp(1.35rem,4.5vw,1.75rem);line-height:1.22;
+  text-wrap:balance;margin:0 0 10px;}
+.story p{margin:0 0 10px;max-width:68ch;}
+.story p:last-of-type{margin-bottom:0;}
+
+/* details / sources */
+.deeper{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;}
+.deeper>summary,.mesh>summary{list-style:none;cursor:pointer;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.75rem;
+  letter-spacing:.04em;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.deeper>summary::-webkit-details-marker,
+.mesh>summary::-webkit-details-marker{display:none;}
+.deeper>summary::before,.mesh>summary::before{content:"\25B8";
+  color:var(--accent);transition:transform .18s ease;display:inline-block;}
+.deeper[open]>summary::before,.mesh[open]>summary::before{transform:rotate(90deg);}
+@media (prefers-reduced-motion:reduce){
+  .deeper>summary::before,.mesh>summary::before{transition:none;}
+}
+.src-list{list-style:none;margin:12px 0 0;padding:0;}
+.src{display:flex;align-items:baseline;gap:10px;padding:5px 0;flex-wrap:wrap;}
+.sid{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.66rem;
+  background:var(--line);color:var(--muted);padding:2px 6px;border-radius:5px;
+  letter-spacing:.02em;white-space:nowrap;}
+.src-title{flex:1;min-width:60%;}
+.ts{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.68rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+/* by beat */
+.beats{display:flex;flex-direction:column;gap:16px;}
+.beat-name{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  padding:2px 8px;display:inline-block;margin-bottom:8px;}
+.beat-items{list-style:none;margin:0;padding:0;}
+.beat-item{padding:5px 0;border-bottom:1px solid var(--line);
+  display:flex;gap:10px;align-items:baseline;justify-content:space-between;}
+.beat-item:last-child{border-bottom:none;}
+.beat-item a,.beat-item{max-width:68ch;}
+
+/* mesh + passthrough */
+.mesh{margin-top:30px;}
+.mesh-body{color:var(--muted);font-size:.85rem;margin-top:10px;}
+.mesh-body code,.story code,.beat-item code,.mesh-body strong{
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.9em;}
+.mesh-body ul{margin:6px 0;padding-left:18px;}
+.passthrough{color:var(--muted);font-size:.9rem;margin:12px 0;}
+.pt-title{font-weight:600;}
+
+/* footer */
+.foot{margin-top:52px;padding-top:16px;border-top:1px solid var(--line);
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.72rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;}
+</style>
+</head>
+<body>
+<div class="ai-signal"><div class="topbar"><div class="topbar-inner"><div class="wordmark">AI SIGNAL <span class="cursor">▮</span></div><div class="chips" role="group" aria-label="Filter by month or week"><button class="chip" data-type="all" data-value="" aria-pressed="true">All</button><button class="chip" data-type="month" data-value="2026-07" aria-pressed="false">2026-07</button><button class="chip" data-type="week" data-value="2026-07-13" aria-pressed="false">wk Jul 13</button></div></div></div><main class="wrap"><section class="day" data-month="2026-07" data-week="2026-07-13"><header class="day-head"><h2 class="day-date">Tuesday, Jul 14, 2026</h2><div class="day-stats">62 items · 5 sources · 55 groups scanned, 27 survived judgment (5 top stories + 22 by-beat) · run 15:19 IST</div></header><div class="eyebrow">Top stories</div><article class="story"><h3>vLLM v0.25 deletes PagedAttention outright</h3><p>vLLM&#x27;s v0.25.0 (2026-07-11) makes Model Runner V2 the default execution path for all dense models and removes the legacy attention implementation entirely — the release notes state flatly: &quot;PagedAttention has been removed... The legacy attention implementation is deleted now that V1/MRv2 backends are the standard path.&quot; That&#x27;s a genuine turning point: the single most famous idea in LLM serving, the one every inference explainer treats as the load-bearing primitive, is gone from the reference implementation. v0.25.1 followed three days later with a launch-blocking TorchCodec import fix and a mixed-dtype allreduce/RMSNorm quant-fusion correctness bug — early-adopter friction is already visible days into the new default path.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">gh-releases</span><a class="src-title" href="https://github.com/vllm-project/vllm/releases/tag/v0.25.0">v0.25.0</a><span class="ts">2026-07-12 01:36 IST</span></li><li class="src"><span class="sid">gh-releases</span><a class="src-title" href="https://github.com/vllm-project/vllm/releases/tag/v0.25.1">v0.25.1</a><span class="ts">2026-07-14 14:21 IST</span></li></ul></details></article><article class="story"><h3>SGLang ships a GLM-5.2-focused hardening patch the same week</h3><p>v0.5.15.post1 is a patch release the maintainers describe as &quot;mostly for GLM 5.2&quot; — fixing DSA model-launch failures on non-CUDA/HIP devices, a FlashInfer dependency break on CUDA 12 images, NaN outputs from FlashInfer&#x27;s TensorRT-LLM FP4 MoE kernels on long inputs, and GLM-5.2&#x27;s IndexShare mechanism under both PD-disaggregation and context-parallel setups. Shipping a new open-weight model (GLM sits alongside DeepSeek/Qwen/Kimi as a tracked family) is only half the story — this is the serving-engine hardening that follows a release, arriving the same week vLLM tore out its own core attention path. Read together with the vLLM story above, it&#x27;s a real signal of how much inference-engine churn is happening in July, not two unrelated patch notes.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">gh-releases</span><a class="src-title" href="https://github.com/sgl-project/sglang/releases/tag/v0.5.15.post1">v0.5.15.post1</a><span class="ts">2026-07-14 14:13 IST</span></li></ul></details></article><article class="story"><h3>Migrating a production AI agent to GPT-5.6: 2.2x faster, 27% cheaper</h3><p>Ploy (an AI site-builder) swapped its production agent from Claude Opus 4.8 to GPT-5.6 after four months of testing frontier models — the first challenger to actually beat their incumbent. Measured results: pages built 2.2x faster (8min → 3m42s), 27% cheaper per build ($2.22 vs $3.06), visual quality up (0.936 → 0.970), and output tokens roughly halved (17.1K vs 33.0K). What&#x27;s genuinely new isn&#x27;t the score, it&#x27;s the infrastructure gap it exposes: GPT-5.6 fills all optional tool parameters with invented values (causing empty file reads 52–64% of the time until Ploy rewrote the schema to required-but-nullable), and OpenAI&#x27;s newer prompt-caching model abandoned partial-prefix matching, breaking Anthropic-style org-wide caching assumptions outright. Roughly a third of the initial &quot;failures&quot; were eval-harness bugs, not model capability — a useful caution against raw benchmark comparisons.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">hn-algolia</span><a class="src-title" href="https://ploy.ai/blog/migrating-a-production-ai-agent-to-gpt-5-6">Migrating a production AI agent to GPT-5.6: 2.2x faster, 27% cheaper</a><span class="ts">2026-07-12 22:43 IST</span></li></ul></details></article><article class="story"><h3>Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k</h3><p>Systima intercepted API traffic (proxy-level logging, cryptographic audit chain matching EU AI Act Article 12 logging requirements) to compare Claude Code against OpenCode on identical tasks. On a minimal &quot;reply with OK&quot; task, Claude Code burned ~32,800 tokens of system prompt before the user&#x27;s input even arrived, versus OpenCode&#x27;s ~6,900 — a 4.7x gap. The sharper finding is cache behavior: OpenCode kept byte-identical request prefixes (one cache write per session), while Claude Code rewrote tens of thousands of cache tokens mid-session repeatedly (53,839 vs 1,003 cache-write tokens on identical work, a 54x gap). Both harnesses completed the same coding tasks correctly, yet Claude Code cost 3.7x more per passing run (268K vs 72K tokens) — a real, measured overhead story rather than a vibes complaint, and directly relevant to anyone (Hari included) running Claude Code as a daily driver.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">hn-algolia</span><a class="src-title" href="https://systima.ai/blog/claude-code-vs-opencode-token-overhead">Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k</a><span class="ts">2026-07-12 23:55 IST</span></li></ul></details></article><article class="story"><h3>Benchmarking 15 &quot;E-Waste&quot; GPUs with Modern Workloads</h3><p>A hobbyist benchmarked 15 discontinued NVIDIA enterprise GPUs (K80, M10, M40, M60, P40, P100, V100, T40) against modern LLM, vision, speech, and 3D-rendering workloads, including multi-GPU scaling and mixed-generation setups. Notable results: the $60–200 V100-16GB tracks the much rarer T40 across most benchmarks, P40 beats P100 for LLM inference (confirming community lore with actual numbers), and the M60 punches well above its ~$50 price on Whisper throughput. Multi-GPU scaling was near-linear on ResNet50 training and hashing workloads with minimal communication overhead, and single-core CPU speed mattered more than core count for latency-sensitive workloads (Whisper, ViT attention). Directly useful to anyone weighing decommissioned enterprise cards for a budget inference box.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">hn-algolia</span><a class="src-title" href="https://esologic.com/benchmarking-tesla-gpus/">Benchmarking 15 &quot;E-Waste&quot; GPUs with Modern Workloads</a><span class="ts">2026-07-13 19:18 IST</span></li></ul></details></article><div class="eyebrow">By beat</div><div class="beats"><div class="beat"><div class="beat-name">inference-serving</div><ul class="beat-items"><li class="beat-item"><a href="https://github.com/ollama/ollama/releases/tag/v0.32.0">Ollama v0.32.0 — the default CLI now launches an interactive agent experience rather than a plain chat loop</a><span class="sid">gh-releases</span></li><li class="beat-item"><a href="https://github.com/ggml-org/llama.cpp/releases">llama.cpp b9984–b9995 (10 builds in ~30h: SYCL/Metal/CUDA quantization-kernel work, Minimax2 eagle3 speculative decoding, Blackwell MMQ refactor); standout — b9993 adds early Tencent Hunyuan-3 (Hy3 MoE architecture) support ahead of any official model announcement, a classic pre-release tell</a><span class="sid">gh-releases</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2607.10803v1">Weight-Adjusted Gradients Reveal Parameter Importance and Failure Modes in LLMs</a><span class="sid">arxiv-efficiency</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2607.10855v1">Reliability Scaling Laws for Quantized Large Language Models</a><span class="sid">arxiv-efficiency</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2607.11211v1">FastTPS: An Optimized Method for LLM Token Phase for AI accelerators</a><span class="sid">arxiv-efficiency</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2607.11368v1">Decomposing Runtime, Kernel, and Quantization Speedups via a Matched FP16 Intermediate</a><span class="sid">arxiv-efficiency</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2607.11883v1">Requential Coding: Pushing the Limits of Model Compression with Self-Generated Training Data</a><span class="sid">arxiv-efficiency</span></li></ul></div><div class="beat"><div class="beat-name">community-pulse</div><ul class="beat-items"><li class="beat-item"><a href="https://github.com/jbwinters/jacquard-lang">Show HN: Jacquard, a programming language for AI-written, human-reviewed code</a><span class="sid">hn-algolia</span></li><li class="beat-item"><a href="https://www.adweek.com/media/openais-ad-business-is-on-pace-to-miss-its-own-forecast-by-90-analyst-says/">OpenAI&#x27;s Ad Business Is on Pace to Miss Its Own Forecast by 90%, Analyst Says</a><span class="sid">hn-algolia</span></li><li class="beat-item"><a href="https://careersatdoordash.com/blog/building-food-metadata-with-llm-juries-context-optimization-multimodal-ai/">Building Food Metadata with LLM Juries</a><span class="sid">hn-algolia</span></li><li class="beat-item"><a href="https://geohot.github.io//blog/jekyll/update/2026/07/12/i-love-llms.html">I love LLMs, I hate hype</a><span class="sid">hn-algolia</span></li><li class="beat-item"><a href="https://scottwillsey.com/building-and-shipping-mac-and-ios-apps-without-ever-opening-xcode/">Building and shipping Mac and iOS apps without opening Xcode (Claude Code as the build-system operator, glued together by a CLAUDE.md)</a><span class="sid">hn-algolia</span></li><li class="beat-item"><a href="https://raymyers.org/post/zig-creator-calls-spade-a-spade">Zig Creator Calls Spade a Spade, Anthropic Blows Smoke (Bun&#x27;s Zig→Rust rewrite via AI agents; Kelley&#x27;s pushback, Anthropic&#x27;s narrative under fire)</a><span class="sid">hn-algolia</span></li></ul></div></div></section><footer class="foot"><a href="https://ylnhari.github.io">AI SIGNAL</a> &mdash; a daily curated brief on AI infrastructure &middot; curated by Hari Yelesetty</footer></main></div>
+<script>
+(function(){
+  var chips=document.querySelectorAll('.chip');
+  var days=document.querySelectorAll('.day');
+  function apply(type,value){
+    days.forEach(function(d){
+      var show = type==='all' || d.dataset[type]===value;
+      d.hidden = !show;
+    });
+  }
+  chips.forEach(function(c){
+    c.addEventListener('click',function(){
+      chips.forEach(function(x){x.setAttribute('aria-pressed','false');});
+      c.setAttribute('aria-pressed','true');
+      apply(c.dataset.type, c.dataset.value);
+    });
+  });
+})();
+</script>
+</body>
+</html>
