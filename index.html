@@ -32,7 +32,7 @@
 body,.ai-signal{margin:0;background:var(--bg);color:var(--ink);
   font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;
   -webkit-font-smoothing:antialiased;}
-.wrap{max-width:720px;margin:0 auto;padding:0 20px 72px;}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 64px;}
 .mono{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;}
 .serif{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}
 a{color:var(--accent);text-decoration:none;}
@@ -43,7 +43,7 @@ a:hover{text-decoration:underline;}
 .topbar{position:sticky;top:0;z-index:20;background:var(--bar);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   border-bottom:1px solid var(--line);}
-.topbar-inner{max-width:720px;margin:0 auto;padding:12px 20px 10px;}
+.topbar-inner{max-width:860px;margin:0 auto;padding:12px 24px 10px;}
 .wordmark{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
   font-weight:600;letter-spacing:.12em;font-size:.86rem;text-align:center;
   text-transform:uppercase;color:var(--ink);}
@@ -130,16 +130,15 @@ a:hover{text-decoration:underline;}
   background:var(--surface);border:1px solid var(--line);border-radius:6px;
   padding:2px 8px;display:inline-block;margin-bottom:8px;}
 .beat-items{list-style:none;margin:0;padding:0;}
-.beat-item{padding:5px 0 5px 16px;border-bottom:1px solid var(--line);
-  display:flex;gap:10px;align-items:baseline;justify-content:space-between;
-  position:relative;}
-.beat-item::before{content:"\25B8";position:absolute;left:0;top:5px;
+.beat-item{padding:6px 0 6px 16px;border-bottom:1px solid var(--line);
+  position:relative;display:block;max-width:none;}
+.beat-item::before{content:"\25B8";position:absolute;left:0;top:6px;
   color:var(--accent);font-size:.8rem;}
+.beat-item .sid{margin-left:8px;}
 .beat-note{padding:5px 0 5px 16px;color:var(--muted);font-size:.85rem;
   border-bottom:1px solid var(--line);}
 .beat-note:last-child{border-bottom:none;}
 .beat-item:last-child{border-bottom:none;}
-.beat-item a,.beat-item{max-width:68ch;}
 
 /* mesh + passthrough */
 .mesh{margin-top:30px;}
