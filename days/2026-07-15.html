@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="A daily curated brief on AI infrastructure — model releases, inference engines, open weights, hardware.">
-<title>AI Signal</title>
+<title>AI Signal — 2026-07-15</title>
 <style>
 :root{
   --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
@@ -180,25 +180,7 @@ a:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
-<div class="ai-signal"><div class="topbar"><div class="topbar-inner"><div class="wordmark">AI SIGNAL <span class="cursor">▮</span></div><div class="chips" role="group" aria-label="Filter by month or week"><button class="chip" data-type="all" data-value="" aria-pressed="true">All</button><button class="chip" data-type="month" data-value="2026-07" aria-pressed="false">2026-07</button><button class="chip" data-type="week" data-value="2026-07-13" aria-pressed="false">wk Jul 13</button></div></div></div><main class="wrap"><div class="idx"><a class="idx-row" href="days/2026-07-15.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Wed, Jul 15, 2026</span><span class="idx-head">none</span><span class="idx-stats">47 items · 5 groups</span></a><a class="idx-row" href="days/2026-07-14.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Tue, Jul 14, 2026</span><span class="idx-head">Nvidia: performance-per-watt is now the metric that decides AI infra profitability</span><span class="idx-stats">39 items · 25 groups</span></a></div><footer class="foot"><a href="https://ylnhari.github.io">AI SIGNAL</a> &mdash; a daily curated brief on AI infrastructure &middot; curated by Hari Yelesetty</footer></main></div>
-<script>
-(function(){
-  var chips=document.querySelectorAll('.chip');
-  var days=document.querySelectorAll('.idx-row');
-  function apply(type,value){
-    days.forEach(function(d){
-      var show = type==='all' || d.dataset[type]===value;
-      d.hidden = !show;
-    });
-  }
-  chips.forEach(function(c){
-    c.addEventListener('click',function(){
-      chips.forEach(function(x){x.setAttribute('aria-pressed','false');});
-      c.setAttribute('aria-pressed','true');
-      apply(c.dataset.type, c.dataset.value);
-    });
-  });
-})();
-</script>
+<div class="ai-signal"><div class="topbar"><div class="topbar-inner"><div class="wordmark"><a href="../index.html" style="color:inherit">AI SIGNAL</a> <span class="cursor">▮</span></div></div></div><main class="wrap"><section class="day" data-month="2026-07" data-week="2026-07-13"><header class="day-head"><h2 class="day-date">Wednesday, Jul 15, 2026</h2><div class="day-stats">47 items · 5 sources · 5 story groups (17 dropped as noise/routine) · run 09:09 IST</div></header><div class="eyebrow">By beat</div><div class="beats"><div class="beat"><div class="beat-name">Inference &amp; serving</div><ul class="beat-items"><li class="beat-item">**llama.cpp, 8 releases today (`b10003`–`b10015`)** — mostly routine: [server gains `--cors-*` flags](https://github.com/ggml-org/llama.cpp/releases/tag/b10010) (incl. a `localhost` shortcut) and [a prompt-cache ownership refactor](https://github.com/ggml-org/llama.cpp/releases/tag/b10011) (checkpoints now cleared on prompt clear, state moved into `server_prompt_cache`) are the only user-facing changes; the rest are backend bug fixes — [Vulkan/CPU f16 SET_ROWS support](https://github.com/ggml-org/llama.cpp/releases/tag/b10004), [OpenCL dp4a fallback for devices without `cl_khr_integer_dot_product`](https://github.com/ggml-org/llama.cpp/releases/tag/b10007), [DeepseekV4 `seq_rm`/`seq_cp` fix](https://github.com/ggml-org/llama.cpp/releases/tag/b10005), a [hexagon backend enum-narrowing fix](https://github.com/ggml-org/llama.cpp/releases/tag/b10012), and a [tokenize-tool CLI arg cleanup](https://github.com/ggml-org/llama.cpp/releases/tag/b10003). No capability jump.</li><li class="beat-item">3 Simon Willison posts today (Armin Ronacher on AI-agent friction, lobste.rs&#x27; SQLite migration, a GitHub Dependabot changelog note) were tagged to this beat by keyword coincidence — none are about inference/serving; dropped.</li></ul></div><div class="beat"><div class="beat-name">Open weights</div><ul class="beat-items"><li class="beat-item">[Intel/gemma-4-31B-it-int4-AutoRound-Best](https://huggingface.co/Intel/gemma-4-31B-it-int4-AutoRound-Best) — Intel&#x27;s int4 AutoRound quant of Gemma 4 31B; the one HF upload today from a named lab rather than an individual researcher.</li><li class="beat-item">31 other HF uploads today were personal fine-tune experiments (chess bots, GSM8K seed runs, city-name SFTs, a 90M incremental-training checkpoint) — no lab-official releases, dropped as noise.</li><li class="beat-item">A community &quot;DeepSeek-v4-flash-180b-W4A16&quot; quant surfaced from an unfamiliar uploader with an empty model card — no primary source confirms a DeepSeek-v4 release exists; dropped rather than repeated unverified (authenticity gate: no fabricated claims).</li></ul></div><div class="beat"><div class="beat-name">Frontier releases</div><ul class="beat-items"><li class="beat-item">LMArena&#x27;s leaderboard page returned as a hit but carries no dated news or new entrant on today&#x27;s fetch — dropped; the URL is a static ranking page, not an event.</li></ul></div><div class="beat"><div class="beat-name">From the community</div><ul class="beat-items"><li class="beat-item">[Financing the AI boom: from cash flows to debt (BIS bulletin, PDF)](https://www.bis.org/publ/bisbull120.pdf) — [hn-algolia]</li><li class="beat-item">[Data centers have hiked electricity prices on the public by $23B (Fortune)](https://fortune.com/2026/07/14/data-centers-23-billion-electricity-bills) — [hn-algolia]</li></ul></div></div><div class="passthrough"><p class="pt-title">Story threads</p><p>_Open events, last 10 days — one line each; full history stays in the store, never re-read. • = updated this run._</p><p>- Seven of today&#x27;s eight llama.cpp point releases (<code>b10003</code>–<code>b10012</code>) each opened as a distinct single-item event (<code>evt-20260715-b10003</code> … <code>evt-20260715-b10012</code>) — the fingerprint matcher doesn&#x27;t yet cluster same-repo same-day releases into one thread. Bundled below as one line rather than seven threads; flagged for the Saturday registry patch. No corroborating coverage elsewhere, so none reach top-story significance regardless.</p></div></section><nav class="daynav"><a href="2026-07-14.html">&larr; 2026-07-14</a><a class="backlink" href="../index.html">all days</a><span></span></nav><footer class="foot"><a href="https://ylnhari.github.io">AI SIGNAL</a> &mdash; a daily curated brief on AI infrastructure &middot; curated by Hari Yelesetty</footer></main></div>
+
 </body>
 </html>
