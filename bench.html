@@ -204,9 +204,12 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   <p>Fairness came from keeping everything identical except the model:</p>
   <ul>
     <li><strong>Same conditions.</strong> Every prompt was pasted <em>word for
-      word</em> into each model's own chat website, at that site's default setting,
-      and I took the first answer &mdash; one attempt, no coaching. That is the
-      experience a normal user gets, which is exactly what I wanted to measure.</li>
+      word</em> into each model's own chat website, and I took the first answer
+      &mdash; one attempt, no coaching. Each model was run at the reasoning mode
+      shown next to its name in the table above. Going forward, the aim is to run
+      every model at its <em>strongest</em> available mode, for the fairest
+      possible comparison; the first round shown here used each site's own
+      default setting instead, which is why the modes differ row to row.</li>
     <li><strong>Coding, graded automatically.</strong> Each program was run against
       a set of hidden checks &mdash; 73 across the eleven tasks &mdash; that hammer
       the edge cases. A task only counts as passed if <em>every</em> one of its
@@ -234,19 +237,19 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
     </tr></thead>
     <tbody>
       <tr>
-        <td class="model">Qwen3.8-Max-Preview<small>Alibaba</small></td>
+        <td class="model">Qwen3.8-Max-Preview<small>Alibaba &middot; Think</small></td>
         <td class="score full">73 / 73</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td>
       </tr>
       <tr>
-        <td class="model">Grok 4.5<small>xAI</small></td>
+        <td class="model">Grok 4.5<small>xAI &middot; Fast</small></td>
         <td class="score full">73 / 73</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td>
       </tr>
       <tr>
-        <td class="model">Claude Sonnet 5<small>Anthropic</small></td>
+        <td class="model">Claude Sonnet 5<small>Anthropic &middot; Medium</small></td>
         <td class="score gap">70 / 73</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td>
       </tr>
       <tr class="rowhi">
-        <td class="model">Claude Opus 4.8<small>Anthropic</small></td>
+        <td class="model">Claude Opus 4.8<small>Anthropic &middot; High</small></td>
         <td class="score gap">68 / 73</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td>
       </tr>
     </tbody>
