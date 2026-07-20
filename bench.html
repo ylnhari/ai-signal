@@ -165,10 +165,13 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
 
   <p class="lead">The lineup so far, in the order I ran them &mdash; I add each
   notable new model as it lands: <strong>Qwen3.8-Max-Preview</strong> (Alibaba),
-  <strong>Grok&nbsp;4.5</strong> (xAI), and two from Anthropic &mdash;
-  <strong>Claude&nbsp;Sonnet&nbsp;5</strong> and <strong>Claude&nbsp;Opus&nbsp;4.8</strong>.
+  <strong>Grok&nbsp;4.5</strong> (xAI), <strong>DeepSeek</strong> (run at its
+  strongest available reasoning setting), and three from Anthropic &mdash;
+  <strong>Claude&nbsp;Fable&nbsp;5</strong>, <strong>Claude&nbsp;Sonnet&nbsp;5</strong>,
+  and <strong>Claude&nbsp;Opus&nbsp;4.8</strong>.
   Each one gets the identical set of tasks, typed into its normal chat website, at
-  its out-of-the-box settings &mdash; the same experience you'd get. Then I grade
+  its out-of-the-box settings (DeepSeek's strongest mode is the one exception,
+  noted where it applies) &mdash; the same experience you'd get. Then I grade
   the answers, most of them automatically, against the exact edge cases a rushed
   answer trips over.</p>
 
@@ -245,6 +248,14 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
         <td class="score full">73 / 73</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td>
       </tr>
       <tr>
+        <td class="model">DeepSeek<small>DeepSeek &middot; Expert+DeepThink</small></td>
+        <td class="score gap">72 / 73</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="score full">10 / 10</td>
+      </tr>
+      <tr>
+        <td class="model">Claude Fable 5<small>Anthropic &middot; High</small></td>
+        <td class="score gap">71 / 73</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td>
+      </tr>
+      <tr>
         <td class="model">Claude Sonnet 5<small>Anthropic &middot; Medium</small></td>
         <td class="score gap">70 / 73</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td>
       </tr>
@@ -256,20 +267,24 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   </table>
   </div>
   <p class="note">Every model tested on contradiction-spotting found all four
-  planted conflicts with zero false alarms. Claude Opus 4.8's reading and
-  drawing cells are still being run &mdash; it is unusually slow at its default
-  setting &mdash; but its coding score is complete. Settings were each site's own
-  default, not a shared one, because that is what a real user sees.</p>
+  planted conflicts with zero false alarms. Several rows still have reading and
+  drawing cells being filled in &mdash; DeepSeek, Claude Fable 5, and Claude
+  Opus 4.8 are all unusually slow at their strongest settings &mdash; but each
+  row's coding score is complete. Settings were each site's own default except
+  DeepSeek, which was deliberately run at its strongest available reasoning
+  mode; that's noted in the small print under its name.</p>
 
   <div class="callout">
     <p><strong>The short version, so far:</strong> the two newer models from Alibaba
-    and xAI got everything right. Both Anthropic models slipped &mdash; and, to my
-    surprise, the larger and more expensive Claude Opus 4.8 slipped <em>further</em>
-    than the smaller Claude Sonnet 5. It was not a failure of raw reasoning: every
-    genuinely hard algorithm passed across the board. The entire difference came
-    down to two small habits of carefulness when handling messy, real-world data.
-    That picture can shift as more models are added to the table &mdash; this is
-    where things stand right now.</p>
+    and xAI swept every check. DeepSeek, run at its strongest reasoning setting,
+    landed a hair behind with a single miss. The three Anthropic models trail
+    behind that, with Claude Opus 4.8 lowest of the six &mdash; and, to my
+    surprise, the larger and more expensive Opus slipped <em>further</em> than
+    the smaller Sonnet. It was not a failure of raw reasoning: every genuinely
+    hard algorithm passed across the board, on every model. The entire spread
+    came down to two small habits of carefulness when handling messy, real-world
+    data. That picture can shift as more models are added to the table &mdash;
+    this is where things stand so far.</p>
   </div>
 
   <h2>The one kind of task that told them apart</h2>
@@ -287,7 +302,7 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   commas:</p>
   <div class="codegrid two">
     <div class="codecard">
-      <div class="codecard-h"><span class="name">Qwen &amp; Grok</span><span class="tag ok">handled it</span></div>
+      <div class="codecard-h"><span class="name">Qwen, Grok, DeepSeek &amp; Fable</span><span class="tag ok">handled it</span></div>
       <pre>line.split(',', 2)   <span style="color:var(--muted)"># split on the first two commas only</span></pre>
     </div>
     <div class="codecard">
@@ -307,18 +322,22 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
       <pre>date(year, month, day)   <span style="color:var(--muted)"># a real calendar refuses Feb 29</span></pre>
     </div>
     <div class="codecard">
-      <div class="codecard-h"><span class="name">Opus 4.8</span><span class="tag no">let them in</span></div>
+      <div class="codecard-h"><span class="name">DeepSeek, Fable &amp; Opus</span><span class="tag no">let them in</span></div>
       <pre>1 &lt;= day &lt;= 31          <span style="color:var(--muted)"># "31 is a valid number", so Feb 31 passes</span></pre>
     </div>
   </div>
 
   <p>That is the whole story of the gap. <strong>Qwen and Grok</strong> sidestepped
-  both traps and finished clean. <strong>Sonnet</strong> used a real calendar but
-  the careless split, so it lost only the comma cases. <strong>Opus</strong> missed
-  both, and its loose date-check bit a second time on the ledger task &mdash; a
-  bad-date row that should have been dropped slipped through. None of it is about
-  how deeply a model can think; it is about whether it reaches for the careful tool
-  when it's told, plainly, that the data is messy.</p>
+  both traps and finished clean. <strong>DeepSeek</strong>, run at its strongest
+  reasoning setting, avoided the comma trap but still let one bad date through on
+  the ledger task. <strong>Fable</strong> also avoided the comma trap but missed the
+  calendar check in both places it appears. <strong>Sonnet</strong> used a real
+  calendar but the careless split, so it lost only the comma cases. <strong>Opus</strong>
+  missed both, and its loose date-check bit a second time on the ledger task &mdash;
+  a bad-date row that should have been dropped slipped through. None of it is about
+  how deeply a model can think; even DeepSeek's strongest reasoning mode didn't
+  catch its one bad-date case. It is about whether a model reaches for the careful
+  tool when it's told, plainly, that the data is messy.</p>
 
   <hr>
   <h2>Every task, in full</h2>
@@ -430,6 +449,98 @@ def merge_busy(intervals):
         else:
             merged.append(list(curr))
     return [tuple(m) for m in merged]</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek</span><span class="tag ok">passed</span></div><pre>def merge_busy(intervals):
+    import heapq
+
+    if not intervals:
+        return []
+
+    # events: (time, type, prio) with type 0 = end, 1 = start
+    events = []
+    for s, e, p in intervals:
+        events.append((s, 1, p))
+        events.append((e, 0, p))
+
+    # end (0) before start (1) at same time
+    events.sort(key=lambda x: (x[0], x[1]))
+
+    # sorted unique time points
+    times = sorted({t for t, _, _ in events})
+
+    active_count = 0
+    count = {}
+    heap = []  # max-heap of priorities (stored as negative values)
+    raw_segments = []
+
+    idx = 0
+    n_events = len(events)
+
+    for i, t in enumerate(times):
+        # process all events at time t
+        while idx &lt; n_events and events[idx][0] == t:
+            _, typ, p = events[idx]
+            if typ == 0:          # end
+                count[p] -= 1
+                if count[p] == 0:
+                    del count[p]
+                active_count -= 1
+            else:                 # start
+                count[p] = count.get(p, 0) + 1
+                if count[p] == 1:
+                    heapq.heappush(heap, -p)
+                active_count += 1
+            idx += 1
+
+        # if this is the last time point, there is no next segment
+        if i == len(times) - 1:
+            break
+
+        next_t = times[i + 1]
+        if active_count &gt; 0:
+            # lazy removal of dead heap tops
+            while heap and count.get(-heap[0], 0) == 0:
+                heapq.heappop(heap)
+            cur_max = -heap[0]
+            raw_segments.append((t, next_t, cur_max))
+
+    # coalesce adjacent segments with equal priority
+    merged = []
+    for seg in raw_segments:
+        if not merged:
+            merged.append(seg)
+        else:
+            prev = merged[-1]
+            if prev[1] == seg[0] and prev[2] == seg[2]:
+                merged[-1] = (prev[0], seg[1], seg[2])
+            else:
+                merged.append(seg)
+
+    return merged</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Fable 5</span><span class="tag ok">passed</span></div><pre>def merge_busy(intervals):
+    from collections import Counter
+    if not intervals:
+        return []
+    events = {}
+    for s, e, p in intervals:
+        events.setdefault(s, []).append((p, 1))
+        events.setdefault(e, []).append((p, -1))
+    points = sorted(events)
+    active = Counter()
+    result = []
+    prev = None
+    for x in points:
+        if prev is not None and active:
+            prio = max(active)
+            if result and result[-1][1] == prev and result[-1][2] == prio:
+                result[-1] = (result[-1][0], x, prio)
+            else:
+                result.append((prev, x, prio))
+        for p, d in events[x]:
+            active[p] += d
+            if active[p] == 0:
+                del active[p]
+        prev = x
+    return result</pre></div>
 <div class="modelout"><div class="mo-h"><span class="mo-name">Claude Sonnet 5</span><span class="tag ok">passed</span></div><pre>def merge_busy(intervals):
     if not intervals:
         return []
@@ -549,6 +660,49 @@ Return only the complete class in one code block.</pre></details>
         else:
             self.last_time = now
             return False</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek</span><span class="tag ok">passed</span></div><pre>class TokenBucket:
+    def __init__(self, capacity: float, refill_rate: float):
+        self.capacity = capacity
+        self.refill_rate = refill_rate
+        self.tokens = capacity          # starts FULL
+        self.last_time = None           # no baseline yet
+
+    def allow(self, n: float = 1.0, now: float = 0.0) -&gt; bool:
+        if self.last_time is None:
+            # First call: establish baseline, no refill
+            self.last_time = now
+        else:
+            elapsed = now - self.last_time
+            if elapsed &lt; 0:
+                elapsed = 0.0           # don't go backwards
+            # Continuous refill, capped at capacity
+            self.tokens = min(self.capacity,
+                              self.tokens + elapsed * self.refill_rate)
+            self.last_time = now
+
+        if self.tokens &gt;= n:
+            self.tokens -= n
+            return True
+        return False</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Fable 5</span><span class="tag ok">passed</span></div><pre>class TokenBucket:
+    def __init__(self, capacity: float, refill_rate: float):
+        self.capacity = capacity
+        self.refill_rate = refill_rate
+        self.tokens = capacity
+        self._last = None
+
+    def allow(self, n: float = 1.0, now: float = 0.0) -&gt; bool:
+        if self._last is None:
+            self._last = now
+        else:
+            elapsed = now - self._last
+            if elapsed &gt; 0:
+                self.tokens = min(self.capacity, self.tokens + elapsed * self.refill_rate)
+                self._last = now
+        if self.tokens &gt;= n:
+            self.tokens -= n
+            return True
+        return False</pre></div>
 <div class="modelout"><div class="mo-h"><span class="mo-name">Claude Sonnet 5</span><span class="tag ok">passed</span></div><pre>class TokenBucket:
     def __init__(self, capacity: float, refill_rate: float):
         self.capacity = capacity
@@ -588,7 +742,7 @@ Return only the complete class in one code block.</pre></details>
         return False</pre></div></details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 3</span> <span class="tname">Parsing a messy bank statement</span> <span class="tmini">Sonnet + Opus stumble</span></summary>
+<details class="task"><summary><span class="tid">Task 3</span> <span class="tname">Parsing a messy bank statement</span> <span class="tmini">Fable, Sonnet &amp; Opus stumble</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> Real-world data is messy, and this task hands the model a bank statement with three different date formats, currency symbols, thousands-separator commas, and two different ways of marking a debit (parentheses or a trailing "DR"). It is a fair test because careful parsing under ambiguity - especially not letting a plain formatting comma get confused with the field-separating comma - separates models that handle edge cases from ones that pattern-match the common case.</p>
 <p class="how"><strong>How it is scored:</strong> The checks include amounts with thousands separators, all three date formats, both debit notations, and deliberately invalid or impossible dates that should be silently skipped.</p>
@@ -782,6 +936,152 @@ def parse_statement(text):
 
     entries.sort(key=lambda x: (x[0], x[1]))
     return [entry[2] for entry in entries]</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek</span><span class="tag ok">passed</span></div><pre>def parse_statement(text):
+    import re
+    from datetime import date
+
+    MONTH_MAP = {
+        'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4,
+        'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8,
+        'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
+    }
+
+    def parse_date(d):
+        d = d.strip()
+        # DD/MM/YYYY
+        if re.fullmatch(r'\d{2}/\d{2}/\d{4}', d):
+            day, month, year = map(int, d.split('/'))
+            try:
+                return date(year, month, day).isoformat()
+            except ValueError:
+                return None
+        # YYYY-MM-DD
+        if re.fullmatch(r'\d{4}-\d{2}-\d{2}', d):
+            year, month, day = map(int, d.split('-'))
+            try:
+                return date(year, month, day).isoformat()
+            except ValueError:
+                return None
+        # D Mon YYYY
+        parts = d.split()
+        if len(parts) == 3:
+            day_str, mon_str, year_str = parts
+            mon = MONTH_MAP.get(mon_str.title())
+            if mon is not None:
+                try:
+                    day = int(day_str)
+                    year = int(year_str)
+                    return date(year, mon, day).isoformat()
+                except ValueError:
+                    return None
+        return None
+
+    def parse_amount(a):
+        a = a.strip()
+        if not a:
+            return None
+        negative = False
+        # parentheses -&gt; negative
+        if a.startswith('(') and a.endswith(')'):
+            negative = True
+            a = a[1:-1].strip()
+        # " DR" suffix -&gt; negative
+        if a.rstrip().endswith(' DR'):
+            negative = True
+            a = a.rstrip()[:-3].strip()
+        # remove currency symbols and commas
+        a = a.replace('₹', '').replace('$', '').replace(',', '').strip()
+        try:
+            val = float(a)
+        except ValueError:
+            return None
+        return -val if negative else val
+
+    results = []
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        first_comma = line.find(',')
+        if first_comma == -1:
+            continue
+        second_comma = line.find(',', first_comma + 1)
+        if second_comma == -1:
+            continue
+
+        date_raw = line[:first_comma].strip()
+        desc = line[first_comma + 1:second_comma].strip()
+        amount_raw = line[second_comma + 1:].strip()
+
+        iso_date = parse_date(date_raw)
+        if iso_date is None:
+            continue
+        amount = parse_amount(amount_raw)
+        if amount is None:
+            continue
+
+        results.append({'date': iso_date, 'description': desc, 'amount': amount})
+
+    results.sort(key=lambda x: x['date'])
+    return results</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Fable 5</span><span class="tag no">failed</span></div><pre>def parse_statement(text):
+    import re
+    months = {m: i + 1 for i, m in enumerate(
+        ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"])}
+
+    def parse_date(s):
+        s = s.strip()
+        m = re.fullmatch(r"(\d{2})/(\d{2})/(\d{4})", s)
+        if m:
+            d, mo, y = int(m[1]), int(m[2]), int(m[3])
+        else:
+            m = re.fullmatch(r"(\d{4})-(\d{2})-(\d{2})", s)
+            if m:
+                y, mo, d = int(m[1]), int(m[2]), int(m[3])
+            else:
+                m = re.fullmatch(r"(\d{1,2}) ([A-Za-z]{3}) (\d{4})", s)
+                if not m or m[2] not in months:
+                    return None
+                d, mo, y = int(m[1]), months[m[2]], int(m[3])
+        if not (1 &lt;= mo &lt;= 12 and 1 &lt;= d &lt;= 31):
+            return None
+        return f"{y:04d}-{mo:02d}-{d:02d}"
+
+    def parse_amount(s):
+        s = s.strip()
+        neg = False
+        if s.endswith(" DR"):
+            neg = True
+            s = s[:-3].strip()
+        if s.startswith("(") and s.endswith(")"):
+            neg = True
+            s = s[1:-1].strip()
+        if s[:1] in ("₹", "$"):
+            s = s[1:].strip()
+        if not re.fullmatch(r"\d{1,3}(,\d{3})*(\.\d+)?|\d+(\.\d+)?", s):
+            return None
+        val = float(s.replace(",", ""))
+        return -val if neg else val
+
+    rows = []
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        parts = line.split(",", 2)
+        if len(parts) != 3:
+            continue
+        date = parse_date(parts[0])
+        if date is None:
+            continue
+        desc = parts[1].strip()
+        amount = parse_amount(parts[2])
+        if amount is None:
+            continue
+        rows.append({"date": date, "description": desc, "amount": amount})
+    rows.sort(key=lambda r: r["date"])
+    return rows</pre></div>
+<p class="failnote">The bug: the comma split is correct (split(',', 2), so thousands-comma amounts survive fine) but dates are validated with a simple numeric range (day between 1 and 31) instead of checking against a real calendar, so impossible dates like February 29 or April 31 get wrongly accepted.</p>
 <div class="modelout"><div class="mo-h"><span class="mo-name">Claude Sonnet 5</span><span class="tag no">failed</span></div><pre>import re
 from datetime import datetime
 
@@ -990,6 +1290,28 @@ def rotation_index(a):
         else:
             hi = mid
     return lo</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek</span><span class="tag ok">passed</span></div><pre>def rotation_index(a):
+    if not a:
+        return -1
+    lo, hi = 0, len(a) - 1
+    while lo &lt; hi:
+        mid = (lo + hi) // 2
+        if a[mid] &gt; a[hi]:
+            lo = mid + 1
+        else:
+            hi = mid
+    return lo</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Fable 5</span><span class="tag ok">passed</span></div><pre>def rotation_index(a):
+    if not a:
+        return -1
+    lo, hi = 0, len(a) - 1
+    while lo &lt; hi:
+        mid = (lo + hi) // 2
+        if a[mid] &gt; a[hi]:
+            lo = mid + 1
+        else:
+            hi = mid
+    return lo</pre></div>
 <div class="modelout"><div class="mo-h"><span class="mo-name">Claude Sonnet 5</span><span class="tag ok">passed</span></div><pre>def rotation_index(a):
     if not a:
         return -1
@@ -1054,6 +1376,22 @@ WHERE o.created_at BETWEEN '2026-01-01' AND '2026-03-31'
   AND c.city IS NOT NULL
 GROUP BY c.city
 ORDER BY total DESC, c.city ASC
+LIMIT 3;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek</span><span class="tag ok">passed</span></div><pre>SELECT c.city, SUM(o.amount) AS total
+FROM orders o
+JOIN customers c ON o.customer_id = c.id
+WHERE o.created_at &gt;= '2026-01-01' AND o.created_at &lt;= '2026-03-31'
+  AND c.city IS NOT NULL
+GROUP BY c.city
+ORDER BY total DESC, c.city ASC
+LIMIT 3;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Fable 5</span><span class="tag ok">passed</span></div><pre>SELECT c.city AS city, SUM(o.amount) AS total
+FROM orders o
+JOIN customers c ON c.id = o.customer_id
+WHERE o.created_at BETWEEN '2026-01-01' AND '2026-03-31'
+  AND c.city IS NOT NULL
+GROUP BY c.city
+ORDER BY total DESC, city ASC
 LIMIT 3;</pre></div>
 <div class="modelout"><div class="mo-h"><span class="mo-name">Claude Sonnet 5</span><span class="tag ok">passed</span></div><pre>SELECT c.city AS city, SUM(o.amount) AS total
 FROM orders o
@@ -1242,6 +1580,130 @@ Return only the complete function in one code block.</pre></details>
             i += 1
 
     return result</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek</span><span class="tag ok">passed</span></div><pre>import heapq
+
+def merge_busy2(intervals, cancels):
+    # Step 1: Build events from intervals
+    events = []
+    for s, e, p in intervals:
+        events.append((s, 1, p))   # start
+        events.append((e, -1, p))  # end
+    # Sort by coordinate; for same coordinate, ends (-1) before starts (1)
+    events.sort(key=lambda x: (x[0], x[1]))
+
+    active = {}
+    heap = []
+    current_start = None
+    current_prio = 0
+    segments = []
+
+    idx = 0
+    n = len(events)
+    while idx &lt; n:
+        x = events[idx][0]
+        # process all events at this coordinate
+        while idx &lt; n and events[idx][0] == x:
+            _, typ, p = events[idx]
+            if typ == 1:    # start
+                active[p] = active.get(p, 0) + 1
+                heapq.heappush(heap, -p)
+            else:           # end
+                active[p] = active.get(p, 0) - 1
+            idx += 1
+
+        # remove stale max entries
+        while heap and active.get(-heap[0], 0) == 0:
+            heapq.heappop(heap)
+        max_p = -heap[0] if heap else 0
+
+        if max_p != current_prio:
+            if current_prio &gt; 0 and current_start &lt; x:
+                segments.append((current_start, x, current_prio))
+            current_start = x
+            current_prio = max_p
+
+    # Coalesce adjacent segments with equal priority
+    if not segments:
+        return []
+
+    merged_segs = []
+    for seg in segments:
+        if not merged_segs:
+            merged_segs.append(seg)
+        else:
+            prev_s, prev_e, prev_p = merged_segs[-1]
+            cur_s, cur_e, cur_p = seg
+            if prev_p == cur_p and prev_e == cur_s:
+                merged_segs[-1] = (prev_s, cur_e, prev_p)
+            else:
+                merged_segs.append(seg)
+    segments = merged_segs
+
+    # Step 2: Merge overlapping/touching cancels
+    if not cancels:
+        return segments
+
+    cancels_sorted = sorted(cancels, key=lambda c: c[0])
+    merged_c = []
+    for s, e in cancels_sorted:
+        if not merged_c or merged_c[-1][1] &lt; s:
+            merged_c.append([s, e])
+        else:
+            merged_c[-1][1] = max(merged_c[-1][1], e)
+
+    # Step 3: Subtract merged cancels from resolved segments
+    result = []
+    i = 0
+    m = len(merged_c)
+    for s, e, p in segments:
+        # Skip cancels that end before or exactly at the segment start
+        while i &lt; m and merged_c[i][1] &lt;= s:
+            i += 1
+        k = i
+        while k &lt; m and merged_c[k][0] &lt; e:
+            cs, ce = merged_c[k]
+            if cs &gt; s:
+                result.append((s, cs, p))
+            s = max(s, ce)
+            if s &gt;= e:
+                break
+            k += 1
+        if s &lt; e:
+            result.append((s, e, p))
+
+    return result</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Fable 5</span><span class="tag ok">passed</span></div><pre>def merge_busy2(intervals, cancels):
+    from collections import Counter
+    if not intervals:
+        return []
+    events = {}
+    for s, e, p in intervals:
+        events.setdefault(s, []).append(("i", p, 1))
+        events.setdefault(e, []).append(("i", p, -1))
+    for s, e in cancels:
+        events.setdefault(s, []).append(("c", None, 1))
+        events.setdefault(e, []).append(("c", None, -1))
+    points = sorted(events)
+    active = Counter()
+    cancel_depth = 0
+    result = []
+    prev = None
+    for x in points:
+        if prev is not None and active and cancel_depth == 0:
+            prio = max(active)
+            if result and result[-1][1] == prev and result[-1][2] == prio:
+                result[-1] = (result[-1][0], x, prio)
+            else:
+                result.append((prev, x, prio))
+        for kind, p, d in events[x]:
+            if kind == "i":
+                active[p] += d
+                if active[p] == 0:
+                    del active[p]
+            else:
+                cancel_depth += d
+        prev = x
+    return result</pre></div>
 <div class="modelout"><div class="mo-h"><span class="mo-name">Claude Sonnet 5</span><span class="tag ok">passed</span></div><pre>def merge_busy2(intervals, cancels):
     if not intervals:
         return []
@@ -1425,6 +1887,127 @@ Return only the complete class in one code block.</pre></details>
             for nm in path:
                 self._nodes[nm]['tokens'] -= n
         return True</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek</span><span class="tag ok">passed</span></div><pre>class RateTree:
+    """
+    A hierarchical token bucket with continuous refill.
+    """
+    def __init__(self, spec: dict):
+        """
+        Initialize the RateTree.
+
+        :param spec: dict mapping node name (str) to (capacity, refill_rate, parent).
+                     capacity and refill_rate are floats, parent is a string or None.
+                     Exactly one node must have parent None (the root).
+        """
+        self._nodes = {}
+        for name, (capacity, refill_rate, parent) in spec.items():
+            if capacity &lt; 0 or refill_rate &lt; 0:
+                raise ValueError("capacity and refill_rate must be non-negative")
+            self._nodes[name] = {
+                'capacity': float(capacity),
+                'refill_rate': float(refill_rate),
+                'parent': parent,
+                'tokens': float(capacity),   # start full
+                'last_time': 0.0
+            }
+
+        # Validate exactly one root
+        roots = [n for n, nd in self._nodes.items() if nd['parent'] is None]
+        if len(roots) != 1:
+            raise ValueError("Exactly one node must have parent None (the root)")
+
+        # Validate all parents exist
+        for name, nd in self._nodes.items():
+            p = nd['parent']
+            if p is not None and p not in self._nodes:
+                raise ValueError(f"Parent '{p}' of node '{name}' not found in spec")
+
+    def allow(self, name: str, n: float = 1.0, now: float = 0.0) -&gt; bool:
+        """
+        Request n tokens from the named bucket and all its ancestors.
+
+        :param name: the node to consume from
+        :param n: number of tokens to consume (default 1.0)
+        :param now: current time as a float (caller-supplied)
+        :return: True if all involved buckets had at least n tokens, False otherwise
+        """
+        if name not in self._nodes:
+            raise KeyError(f"Node '{name}' not found")
+
+        # Build the chain from the target node up to the root
+        chain = []
+        cur = name
+        while cur is not None:
+            chain.append(cur)
+            cur = self._nodes[cur]['parent']
+
+        # Compute new token counts after continuous refill for each node in chain
+        new_tokens = {}
+        for node in chain:
+            nd = self._nodes[node]
+            elapsed = now - nd['last_time']
+            if elapsed &lt; 0:
+                elapsed = 0.0
+            tokens = nd['tokens'] + elapsed * nd['refill_rate']
+            if tokens &gt; nd['capacity']:
+                tokens = nd['capacity']
+            new_tokens[node] = tokens
+
+        # Check if every node in the chain has enough tokens
+        if all(t &gt;= n for t in new_tokens.values()):
+            # Success: debit all nodes and update their timestamps
+            for node in chain:
+                nd = self._nodes[node]
+                nd['tokens'] = new_tokens[node] - n
+                nd['last_time'] = now
+            return True
+        else:
+            # Failure: only update state with refill, no debit
+            for node in chain:
+                nd = self._nodes[node]
+                nd['tokens'] = new_tokens[node]
+                nd['last_time'] = now
+            return False</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Fable 5</span><span class="tag ok">passed</span></div><pre>class RateTree:
+    def __init__(self, spec):
+        self.parent = {}
+        self.capacity = {}
+        self.rate = {}
+        self.tokens = {}
+        self.last = {}
+        for name, (cap, rate, parent) in spec.items():
+            self.parent[name] = parent
+            self.capacity[name] = cap
+            self.rate[name] = rate
+            self.tokens[name] = cap
+            self.last[name] = None
+
+    def _refill(self, name, now):
+        last = self.last[name]
+        if last is None:
+            self.last[name] = now
+        else:
+            elapsed = now - last
+            if elapsed &gt; 0:
+                self.tokens[name] = min(
+                    self.capacity[name],
+                    self.tokens[name] + elapsed * self.rate[name],
+                )
+                self.last[name] = now
+
+    def allow(self, name: str, n: float = 1.0, now: float = 0.0) -&gt; bool:
+        chain = []
+        node = name
+        while node is not None:
+            chain.append(node)
+            node = self.parent[node]
+        for node in chain:
+            self._refill(node, now)
+        if all(self.tokens[node] &gt;= n for node in chain):
+            for node in chain:
+                self.tokens[node] -= n
+            return True
+        return False</pre></div>
 <div class="modelout"><div class="mo-h"><span class="mo-name">Claude Sonnet 5</span><span class="tag ok">passed</span></div><pre>class RateTree(object):
     def __init__(self, spec):
         self.spec = dict(spec)
@@ -1507,7 +2090,7 @@ Return only the complete class in one code block.</pre></details>
         return False</pre></div></details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tmini">Opus stumbles</span></summary>
+<details class="task"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tmini">DeepSeek, Fable &amp; Opus stumble</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> This pushes the messy-parsing idea further: descriptions can now be wrapped in quotes so they are allowed to contain commas, dates come in four formats (including one where a comma is legitimately part of the date itself), amounts can be in three currencies that all need converting to a common one, and duplicate rows need to be dropped. It is a strong test of handling several layers of ambiguous formatting at once without them interfering with each other.</p>
 <p class="how"><strong>How it is scored:</strong> The checks include quoted descriptions with embedded commas and escaped quotes, all four date formats, currency-symbol mismatches, duplicate rows, and invalid dates that must be silently dropped.</p>
@@ -1827,6 +2410,300 @@ Return only the complete function in one code block.</pre></details>
             break
     rows.sort(key=lambda r: (r[0], -abs(r[2]), r[3]))
     return [{'date': r[0], 'description': r[1], 'amount_inr': r[2]} for r in rows]</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek</span><span class="tag no">failed</span></div><pre>import re
+
+def parse_ledger(text):
+    # Month name to number mapping
+    MONTH_MAP = {
+        'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4,
+        'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8,
+        'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
+    }
+    RATES = {'INR': 1.0, 'USD': 83.5, 'EUR': 90.25}
+    CURRENCIES = {'INR', 'USD', 'EUR'}
+    SYMBOLS = '₹$€'
+
+    def parse_date(s):
+        s = s.strip()
+        # YYYY-MM-DD
+        if re.match(r'^\d{4}-\d{2}-\d{2}$', s):
+            return s
+        # DD/MM/YYYY
+        m = re.match(r'^(\d{1,2})/(\d{1,2})/(\d{4})$', s)
+        if m:
+            d, mo, y = int(m.group(1)), int(m.group(2)), int(m.group(3))
+            return f"{y:04d}-{mo:02d}-{d:02d}"
+        # D Mon YYYY
+        m = re.match(r'^(\d{1,2}) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d{4})$', s)
+        if m:
+            d = int(m.group(1))
+            mo = MONTH_MAP[m.group(2)]
+            y = int(m.group(3))
+            return f"{y:04d}-{mo:02d}-{d:02d}"
+        # Mon D, YYYY (possibly after earlier split that gave whole date field)
+        m = re.match(r'^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d{1,2}), (\d{4})$', s)
+        if m:
+            mo = MONTH_MAP[m.group(1)]
+            d = int(m.group(2))
+            y = int(m.group(3))
+            return f"{y:04d}-{mo:02d}-{d:02d}"
+        return None
+
+    def parse_rest(s):
+        """Parse description, amount, currency from the rest of the line after the date separator."""
+        s = s.strip()
+        if not s:
+            return None
+        if s.startswith('"'):
+            # quoted description
+            i = 1
+            desc_chars = []
+            while i &lt; len(s):
+                if s[i] == '"':
+                    if i + 1 &lt; len(s) and s[i + 1] == '"':
+                        desc_chars.append('"')
+                        i += 2
+                    else:
+                        # end of quoted field
+                        i += 1
+                        break
+                else:
+                    desc_chars.append(s[i])
+                    i += 1
+            else:
+                # no closing quote
+                return None
+            if i &gt;= len(s) or s[i] != ',':
+                return None
+            rest = s[i + 1:]
+            description = ''.join(desc_chars).strip()
+        else:
+            # unquoted description
+            comma_idx = s.find(',')
+            if comma_idx == -1:
+                return None
+            description = s[:comma_idx].strip()
+            rest = s[comma_idx + 1:]
+        # Now rest should be amount,currency
+        # Find last comma to split amount and currency
+        last_comma = rest.rfind(',')
+        if last_comma == -1:
+            return None
+        amount_str = rest[:last_comma].strip()
+        currency_str = rest[last_comma + 1:].strip()
+        return description, amount_str, currency_str
+
+    def parse_amount(amount_str, currency_str):
+        """Parse numeric value from amount_str, return (value, currency) or None."""
+        if currency_str not in CURRENCIES:
+            return None
+        s = amount_str.strip()
+        if not s:
+            return None
+        negative = False
+        # DR suffix
+        if s.endswith(' DR'):
+            negative = True
+            s = s[:-3].strip()
+        # parentheses
+        if s.startswith('(') and s.endswith(')'):
+            negative = True
+            s = s[1:-1].strip()
+        # remove leading currency symbol (if present)
+        if s and s[0] in SYMBOLS:
+            s = s[1:].strip()
+        # remove thousands commas
+        s = s.replace(',', '')
+        try:
+            value = float(s)
+        except ValueError:
+            return None
+        if negative:
+            value = -value
+        return value
+
+    # Pattern for date format "Mon D, YYYY," at the start of a line (with trailing comma that is the field separator)
+    mon_d_yyyy_pattern = re.compile(
+        r'^((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{1,2}, \d{4}),'
+    )
+
+    seen = set()
+    rows = []
+
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+
+        # --- extract date and the rest of the line ---
+        m = mon_d_yyyy_pattern.match(line)
+        if m:
+            date_str = m.group(1)
+            rest = line[m.end():]
+        else:
+            parts = line.split(',', 1)
+            if len(parts) != 2:
+                continue
+            date_str, rest = parts
+
+        date_iso = parse_date(date_str)
+        if date_iso is None:
+            continue
+
+        parsed = parse_rest(rest)
+        if parsed is None:
+            continue
+        description, amount_str, currency_str = parsed
+
+        value = parse_amount(amount_str, currency_str)
+        if value is None:
+            continue
+
+        amount_inr = round(value * RATES[currency_str], 2)
+
+        key = (date_iso, description, amount_inr)
+        if key in seen:
+            continue
+        seen.add(key)
+        rows.append({
+            'date': date_iso,
+            'description': description,
+            'amount_inr': amount_inr
+        })
+
+    # sort: date ascending, then absolute amount_inr descending
+    rows.sort(key=lambda r: (r['date'], -abs(r['amount_inr'])))
+    return rows</pre></div>
+<p class="failnote">The bug: dates are validated with a simple numeric range (day between 1 and 31) instead of checking against a real calendar, so an impossible date slips through and produces a row that should have been silently skipped.</p>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Fable 5</span><span class="tag no">failed</span></div><pre>def parse_ledger(text):
+    import re
+    months = {m: i + 1 for i, m in enumerate(
+        ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"])}
+    rates = {"INR": 1, "USD": 83.5, "EUR": 90.25}
+
+    def tokenize(line):
+        tokens = []
+        i, N = 0, len(line)
+        done = False
+        while not done:
+            j = i
+            while j &lt; N and line[j] == " ":
+                j += 1
+            if j &lt; N and line[j] == '"':
+                j += 1
+                buf = []
+                closed = False
+                while j &lt; N:
+                    if line[j] == '"':
+                        if j + 1 &lt; N and line[j + 1] == '"':
+                            buf.append('"')
+                            j += 2
+                        else:
+                            j += 1
+                            closed = True
+                            break
+                    else:
+                        buf.append(line[j])
+                        j += 1
+                if not closed:
+                    return None
+                while j &lt; N and line[j] != ",":
+                    if line[j] != " ":
+                        return None
+                    j += 1
+                tokens.append(("".join(buf), True))
+                if j &lt; N:
+                    i = j + 1
+                else:
+                    done = True
+            else:
+                k = line.find(",", i)
+                if k == -1:
+                    tokens.append((line[i:], False))
+                    done = True
+                else:
+                    tokens.append((line[i:k], False))
+                    i = k + 1
+        return tokens
+
+    def parse_date(s):
+        s = s.strip()
+        m = re.fullmatch(r"(\d{2})/(\d{2})/(\d{4})", s)
+        if m:
+            d, mo, y = int(m[1]), int(m[2]), int(m[3])
+        else:
+            m = re.fullmatch(r"(\d{4})-(\d{2})-(\d{2})", s)
+            if m:
+                y, mo, d = int(m[1]), int(m[2]), int(m[3])
+            else:
+                m = re.fullmatch(r"(\d{1,2}) ([A-Za-z]{3}) (\d{4})", s)
+                if m and m[2] in months:
+                    d, mo, y = int(m[1]), months[m[2]], int(m[3])
+                else:
+                    m = re.fullmatch(r"([A-Za-z]{3}) (\d{1,2}), ?(\d{4})", s)
+                    if not m or m[1] not in months:
+                        return None
+                    mo, d, y = months[m[1]], int(m[2]), int(m[3])
+        if not (1 &lt;= mo &lt;= 12 and 1 &lt;= d &lt;= 31):
+            return None
+        return f"{y:04d}-{mo:02d}-{d:02d}"
+
+    def parse_amount(s):
+        s = s.strip()
+        neg = False
+        if s.endswith(" DR"):
+            neg = True
+            s = s[:-3].strip()
+        if s.startswith("(") and s.endswith(")"):
+            neg = True
+            s = s[1:-1].strip()
+        if s[:1] in ("₹", "$", "€"):
+            s = s[1:].strip()
+        if not re.fullmatch(r"\d{1,3}(,\d{3})*(\.\d+)?|\d+(\.\d+)?", s):
+            return None
+        val = float(s.replace(",", ""))
+        return -val if neg else val
+
+    rows = []
+    seen = set()
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        tokens = tokenize(line)
+        if tokens is None or len(tokens) &lt; 4:
+            continue
+        cur = tokens[-1][0].strip()
+        if tokens[-1][1] or cur not in rates:
+            continue
+        if tokens[0][1]:
+            continue
+        date = parse_date(tokens[0][0])
+        di = 1
+        if date is None:
+            if len(tokens) &gt;= 5 and not tokens[1][1]:
+                date = parse_date(tokens[0][0] + "," + tokens[1][0])
+                di = 2
+            if date is None:
+                continue
+        if len(tokens) - 1 - (di + 1) &lt; 1:
+            continue
+        desc = tokens[di][0].strip()
+        amount_tokens = tokens[di + 1:-1]
+        if any(q for _, q in amount_tokens):
+            continue
+        val = parse_amount(",".join(v for v, _ in amount_tokens))
+        if val is None:
+            continue
+        amount_inr = round(val * rates[cur], 2)
+        key = (date, desc, amount_inr)
+        if key in seen:
+            continue
+        seen.add(key)
+        rows.append({"date": date, "description": desc, "amount_inr": amount_inr})
+    rows.sort(key=lambda r: (r["date"], -abs(r["amount_inr"])))
+    return rows</pre></div>
+<p class="failnote">The same bug: dates are validated with a simple numeric range (day between 1 and 31) instead of checking against a real calendar, so an impossible date slips through and produces a row that should have been silently skipped.</p>
 <div class="modelout"><div class="mo-h"><span class="mo-name">Claude Sonnet 5</span><span class="tag ok">passed</span></div><pre>import re
 from datetime import date
 
@@ -2299,6 +3176,110 @@ class LRUCache:
     def size(self, now):
         self._purge(now)
         return len(self._data)</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek</span><span class="tag ok">passed</span></div><pre>class LRUCache:
+    def __init__(self, capacity, ttl):
+        self.capacity = capacity
+        self.ttl = ttl
+        self._data = {}     # key -&gt; (value, stored_time)
+        self._order = []    # least-recently-used first (index 0 is LRU)
+
+    def _expired(self, key, now):
+        _, stored_time = self._data[key]
+        return now - stored_time &gt; self.ttl   # strict greater
+
+    def _purge(self, now):
+        # remove all expired entries while preserving order of the rest
+        kept = []
+        for k in self._order:
+            if k in self._data and not self._expired(k, now):
+                kept.append(k)
+            else:
+                if k in self._data:
+                    del self._data[k]
+        self._order = kept
+
+    def put(self, key, value, now):
+        if key in self._data:
+            # update existing key
+            self._data[key] = (value, now)
+            # make it most-recently-used
+            self._order.remove(key)
+            self._order.append(key)
+            return
+
+        # new key – may need to free space
+        if len(self._data) &gt;= self.capacity:
+            self._purge(now)
+
+        if len(self._data) &gt;= self.capacity:
+            # still full – evict least-recently-used (first in list)
+            victim = self._order.pop(0)
+            del self._data[victim]
+
+        self._data[key] = (value, now)
+        self._order.append(key)
+
+    def get(self, key, now):
+        if key not in self._data:
+            return None
+        if self._expired(key, now):
+            return None
+
+        # make it most-recently-used
+        self._order.remove(key)
+        self._order.append(key)
+        return self._data[key][0]
+
+    def size(self, now):
+        # count only non-expired entries
+        count = 0
+        for k in self._data:
+            if not self._expired(k, now):
+                count += 1
+        return count</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Fable 5</span><span class="tag ok">passed</span></div><pre>class LRUCache:
+    def __init__(self, capacity, ttl):
+        self.capacity = capacity
+        self.ttl = ttl
+        self._data = {}     # key -&gt; (value, stored_time)
+        self._order = []    # least-recently-used first
+
+    def _expired(self, key, now):
+        return now - self._data[key][1] &gt; self.ttl
+
+    def _purge(self, now):
+        for k in list(self._order):
+            if k in self._data and self._expired(k, now):
+                del self._data[k]
+                self._order.remove(k)
+
+    def put(self, key, value, now):
+        if key in self._data:
+            self._data[key] = (value, now)
+            self._order.remove(key)
+            self._order.append(key)
+            return
+        if len(self._data) &gt;= self.capacity:
+            self._purge(now)
+        if len(self._data) &gt;= self.capacity:
+            victim = self._order.pop(0)
+            del self._data[victim]
+        self._data[key] = (value, now)
+        self._order.append(key)
+
+    def get(self, key, now):
+        if key not in self._data:
+            return None
+        if self._expired(key, now):
+            del self._data[key]
+            self._order.remove(key)
+            return None
+        self._order.remove(key)
+        self._order.append(key)
+        return self._data[key][0]
+
+    def size(self, now):
+        return sum(1 for k in self._data if not self._expired(k, now))</pre></div>
 <div class="modelout"><div class="mo-h"><span class="mo-name">Claude Sonnet 5</span><span class="tag ok">passed</span></div><pre>class LRUCache:
     def __init__(self, capacity, ttl):
         self.capacity = capacity
@@ -2465,6 +3446,53 @@ Return only the complete function in one code block.</pre></details>
             peak = current
             peak_t = t
     return (peak, peak_t)</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek</span><span class="tag ok">passed</span></div><pre>def max_load(events):
+    if not events:
+        return (0, 0)
+    
+    # Create a list of (time, delta) for all start and end points
+    changes = []
+    for start, end, weight in events:
+        changes.append((start, weight))
+        changes.append((end, -weight))
+    
+    # Sort by time; order of deltas at the same time does not affect the final sum
+    changes.sort(key=lambda x: x[0])
+    
+    max_load = -1
+    peak_time = None
+    current_load = 0
+    i = 0
+    n = len(changes)
+    
+    while i &lt; n:
+        t = changes[i][0]
+        # apply all changes occurring at time t
+        while i &lt; n and changes[i][0] == t:
+            current_load += changes[i][1]
+            i += 1
+        # after all changes at time t, we have the load on [t, next_time)
+        if current_load &gt; max_load:
+            max_load = current_load
+            peak_time = t
+            
+    return (max_load, peak_time)</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Fable 5</span><span class="tag ok">passed</span></div><pre>def max_load(events):
+    if not events:
+        return (0, 0)
+    deltas = {}
+    for s, e, w in events:
+        deltas[s] = deltas.get(s, 0) + w
+        deltas[e] = deltas.get(e, 0) - w
+    peak = 0
+    peak_t = 0
+    load = 0
+    for t in sorted(deltas):
+        load += deltas[t]
+        if load &gt; peak:
+            peak = load
+            peak_t = t
+    return (peak, peak_t)</pre></div>
 <div class="modelout"><div class="mo-h"><span class="mo-name">Claude Sonnet 5</span><span class="tag ok">passed</span></div><pre>def max_load(events):
     if not events:
         return (0, 0)
@@ -2626,6 +3654,49 @@ SELECT city,
 FROM ranked
 WHERE rnk &lt;= 2
 ORDER BY city ASC, month ASC, revenue DESC, product ASC;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek</span><span class="tag ok">passed</span></div><pre>WITH product_revenue AS (
+    SELECT s.city,
+           strftime('%Y-%m', sa.sold_on) AS month,
+           sa.product,
+           SUM(sa.amount) AS revenue
+    FROM sales sa
+    JOIN stores s ON sa.store_id = s.id
+    WHERE sa.store_id IS NOT NULL
+      AND s.city IS NOT NULL
+      AND sa.product IS NOT NULL
+    GROUP BY s.city, strftime('%Y-%m', sa.sold_on), sa.product
+),
+ranked AS (
+    SELECT city, month, product, revenue,
+           RANK() OVER (PARTITION BY city, month ORDER BY revenue DESC) AS rnk,
+           COALESCE(ROUND(100.0 * revenue / NULLIF(SUM(revenue) OVER (PARTITION BY city, month), 0), 1), 0.0) AS share
+    FROM product_revenue
+)
+SELECT city, month, product, revenue, share
+FROM ranked
+WHERE rnk &lt;= 2
+ORDER BY city ASC, month ASC, revenue DESC, product ASC;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Fable 5</span><span class="tag ok">passed</span></div><pre>WITH per AS (
+    SELECT c.city AS city,
+           substr(s.sold_on, 1, 7) AS month,
+           s.product AS product,
+           SUM(s.amount) AS revenue
+    FROM sales s
+    JOIN stores c ON c.id = s.store_id
+    WHERE c.city IS NOT NULL
+      AND s.product IS NOT NULL
+    GROUP BY c.city, substr(s.sold_on, 1, 7), s.product
+), ranked AS (
+    SELECT city, month, product, revenue,
+           RANK() OVER (PARTITION BY city, month ORDER BY revenue DESC) AS rnk,
+           SUM(revenue) OVER (PARTITION BY city, month) AS total
+    FROM per
+)
+SELECT city, month, product, revenue,
+       ROUND(100.0 * revenue / total, 1) AS share
+FROM ranked
+WHERE rnk &lt;= 2
+ORDER BY city ASC, month ASC, revenue DESC, product ASC;</pre></div>
 <div class="modelout"><div class="mo-h"><span class="mo-name">Claude Sonnet 5</span><span class="tag ok">passed</span></div><pre>WITH filtered AS (
     SELECT s.city AS city,
            substr(sa.sold_on, 1, 7) AS month,
@@ -2690,10 +3761,10 @@ FROM ranked
 WHERE rnk &lt;= 2
 ORDER BY city ASC, month ASC, revenue DESC, product ASC;</pre></div></details>
 </div></details>
-<details class="task"><summary><span class="tid">Task 12</span> <span class="tname">Recall from a big messy archive</span> <span class="tmini">Qwen 5/5 · Grok 5/5 · Sonnet 5/5 · Opus not yet tested</span></summary>
+<details class="task"><summary><span class="tid">Task 12</span> <span class="tname">Recall from a big messy archive</span> <span class="tmini">Qwen 5/5 · Grok 5/5 · Sonnet 5/5 · DeepSeek, Fable &amp; Opus not yet tested</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can find and reconcile specific facts that are scattered across a long, messy, contradictory-looking document without inventing anything. The model is given a roughly 51KB archive of 42 meeting-minutes for a fictional project (pasted directly into the conversation) and then asked five precise factual questions: the final approved budget after several revisions, who owns a migration task and their role, when a load-test target changed and to what, how many times a launch was deferred and its final date, and which vendor was rejected and why.</p>
-<p class="how"><strong>How it is scored:</strong> each of the five answers is checked against the one correct fact buried in the document. All three tested models got every question right.</p>
+<p class="how"><strong>How it is scored:</strong> each of the five answers is checked against the one correct fact buried in the document. All three tested models got every question right. DeepSeek, Claude Fable 5, and Claude Opus 4.8 are still pending on this one.</p>
 <details class="sub"><summary>Show the exact prompt</summary><pre>[The complete minutes archive of Project Meghdoot is pasted above this prompt, in the same message.]
 
 The document above is the complete minutes archive of Project Meghdoot.
@@ -2706,10 +3777,10 @@ Answer precisely, citing no outside knowledge:
 5. Which vendor was rejected, and for what stated reason?</pre></details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 13</span> <span class="tname">Spot the contradictions</span> <span class="tmini">Qwen 4/4 · Grok 4/4 · Sonnet 4/4 · Opus not yet tested</span></summary>
+<details class="task"><summary><span class="tid">Task 13</span> <span class="tname">Spot the contradictions</span> <span class="tmini">Qwen 4/4 · Grok 4/4 · Sonnet 4/4 · DeepSeek, Fable &amp; Opus not yet tested</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> careful reading and logical consistency-checking over a long text. The model is given a single product-specification document (pasted directly into the conversation) that has contradictions deliberately planted in it — statements that cannot both be true — and has to find every one of them, quote both sides, and cite the section numbers, without getting distracted by mere style issues that aren't actual contradictions.</p>
-<p class="how"><strong>How it is scored:</strong> did the model find every planted contradiction, and did it avoid raising false alarms about things that weren't real contradictions? All three tested models found all of them with zero false alarms.</p>
+<p class="how"><strong>How it is scored:</strong> did the model find every planted contradiction, and did it avoid raising false alarms about things that weren't real contradictions? All three tested models found all of them with zero false alarms. DeepSeek, Claude Fable 5, and Claude Opus 4.8 are still pending on this one.</p>
 <details class="sub"><summary>Show the exact prompt</summary><pre>[A single product specification document is pasted above this prompt, in the same message.]
 
 The document above is a single product specification. It contains internal
@@ -2719,10 +3790,10 @@ their section numbers. Do not report stylistic issues or omissions; only
 direct factual conflicts.</pre></details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 14</span> <span class="tname">Draw a scene, freely</span> <span class="tmini">Qwen coherent · Grok coherent · Sonnet coherent · Opus not yet tested</span></summary>
+<details class="task"><summary><span class="tid">Task 14</span> <span class="tname">Draw a scene, freely</span> <span class="tmini">Qwen coherent · Grok coherent · Sonnet coherent · DeepSeek, Fable &amp; Opus not yet tested</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> spatial imagination and the ability to turn a described scene into working drawing-code. Each model was asked to generate an SVG &#8212; a text-based image format where the model literally writes code that a browser renders into a picture &#8212; of an auto-rickshaw towing a server rack up a steep hill in monsoon rain, with no constraints on how to do it.</p>
-<p class="how"><strong>How it is scored:</strong> judged by eye &#8212; is it a coherent scene containing all the described elements (the rickshaw, the server rack, the hill, the rain)? All three tested models produced complete, coherent scenes.</p>
+<p class="how"><strong>How it is scored:</strong> judged by eye &#8212; is it a coherent scene containing all the described elements (the rickshaw, the server rack, the hill, the rain)? All three tested models produced complete, coherent scenes. DeepSeek, Claude Fable 5, and Claude Opus 4.8 are still pending on this one.</p>
 <details class="sub"><summary>Show the exact prompt</summary><pre>Generate an SVG of an auto-rickshaw towing a server rack up a steep hill,
 monsoon rain falling. Return only the SVG in one code block.</pre></details>
 <details class="sub" open><summary>See what each model drew</summary>
@@ -2732,10 +3803,10 @@ monsoon rain falling. Return only the SVG in one code block.</pre></details>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 15</span> <span class="tname">Draw a scene under strict rules</span> <span class="tmini">Qwen 10/10 · Grok 10/10 · Sonnet 10/10 · Opus not yet tested</span></summary>
+<details class="task"><summary><span class="tid">Task 15</span> <span class="tname">Draw a scene under strict rules</span> <span class="tmini">Qwen 10/10 · Grok 10/10 · Sonnet 10/10 · DeepSeek 10/10 · Fable &amp; Opus not yet tested</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can hold many precise, simultaneous requirements in mind while still producing something that looks right. Each model was asked to generate an SVG of a Chennai monsoon street market at dusk that must satisfy 10 exact, machine-checked rules: a specific canvas size, exactly one element marked as the moon, a group of at least 3 market-stall rectangles, a group of at least 40 rain lines, a puddle drawn as a path, some text containing the word "KAAPI" (South Indian filter coffee), a sky gradient that is defined and actually used, only hex colors (no color names), no more than 400 total drawing elements, and a technically valid file.</p>
-<p class="how"><strong>How it is scored:</strong> an automated check runs through all 10 rules and confirms each one is satisfied &#8212; no human judgment involved. All three tested models scored a perfect 10 out of 10. Interestingly, that doesn't mean the drawings are equally detailed: this check rewards following the rules, not adding extra detail &#8212; Grok passed with about 79 drawing elements while Qwen used roughly 237.</p>
+<p class="how"><strong>How it is scored:</strong> an automated check runs through all 10 rules and confirms each one is satisfied &#8212; no human judgment involved. All four tested models scored a perfect 10 out of 10, including DeepSeek run at its strongest reasoning mode. Interestingly, that doesn't mean the drawings are equally detailed: this check rewards following the rules, not adding extra detail &#8212; Grok passed with about 79 drawing elements while Qwen used roughly 237. Claude Fable 5 and Claude Opus 4.8 are still pending on this one.</p>
 <details class="sub"><summary>Show the exact prompt</summary><pre>Generate an SVG of a Chennai monsoon street market at dusk. Return only the
 SVG in one code block. Your SVG MUST satisfy ALL of these constraints:
 
@@ -2755,6 +3826,7 @@ SVG in one code block. Your SVG MUST satisfy ALL of these constraints:
 <figure class="drawing"><figcaption>Qwen3.8-Max-Preview</figcaption><img class="svgshot" src="bench-assets/qwen-market.svg" alt="Qwen's market scene" loading="lazy"></figure>
 <figure class="drawing"><figcaption>Grok 4.5</figcaption><img class="svgshot" src="bench-assets/grok-market.svg" alt="Grok's market scene" loading="lazy"></figure>
 <figure class="drawing"><figcaption>Claude Sonnet 5</figcaption><img class="svgshot" src="bench-assets/sonnet-market.svg" alt="Sonnet's market scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>DeepSeek (Expert+DeepThink) — 10/10</figcaption><img class="svgshot" src="bench-assets/deepseek-market.svg" alt="DeepSeek's market scene" loading="lazy"></figure>
 </details>
 </div></details>
 
@@ -2772,13 +3844,13 @@ SVG in one code block. Your SVG MUST satisfy ALL of these constraints:
       checks, I ran them against a known-correct set of answers (everything should
       pass) and a deliberately-broken set (the exact traps should fail) &mdash; and
       they behaved as expected. The checks stay private so no model can memorise them.</li>
-    <li><strong>This is a standing benchmark, not a one-time test.</strong> Claude
-      Opus 4.8's reading and drawing results are being captured (it is very slow at
-      its default). More models are queued to run next &mdash; Anthropic's Claude
-      Fable 5, DeepSeek's V4 and V4-Flash, and Moonshot's Kimi K3 &mdash; and every
-      notable new model that ships after them gets added in turn. Same fifteen
-      tasks, same checks, every time, so the table below simply keeps growing and
-      any model can be compared against any other by reading their rows.</li>
+    <li><strong>This is a standing benchmark, not a one-time test.</strong> DeepSeek,
+      Claude Fable 5, and Claude Opus 4.8 all have their coding scores in, with
+      reading and drawing results still being captured &mdash; each is unusually
+      slow at its strongest settings. More models are queued to run next, and every
+      notable new model that ships gets added in turn. Same fifteen tasks, same
+      checks, every time, so the table above simply keeps growing and any model can
+      be compared against any other by reading their rows.</li>
     <li><strong>A snapshot, not a permanent verdict.</strong> Each row reflects one
       careful sitting on the date it was run, not a fixed, final ranking &mdash; and
       as new rows are added, the overall picture can shift.</li>
