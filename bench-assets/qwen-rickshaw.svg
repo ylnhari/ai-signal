@@ -1,0 +1,318 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-labelledby="t">
+  <title id="t">Auto-rickshaw towing a server rack up a steep hill in monsoon rain</title>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1724"/><stop offset=".45" stop-color="#1d2f40"/>
+      <stop offset=".75" stop-color="#2f475b"/><stop offset="1" stop-color="#3d5a70"/>
+    </linearGradient>
+    <linearGradient id="hillG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#20302a"/><stop offset="1" stop-color="#0e1512"/>
+    </linearGradient>
+    <linearGradient id="roadG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#363c46"/><stop offset="1" stop-color="#1e232a"/>
+    </linearGradient>
+    <linearGradient id="yelG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd44d"/><stop offset="1" stop-color="#e69f1f"/>
+    </linearGradient>
+    <linearGradient id="tarpG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#23262e"/><stop offset="1" stop-color="#131519"/>
+    </linearGradient>
+    <linearGradient id="rackG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a2233"/><stop offset="1" stop-color="#0a0f1a"/>
+    </linearGradient>
+    <linearGradient id="beamG" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffedb0" stop-opacity=".5"/><stop offset="1" stop-color="#ffedb0" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="boltGlow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#cfe8ff" stop-opacity=".45"/><stop offset="1" stop-color="#cfe8ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vig" cx="50%" cy="46%" r="72%">
+      <stop offset="55%" stop-color="#04070c" stop-opacity="0"/><stop offset="100%" stop-color="#04070c" stop-opacity=".55"/>
+    </radialGradient>
+    <linearGradient id="topDark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#060a10" stop-opacity=".5"/><stop offset="1" stop-color="#060a10" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="2.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowBig" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="blur4"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="blur2"><feGaussianBlur stdDeviation="2"/></filter>
+    <pattern id="rainBack" width="22" height="46" patternUnits="userSpaceOnUse" patternTransform="rotate(15)">
+      <line x1="11" y1="3" x2="11" y2="26" stroke="#a9c8dd" stroke-width=".9" stroke-linecap="round"/>
+    </pattern>
+    <pattern id="rainFront" width="36" height="78" patternUnits="userSpaceOnUse" patternTransform="rotate(17)">
+      <line x1="18" y1="4" x2="18" y2="46" stroke="#d5e9f7" stroke-width="1.4" stroke-linecap="round"/>
+    </pattern>
+  </defs>
+
+  <!-- SKY -->
+  <rect width="1200" height="900" fill="url(#sky)"/>
+
+  <!-- STORM CLOUDS -->
+  <g filter="url(#blur4)">
+    <g fill="#31414f" opacity=".9">
+      <ellipse cx="150" cy="90" rx="180" ry="60"/><ellipse cx="400" cy="60" rx="220" ry="70"/>
+      <ellipse cx="700" cy="90" rx="240" ry="65"/><ellipse cx="1000" cy="70" rx="230" ry="75"/>
+      <ellipse cx="1200" cy="110" rx="180" ry="60"/>
+    </g>
+  </g>
+
+  <!-- LIGHTNING -->
+  <ellipse cx="238" cy="225" rx="150" ry="195" fill="url(#boltGlow)"/>
+  <g filter="url(#glowBig)" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <path d="M205,95 L235,170 L210,175 L250,265 L222,262 L262,350" stroke="#eef8ff" stroke-width="3.5"/>
+    <path d="M235,170 L268,205" stroke="#eef8ff" stroke-width="2" opacity=".7"/>
+  </g>
+
+  <g filter="url(#blur4)">
+    <g fill="#25313d">
+      <ellipse cx="80" cy="150" rx="200" ry="65"/><ellipse cx="350" cy="130" rx="230" ry="75"/>
+      <ellipse cx="650" cy="150" rx="250" ry="70"/><ellipse cx="950" cy="130" rx="240" ry="80"/>
+      <ellipse cx="1180" cy="170" rx="190" ry="65"/>
+    </g>
+    <g fill="#1a2530" opacity=".95">
+      <ellipse cx="0" cy="210" rx="220" ry="60"/><ellipse cx="300" cy="195" rx="240" ry="70"/>
+      <ellipse cx="620" cy="215" rx="260" ry="65"/><ellipse cx="930" cy="200" rx="250" ry="75"/>
+      <ellipse cx="1200" cy="225" rx="200" ry="60"/>
+    </g>
+    <ellipse cx="250" cy="185" rx="160" ry="55" fill="#7fa3bd" opacity=".16"/>
+  </g>
+
+  <!-- DISTANT RIDGES + HAZE -->
+  <path d="M540,346 L740,278 L930,240 L1200,208 L1200,430 L540,430 Z" fill="#2b3c49" opacity=".85"/>
+  <path d="M-20,560 L120,505 L300,462 L430,440 L430,580 L-20,580 Z" fill="#2b3c49" opacity=".6"/>
+  <ellipse cx="900" cy="300" rx="260" ry="40" fill="#9db7c9" opacity=".08" filter="url(#blur4)"/>
+  <ellipse cx="260" cy="500" rx="220" ry="36" fill="#9db7c9" opacity=".07" filter="url(#blur4)"/>
+
+  <!-- RAIN BEHIND THE HILL -->
+  <rect width="1200" height="900" fill="url(#rainBack)" opacity=".35"/>
+
+  <!-- HILL BODY -->
+  <path d="M-80,745 L1280,235 L1280,900 L-80,900 Z" fill="url(#hillG)"/>
+  <g stroke="#131c17" fill="none">
+    <path d="M-80,884 L1280,374" stroke-width="9" opacity=".45"/>
+    <path d="M-80,930 L1280,420" stroke-width="14" opacity=".35"/>
+  </g>
+  <circle cx="1080" cy="500" r="16" fill="#17221c"/>
+  <circle cx="1106" cy="512" r="12" fill="#17221c"/>
+  <ellipse cx="980" cy="545" rx="15" ry="8" fill="#1a241f"/>
+  <g stroke="#24382c" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <path d="M84,806 q2,-14 4,0 M92,806 q3,-16 5,0 M100,806 q2,-12 4,0"/>
+    <path d="M1040,472 q2,-13 4,0 M1048,472 q3,-15 5,0"/>
+  </g>
+
+  <!-- ROAD -->
+  <path d="M-80,745 L1280,235 L1280,330 L-80,840 Z" fill="url(#roadG)"/>
+  <path d="M-70,748 L1265,247" stroke="#e8eef4" stroke-width="3" opacity=".18" fill="none"/>
+  <path d="M-60,784.5 L1240,297" stroke="#d9b53a" stroke-width="5" stroke-dasharray="30 26" stroke-linecap="round" opacity=".45" fill="none"/>
+  <path d="M40,730 L1180,305" stroke="#b7d2e4" stroke-width="4" opacity=".1" fill="none"/>
+  <path d="M140,760 L900,477" stroke="#b7d2e4" stroke-width="2.5" opacity=".08" fill="none"/>
+
+  <!-- PUDDLE -->
+  <ellipse cx="240" cy="700" rx="62" ry="10" fill="#4a6b84" opacity=".45"/>
+  <ellipse cx="234" cy="698" rx="40" ry="5" fill="#9cc0d8" opacity=".2"/>
+  <polyline points="215,698 228,702 222,706" stroke="#cfe8ff" stroke-width="1.5" opacity=".2" fill="none"/>
+
+  <!-- RAIN SPLASH CROWNS ON ROAD -->
+  <g stroke="#d5e8f5" stroke-width="1.5" stroke-linecap="round" opacity=".5" fill="none">
+    <path d="M514,565 l3.5,-8 M526,565 l-3.5,-8 M520,565 l0,-9"/>
+    <path d="M754,470 l3.5,-8 M766,470 l-3.5,-8 M760,470 l0,-9"/>
+    <path d="M929,405 l3.5,-8 M941,405 l-3.5,-8 M935,405 l0,-9"/>
+    <path d="M144,690 l3.5,-8 M156,690 l-3.5,-8 M150,690 l0,-9"/>
+    <path d="M614,540 l3.5,-8 M626,540 l-3.5,-8 M620,540 l0,-9"/>
+  </g>
+  <g fill="#9cc0d8" opacity=".15">
+    <ellipse cx="520" cy="566" rx="9" ry="2.5"/><ellipse cx="760" cy="471" rx="9" ry="2.5"/>
+    <ellipse cx="935" cy="406" rx="9" ry="2.5"/><ellipse cx="150" cy="691" rx="9" ry="2.5"/>
+    <ellipse cx="620" cy="541" rx="9" ry="2.5"/>
+  </g>
+
+  <!-- STEEP-HILL WARNING SIGN -->
+  <g>
+    <line x1="982" y1="346" x2="982" y2="306" stroke="#3a4049" stroke-width="4"/>
+    <g transform="translate(982,296) rotate(45)">
+      <rect x="-10" y="-10" width="20" height="20" rx="2" fill="#e8b93c" stroke="#7a5a10" stroke-width="2"/>
+    </g>
+    <line x1="982" y1="289" x2="982" y2="298" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="982" cy="303" r="1.7" fill="#1a1a1a"/>
+  </g>
+
+  <!-- ================= SERVER RACK (leaning back, towed) ================= -->
+  <g transform="translate(330,591) rotate(-30)">
+    <!-- dolly -->
+    <rect x="-44" y="-26" width="88" height="10" rx="2" fill="#3a4049" stroke="#14171c" stroke-width="1.5"/>
+    <rect x="40" y="-24" width="16" height="6" rx="2" fill="#3a4049"/>
+    <circle cx="58" cy="-21" r="4.5" fill="none" stroke="#8f97a3" stroke-width="2.5"/>
+    <g>
+      <circle cx="-27" cy="-12" r="12" fill="#14181d" stroke="#06080b" stroke-width="2.5"/>
+      <circle cx="-27" cy="-12" r="6" fill="#59616d"/><circle cx="-27" cy="-12" r="2" fill="#262b32"/>
+      <circle cx="27" cy="-12" r="12" fill="#14181d" stroke="#06080b" stroke-width="2.5"/>
+      <circle cx="27" cy="-12" r="6" fill="#59616d"/><circle cx="27" cy="-12" r="2" fill="#262b32"/>
+    </g>
+    <!-- cabinet -->
+    <rect x="-36" y="-190" width="72" height="166" rx="3" fill="url(#rackG)" stroke="#05070c" stroke-width="2"/>
+    <rect x="-38" y="-196" width="76" height="7" rx="2" fill="#0a0f18"/>
+    <path d="M-32.5,-188 V-26 M32.5,-188 V-26" stroke="#2f3a4e" stroke-width="2.5"/>
+    <!-- alarm beacon -->
+    <path d="M-7,-196 Q0,-208 7,-196 Z" fill="#ff5d5d"/>
+    <circle cx="0" cy="-200" r="8" fill="#ff5d5d" opacity=".35" filter="url(#glow)"/>
+    <!-- server units -->
+    <g stroke="#0a0f18" stroke-width="1.5">
+      <rect x="-30" y="-186" width="60" height="20" rx="2" fill="#1e2736"/>
+      <rect x="-30" y="-162" width="60" height="20" rx="2" fill="#1e2736"/>
+      <rect x="-30" y="-138" width="60" height="20" rx="2" fill="#1e2736"/>
+      <rect x="-30" y="-114" width="60" height="20" rx="2" fill="#1e2736"/>
+      <rect x="-30" y="-90"  width="60" height="20" rx="2" fill="#1e2736"/>
+      <rect x="-30" y="-66"  width="60" height="20" rx="2" fill="#1e2736"/>
+      <rect x="-30" y="-42"  width="60" height="20" rx="2" fill="#1e2736"/>
+    </g>
+    <g stroke="#0d1420" stroke-width="2">
+      <path d="M-25,-180.5 H-4 M-25,-176 H-4 M-25,-171.5 H-4"/>
+      <path d="M-25,-156.5 H-4 M-25,-152 H-4 M-25,-147.5 H-4"/>
+      <path d="M-25,-132.5 H-4 M-25,-128 H-4 M-25,-123.5 H-4"/>
+      <path d="M-25,-108.5 H-14 M-25,-104 H-14 M-25,-99.5 H-14"/>
+      <path d="M-25,-84.5 H-4 M-25,-80 H-4 M-25,-75.5 H-4"/>
+      <path d="M-25,-60.5 H-4 M-25,-56 H-4 M-25,-51.5 H-4"/>
+      <path d="M-25,-36.5 H-4 M-25,-32 H-4 M-25,-27.5 H-4"/>
+    </g>
+    <text x="2" y="-100" font-family="'Courier New',monospace" font-size="7.5" font-weight="bold"
+          letter-spacing="1.5" fill="#7fd4ff" text-anchor="middle">CLOUD</text>
+    <!-- LEDs -->
+    <g filter="url(#glow)">
+      <circle cx="19" cy="-176" r="2.3" fill="#3dff9c"/><circle cx="27" cy="-176" r="2.3" fill="#3dff9c"/>
+      <circle cx="19" cy="-152" r="2.3" fill="#3dff9c"/><circle cx="27" cy="-152" r="2.3" fill="#ffb020"/>
+      <circle cx="19" cy="-128" r="2.3" fill="#3dff9c"/><circle cx="27" cy="-128" r="2.3" fill="#3dff9c"/>
+      <circle cx="19" cy="-104" r="2.3" fill="#3dff9c"/><circle cx="27" cy="-104" r="2.3" fill="#ffb020"/>
+      <circle cx="19" cy="-80"  r="2.3" fill="#ffb020"/><circle cx="27" cy="-80"  r="2.3" fill="#ff5252"/>
+      <circle cx="19" cy="-56"  r="2.3" fill="#3dff9c"/><circle cx="27" cy="-56"  r="2.3" fill="#3dff9c"/>
+      <circle cx="19" cy="-32"  r="2.3" fill="#3dff9c"/><circle cx="27" cy="-32"  r="2.3" fill="#33404f"/>
+    </g>
+    <!-- tie-down straps -->
+    <path d="M-36,-158 L36,-98 M36,-158 L-36,-98 M-36,-70 L36,-70" stroke="#96703c" stroke-width="3" opacity=".95" fill="none"/>
+    <circle cx="36" cy="-98" r="3" fill="#c8821e"/><circle cx="-36" cy="-98" r="3" fill="#c8821e"/>
+    <!-- loose ethernet cable whipping in the wind -->
+    <path d="M-32,-46 C-58,-38 -66,-16 -92,-2" stroke="#3f88c8" stroke-width="2.5" fill="none"/>
+    <rect x="-97" y="-5" width="7" height="6" rx="1" fill="#d8b13f" stroke="#6b5410"/>
+  </g>
+
+  <!-- TOW ROPE (taut, straining) -->
+  <path d="M471,484 Q424,528 370,544" stroke="#a5793f" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M471,484 Q424,528 370,544" stroke="#e2bd80" stroke-width="1.3" fill="none" opacity=".8" stroke-linecap="round"/>
+
+  <!-- ================= AUTO-RICKSHAW ================= -->
+  <g transform="translate(620,482) rotate(-19)">
+    <!-- headlight beam -->
+    <path d="M128,-62 L360,-26 L360,26 L128,-46 Z" fill="url(#beamG)"/>
+    <!-- exhaust smoke -->
+    <g fill="#b9c7d2">
+      <circle cx="-152" cy="-30" r="5" opacity=".4"/><circle cx="-168" cy="-40" r="8" opacity=".28"/>
+      <circle cx="-188" cy="-52" r="11" opacity=".18"/><circle cx="-210" cy="-66" r="14" opacity=".1"/>
+    </g>
+    <!-- rear wheel -->
+    <circle cx="-92" cy="-24" r="24" fill="#14181d" stroke="#06080b" stroke-width="3"/>
+    <circle cx="-92" cy="-24" r="18" fill="none" stroke="#3a414b" stroke-width="3" stroke-dasharray="4 7"/>
+    <circle cx="-92" cy="-24" r="12.5" fill="#59616d"/><circle cx="-92" cy="-24" r="4.5" fill="#262b32"/>
+    <path d="M-115,-31 A24 24 0 0 1 -97,-48" stroke="#a9c3d4" stroke-width="2" opacity=".5" fill="none"/>
+    <!-- chassis -->
+    <rect x="-124" y="-50" width="244" height="12" rx="3" fill="#191d23" stroke="#0b0d11"/>
+    <rect x="-140" y="-54" width="10" height="12" rx="2" fill="#23262b"/>
+    <rect x="-133" y="-38" width="6" height="16" fill="#10131a"/>
+    <rect x="-146" y="-40" width="14" height="6" rx="2" fill="#3a4049"/>
+    <!-- rear cabin: yellow band -->
+    <path d="M-134,-94 L36,-94 L36,-44 L-134,-44 Z" fill="url(#yelG)"/>
+    <rect x="-134" y="-60" width="170" height="16" fill="#202329"/>
+    <path d="M-60,-94 V-60" stroke="#c9861a" stroke-width="2"/>
+    <rect x="-72" y="-78" width="9" height="3" rx="1" fill="#7a5210"/>
+    <rect x="-137" y="-86" width="5" height="11" rx="1" fill="#ff4d4d" stroke="#7a1010"/>
+    <circle cx="-134" cy="-80" r="6" fill="#ff4d4d" opacity=".3" filter="url(#glow)"/>
+    <!-- black tarp canopy -->
+    <path d="M-134,-132 Q-134,-152 -112,-152 L22,-152 Q36,-152 36,-136 L36,-92 L-134,-92 Z" fill="url(#tarpG)"/>
+    <g stroke="#2b2f38" stroke-width="2" fill="none">
+      <path d="M-88,-150 Q-92,-120 -88,-94"/><path d="M-44,-151 Q-48,-120 -44,-94"/><path d="M0,-151 Q-4,-120 0,-94"/>
+    </g>
+    <rect x="-122" y="-142" width="34" height="28" rx="5" fill="#46525f" opacity=".85" stroke="#0d0f13" stroke-width="2"/>
+    <path d="M-116,-138 L-98,-120" stroke="#9db9ca" stroke-width="2" opacity=".5"/>
+    <!-- rear fender -->
+    <path d="M-128,-24 A36 36 0 0 1 -56,-24 L-65,-24 A27 27 0 0 0 -119,-24 Z" fill="#e8a722" stroke="#8a5f12" stroke-width="1.5"/>
+    <!-- seat box + driver -->
+    <rect x="34" y="-90" width="28" height="46" rx="3" fill="#1d2126" stroke="#0e1114"/>
+    <path d="M20,-154 L72,-143 L70,-135 L20,-146 Z" fill="#17181d"/>
+    <path d="M32,-107 Q45,-113 57,-105 L68,-88 Q62,-82 55,-84 L40,-94 Q33,-100 32,-107 Z" fill="#2a2f36"/>
+    <circle cx="46" cy="-116" r="9.5" fill="#2a2f36"/>
+    <path d="M37,-120 Q46,-128 55,-120 L55,-117 L37,-117 Z" fill="#171a1f"/>
+    <path d="M57,-100 L78,-93" stroke="#2a2f36" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="79" cy="-92" r="2.5" fill="#c69069"/>
+    <path d="M79,-92 L84,-88" stroke="#10131a" stroke-width="3"/>
+    <path d="M72,-102 L68,-112" stroke="#10131a" stroke-width="2"/>
+    <ellipse cx="66" cy="-115" rx="3.5" ry="5" fill="#10131a"/>
+    <!-- windshield -->
+    <polygon points="64,-140 106,-134 114,-80 70,-86" fill="#a8cfe0" opacity=".85" stroke="#14161a" stroke-width="3"/>
+    <path d="M74,-132 L84,-90" stroke="#e6f4fb" stroke-width="2" opacity=".5"/>
+    <path d="M88,-84 L104,-112" stroke="#10131a" stroke-width="2.5"/>
+    <!-- nose / cowl -->
+    <path d="M60,-84 L112,-78 Q126,-74 128,-58 L128,-44 L60,-44 Z" fill="url(#yelG)"/>
+    <path d="M118,-76 Q128,-72 128,-58 L128,-44 L116,-44 Z" fill="#d99a1f"/>
+    <rect x="98" y="-74" width="13" height="10" rx="2" fill="#23262b" stroke="#0e1114"/>
+    <circle cx="104" cy="-69" r="1.6" fill="#ff5252"/>
+    <rect x="120" y="-72" width="4" height="7" rx="1" fill="#ffb020"/>
+    <!-- headlight -->
+    <circle cx="126" cy="-64" r="12" fill="#ffe9a0" opacity=".35" filter="url(#glow)"/>
+    <circle cx="126" cy="-64" r="7" fill="#fff6cf" stroke="#b98a1f" stroke-width="2"/>
+    <!-- front wheel + fender -->
+    <circle cx="100" cy="-24" r="24" fill="#14181d" stroke="#06080b" stroke-width="3"/>
+    <circle cx="100" cy="-24" r="18" fill="none" stroke="#3a414b" stroke-width="3" stroke-dasharray="4 7"/>
+    <circle cx="100" cy="-24" r="12.5" fill="#59616d"/><circle cx="100" cy="-24" r="4.5" fill="#262b32"/>
+    <path d="M77,-31 A24 24 0 0 1 95,-48" stroke="#a9c3d4" stroke-width="2" opacity=".5" fill="none"/>
+    <path d="M66,-24 A34 34 0 0 1 134,-24 L126,-24 A26 26 0 0 0 74,-24 Z" fill="#e8a722" stroke="#8a5f12" stroke-width="1.5"/>
+    <!-- tow hook -->
+    <circle cx="-142" cy="-47" r="4" fill="none" stroke="#8f97a3" stroke-width="2.5"/>
+  </g>
+
+  <!-- WHEEL SPRAY + DRIPS -->
+  <g fill="#d7e9f4">
+    <ellipse cx="716" cy="450" rx="15" ry="4" fill="#bcd8ea" opacity=".3"/>
+    <circle cx="724" cy="444" r="3" opacity=".7"/><circle cx="731" cy="438" r="2.2" opacity=".6"/><circle cx="717" cy="436" r="2" opacity=".55"/>
+    <ellipse cx="532" cy="513" rx="15" ry="4" fill="#bcd8ea" opacity=".3"/>
+    <circle cx="521" cy="506" r="3.2" opacity=".7"/><circle cx="512" cy="499" r="2.4" opacity=".6"/><circle cx="527" cy="497" r="2" opacity=".5"/>
+    <ellipse cx="306" cy="605" rx="13" ry="3.5" fill="#bcd8ea" opacity=".3"/>
+    <circle cx="297" cy="599" r="3" opacity=".65"/><circle cx="289" cy="592" r="2.2" opacity=".55"/>
+    <circle cx="353" cy="585" r="2" opacity=".5"/><circle cx="351" cy="592" r="1.5" opacity=".45"/>
+  </g>
+  <!-- rain crowns on vehicle tops -->
+  <g stroke="#dcedf8" stroke-width="1.5" stroke-linecap="round" opacity=".6" fill="none">
+    <path d="M262,420 l3,-7 M270,419 l0,-8 M277,420 l-3,-7"/>
+    <path d="M444,384 l3,-7 M452,382 l0,-8 M459,384 l-3,-7"/>
+  </g>
+  <!-- strain streaks behind the rack -->
+  <g stroke="#cfe4f2" stroke-width="2" stroke-linecap="round" opacity=".25">
+    <path d="M262,540 L214,558"/><path d="M250,570 L210,585"/>
+  </g>
+
+  <!-- headlight pool on wet asphalt -->
+  <ellipse cx="880" cy="398" rx="85" ry="9" transform="rotate(-20.5 880 398)" fill="#ffe9a0" opacity=".13" filter="url(#blur2)"/>
+
+  <!-- FRONT RAIN + HEAVY STREAKS -->
+  <rect width="1200" height="900" fill="url(#rainFront)" opacity=".5"/>
+  <g stroke="#dcedf8" stroke-linecap="round" fill="none">
+    <path d="M150,80 L128,157" stroke-width="2.2" opacity=".35"/><path d="M320,40 L292,136" stroke-width="2.4" opacity=".4"/>
+    <path d="M520,110 L500,177" stroke-width="2" opacity=".3"/><path d="M760,60 L733,151" stroke-width="2.3" opacity=".38"/>
+    <path d="M980,130 L956,212" stroke-width="2.1" opacity=".32"/><path d="M1120,40 L1089,146" stroke-width="2.5" opacity=".42"/>
+    <path d="M90,320 L65,406" stroke-width="2.2" opacity=".3"/><path d="M240,260 L219,332" stroke-width="2" opacity=".28"/>
+    <path d="M450,300 L423,391" stroke-width="2.3" opacity=".35"/><path d="M680,250 L658,327" stroke-width="2" opacity=".3"/>
+    <path d="M900,300 L872,396" stroke-width="2.4" opacity=".38"/><path d="M1150,280 L1126,362" stroke-width="2.1" opacity=".3"/>
+    <path d="M180,560 L153,651" stroke-width="2.3" opacity=".32"/><path d="M1050,520 L1025,606" stroke-width="2.2" opacity=".3"/>
+    <path d="M600,640 L578,717" stroke-width="2" opacity=".28"/><path d="M860,700 L832,796" stroke-width="2.3" opacity=".3"/>
+    <path d="M60,700 L36,782" stroke-width="2.1" opacity=".28"/><path d="M400,470 L380,537" stroke-width="2" opacity=".26"/>
+    <path d="M500,190 L466,305" stroke-width="3" opacity=".3"/><path d="M1010,380 L976,495" stroke-width="3" opacity=".28"/>
+    <path d="M160,430 L126,545" stroke-width="3" opacity=".26"/>
+  </g>
+
+  <!-- MOOD -->
+  <rect width="1200" height="300" fill="url(#topDark)"/>
+  <rect width="1200" height="900" fill="url(#vig)"/>
+</svg>

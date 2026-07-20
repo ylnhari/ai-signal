@@ -1,0 +1,116 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4a5568"/>
+      <stop offset="100%" stop-color="#718096"/>
+    </linearGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3d4a3d"/>
+      <stop offset="100%" stop-color="#2d3a2d"/>
+    </linearGradient>
+    <linearGradient id="rack" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2b2b2b"/>
+      <stop offset="100%" stop-color="#1a1a1a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#sky)"/>
+
+  <!-- steep hill -->
+  <polygon points="0,500 0,420 800,120 800,500" fill="url(#hill)"/>
+  <polygon points="0,500 0,430 800,135 800,500" fill="#33403a" opacity="0.5"/>
+
+  <!-- road -->
+  <polygon points="0,500 0,450 800,155 800,220" fill="#4a4a4a"/>
+  <polygon points="0,475 0,462 800,182 800,196" fill="#666" opacity="0.6"/>
+
+  <!-- rain -->
+  <g stroke="#cfe3f0" stroke-width="2" opacity="0.5">
+    <line x1="40" y1="0" x2="10" y2="60"/>
+    <line x1="120" y1="20" x2="90" y2="90"/>
+    <line x1="200" y1="0" x2="170" y2="70"/>
+    <line x1="300" y1="30" x2="270" y2="100"/>
+    <line x1="380" y1="0" x2="350" y2="70"/>
+    <line x1="460" y1="20" x2="430" y2="90"/>
+    <line x1="540" y1="0" x2="510" y2="60"/>
+    <line x1="620" y1="30" x2="590" y2="100"/>
+    <line x1="700" y1="0" x2="670" y2="70"/>
+    <line x1="760" y1="20" x2="730" y2="90"/>
+    <line x1="90" y1="140" x2="60" y2="200"/>
+    <line x1="250" y1="150" x2="220" y2="210"/>
+    <line x1="420" y1="140" x2="390" y2="200"/>
+    <line x1="600" y1="150" x2="570" y2="210"/>
+  </g>
+
+  <!-- puddle reflections -->
+  <ellipse cx="150" cy="460" rx="40" ry="6" fill="#8bb0c9" opacity="0.4"/>
+  <ellipse cx="450" cy="290" rx="30" ry="5" fill="#8bb0c9" opacity="0.3"/>
+
+  <!-- tow rope -->
+  <path d="M 330 330 Q 400 350 460 300" stroke="#6b4a2a" stroke-width="4" fill="none"/>
+
+  <!-- server rack (being towed, uphill, tilted with slope) -->
+  <g transform="translate(460,215) rotate(-20)">
+    <rect x="0" y="0" width="90" height="140" rx="4" fill="url(#rack)" stroke="#000" stroke-width="2"/>
+    <!-- rack units -->
+    <g fill="#111" stroke="#3a3a3a" stroke-width="1">
+      <rect x="6" y="8" width="78" height="14"/>
+      <rect x="6" y="26" width="78" height="14"/>
+      <rect x="6" y="44" width="78" height="14"/>
+      <rect x="6" y="62" width="78" height="14"/>
+      <rect x="6" y="80" width="78" height="14"/>
+      <rect x="6" y="98" width="78" height="14"/>
+      <rect x="6" y="116" width="78" height="14"/>
+    </g>
+    <!-- LED lights -->
+    <circle cx="14" cy="15" r="2" fill="#4ade80"/>
+    <circle cx="14" cy="33" r="2" fill="#f87171"/>
+    <circle cx="14" cy="51" r="2" fill="#4ade80"/>
+    <circle cx="14" cy="69" r="2" fill="#facc15"/>
+    <circle cx="14" cy="87" r="2" fill="#4ade80"/>
+    <circle cx="14" cy="105" r="2" fill="#4ade80"/>
+    <circle cx="14" cy="123" r="2" fill="#f87171"/>
+    <!-- small wheels under rack (makeshift dolly) -->
+    <circle cx="20" cy="148" r="10" fill="#111" stroke="#000" stroke-width="2"/>
+    <circle cx="70" cy="148" r="10" fill="#111" stroke="#000" stroke-width="2"/>
+  </g>
+
+  <!-- auto-rickshaw -->
+  <g transform="translate(230,255) rotate(-14)">
+    <!-- rear wheel -->
+    <circle cx="30" cy="95" r="22" fill="#1a1a1a" stroke="#000" stroke-width="3"/>
+    <circle cx="30" cy="95" r="8" fill="#555"/>
+    <!-- front wheel -->
+    <circle cx="115" cy="95" r="18" fill="#1a1a1a" stroke="#000" stroke-width="3"/>
+    <circle cx="115" cy="95" r="6" fill="#555"/>
+
+    <!-- body -->
+    <path d="M 5 40 Q 5 15 35 15 L 100 15 Q 130 15 130 45 L 130 80 L 5 80 Z" fill="#f4c542" stroke="#a8842f" stroke-width="2"/>
+    <!-- roof -->
+    <path d="M 10 15 Q 15 -10 60 -10 Q 105 -10 110 15 Z" fill="#f4c542" stroke="#a8842f" stroke-width="2"/>
+    <!-- windshield -->
+    <path d="M 100 18 Q 128 22 128 45 L 100 45 Z" fill="#a8d8e8" opacity="0.7"/>
+    <!-- driver silhouette -->
+    <circle cx="112" cy="28" r="8" fill="#3a2a1a"/>
+    <path d="M 104 36 Q 112 30 122 38 L 122 55 L 104 55 Z" fill="#3a2a1a"/>
+
+    <!-- side stripe -->
+    <rect x="5" y="55" width="125" height="6" fill="#d94f1e"/>
+
+    <!-- headlight -->
+    <circle cx="130" cy="55" r="5" fill="#fff8c0"/>
+
+    <!-- exhaust puff -->
+    <ellipse cx="-5" cy="85" rx="10" ry="6" fill="#999" opacity="0.5"/>
+    <ellipse cx="-18" cy="80" rx="8" ry="5" fill="#aaa" opacity="0.35"/>
+  </g>
+
+  <!-- motion strain lines -->
+  <g stroke="#eee" stroke-width="2" opacity="0.4">
+    <line x1="150" y1="330" x2="180" y2="322"/>
+    <line x1="140" y1="345" x2="172" y2="338"/>
+  </g>
+
+  <!-- foreground splash -->
+  <path d="M 60 470 Q 90 450 130 470 Q 100 480 60 470" fill="#8bb0c9" opacity="0.5"/>
+</svg>
