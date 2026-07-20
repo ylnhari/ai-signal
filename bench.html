@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Model Bench — one controlled coding + long-context + SVG battery, run the same way across frontier chat models, with a hidden machine grader. The reference AI Signal posts link to instead of re-arguing model differences.">
+<title>Model Bench · AI Signal</title>
+<style>
+:root{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+  --pass:#0F7B5F; --fail:#B23A2E; --pend:#8A96A0; --code-bg:#F0F3F1;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+    --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+    --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+    --pass:#3ECF9A; --fail:#F0857A; --pend:#6C7A72; --code-bg:#0F1714;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+  --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+  --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+  --pass:#3ECF9A; --fail:#F0857A; --pend:#6C7A72; --code-bg:#0F1714;
+}
+:root[data-theme="light"]{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+  --pass:#0F7B5F; --fail:#B23A2E; --pend:#8A96A0; --code-bg:#F0F3F1;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;
+  -webkit-font-smoothing:antialiased;}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 64px;}
+.mono{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;}
+.serif{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px;}
+
+.topbar{position:sticky;top:0;z-index:20;background:var(--bar);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);}
+.topbar-inner{max-width:860px;margin:0 auto;padding:12px 24px 10px;
+  display:flex;align-items:center;justify-content:center;gap:14px;}
+.wordmark{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-weight:600;letter-spacing:.12em;font-size:.86rem;text-align:center;
+  text-transform:uppercase;color:var(--ink);}
+.cursor{color:var(--accent);animation:pulse 2s steps(1) infinite;}
+@keyframes pulse{0%,49%{opacity:1}50%,100%{opacity:.15}}
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+
+h1{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-weight:600;font-size:clamp(1.8rem,6vw,2.5rem);line-height:1.15;
+  text-wrap:balance;margin:34px 0 6px;}
+.dek{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.12rem;color:var(--muted);max-width:64ch;margin:0 0 4px;}
+.meta{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.72rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;margin:10px 0 0;}
+.eyebrow{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  text-transform:uppercase;letter-spacing:.08em;font-size:.7rem;
+  color:var(--muted);margin:40px 0 12px;border-bottom:1px solid var(--line);
+  padding-bottom:8px;}
+p{max-width:68ch;}
+p code,li code,td code,th code{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:4px;}
+strong{font-weight:650;}
+
+/* results matrix */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;
+  background:var(--surface);}
+table{border-collapse:collapse;width:100%;min-width:520px;
+  font-variant-numeric:tabular-nums;}
+th,td{text-align:center;padding:11px 12px;border-bottom:1px solid var(--line);
+  font-size:.9rem;}
+thead th{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
+  font-weight:600;}
+tbody tr:last-child td{border-bottom:none;}
+td.model,th.model{text-align:left;font-weight:600;white-space:nowrap;}
+td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;}
+.score{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-weight:600;}
+.full{color:var(--pass);}
+.gap{color:var(--fail);}
+.pend{color:var(--pend);}
+.pass{color:var(--pass);font-weight:700;}
+.fail{color:var(--fail);font-weight:700;}
+.dash{color:var(--pend);}
+.rowhi{background:var(--urgent-bg);}
+
+/* per-task grid */
+.matrix th.t,.matrix td.t{padding:8px 6px;font-size:.78rem;}
+.matrix td.model{font-size:.82rem;}
+
+/* code panels */
+.codegrid{display:grid;gap:12px;margin:14px 0;}
+@media(min-width:620px){.codegrid.two{grid-template-columns:1fr 1fr;}}
+.codecard{border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  background:var(--surface);}
+.codecard-h{display:flex;justify-content:space-between;align-items:center;
+  padding:8px 12px;border-bottom:1px solid var(--line);
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.74rem;}
+.codecard-h .name{font-weight:600;}
+.codecard pre{margin:0;padding:12px;overflow-x:auto;background:var(--code-bg);
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.78rem;
+  line-height:1.5;color:var(--ink);}
+.tag{font-size:.66rem;padding:2px 7px;border-radius:999px;white-space:nowrap;}
+.tag.ok{background:color-mix(in srgb,var(--pass) 18%,transparent);color:var(--pass);}
+.tag.no{background:color-mix(in srgb,var(--fail) 18%,transparent);color:var(--fail);}
+
+/* task catalog */
+.task{border:1px solid var(--line);border-radius:10px;margin:10px 0;
+  background:var(--surface);}
+.task>summary{list-style:none;cursor:pointer;padding:12px 16px;
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+.task>summary::-webkit-details-marker{display:none;}
+.task>summary::before{content:"\25B8";color:var(--accent);
+  transition:transform .18s ease;display:inline-block;}
+.task[open]>summary::before{transform:rotate(90deg);}
+@media(prefers-reduced-motion:reduce){.task>summary::before{transition:none;}}
+.task .tid{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-weight:600;font-size:.8rem;color:var(--accent);}
+.task .tname{font-weight:600;}
+.task .tmini{margin-left:auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.68rem;color:var(--muted);}
+.task .body{padding:0 16px 14px;border-top:1px solid var(--line);}
+.task pre{background:var(--code-bg);border-radius:8px;padding:12px;overflow-x:auto;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.78rem;
+  line-height:1.5;white-space:pre-wrap;}
+
+.callout{background:var(--urgent-bg);border-left:3px solid var(--urgent);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;}
+.callout p{margin:0;}
+.note{color:var(--muted);font-size:.9rem;}
+
+.foot{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.72rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;}
+.foot-links{margin-top:6px;}
+.foot-links a{color:var(--muted);}
+.foot-links a:hover{color:var(--accent);}
+.backlink{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.74rem;}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-inner">
+  <div class="wordmark">AI SIGNAL <span class="cursor">&#9646;</span></div>
+  <span class="mono" style="font-size:.72rem;color:var(--muted);">/ MODEL BENCH</span>
+</div></div>
+
+<main class="wrap">
+  <a class="backlink" href="index.html">&#8592; AI Signal</a>
+  <h1>Model Bench: one battery, run the same way, machine-graded</h1>
+  <p class="dek">A standing reference. When an AI Signal post says one model is
+  stronger than another at coding, this is the evidence it points to &mdash; so
+  we measure once, carefully, instead of re-arguing it per post.</p>
+  <p class="meta">Battery v2 &middot; fingerprint <code>099a4e361c3f9f34</code>
+  &middot; last updated 2026-07-20 &middot; 4 of 7 target models captured</p>
+
+  <div class="eyebrow">What this is</div>
+  <p>Fifteen tasks: eleven that a hidden test suite grades automatically
+  (<strong>73 assertions</strong> across interval algebra, rate limiting, messy
+  real-world parsing, a deliberate bug-hunt, an O(n&nbsp;log&nbsp;n) performance
+  gate, and SQL window functions), two long-context probes scored by hand, one
+  free-form SVG, and one SVG checked against ten hard structural constraints by a
+  machine. Every model sees the <em>same</em> prompts, pasted verbatim into its
+  own public chat UI at that surface's default settings &mdash; no API tricks, no
+  scaffolding, one fresh chat per task.</p>
+
+  <p>The point of the machine grader is that the test cases are <em>hidden</em>:
+  they probe the exact edge cases a plausible-looking answer tends to miss, so a
+  model can't pass by producing something that merely reads correctly. The
+  prompts below are public; the grading oracle is not.</p>
+
+  <div class="eyebrow">Results</div>
+  <div class="tablewrap">
+  <table>
+    <thead><tr>
+      <th class="model">Model</th>
+      <th>Code<br><span class="mono" style="font-size:.9em">/73</span></th>
+      <th>Long-doc<br>recall</th>
+      <th>Contra&shy;dictions</th>
+      <th>SVG<br>(free)</th>
+      <th>SVG<br>(checked&nbsp;/10)</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="model">Qwen3.8-Max-Preview<small>chat.qwen.ai &middot; Think</small></td>
+        <td class="score full">73/73</td><td>5/5</td><td>4/4</td><td>complete</td><td class="score full">10/10</td>
+      </tr>
+      <tr>
+        <td class="model">Grok 4.5<small>grok.com &middot; Fast</small></td>
+        <td class="score full">73/73</td><td>5/5</td><td>4/4</td><td>complete</td><td class="score full">10/10</td>
+      </tr>
+      <tr>
+        <td class="model">Claude Sonnet 5<small>claude.ai &middot; Medium</small></td>
+        <td class="score gap">70/73</td><td>5/5</td><td>4/4</td><td>complete</td><td class="score full">10/10</td>
+      </tr>
+      <tr class="rowhi">
+        <td class="model">Claude Opus 4.8<small>claude.ai &middot; High</small></td>
+        <td class="score gap">68/73</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">Contradiction scores are 4/4 with zero false positives for
+  every graded model. Opus 4.8's long-context and SVG cells are pending capture
+  (it is very slow at its High default &mdash; 2&ndash;4&nbsp;min per task);
+  its code column is complete. Settings shown are each surface's own default, not
+  a common setting &mdash; that is the experience a normal user gets, which is
+  what we are measuring.</p>
+
+  <div class="callout">
+    <p><strong>The headline:</strong> the two frontier-preview models sweep the
+    code battery. Both shipped Claude models do not &mdash; and, unexpectedly,
+    Opus 4.8 at its <em>High</em> default scores <em>below</em> Sonnet 5. The gap
+    is not reasoning depth. Every hard algorithmic task passes clean on all four.
+    The entire spread comes from two lines of real-world-data hygiene in the
+    messy-parser tasks.</p>
+  </div>
+
+  <div class="eyebrow">The one task that separates them (T3)</div>
+  <p>T3 asks for a parser over messy bank-statement lines. Two independent traps
+  are planted in the hidden test data, and each model's fate is decided by a
+  single line of code:</p>
+
+  <p><strong>Trap 1 &mdash; thousands separators.</strong> An amount like
+  <code>1,200.50</code> contains a comma, so splitting a
+  <code>date,description,amount</code> line on <em>every</em> comma shatters that
+  row into four fields and silently drops it.</p>
+  <div class="codegrid two">
+    <div class="codecard">
+      <div class="codecard-h"><span class="name">Qwen / Grok</span><span class="tag ok">passes</span></div>
+      <pre>parts = line.split(',', 2)   <span style="color:var(--muted)"># maxsplit &mdash; keeps the amount whole</span></pre>
+    </div>
+    <div class="codecard">
+      <div class="codecard-h"><span class="name">Sonnet / Opus</span><span class="tag no">drops the row</span></div>
+      <pre>parts = line.split(',')      <span style="color:var(--muted)"># splits 1,200.50 into two fields</span></pre>
+    </div>
+  </div>
+
+  <p><strong>Trap 2 &mdash; impossible calendar dates.</strong> The data plants
+  dates like <code>2026-02-29</code> and <code>2026-04-31</code> that must be
+  rejected. Validating with a real calendar catches them; a naive numeric range
+  does not.</p>
+  <div class="codegrid two">
+    <div class="codecard">
+      <div class="codecard-h"><span class="name">Qwen / Grok / Sonnet</span><span class="tag ok">rejects</span></div>
+      <pre>date(year, month, day)       <span style="color:var(--muted)"># raises on Feb 29, Apr 31</span></pre>
+    </div>
+    <div class="codecard">
+      <div class="codecard-h"><span class="name">Opus 4.8</span><span class="tag no">accepts</span></div>
+      <pre>if not (1 &lt;= mo &lt;= 12 and 1 &lt;= d &lt;= 31):  <span style="color:var(--muted)"># lets Feb 29 through</span></pre>
+    </div>
+  </div>
+
+  <p>So the standings fall out cleanly: <strong>Qwen and Grok</strong> handle
+  both traps and sweep. <strong>Sonnet</strong> validates the calendar but uses
+  the bare split &mdash; it fails only the three thousands-comma cases
+  (70/73). <strong>Opus</strong> misses <em>both</em> traps, and its naive date
+  check bites a second time in T8's ledger parser (a bad-date row that should be
+  skipped survives), for five misses total &mdash; 68/73. Nothing here is about
+  how hard a model can think; it is about whether it reaches for
+  <code>datetime.date</code> and <code>maxsplit</code> on data it was explicitly
+  told is messy.</p>
+
+  <div class="eyebrow">Per-task, code battery</div>
+  <div class="tablewrap">
+  <table class="matrix">
+    <thead><tr>
+      <th class="model">Model</th>
+      <th class="t">T1</th><th class="t">T2</th><th class="t">T3</th><th class="t">T4</th>
+      <th class="t">T5</th><th class="t">T6</th><th class="t">T7</th><th class="t">T8</th>
+      <th class="t">T9</th><th class="t">T10</th><th class="t">T11</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="model">Qwen3.8-Max</td>
+        <td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td></tr>
+      <tr><td class="model">Grok 4.5</td>
+        <td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td></tr>
+      <tr><td class="model">Sonnet 5</td>
+        <td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t fail">&#10007;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td></tr>
+      <tr><td class="model">Opus 4.8</td>
+        <td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t fail">&#10007;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t fail">&#10007;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td><td class="t pass">&#10003;</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">A task passes only if the model clears <em>all</em> of its
+  hidden assertions. T3 carries several assertions each, which is why one failed
+  task is worth three (Sonnet) or four (Opus) grader points.</p>
+
+  <div class="eyebrow">The tasks (prompts are verbatim)</div>
+  <p>Every prompt below is pasted exactly as shown, one per fresh chat. Long-doc
+  probes L1/L2 have their source archive pasted in the same message above the
+  question.</p>
+
+  <details class="task"><summary><span class="tid">T1</span> <span class="tname">Interval merge with priorities</span> <span class="tmini">all pass</span></summary>
+  <div class="body"><pre>Write a Python function `merge_busy(intervals)` and nothing else (no example
+usage, no prints).
+
+Input: a list of tuples (start, end, prio) where start &lt; end are ints and
+prio is an int. Intervals may overlap arbitrarily.
+
+Output: the minimal list of tuples (start, end, prio) such that:
+- the output segments are non-overlapping, sorted by start, and their union
+  equals the union of the input intervals;
+- every point in an output segment has prio equal to the MAXIMUM prio among
+  all input intervals covering that point;
+- adjacent output segments (where one's end == the next's start) with equal
+  prio are coalesced into one segment.
+
+An empty input returns an empty list. Touching input intervals (end == start)
+are NOT considered overlapping, but their segments still coalesce in the
+output if their prio is equal.
+
+Return only the complete function in one code block.</pre></div></details>
+
+  <details class="task"><summary><span class="tid">T2</span> <span class="tname">Token bucket with injected clock</span> <span class="tmini">all pass</span></summary>
+  <div class="body"><pre>Write a Python class `TokenBucket` and nothing else.
+
+- TokenBucket(capacity: float, refill_rate: float) &mdash; starts FULL.
+- allow(n: float = 1.0, now: float = 0.0) -&gt; bool &mdash; now is a caller-
+  supplied timestamp in seconds (no reading of real clocks anywhere).
+  Refill is continuous: available tokens grow by elapsed * refill_rate
+  since the last call, capped at capacity. If at least n tokens are
+  available at now, consume them and return True, else consume nothing
+  and return False.
+- If now is earlier than the previous call's now, treat elapsed time as
+  zero (do not crash, do not refill negatively).
+- The very first allow call's now establishes the clock baseline.
+
+Return only the complete class in one code block.</pre></div></details>
+
+  <details class="task" open><summary><span class="tid">T3</span> <span class="tname">Messy bank-statement parser</span> <span class="tmini">the discriminator</span></summary>
+  <div class="body"><pre>Write a Python function `parse_statement(text)` and nothing else.
+
+text is a multiline string; each non-empty line SHOULD be
+date,description,amount but the data is messy. Rules:
+
+- Dates arrive as DD/MM/YYYY, YYYY-MM-DD, or D Mon YYYY (e.g.
+  3 Jan 2026, English month abbreviations Jan..Dec). Normalize to ISO
+  YYYY-MM-DD.
+- Amounts may contain a leading &#8377; or $, thousands commas, and represent
+  debits either wrapped in parentheses (1,200.50) or with a DR suffix
+  1,200.50 DR &mdash; both mean negative. Otherwise positive. Parse to float.
+- Description: strip surrounding whitespace; it never contains commas.
+- Any line that doesn't parse under these rules is silently skipped.
+- Return a list of dicts {"date": str, "description": str, "amount": float}
+  sorted by date ascending; lines with equal dates keep their original
+  relative order.
+
+Return only the complete function in one code block.</pre></div></details>
+
+  <details class="task"><summary><span class="tid">T4</span> <span class="tname">Fix the bugs, keep the signature (rotated array)</span> <span class="tmini">all pass</span></summary>
+  <div class="body"><pre>The function below is SUPPOSED to satisfy this spec: given a list of DISTINCT
+ints that was sorted ascending and then rotated by an unknown amount (possibly
+zero), return the index of the smallest element; return -1 for an empty list.
+It contains bugs. Return the corrected function &mdash; same name, same signature &mdash;
+in one code block, and nothing else.
+
+def rotation_index(a):
+    lo, hi = 0, len(a)
+    while lo &lt; hi:
+        mid = (lo + hi) / 2
+        if a[mid] &gt; a[hi]:
+            lo = mid + 1
+        else:
+            hi = mid
+    return lo</pre></div></details>
+
+  <details class="task"><summary><span class="tid">T5</span> <span class="tname">One SQL query (top-3 cities)</span> <span class="tmini">all pass</span></summary>
+  <div class="body"><pre>SQLite schema:
+
+CREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT);
+CREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER REFERENCES customers(id),
+                     amount REAL, created_at TEXT); -- ISO 'YYYY-MM-DD'
+
+Write ONE SQLite query that returns the top 3 cities by total order amount
+for orders created in Q1 2026 (2026-01-01 through 2026-03-31 inclusive).
+Columns: city, total. Order by total descending, ties broken by city
+ascending. Cities come from the ordering customer's row. Exclude orders with
+NULL customer_id or customers with NULL city.
+
+Return only the SQL in one code block.</pre></div></details>
+
+  <details class="task"><summary><span class="tid">T6</span> <span class="tname">Interval merge with cancellations</span> <span class="tmini">all pass</span></summary>
+  <div class="body"><pre>Write a Python function `merge_busy2(intervals, cancels)` and nothing else
+(no example usage, no prints).
+
+intervals is a list of tuples (start, end, prio) where start &lt; end are
+ints and prio is an int; intervals may overlap arbitrarily. cancels is a
+list of tuples (start, end) with start &lt; end ints; cancels may overlap
+each other and the intervals arbitrarily.
+
+First resolve intervals exactly like this: the resolved timeline covers the
+union of all intervals, and every covered point carries the MAXIMUM prio among
+intervals covering it. Then apply every cancel: any point covered by any
+cancel range is REMOVED from the timeline entirely.
+
+Return the minimal list of tuples (start, end, prio) such that:
+- segments are non-overlapping, sorted by start;
+- their union is exactly the resolved timeline minus all cancelled points;
+- every point in a segment has that segment's prio;
+- adjacent segments (one's end == the next's start) with equal prio are
+  coalesced.
+
+Empty input returns an empty list. Touching intervals (end == start) are NOT
+overlapping but their segments still coalesce when prio is equal. A cancel
+that only touches a segment boundary (cancel.end == segment.start or
+cancel.start == segment.end) removes nothing from that segment.
+
+Return only the complete function in one code block.</pre></div></details>
+
+  <details class="task"><summary><span class="tid">T7</span> <span class="tname">Hierarchical rate limiter</span> <span class="tmini">all pass</span></summary>
+  <div class="body"><pre>Write a Python class `RateTree` and nothing else.
+
+- RateTree(spec) where spec is a dict mapping node name (str) to a tuple
+  (capacity: float, refill_rate: float, parent: str | None). Exactly one
+  node has parent None (the root); every other node's parent is in the spec.
+  Every bucket starts FULL.
+- allow(name: str, n: float = 1.0, now: float = 0.0) -&gt; bool &mdash; a request
+  against node name consumes n tokens from that node AND from every
+  ancestor up to the root. It succeeds only if, at time now, the node and
+  ALL its ancestors each have at least n tokens available. On success all
+  of them are debited n; on failure NOTHING is debited anywhere.
+- Refill is continuous and PER NODE: each node's available tokens grow by
+  elapsed_for_that_node * its_refill_rate capped at its capacity, where
+  elapsed_for_that_node is measured from that node's own last update. A
+  node's state only updates when a call touches it (i.e. the call names it
+  or one of its descendants).
+- If now is earlier than a node's last-seen now, treat that node's
+  elapsed time as zero (never refill negatively, never crash).
+- now is always a caller-supplied float; never read real clocks.
+
+Return only the complete class in one code block.</pre></div></details>
+
+  <details class="task"><summary><span class="tid">T8</span> <span class="tname">Quoted-field multi-currency ledger parser</span> <span class="tmini">Opus fails</span></summary>
+  <div class="body"><pre>Write a Python function `parse_ledger(text)` and nothing else.
+
+text is a multiline string; each non-empty line SHOULD be
+date,description,amount,currency but the data is messy. Rules:
+
+- The description field MAY be wrapped in double quotes, in which case it may
+  contain commas, and a doubled quote "" inside represents one literal
+  quote character. Unquoted descriptions never contain commas. Strip
+  surrounding whitespace from the final description either way.
+- Dates arrive as DD/MM/YYYY, YYYY-MM-DD, D Mon YYYY (e.g.
+  3 Jan 2026), or Mon D, YYYY (e.g. Jan 3, 2026) &mdash; English month
+  abbreviations Jan..Dec. NOTE: in the Mon D, YYYY form the comma after the
+  day is part of the date field, not a field separator. Normalize all dates
+  to ISO YYYY-MM-DD.
+- The currency field is one of INR, USD, EUR (exactly, uppercase).
+- Amounts may carry a leading &#8377;, $ or &#8364; symbol, thousands commas, and
+  represent debits either wrapped in parentheses (1,200.50) or with a
+  DR suffix &mdash; both mean negative. If the symbol disagrees with the
+  currency column, the CURRENCY COLUMN wins and the symbol is ignored.
+- Convert every amount to INR with this fixed table and round to 2 decimals
+  with Python's round(): INR=1, USD=83.5, EUR=90.25. Call the result
+  amount_inr.
+- Deduplicate: if two parsed rows have identical (date, description,
+  amount_inr), keep only the first occurrence.
+- Any line that doesn't parse under these rules is silently skipped.
+- Return a list of dicts
+  {"date": str, "description": str, "amount_inr": float} sorted by date
+  ascending, then by absolute value of amount_inr DESCENDING; rows equal on
+  both keys keep their original relative order.
+
+Return only the complete function in one code block.</pre></div></details>
+
+  <details class="task"><summary><span class="tid">T9</span> <span class="tname">Fix the five bugs (LRU + TTL cache)</span> <span class="tmini">all pass</span></summary>
+  <div class="body"><pre>The class below is SUPPOSED to satisfy this spec: an LRU cache with per-entry
+TTL. LRUCache(capacity, ttl); put(key, value, now) inserts or updates and
+makes the key most-recently-used; get(key, now) returns the value and makes
+the key most-recently-used, or returns None if the key is absent or expired;
+an entry is expired when now - stored_time &gt; ttl (strictly greater);
+size(now) returns the number of NON-expired entries; when an insert of a
+NEW key would exceed capacity, first drop all expired entries, and if still
+over capacity evict the least-recently-used key. Timestamps now are
+caller-supplied floats and never decrease.
+
+It contains bugs. Return the corrected class &mdash; same name, same method
+signatures &mdash; in one code block, and nothing else.
+
+[buggy LRUCache with 5 planted bugs omitted for brevity &mdash; see the repo]</pre></div></details>
+
+  <details class="task"><summary><span class="tid">T10</span> <span class="tname">Maximum concurrent load, 200k events (perf-gated)</span> <span class="tmini">all pass</span></summary>
+  <div class="body"><pre>Write a Python function `max_load(events)` and nothing else.
+
+events is a list of tuples (start, end, weight): ints with start &lt; end,
+weight a positive int. An event is active on the half-open span
+[start, end). The instantaneous load at time t is the sum of weights of all
+events active at t.
+
+Return a tuple (peak, t) where peak is the maximum instantaneous load
+ever reached and t is the EARLIEST time at which that peak load holds.
+For an empty list return (0, 0).
+
+events can contain up to 200,000 items &mdash; your function must run in
+O(n log n); an O(n^2) scan over pairs or over the whole time range will be
+too slow and fails.
+
+Return only the complete function in one code block.</pre></div></details>
+
+  <details class="task"><summary><span class="tid">T11</span> <span class="tname">One SQL query, window functions</span> <span class="tmini">all pass</span></summary>
+  <div class="body"><pre>SQLite schema:
+
+CREATE TABLE stores  (id INTEGER PRIMARY KEY, city TEXT);
+CREATE TABLE sales   (id INTEGER PRIMARY KEY, store_id INTEGER REFERENCES stores(id),
+                      product TEXT, amount REAL, sold_on TEXT); -- ISO 'YYYY-MM-DD'
+
+Write ONE SQLite query that returns, for every (city, month) pair present in
+the data, the top products by total revenue in that city and month, keeping
+rank 1 and rank 2 where rank is computed with RANK() (so revenue ties share a
+rank and both rows are kept). Columns, exactly these names:
+city, month (as 'YYYY-MM'), product, revenue, share
+where revenue is the product's total for that city+month and share is
+100.0 * revenue / (total revenue of that city+month across ALL its products),
+rounded to 1 decimal with ROUND(). Exclude sales with NULL store_id, stores
+with NULL city, and sales with NULL product. Order rows by city ascending,
+month ascending, revenue descending, product ascending.
+
+Return only the SQL in one code block.</pre></div></details>
+
+  <details class="task"><summary><span class="tid">L1</span> <span class="tname">Long-context recall (42-meeting archive)</span> <span class="tmini">5/5 (graded)</span></summary>
+  <div class="body"><pre>[The complete minutes archive of "Project Meghdoot" (~51 KB) is pasted above,
+in the same message.]
+
+The document above is the complete minutes archive of Project Meghdoot.
+Answer precisely, citing no outside knowledge:
+
+1. What was the FINAL approved infra budget (the last revision mentioned)?
+2. Who owns the vector-store migration, and what is their role?
+3. On what date did the load-test target change, and from what to what?
+4. How many times was the mobile-app launch deferred, and to which final date?
+5. Which vendor was rejected, and for what stated reason?</pre></div></details>
+
+  <details class="task"><summary><span class="tid">L2</span> <span class="tname">Contradiction hunt (product spec)</span> <span class="tmini">4/4, 0 false positives</span></summary>
+  <div class="body"><pre>[A single product specification with planted internal contradictions is pasted
+above, in the same message.]
+
+The document above is a single product specification. It contains internal
+contradictions &mdash; places where two statements cannot both be true. List EVERY
+contradiction you find. For each: quote both conflicting statements and name
+their section numbers. Do not report stylistic issues or omissions; only
+direct factual conflicts.</pre></div></details>
+
+  <details class="task"><summary><span class="tid">X1</span> <span class="tname">Free-form SVG (qualitative)</span> <span class="tmini">all complete</span></summary>
+  <div class="body"><pre>Generate an SVG of an auto-rickshaw towing a server rack up a steep hill,
+monsoon rain falling. Return only the SVG in one code block.</pre></div></details>
+
+  <details class="task"><summary><span class="tid">X2</span> <span class="tname">Constrained SVG (machine-checked, /10)</span> <span class="tmini">10/10 where captured</span></summary>
+  <div class="body"><pre>Generate an SVG of a Chennai monsoon street market at dusk. Return only the
+SVG in one code block. Your SVG MUST satisfy ALL of these constraints:
+
+1. The root element has exactly viewBox="0 0 1200 800".
+2. There is exactly one element with id="moon".
+3. There is a &lt;g id="stalls"&gt; group containing at least 3 &lt;rect&gt; elements.
+4. There is a &lt;g id="rain"&gt; group containing at least 40 &lt;line&gt; elements.
+5. There is an element with id="puddle" that is a &lt;path&gt;.
+6. Some &lt;text&gt; element's content includes the word KAAPI.
+7. The &lt;defs&gt; section defines a gradient with id="sky", and that gradient is
+   actually referenced somewhere via url(#sky).
+8. No named colors anywhere: every color is a hex value like #1a2b3c (fills,
+   strokes, gradient stops); "none" is allowed.
+9. The whole document contains at most 400 elements.
+10. The output is a single well-formed &lt;svg&gt;...&lt;/svg&gt; document.</pre>
+  <p class="note">Each constraint is checked programmatically and scores one
+  point. Qwen (237 elements), Grok (79 elements) and Sonnet (117 elements) each
+  scored a clean 10/10 &mdash; a reminder that the check rewards meeting the spec,
+  not verbosity.</p></div></details>
+
+  <div class="eyebrow">Method &amp; honesty notes</div>
+  <ul>
+    <li>Each model runs in its own <strong>public chat UI</strong> at that
+      surface's <strong>default</strong> mode &mdash; Qwen&nbsp;Think,
+      Grok&nbsp;Fast, Sonnet&nbsp;Medium, Opus&nbsp;High. Defaults differ, on
+      purpose: this measures the out-of-the-box experience, not a lab setting.</li>
+    <li>Prompts are pasted <strong>verbatim</strong>, one fresh chat per task,
+      first answer taken. Code is graded by a hidden <code>unittest</code> suite;
+      L1/L2 are scored by hand against an answer key; X2 is scored by a script.</li>
+    <li>The battery is <strong>versioned and fingerprinted</strong>. Columns are
+      only comparable within the same fingerprint; if any prompt or grader input
+      changes, the fingerprint changes and old columns are retired.</li>
+    <li>The grader self-verifies: reference solutions score 73/73, and
+      deliberately-weakened solutions fail <em>exactly</em> the intended traps.</li>
+    <li><strong>Pending:</strong> Claude Fable&nbsp;5, DeepSeek&nbsp;V4 /
+      V4-Flash, and Kimi&nbsp;K3 (still throttled on its free tier) are not yet
+      captured; Opus&nbsp;4.8's long-context and SVG cells are pending. Columns
+      are added as they are run &mdash; this page is append-only.</li>
+  </ul>
+
+  <footer class="foot">
+    Model Bench &mdash; a standing reference for <a href="index.html">AI Signal</a>
+    &middot; curated by <a href="https://ylnhari.github.io">Hari Yelesetty</a>
+    <div class="foot-links">
+      <a href="index.html">AI Signal</a> &middot;
+      <a href="https://ylnhari.github.io">Portfolio</a> &middot;
+      <a href="https://github.com/ylnhari">GitHub</a> &middot;
+      <a href="https://ylnhari.github.io/blog">Blog</a>
+    </div>
+  </footer>
+</main>
+</body>
+</html>
