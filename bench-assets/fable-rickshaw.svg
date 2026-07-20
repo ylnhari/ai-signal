@@ -1,0 +1,171 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a4a5c"/>
+      <stop offset="0.6" stop-color="#5f7183"/>
+      <stop offset="1" stop-color="#8a9aa6"/>
+    </linearGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4a5d3a"/>
+      <stop offset="1" stop-color="#33452a"/>
+    </linearGradient>
+    <linearGradient id="rack" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2b2f36"/>
+      <stop offset="1" stop-color="#1a1d22"/>
+    </linearGradient>
+  </defs>
+
+  <!-- sky -->
+  <rect x="0" y="0" width="1200" height="800" fill="url(#sky)"/>
+
+  <!-- storm clouds -->
+  <ellipse cx="220" cy="110" rx="160" ry="52" fill="#4c5a68" opacity="0.7"/>
+  <ellipse cx="420" cy="90" rx="140" ry="46" fill="#556472" opacity="0.6"/>
+  <ellipse cx="820" cy="120" rx="180" ry="56" fill="#4c5a68" opacity="0.7"/>
+  <ellipse cx="1030" cy="95" rx="150" ry="48" fill="#556472" opacity="0.6"/>
+
+  <!-- steep hill -->
+  <path d="M0 800 L0 640 L1200 180 L1200 800 Z" fill="url(#hill)"/>
+  <path d="M0 640 L1200 180 L1200 210 L0 675 Z" fill="#3d4f30" opacity="0.6"/>
+
+  <!-- road on the hill -->
+  <path d="M0 800 L0 720 L1200 300 L1200 380 Z" fill="#39373b"/>
+  <!-- road dashes -->
+  <line x1="120" y1="742" x2="180" y2="722" stroke="#c8b24a" stroke-width="5" opacity="0.7"/>
+  <line x1="320" y1="672" x2="380" y2="652" stroke="#c8b24a" stroke-width="5" opacity="0.7"/>
+  <line x1="520" y1="602" x2="580" y2="582" stroke="#c8b24a" stroke-width="5" opacity="0.7"/>
+  <line x1="720" y1="532" x2="780" y2="512" stroke="#c8b24a" stroke-width="5" opacity="0.7"/>
+  <line x1="920" y1="462" x2="980" y2="442" stroke="#c8b24a" stroke-width="5" opacity="0.7"/>
+
+  <!-- ==== everything rotated to sit on the 18.4-degree slope ==== -->
+  <g transform="translate(470 560) rotate(-18.4)">
+
+    <!-- ---- server rack on trailer (behind, downhill) ---- -->
+    <g transform="translate(-330 -150)">
+      <!-- trailer bed -->
+      <rect x="-10" y="150" width="180" height="20" fill="#2a2a2e"/>
+      <!-- trailer wheels -->
+      <circle cx="30" cy="182" r="26" fill="#1b1b1f"/>
+      <circle cx="30" cy="182" r="10" fill="#3f4046"/>
+      <circle cx="140" cy="182" r="26" fill="#1b1b1f"/>
+      <circle cx="140" cy="182" r="10" fill="#3f4046"/>
+      <!-- rack body -->
+      <rect x="20" y="0" width="120" height="150" rx="6" fill="url(#rack)"/>
+      <rect x="20" y="0" width="120" height="150" rx="6" fill="none" stroke="#3f444c" stroke-width="3"/>
+      <!-- rack units -->
+      <rect x="30" y="12" width="100" height="16" fill="#20242a"/>
+      <rect x="30" y="34" width="100" height="16" fill="#20242a"/>
+      <rect x="30" y="56" width="100" height="16" fill="#20242a"/>
+      <rect x="30" y="78" width="100" height="16" fill="#20242a"/>
+      <rect x="30" y="100" width="100" height="16" fill="#20242a"/>
+      <rect x="30" y="122" width="100" height="16" fill="#20242a"/>
+      <!-- status LEDs -->
+      <circle cx="40" cy="20" r="3" fill="#4fd06a"/>
+      <circle cx="52" cy="20" r="3" fill="#4fd06a"/>
+      <circle cx="40" cy="42" r="3" fill="#e0b23a"/>
+      <circle cx="52" cy="42" r="3" fill="#4fd06a"/>
+      <circle cx="40" cy="64" r="3" fill="#4fd06a"/>
+      <circle cx="40" cy="86" r="3" fill="#d84a3a"/>
+      <circle cx="52" cy="86" r="3" fill="#4fd06a"/>
+      <circle cx="40" cy="108" r="3" fill="#4fd06a"/>
+      <circle cx="40" cy="130" r="3" fill="#4fd06a"/>
+      <circle cx="52" cy="130" r="3" fill="#e0b23a"/>
+    </g>
+
+    <!-- ---- tow rope ---- -->
+    <path d="M-160 20 C -130 30, -100 30, -70 25" fill="none" stroke="#6b5a3a" stroke-width="4"/>
+
+    <!-- ---- auto-rickshaw (front, uphill) ---- -->
+    <g transform="translate(-70 -110)">
+      <!-- rear body / cabin -->
+      <path d="M0 40 Q0 0 40 0 L150 0 Q175 0 178 30 L178 130 L0 130 Z" fill="#f2d013"/>
+      <!-- black lower skirt -->
+      <path d="M0 100 L178 100 L178 130 L0 130 Z" fill="#1c1c1f"/>
+      <!-- canopy front dip -->
+      <path d="M150 0 Q178 0 178 40 L150 40 Z" fill="#e6c40f"/>
+      <!-- passenger opening -->
+      <rect x="20" y="30" width="120" height="60" rx="6" fill="#2b2b30"/>
+      <!-- seat hint -->
+      <rect x="24" y="70" width="112" height="20" fill="#5a3a2a"/>
+      <!-- front cowl / driver area -->
+      <path d="M178 40 Q210 45 214 90 L214 130 L178 130 Z" fill="#f2d013"/>
+      <path d="M178 100 L214 100 L214 130 L178 130 Z" fill="#1c1c1f"/>
+      <!-- windshield -->
+      <path d="M182 46 L206 52 L206 84 L182 84 Z" fill="#8fb7c4" opacity="0.85"/>
+      <!-- headlight -->
+      <circle cx="210" cy="112" r="8" fill="#fff2b0"/>
+      <circle cx="210" cy="112" r="8" fill="none" stroke="#b89a2a" stroke-width="2"/>
+      <!-- headlight beam through rain -->
+      <path d="M218 112 L280 88 L280 138 Z" fill="#fff2b0" opacity="0.15"/>
+
+      <!-- rear wheels (twin) -->
+      <circle cx="45" cy="135" r="30" fill="#17171a"/>
+      <circle cx="45" cy="135" r="12" fill="#3f4046"/>
+      <circle cx="118" cy="135" r="30" fill="#17171a"/>
+      <circle cx="118" cy="135" r="12" fill="#3f4046"/>
+      <!-- front wheel -->
+      <circle cx="205" cy="150" r="24" fill="#17171a"/>
+      <circle cx="205" cy="150" r="9" fill="#3f4046"/>
+
+      <!-- canopy top rail -->
+      <path d="M0 40 Q0 0 40 0 L150 0 Q175 0 178 30" fill="none" stroke="#c9a90c" stroke-width="4"/>
+      <!-- exhaust puff -->
+      <circle cx="-8" cy="120" r="7" fill="#9aa2a8" opacity="0.5"/>
+      <circle cx="-18" cy="112" r="9" fill="#9aa2a8" opacity="0.35"/>
+    </g>
+  </g>
+
+  <!-- ==== monsoon rain (over everything) ==== -->
+  <g stroke="#cdd7e4" stroke-width="2" opacity="0.5">
+    <line x1="60" y1="30" x2="42" y2="80"/>
+    <line x1="140" y1="70" x2="122" y2="120"/>
+    <line x1="220" y1="20" x2="202" y2="70"/>
+    <line x1="300" y1="90" x2="282" y2="140"/>
+    <line x1="380" y1="40" x2="362" y2="90"/>
+    <line x1="460" y1="75" x2="442" y2="125"/>
+    <line x1="540" y1="25" x2="522" y2="75"/>
+    <line x1="620" y1="95" x2="602" y2="145"/>
+    <line x1="700" y1="45" x2="682" y2="95"/>
+    <line x1="780" y1="80" x2="762" y2="130"/>
+    <line x1="860" y1="30" x2="842" y2="80"/>
+    <line x1="940" y1="90" x2="922" y2="140"/>
+    <line x1="1020" y1="40" x2="1002" y2="90"/>
+    <line x1="1100" y1="75" x2="1082" y2="125"/>
+    <line x1="1170" y1="25" x2="1152" y2="75"/>
+    <line x1="100" y1="200" x2="82" y2="250"/>
+    <line x1="190" y1="240" x2="172" y2="290"/>
+    <line x1="280" y1="190" x2="262" y2="240"/>
+    <line x1="370" y1="250" x2="352" y2="300"/>
+    <line x1="460" y1="200" x2="442" y2="250"/>
+    <line x1="550" y1="245" x2="532" y2="295"/>
+    <line x1="640" y1="195" x2="622" y2="245"/>
+    <line x1="730" y1="255" x2="712" y2="305"/>
+    <line x1="820" y1="205" x2="802" y2="255"/>
+    <line x1="910" y1="240" x2="892" y2="290"/>
+    <line x1="1000" y1="195" x2="982" y2="245"/>
+    <line x1="1090" y1="250" x2="1072" y2="300"/>
+    <line x1="1160" y1="205" x2="1142" y2="255"/>
+    <line x1="80" y1="400" x2="62" y2="450"/>
+    <line x1="200" y1="440" x2="182" y2="490"/>
+    <line x1="330" y1="410" x2="312" y2="460"/>
+    <line x1="470" y1="450" x2="452" y2="500"/>
+    <line x1="610" y1="405" x2="592" y2="455"/>
+    <line x1="750" y1="445" x2="732" y2="495"/>
+    <line x1="890" y1="410" x2="872" y2="460"/>
+    <line x1="1030" y1="450" x2="1012" y2="500"/>
+    <line x1="1150" y1="410" x2="1132" y2="460"/>
+    <line x1="150" y1="600" x2="132" y2="650"/>
+    <line x1="350" y1="620" x2="332" y2="670"/>
+    <line x1="560" y1="600" x2="542" y2="650"/>
+    <line x1="770" y1="625" x2="752" y2="675"/>
+    <line x1="980" y1="605" x2="962" y2="655"/>
+    <line x1="1120" y1="630" x2="1102" y2="680"/>
+  </g>
+
+  <!-- rain splashes on road -->
+  <g stroke="#dfe6ef" stroke-width="2" opacity="0.4" fill="none">
+    <path d="M300 700 q6 -8 12 0"/>
+    <path d="M620 600 q6 -8 12 0"/>
+    <path d="M880 500 q6 -8 12 0"/>
+  </g>
+</svg>

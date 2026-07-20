@@ -1,0 +1,133 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a2140"/>
+      <stop offset="0.45" stop-color="#4a3a5c"/>
+      <stop offset="0.75" stop-color="#8a5a52"/>
+      <stop offset="1" stop-color="#c47a4a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f4e6c0" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#f4e6c0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- sky -->
+  <rect x="0" y="0" width="1200" height="800" fill="url(#sky)"/>
+
+  <!-- moon halo + moon -->
+  <circle cx="960" cy="150" r="120" fill="url(#glow)"/>
+  <circle id="moon" cx="960" cy="150" r="55" fill="#f6ead0"/>
+  <circle cx="985" cy="135" r="52" fill="#e9d9b8" opacity="0.5"/>
+
+  <!-- distant skyline -->
+  <g fill="#2f2740">
+    <rect x="0" y="360" width="90" height="200"/>
+    <rect x="110" y="320" width="70" height="240"/>
+    <rect x="200" y="380" width="110" height="180"/>
+    <rect x="330" y="300" width="60" height="260"/>
+    <rect x="410" y="350" width="130" height="210"/>
+    <rect x="1060" y="330" width="90" height="230"/>
+    <rect x="1150" y="370" width="60" height="190"/>
+  </g>
+
+  <!-- wet street -->
+  <rect x="0" y="560" width="1200" height="240" fill="#241d2c"/>
+  <rect x="0" y="560" width="1200" height="60" fill="#3a2f42"/>
+
+  <!-- puddle reflecting warm light -->
+  <path id="puddle" d="M 300 720 Q 480 690 700 720 Q 820 740 700 760 Q 480 785 300 760 Q 210 740 300 720 Z" fill="#6b4a38" opacity="0.7"/>
+  <path d="M 360 725 Q 500 712 640 728" stroke="#e0a860" stroke-width="3" fill="none" opacity="0.6"/>
+  <path d="M 400 745 Q 520 736 620 748" stroke="#f4d090" stroke-width="2" fill="none" opacity="0.5"/>
+
+  <!-- market stalls -->
+  <g id="stalls">
+    <rect x="120" y="470" width="200" height="120" fill="#5a3a2e"/>
+    <rect x="110" y="450" width="220" height="30" fill="#a83b3b"/>
+    <rect x="150" y="500" width="140" height="70" fill="#e0b050"/>
+
+    <rect x="380" y="480" width="210" height="110" fill="#3d5a3a"/>
+    <rect x="370" y="458" width="230" height="30" fill="#c56a2a"/>
+    <rect x="410" y="505" width="150" height="65" fill="#d89a44"/>
+
+    <rect x="650" y="465" width="220" height="125" fill="#463a5c"/>
+    <rect x="640" y="443" width="240" height="30" fill="#3b7ba8"/>
+    <rect x="685" y="498" width="150" height="72" fill="#e8c060"/>
+
+    <rect x="930" y="485" width="180" height="105" fill="#5a4030"/>
+    <rect x="920" y="463" width="200" height="30" fill="#b04848"/>
+    <rect x="960" y="510" width="120" height="60" fill="#dca850"/>
+  </g>
+
+  <!-- stall lamp glows -->
+  <circle cx="220" cy="455" r="10" fill="#ffe38a"/>
+  <circle cx="490" cy="463" r="10" fill="#ffe38a"/>
+  <circle cx="760" cy="448" r="10" fill="#ffe38a"/>
+  <circle cx="1015" cy="468" r="10" fill="#ffe38a"/>
+
+  <!-- signboard -->
+  <rect x="655" y="405" width="150" height="34" rx="4" fill="#1c2630"/>
+  <text x="668" y="429" font-family="sans-serif" font-size="22" font-weight="bold" fill="#f4c04a">HOT KAAPI</text>
+
+  <!-- small vendor figures -->
+  <g fill="#1a1420">
+    <circle cx="345" cy="600" r="14"/>
+    <rect x="333" y="612" width="24" height="46" rx="6"/>
+    <circle cx="620" cy="605" r="14"/>
+    <rect x="608" y="617" width="24" height="46" rx="6"/>
+    <circle cx="900" cy="602" r="14"/>
+    <rect x="888" y="614" width="24" height="46" rx="6"/>
+  </g>
+
+  <!-- rain -->
+  <g id="rain" stroke="#b8c4d8" stroke-width="1.4" opacity="0.55">
+    <line x1="40" y1="10" x2="30" y2="60"/>
+    <line x1="90" y1="80" x2="80" y2="130"/>
+    <line x1="140" y1="30" x2="130" y2="80"/>
+    <line x1="190" y1="120" x2="180" y2="170"/>
+    <line x1="240" y1="20" x2="230" y2="70"/>
+    <line x1="290" y1="90" x2="280" y2="140"/>
+    <line x1="340" y1="40" x2="330" y2="90"/>
+    <line x1="390" y1="140" x2="380" y2="190"/>
+    <line x1="440" y1="15" x2="430" y2="65"/>
+    <line x1="490" y1="100" x2="480" y2="150"/>
+    <line x1="540" y1="50" x2="530" y2="100"/>
+    <line x1="590" y1="130" x2="580" y2="180"/>
+    <line x1="640" y1="25" x2="630" y2="75"/>
+    <line x1="690" y1="95" x2="680" y2="145"/>
+    <line x1="740" y1="45" x2="730" y2="95"/>
+    <line x1="790" y1="135" x2="780" y2="185"/>
+    <line x1="840" y1="18" x2="830" y2="68"/>
+    <line x1="890" y1="105" x2="880" y2="155"/>
+    <line x1="940" y1="55" x2="930" y2="105"/>
+    <line x1="990" y1="125" x2="980" y2="175"/>
+    <line x1="1040" y1="28" x2="1030" y2="78"/>
+    <line x1="1090" y1="98" x2="1080" y2="148"/>
+    <line x1="1140" y1="48" x2="1130" y2="98"/>
+    <line x1="1190" y1="138" x2="1180" y2="188"/>
+    <line x1="20" y1="200" x2="10" y2="250"/>
+    <line x1="115" y1="230" x2="105" y2="280"/>
+    <line x1="215" y1="210" x2="205" y2="260"/>
+    <line x1="315" y1="240" x2="305" y2="290"/>
+    <line x1="415" y1="215" x2="405" y2="265"/>
+    <line x1="515" y1="245" x2="505" y2="295"/>
+    <line x1="615" y1="220" x2="605" y2="270"/>
+    <line x1="715" y1="250" x2="705" y2="300"/>
+    <line x1="815" y1="225" x2="805" y2="275"/>
+    <line x1="915" y1="255" x2="905" y2="305"/>
+    <line x1="1015" y1="230" x2="1005" y2="280"/>
+    <line x1="1115" y1="260" x2="1105" y2="310"/>
+    <line x1="65" y1="320" x2="55" y2="370"/>
+    <line x1="165" y1="350" x2="155" y2="400"/>
+    <line x1="265" y1="330" x2="255" y2="380"/>
+    <line x1="365" y1="360" x2="355" y2="410"/>
+    <line x1="465" y1="335" x2="455" y2="385"/>
+    <line x1="565" y1="365" x2="555" y2="415"/>
+    <line x1="665" y1="340" x2="655" y2="390"/>
+    <line x1="765" y1="370" x2="755" y2="420"/>
+    <line x1="865" y1="345" x2="855" y2="395"/>
+    <line x1="965" y1="375" x2="955" y2="425"/>
+    <line x1="1065" y1="350" x2="1055" y2="400"/>
+    <line x1="1165" y1="380" x2="1155" y2="430"/>
+  </g>
+</svg>
