@@ -40,7 +40,7 @@
   <!-- ==== everything rotated to sit on the 18.4-degree slope ==== -->
   <g transform="translate(470 560) rotate(-18.4)">
 
-    <!-- ---- server rack on trailer (behind, downhill) ---- -->
+    <!-- - server rack on trailer (behind, downhill) - -->
     <g transform="translate(-330 -150)">
       <!-- trailer bed -->
       <rect x="-10" y="150" width="180" height="20" fill="#2a2a2e"/>
@@ -72,10 +72,10 @@
       <circle cx="52" cy="130" r="3" fill="#e0b23a"/>
     </g>
 
-    <!-- ---- tow rope ---- -->
+    <!-- - tow rope - -->
     <path d="M-160 20 C -130 30, -100 30, -70 25" fill="none" stroke="#6b5a3a" stroke-width="4"/>
 
-    <!-- ---- auto-rickshaw (front, uphill) ---- -->
+    <!-- - auto-rickshaw (front, uphill) - -->
     <g transform="translate(-70 -110)">
       <!-- rear body / cabin -->
       <path d="M0 40 Q0 0 40 0 L150 0 Q175 0 178 30 L178 130 L0 130 Z" fill="#f2d013"/>

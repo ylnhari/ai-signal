@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Editor / merge leftovers
+*.swp
+*.orig
+*.rej
+*.bak
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+
+# Deps
+node_modules/
