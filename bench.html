@@ -3775,6 +3775,38 @@ Answer precisely, citing no outside knowledge:
 3. On what date did the load-test target change, and from what to what?
 4. How many times was the mobile-app launch deferred, and to which final date?
 5. Which vendor was rejected, and for what stated reason?</pre></details>
+<details class="sub"><summary>Show what each model answered</summary>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Qwen3.8-Max-Preview</span><span class="tag ok">5/5</span></div><pre>1. Final approved infra budget: Rs 53 lakh (Meeting 33, 2026-05-10) — the steering group confirmed no further changes this year. (Earlier figures of Rs 42 lakh in Meeting 03 and Rs 48 lakh in Meeting 15 were superseded.)
+2. Vector-store migration owner and role: Meera Pillai, Staff Data Engineer (Meeting 09).
+3. Load-test target change: on 2026-05-14, raised from 8,000 to 12,500 requests per second (the original 8,000 rps figure was set in Meeting 07).
+4. Mobile-app launch deferrals: three times — 2026-08-17 → 2026-09-21 (Meeting 18) → 2026-10-19 (Meeting 24) → 2026-11-09, final and frozen (Meeting 38).
+5. Rejected vendor: CloudKanta, after failing the data-residency audit (Meeting 12); Nimbara was selected instead.</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Grok 4.5</span><span class="tag ok">5/5</span></div><pre>1. Rs 53 lakh (final revision in Meeting 33 on 2026-05-10).
+2. Meera Pillai, Staff Data Engineer (Meeting 09).
+3. 2026-05-14, raised from 8,000 to 12,500 requests per second (noted in Meeting 29).
+4. Three times; final date 2026-11-09 (deferred in Meetings 18, 24, and 38).
+5. CloudKanta, after failing the data-residency audit (Meeting 12).</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek</span><span class="tag ok">5/5</span></div><pre>1. Final approved infra budget: Rs 53 lakh (Meeting 33).
+2. Vector-store migration owner: Meera Pillai, Staff Data Engineer (Meeting 09).
+3. Load-test target change: on 2026-05-14, from 8,000 to 12,500 requests per second (Meeting 29, referencing the 2026-05-14 meeting).
+4. Mobile-app launch deferred: 3 times; final date frozen at 2026-11-09 (Meetings 18, 24, 38).
+5. Rejected vendor: CloudKanta, for failing the data-residency audit (Meeting 12).</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Fable 5</span><span class="tag ok">5/5</span></div><pre>1. Rs 53 lakh (Meeting 33, 2026-05-10, final revision — steering group confirmed no further changes).
+2. Meera Pillai, Staff Data Engineer.
+3. 2026-05-14 — raised from 8,000 to 12,500 requests per second (noted in Meeting 29 minutes).
+4. Three times: 2026-08-17 → 2026-09-21 → 2026-10-19 → 2026-11-09 (final, frozen).
+5. CloudKanta — rejected after failing the data-residency audit (Nimbara selected instead).</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Sonnet 5</span><span class="tag ok">5/5</span></div><pre>1. Rs 53 lakh (Meeting 33, 2026-05-10).
+2. Meera Pillai, Staff Data Engineer.
+3. 2026-05-14; from 8,000 to 12,500 requests per second.
+4. Deferred three times, final date 2026-11-09.
+5. CloudKanta, rejected after failing the data-residency audit.</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Opus 4.8</span><span class="tag ok">5/5</span></div><pre>1. Rs 53 lakh — the final revision (Meeting 33, 2026-05-10), approved with no further changes for the year.
+2. Meera Pillai, whose role is Staff Data Engineer (Meeting 09).
+3. 2026-05-14 — raised from 8,000 to 12,500 requests per second, following the capacity forecast review (noted in Meeting 29).
+4. Three times, to a final frozen date of 2026-11-09 (08-17 → 09-21 → 10-19 → 11-09).
+5. CloudKanta, rejected for failing the data-residency audit (Meeting 12); Nimbara was chosen instead.</pre></div>
+</details>
 </div></details>
 
 <details class="task"><summary><span class="tid">Task 13</span> <span class="tname">Spot the contradictions</span> <span class="tmini">Qwen 4/4 · Grok 4/4 · Sonnet 4/4 · DeepSeek 4/4 · Fable 4/4 · Opus 4/4</span></summary>
@@ -3788,6 +3820,124 @@ contradictions &#8212; places where two statements cannot both be true. List EVE
 contradiction you find. For each: quote both conflicting statements and name
 their section numbers. Do not report stylistic issues or omissions; only
 direct factual conflicts.</pre></details>
+<details class="sub"><summary>Show what each model answered</summary>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Qwen3.8-Max-Preview</span><span class="tag ok">4/4 · 0 false positives</span></div><pre>Found 4 direct factual contradictions:
+
+1. Session timeout / expiry conflict
+   Section 2: "Idle sessions time out after 30 minutes and require re-authentication."
+   Section 9: "Sessions expire after 45 minutes of inactivity, after which a fresh login is required."
+   These give different inactivity-timeout values (30 vs. 45 minutes) for the same behavior.
+
+2. Concurrent device limit conflict
+   Section 3: "An account supports at most 5 concurrent devices."
+   Section 11: "Up to 8 devices may be active simultaneously on a single account."
+   5 vs. 8 concurrent devices for the same account.
+
+3. Timestamp storage timezone conflict
+   Section 4: "All timestamps are stored in UTC and converted at render time."
+   Section 12: "Timestamps are stored in the user's local timezone as captured at write time."
+   UTC vs. local timezone — mutually exclusive storage rules.
+
+4. Free-tier project limit conflict
+   Section 6: "The free tier includes 3 projects with unlimited collaborators."
+   Section 14: "Free-tier accounts are limited to a single project."
+   3 projects vs. 1 project on the free tier.</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Grok 4.5</span><span class="tag ok">4/4 · 0 false positives</span></div><pre>Contradictions found:
+
+1. Session timeout policy
+   Section 2: "Idle sessions time out after 30 minutes and require re-authentication."
+   Section 9: "Sessions expire after 45 minutes of inactivity, after which a fresh login is required."
+   (Cannot both be true.)
+
+2. Concurrent device limit per account
+   Section 3: "An account supports at most 5 concurrent devices."
+   Section 11: "Up to 8 devices may be active simultaneously on a single account."
+   (Cannot both be true.)
+
+3. Timestamp storage
+   Section 4: "All timestamps are stored in UTC and converted at render time."
+   Section 12: "Timestamps are stored in the user's local timezone as captured at write time."
+   (Cannot both be true.)
+
+4. Free-tier project limit
+   Section 6: "The free tier includes 3 projects with unlimited collaborators."
+   Section 14: "Free-tier accounts are limited to a single project."
+   (Cannot both be true.)
+
+These are all the direct factual contradictions in the document. No other pairs of statements present mutually incompatible facts.</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek</span><span class="tag ok">4/4 · 0 false positives</span></div><pre>1. Session timeout duration
+   Section 2: "Idle sessions time out after 30 minutes and require re-authentication."
+   Section 9: "Sessions expire after 45 minutes of inactivity, after which a fresh login is required."
+
+2. Maximum concurrent devices per account
+   Section 3: "An account supports at most 5 concurrent devices."
+   Section 11: "Up to 8 devices may be active simultaneously on a single account."
+
+3. Timestamp storage convention
+   Section 4: "All timestamps are stored in UTC and converted at render time."
+   Section 12: "Timestamps are stored in the user's local timezone as captured at write time."
+
+4. Free-tier project limit
+   Section 6: "The free tier includes 3 projects with unlimited collaborators."
+   Section 14: "Free-tier accounts are limited to a single project."</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Fable 5</span><span class="tag ok">4/4 · 0 false positives</span></div><pre>I found three groups of contradictions, all concerning quantitative product limits.
+
+Contradiction 1 — session/idle timeout duration (three-way conflict)
+Section 2: "Idle sessions time out after 30 minutes and require re-authentication."
+Section 9: "Sessions expire after 45 minutes of inactivity, after which a fresh login is required."
+These give different inactivity timeout values (30 vs. 45 minutes) for the same behavior.
+
+Contradiction 2 — concurrent devices per account (three-way conflict)
+Section 3: "An account supports at most 5 concurrent devices."
+Section 11: "Up to 8 devices may be active simultaneously on a single account."
+These give different maximum simultaneous-device counts (5 vs. 8) for a single account.
+
+Contradiction 3 — free-tier project allowance
+Section 6: "The free tier includes 3 projects with unlimited collaborators."
+Section 14: "Free-tier accounts are limited to a single project."
+These give different free-tier project limits (3 vs. 1).
+
+Contradiction 4 — timestamp storage timezone
+Section 4: "All timestamps are stored in UTC and converted at render time."
+Section 12: "Timestamps are stored in the user's local timezone as captured at write time."
+These specify mutually exclusive storage schemes for timestamps (UTC vs. local timezone at write time).</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Sonnet 5</span><span class="tag ok">4/4 · 0 false positives</span></div><pre>1. Session timeout
+   Sec 2: "Idle sessions time out after 30 minutes and require re-authentication."
+   Sec 9: "Sessions expire after 45 minutes of inactivity, after which a fresh login is required."
+
+2. Concurrent device limit
+   Sec 3: "An account supports at most 5 concurrent devices."
+   Sec 11: "Up to 8 devices may be active simultaneously on a single account."
+
+3. Timestamp storage
+   Sec 4: "All timestamps are stored in UTC and converted at render time."
+   Sec 12: "Timestamps are stored in the user's local timezone as captured at write time."
+
+4. Free-tier project limit
+   Sec 6: "The free tier includes 3 projects with unlimited collaborators."
+   Sec 14: "Free-tier accounts are limited to a single project."</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Claude Opus 4.8</span><span class="tag ok">4/4 · 0 false positives</span></div><pre>I found two clusters of direct contradictions — one about session/inactivity timeouts, one about device and project limits.
+
+Contradiction 1 — Session inactivity timeout
+Section 2: "Idle sessions time out after 30 minutes and require re-authentication."
+Section 9: "Sessions expire after 45 minutes of inactivity, after which a fresh login is required."
+30 minutes vs. 45 minutes for the same idle-timeout behavior.
+
+Contradiction 2 — Timestamp storage
+Section 4: "All timestamps are stored in UTC and converted at render time."
+Section 12: "Timestamps are stored in the user's local timezone as captured at write time."
+UTC vs. local timezone — mutually exclusive storage rules.
+
+Contradiction 3 — Maximum concurrent devices
+Section 3: "An account supports at most 5 concurrent devices."
+Section 11: "Up to 8 devices may be active simultaneously on a single account."
+5 vs. 8 concurrent devices.
+
+Contradiction 4 — Free-tier project limit
+Section 6: "The free tier includes 3 projects with unlimited collaborators."
+Section 14: "Free-tier accounts are limited to a single project."
+3 projects vs. 1 project on the free tier.</pre></div>
+</details>
 </div></details>
 
 <details class="task"><summary><span class="tid">Task 14</span> <span class="tname">Draw a scene, freely</span> <span class="tmini">Qwen coherent · Grok coherent · Sonnet coherent · DeepSeek coherent · Fable coherent · Opus coherent</span></summary>
