@@ -274,6 +274,16 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   strongest available reasoning mode; that's noted in the small print under its
   name.</p>
 
+  <p class="note"><strong>How much weight the middle of this table can carry.</strong>
+  The coding column counts individual checks passed. Count whole <em>tasks</em>
+  instead &mdash; a task counting only if every one of its checks passes &mdash; and
+  two models swap: Claude Sonnet 5 loses one task, Claude Fable 5 loses two, even
+  though Fable passes one more individual check. Both numbers are correct; they
+  rank those two in opposite orders, because the tasks carry unequal numbers of
+  checks. By tasks-clean it reads: Qwen 11 of 11, DeepSeek 10, Sonnet 10, Fable 9,
+  Opus 9. Treat the top of the table as meaningful and the middle as approximate
+  &mdash; and I am expanding the tasks so no single one carries this much weight.</p>
+
   <div class="callout">
     <p><strong>The short version, so far:</strong> the two newer models from Alibaba
     and xAI swept every check. DeepSeek, run at its strongest reasoning setting,
