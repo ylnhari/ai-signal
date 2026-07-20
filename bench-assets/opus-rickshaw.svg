@@ -1,0 +1,142 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2f3a44"/>
+      <stop offset="0.55" stop-color="#556069"/>
+      <stop offset="1" stop-color="#828b94"/>
+    </linearGradient>
+    <linearGradient id="hillg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#41493a"/>
+      <stop offset="1" stop-color="#282e22"/>
+    </linearGradient>
+    <linearGradient id="rackg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2c3037"/>
+      <stop offset="1" stop-color="#14171b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- sky -->
+  <rect x="0" y="0" width="1200" height="800" fill="url(#sky)"/>
+
+  <!-- rain clouds -->
+  <g fill="#454f58" opacity="0.6">
+    <ellipse cx="260" cy="110" rx="150" ry="46"/>
+    <ellipse cx="420" cy="90" rx="120" ry="40"/>
+    <ellipse cx="880" cy="130" rx="170" ry="50"/>
+    <ellipse cx="1040" cy="105" rx="120" ry="40"/>
+  </g>
+
+  <!-- distant misty ridge -->
+  <path d="M 0 430 Q 300 350 600 405 Q 900 455 1200 390 L 1200 800 L 0 800 Z" fill="#6a747e" opacity="0.5"/>
+
+  <!-- steep hill -->
+  <path d="M 0 800 L 0 660 Q 450 570 1200 190 L 1200 800 Z" fill="url(#hillg)"/>
+  <!-- road surface -->
+  <path d="M 0 700 Q 450 610 1200 235 L 1200 315 Q 450 685 0 770 Z" fill="#31363c"/>
+  <!-- centre line -->
+  <path d="M 40 738 Q 460 648 1200 278" fill="none" stroke="#c9b458" stroke-width="5" stroke-dasharray="34 30" opacity="0.7"/>
+
+  <!-- ===== rig tilted to the incline ===== -->
+  <g transform="translate(560 440) rotate(-26)">
+
+    <!-- towed rack on trailer -->
+    <g transform="translate(-340 -150)">
+      <rect x="-10" y="150" width="182" height="20" rx="4" fill="#2a2a2a"/>
+      <rect x="10" y="0" width="140" height="152" rx="6" fill="url(#rackg)" stroke="#0c0e11" stroke-width="3"/>
+      <g fill="#3a4048" stroke="#0c0e11" stroke-width="1.5">
+        <rect x="22" y="12" width="116" height="18" rx="2"/>
+        <rect x="22" y="36" width="116" height="18" rx="2"/>
+        <rect x="22" y="60" width="116" height="18" rx="2"/>
+        <rect x="22" y="84" width="116" height="18" rx="2"/>
+        <rect x="22" y="108" width="116" height="18" rx="2"/>
+        <rect x="22" y="132" width="116" height="14" rx="2"/>
+      </g>
+      <g>
+        <circle cx="30" cy="21" r="3" fill="#4ade80"/>
+        <circle cx="42" cy="21" r="3" fill="#facc15"/>
+        <circle cx="30" cy="45" r="3" fill="#4ade80"/>
+        <circle cx="42" cy="45" r="3" fill="#4ade80"/>
+        <circle cx="30" cy="69" r="3" fill="#f87171"/>
+        <circle cx="30" cy="93" r="3" fill="#4ade80"/>
+        <circle cx="30" cy="117" r="3" fill="#facc15"/>
+      </g>
+      <circle cx="62" cy="182" r="26" fill="#181818" stroke="#000" stroke-width="3"/>
+      <circle cx="62" cy="182" r="9" fill="#555"/>
+      <!-- tow bar -->
+      <rect x="150" y="158" width="120" height="8" rx="4" fill="#454545"/>
+    </g>
+
+    <!-- auto-rickshaw -->
+    <g transform="translate(-80 -210)">
+      <path d="M 20 120 Q 20 30 110 30 L 200 30 Q 250 30 258 90 L 262 200 L 20 200 Z"
+            fill="#f4c430" stroke="#b8860b" stroke-width="4"/>
+      <path d="M 20 120 Q 18 34 110 30 L 205 30 Q 250 32 258 92 L 258 74 Q 240 44 150 44 L 110 44 Q 42 46 40 120 Z"
+            fill="#1f2933"/>
+      <path d="M 20 175 L 262 178 L 262 200 L 20 200 Z" fill="#2f6b3f"/>
+      <path d="M 60 90 Q 60 60 100 60 L 150 60 Q 160 60 160 90 L 160 168 L 60 168 Z" fill="#232e38"/>
+      <path d="M 210 66 Q 244 70 250 110 L 250 150 L 212 150 Z" fill="#bcd4e0" opacity="0.85"/>
+      <rect x="210" y="60" width="6" height="95" fill="#1f2933"/>
+      <path d="M 250 120 Q 292 122 296 168 L 296 200 L 250 200 Z" fill="#f4c430" stroke="#b8860b" stroke-width="4"/>
+      <circle cx="286" cy="176" r="11" fill="#fff3b0" stroke="#b8860b" stroke-width="3"/>
+      <path d="M 296 176 L 384 148 L 384 208 Z" fill="#fff3b0" opacity="0.18"/>
+      <circle cx="90" cy="205" r="34" fill="#181818" stroke="#000" stroke-width="4"/>
+      <circle cx="90" cy="205" r="12" fill="#666"/>
+      <circle cx="278" cy="212" r="30" fill="#181818" stroke="#000" stroke-width="4"/>
+      <circle cx="278" cy="212" r="10" fill="#666"/>
+      <g fill="#9aa2ab" opacity="0.5">
+        <circle cx="8" cy="180" r="9"/>
+        <circle cx="-6" cy="172" r="7"/>
+        <circle cx="-18" cy="166" r="5"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- monsoon rain -->
+  <g stroke="#cdd6e0" stroke-width="1.5" opacity="0.5">
+    <line x1="60" y1="0" x2="40" y2="58"/>
+    <line x1="120" y1="70" x2="100" y2="128"/>
+    <line x1="180" y1="20" x2="160" y2="78"/>
+    <line x1="240" y1="110" x2="220" y2="168"/>
+    <line x1="300" y1="35" x2="280" y2="93"/>
+    <line x1="360" y1="90" x2="340" y2="148"/>
+    <line x1="420" y1="10" x2="400" y2="68"/>
+    <line x1="480" y1="130" x2="460" y2="188"/>
+    <line x1="540" y1="45" x2="520" y2="103"/>
+    <line x1="600" y1="95" x2="580" y2="153"/>
+    <line x1="660" y1="25" x2="640" y2="83"/>
+    <line x1="720" y1="120" x2="700" y2="178"/>
+    <line x1="780" y1="55" x2="760" y2="113"/>
+    <line x1="840" y1="15" x2="820" y2="73"/>
+    <line x1="900" y1="100" x2="880" y2="158"/>
+    <line x1="960" y1="40" x2="940" y2="98"/>
+    <line x1="1020" y1="130" x2="1000" y2="188"/>
+    <line x1="1080" y1="60" x2="1060" y2="118"/>
+    <line x1="1140" y1="20" x2="1120" y2="78"/>
+    <line x1="1190" y1="105" x2="1170" y2="163"/>
+    <line x1="30" y1="200" x2="10" y2="258"/>
+    <line x1="150" y1="230" x2="130" y2="288"/>
+    <line x1="270" y1="210" x2="250" y2="268"/>
+    <line x1="390" y1="245" x2="370" y2="303"/>
+    <line x1="510" y1="215" x2="490" y2="273"/>
+    <line x1="630" y1="250" x2="610" y2="308"/>
+    <line x1="750" y1="220" x2="730" y2="278"/>
+    <line x1="870" y1="255" x2="850" y2="313"/>
+    <line x1="990" y1="225" x2="970" y2="283"/>
+    <line x1="1110" y1="260" x2="1090" y2="318"/>
+    <line x1="90" y1="330" x2="70" y2="388"/>
+    <line x1="210" y1="360" x2="190" y2="418"/>
+    <line x1="330" y1="340" x2="310" y2="398"/>
+    <line x1="450" y1="370" x2="430" y2="428"/>
+    <line x1="570" y1="345" x2="550" y2="403"/>
+    <line x1="690" y1="380" x2="670" y2="438"/>
+    <line x1="810" y1="350" x2="790" y2="408"/>
+    <line x1="930" y1="385" x2="910" y2="443"/>
+    <line x1="1050" y1="355" x2="1030" y2="413"/>
+    <line x1="1170" y1="390" x2="1150" y2="448"/>
+    <line x1="160" y1="470" x2="140" y2="528"/>
+    <line x1="380" y1="500" x2="360" y2="558"/>
+    <line x1="620" y1="480" x2="600" y2="538"/>
+    <line x1="880" y1="510" x2="860" y2="568"/>
+    <line x1="1100" y1="490" x2="1080" y2="548"/>
+  </g>
+</svg>

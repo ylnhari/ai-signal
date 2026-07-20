@@ -249,11 +249,11 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
       </tr>
       <tr>
         <td class="model">DeepSeek<small>DeepSeek &middot; Expert+DeepThink</small></td>
-        <td class="score gap">72 / 73</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="score full">10 / 10</td>
+        <td class="score gap">72 / 73</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td>
       </tr>
       <tr>
         <td class="model">Claude Fable 5<small>Anthropic &middot; High</small></td>
-        <td class="score gap">71 / 73</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td>
+        <td class="score gap">71 / 73</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td>
       </tr>
       <tr>
         <td class="model">Claude Sonnet 5<small>Anthropic &middot; Medium</small></td>
@@ -261,26 +261,26 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
       </tr>
       <tr class="rowhi">
         <td class="model">Claude Opus 4.8<small>Anthropic &middot; High</small></td>
-        <td class="score gap">68 / 73</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td>
+        <td class="score gap">68 / 73</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td>
       </tr>
     </tbody>
   </table>
   </div>
-  <p class="note">Every model tested on contradiction-spotting found all four
-  planted conflicts with zero false alarms. Several rows still have reading and
-  drawing cells being filled in &mdash; DeepSeek, Claude Fable 5, and Claude
-  Opus 4.8 are all unusually slow at their strongest settings &mdash; but each
-  row's coding score is complete. Settings were each site's own default except
-  DeepSeek, which was deliberately run at its strongest available reasoning
-  mode; that's noted in the small print under its name.</p>
+  <p class="note">All six models have now been run on every task. Every one
+  found all four planted conflicts in the contradiction-spotting test with zero
+  false alarms, and every one earned full marks on fact recall and both drawings
+  &mdash; the entire spread between them sits in the coding column. Settings were
+  each site's own default except DeepSeek, which was deliberately run at its
+  strongest available reasoning mode; that's noted in the small print under its
+  name.</p>
 
   <div class="callout">
     <p><strong>The short version, so far:</strong> the two newer models from Alibaba
     and xAI swept every check. DeepSeek, run at its strongest reasoning setting,
     landed a hair behind with a single miss. The three Anthropic models trail
-    behind that, with Claude Opus 4.8 lowest of the six &mdash; and, to my
-    surprise, the larger and more expensive Opus slipped <em>further</em> than
-    the smaller Sonnet. It was not a failure of raw reasoning: every genuinely
+    behind that, with Claude Opus 4.8 lowest of the group tested so far &mdash;
+    and, to my surprise, the larger and more expensive Opus slipped <em>further</em>
+    than the smaller Sonnet. It was not a failure of raw reasoning: every genuinely
     hard algorithm passed across the board, on every model. The entire spread
     came down to two small habits of carefulness when handling messy, real-world
     data. That picture can shift as more models are added to the table &mdash;
@@ -3761,10 +3761,10 @@ FROM ranked
 WHERE rnk &lt;= 2
 ORDER BY city ASC, month ASC, revenue DESC, product ASC;</pre></div></details>
 </div></details>
-<details class="task"><summary><span class="tid">Task 12</span> <span class="tname">Recall from a big messy archive</span> <span class="tmini">Qwen 5/5 · Grok 5/5 · Sonnet 5/5 · DeepSeek, Fable &amp; Opus not yet tested</span></summary>
+<details class="task"><summary><span class="tid">Task 12</span> <span class="tname">Recall from a big messy archive</span> <span class="tmini">Qwen 5/5 · Grok 5/5 · Sonnet 5/5 · DeepSeek 5/5 · Fable 5/5 · Opus 5/5</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can find and reconcile specific facts that are scattered across a long, messy, contradictory-looking document without inventing anything. The model is given a roughly 51KB archive of 42 meeting-minutes for a fictional project (pasted directly into the conversation) and then asked five precise factual questions: the final approved budget after several revisions, who owns a migration task and their role, when a load-test target changed and to what, how many times a launch was deferred and its final date, and which vendor was rejected and why.</p>
-<p class="how"><strong>How it is scored:</strong> each of the five answers is checked against the one correct fact buried in the document. All three tested models got every question right. DeepSeek, Claude Fable 5, and Claude Opus 4.8 are still pending on this one.</p>
+<p class="how"><strong>How it is scored:</strong> each of the five answers is checked against the one correct fact buried in the document. All six models got every question right &mdash; a clean 5 out of 5 across the board, with the exact facts and meeting references intact.</p>
 <details class="sub"><summary>Show the exact prompt</summary><pre>[The complete minutes archive of Project Meghdoot is pasted above this prompt, in the same message.]
 
 The document above is the complete minutes archive of Project Meghdoot.
@@ -3777,10 +3777,10 @@ Answer precisely, citing no outside knowledge:
 5. Which vendor was rejected, and for what stated reason?</pre></details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 13</span> <span class="tname">Spot the contradictions</span> <span class="tmini">Qwen 4/4 · Grok 4/4 · Sonnet 4/4 · DeepSeek, Fable &amp; Opus not yet tested</span></summary>
+<details class="task"><summary><span class="tid">Task 13</span> <span class="tname">Spot the contradictions</span> <span class="tmini">Qwen 4/4 · Grok 4/4 · Sonnet 4/4 · DeepSeek 4/4 · Fable 4/4 · Opus 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> careful reading and logical consistency-checking over a long text. The model is given a single product-specification document (pasted directly into the conversation) that has contradictions deliberately planted in it — statements that cannot both be true — and has to find every one of them, quote both sides, and cite the section numbers, without getting distracted by mere style issues that aren't actual contradictions.</p>
-<p class="how"><strong>How it is scored:</strong> did the model find every planted contradiction, and did it avoid raising false alarms about things that weren't real contradictions? All three tested models found all of them with zero false alarms. DeepSeek, Claude Fable 5, and Claude Opus 4.8 are still pending on this one.</p>
+<p class="how"><strong>How it is scored:</strong> did the model find every planted contradiction, and did it avoid raising false alarms about things that weren't real contradictions? All six models found all four with zero false alarms &mdash; each quoting both sides and citing the section numbers.</p>
 <details class="sub"><summary>Show the exact prompt</summary><pre>[A single product specification document is pasted above this prompt, in the same message.]
 
 The document above is a single product specification. It contains internal
@@ -3790,23 +3790,26 @@ their section numbers. Do not report stylistic issues or omissions; only
 direct factual conflicts.</pre></details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 14</span> <span class="tname">Draw a scene, freely</span> <span class="tmini">Qwen coherent · Grok coherent · Sonnet coherent · DeepSeek, Fable &amp; Opus not yet tested</span></summary>
+<details class="task"><summary><span class="tid">Task 14</span> <span class="tname">Draw a scene, freely</span> <span class="tmini">Qwen coherent · Grok coherent · Sonnet coherent · DeepSeek coherent · Fable coherent · Opus coherent</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> spatial imagination and the ability to turn a described scene into working drawing-code. Each model was asked to generate an SVG &#8212; a text-based image format where the model literally writes code that a browser renders into a picture &#8212; of an auto-rickshaw towing a server rack up a steep hill in monsoon rain, with no constraints on how to do it.</p>
-<p class="how"><strong>How it is scored:</strong> judged by eye &#8212; is it a coherent scene containing all the described elements (the rickshaw, the server rack, the hill, the rain)? All three tested models produced complete, coherent scenes. DeepSeek, Claude Fable 5, and Claude Opus 4.8 are still pending on this one.</p>
+<p class="how"><strong>How it is scored:</strong> judged by eye &#8212; is it a coherent scene containing all the described elements (the rickshaw, the server rack, the hill, the rain)? All six models produced complete, coherent scenes.</p>
 <details class="sub"><summary>Show the exact prompt</summary><pre>Generate an SVG of an auto-rickshaw towing a server rack up a steep hill,
 monsoon rain falling. Return only the SVG in one code block.</pre></details>
 <details class="sub" open><summary>See what each model drew</summary>
 <figure class="drawing"><figcaption>Qwen3.8-Max-Preview</figcaption><img class="svgshot" src="bench-assets/qwen-rickshaw.svg" alt="Qwen's rickshaw scene" loading="lazy"></figure>
 <figure class="drawing"><figcaption>Grok 4.5</figcaption><img class="svgshot" src="bench-assets/grok-rickshaw.svg" alt="Grok's rickshaw scene" loading="lazy"></figure>
 <figure class="drawing"><figcaption>Claude Sonnet 5</figcaption><img class="svgshot" src="bench-assets/sonnet-rickshaw.svg" alt="Sonnet's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>DeepSeek (Expert+DeepThink)</figcaption><img class="svgshot" src="bench-assets/deepseek-rickshaw.svg" alt="DeepSeek's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Claude Fable 5</figcaption><img class="svgshot" src="bench-assets/fable-rickshaw.svg" alt="Fable's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Claude Opus 4.8</figcaption><img class="svgshot" src="bench-assets/opus-rickshaw.svg" alt="Opus's rickshaw scene" loading="lazy"></figure>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 15</span> <span class="tname">Draw a scene under strict rules</span> <span class="tmini">Qwen 10/10 · Grok 10/10 · Sonnet 10/10 · DeepSeek 10/10 · Fable &amp; Opus not yet tested</span></summary>
+<details class="task"><summary><span class="tid">Task 15</span> <span class="tname">Draw a scene under strict rules</span> <span class="tmini">Qwen 10/10 · Grok 10/10 · Sonnet 10/10 · DeepSeek 10/10 · Fable 10/10 · Opus 10/10</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can hold many precise, simultaneous requirements in mind while still producing something that looks right. Each model was asked to generate an SVG of a Chennai monsoon street market at dusk that must satisfy 10 exact, machine-checked rules: a specific canvas size, exactly one element marked as the moon, a group of at least 3 market-stall rectangles, a group of at least 40 rain lines, a puddle drawn as a path, some text containing the word "KAAPI" (South Indian filter coffee), a sky gradient that is defined and actually used, only hex colors (no color names), no more than 400 total drawing elements, and a technically valid file.</p>
-<p class="how"><strong>How it is scored:</strong> an automated check runs through all 10 rules and confirms each one is satisfied &#8212; no human judgment involved. All four tested models scored a perfect 10 out of 10, including DeepSeek run at its strongest reasoning mode. Interestingly, that doesn't mean the drawings are equally detailed: this check rewards following the rules, not adding extra detail &#8212; Grok passed with about 79 drawing elements while Qwen used roughly 237. Claude Fable 5 and Claude Opus 4.8 are still pending on this one.</p>
+<p class="how"><strong>How it is scored:</strong> an automated check runs through all 10 rules and confirms each one is satisfied &#8212; no human judgment involved. All six models scored a perfect 10 out of 10, including DeepSeek run at its strongest reasoning mode. Interestingly, that doesn't mean the drawings are equally detailed: this check rewards following the rules, not adding extra detail &#8212; Grok passed with about 79 drawing elements while Qwen used roughly 237.</p>
 <details class="sub"><summary>Show the exact prompt</summary><pre>Generate an SVG of a Chennai monsoon street market at dusk. Return only the
 SVG in one code block. Your SVG MUST satisfy ALL of these constraints:
 
@@ -3827,6 +3830,8 @@ SVG in one code block. Your SVG MUST satisfy ALL of these constraints:
 <figure class="drawing"><figcaption>Grok 4.5</figcaption><img class="svgshot" src="bench-assets/grok-market.svg" alt="Grok's market scene" loading="lazy"></figure>
 <figure class="drawing"><figcaption>Claude Sonnet 5</figcaption><img class="svgshot" src="bench-assets/sonnet-market.svg" alt="Sonnet's market scene" loading="lazy"></figure>
 <figure class="drawing"><figcaption>DeepSeek (Expert+DeepThink) — 10/10</figcaption><img class="svgshot" src="bench-assets/deepseek-market.svg" alt="DeepSeek's market scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Claude Fable 5</figcaption><img class="svgshot" src="bench-assets/fable-market.svg" alt="Fable's market scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Claude Opus 4.8</figcaption><img class="svgshot" src="bench-assets/opus-market.svg" alt="Opus's market scene" loading="lazy"></figure>
 </details>
 </div></details>
 
@@ -3844,13 +3849,11 @@ SVG in one code block. Your SVG MUST satisfy ALL of these constraints:
       checks, I ran them against a known-correct set of answers (everything should
       pass) and a deliberately-broken set (the exact traps should fail) &mdash; and
       they behaved as expected. The checks stay private so no model can memorise them.</li>
-    <li><strong>This is a standing benchmark, not a one-time test.</strong> DeepSeek,
-      Claude Fable 5, and Claude Opus 4.8 all have their coding scores in, with
-      reading and drawing results still being captured &mdash; each is unusually
-      slow at its strongest settings. More models are queued to run next, and every
-      notable new model that ships gets added in turn. Same fifteen tasks, same
-      checks, every time, so the table above simply keeps growing and any model can
-      be compared against any other by reading their rows.</li>
+    <li><strong>This is a standing benchmark, not a one-time test.</strong> All six
+      models are now complete on all fifteen tasks. More models are queued to run
+      next, and every notable new model that ships gets added in turn. Same fifteen
+      tasks, same checks, every time, so the table above simply keeps growing and any
+      model can be compared against any other by reading their rows.</li>
     <li><strong>A snapshot, not a permanent verdict.</strong> Each row reflects one
       careful sitting on the date it was run, not a fixed, final ranking &mdash; and
       as new rows are added, the overall picture can shift.</li>
