@@ -426,7 +426,7 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   <h2>Every task, in full</h2>
   <p>Each task below expands to show exactly what it probes, the exact prompt every
   model received, how the answer was scored, and what each model actually produced.
-  The nine tasks every model passed are here too, for completeness.</p>
+  The tasks every model passed cleanly are here too, for completeness.</p>
 
 <details class="task"><summary><span class="tid">Task 1</span> <span class="tname">Merging overlapping time blocks by priority</span> <span class="tmini">all pass</span></summary>
 <div class="body">
@@ -5172,7 +5172,7 @@ Q3. 3 — take two items over, return empty, take the last (e.g., fox+grain over
 Q4. 1/2 — the coin is fair and flips are independent, so prior heads don't change it.</pre></div>
 </details>
 </div></details>
-<details class="task"><summary><span class="tid">Task 12</span> <span class="tname">Recall from a big messy archive</span> <span class="tmini">Qwen 5/5 · Grok 5/5 · Sonnet 5/5 · DeepSeek 5/5 · Fable 5/5 · Opus 5/5</span></summary>
+<details class="task"><summary><span class="tid">Task 22</span> <span class="tname">Recall from a big messy archive</span> <span class="tmini">Qwen 5/5 · Grok 5/5 · Sonnet 5/5 · DeepSeek 5/5 · Fable 5/5 · Opus 5/5</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can find and reconcile specific facts that are scattered across a long, messy, contradictory-looking document without inventing anything. The model is given a roughly 51KB archive of 42 meeting-minutes for a fictional project (pasted directly into the conversation) and then asked five precise factual questions: the final approved budget after several revisions, who owns a migration task and their role, when a load-test target changed and to what, how many times a launch was deferred and its final date, and which vendor was rejected and why.</p>
 <p class="how"><strong>How it is scored:</strong> each of the five answers is checked against the one correct fact buried in the document. All six models got every question right &mdash; a clean 5 out of 5 across the board, with the exact facts and meeting references intact.</p>
@@ -5220,7 +5220,7 @@ Answer precisely, citing no outside knowledge:
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 13</span> <span class="tname">Spot the contradictions</span> <span class="tmini">Qwen 4/4 · Grok 4/4 · Sonnet 4/4 · DeepSeek 4/4 · Fable 4/4 · Opus 4/4</span></summary>
+<details class="task"><summary><span class="tid">Task 23</span> <span class="tname">Spot the contradictions</span> <span class="tmini">Qwen 4/4 · Grok 4/4 · Sonnet 4/4 · DeepSeek 4/4 · Fable 4/4 · Opus 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> careful reading and logical consistency-checking over a long text. The model is given a single product-specification document (pasted directly into the conversation) that has contradictions deliberately planted in it — statements that cannot both be true — and has to find every one of them, quote both sides, and cite the section numbers, without getting distracted by mere style issues that aren't actual contradictions.</p>
 <p class="how"><strong>How it is scored:</strong> did the model find every planted contradiction, and did it avoid raising false alarms about things that weren't real contradictions? All six models found all four with zero false alarms &mdash; each quoting both sides and citing the section numbers.</p>
@@ -5351,7 +5351,7 @@ Section 14: "Free-tier accounts are limited to a single project."
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 14</span> <span class="tname">Draw a scene, freely</span> <span class="tmini">Qwen coherent · Grok coherent · Sonnet coherent · DeepSeek coherent · Fable coherent · Opus coherent</span></summary>
+<details class="task"><summary><span class="tid">Task 24</span> <span class="tname">Draw a scene, freely</span> <span class="tmini">Qwen coherent · Grok coherent · Sonnet coherent · DeepSeek coherent · Fable coherent · Opus coherent</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> spatial imagination and the ability to turn a described scene into working drawing-code. Each model was asked to generate an SVG &#8212; a text-based image format where the model literally writes code that a browser renders into a picture &#8212; of an auto-rickshaw towing a server rack up a steep hill in monsoon rain, with no constraints on how to do it.</p>
 <p class="how"><strong>How it is scored:</strong> judged by eye &#8212; is it a coherent scene containing all the described elements (the rickshaw, the server rack, the hill, the rain)? All six models produced complete, coherent scenes.</p>
@@ -5367,7 +5367,7 @@ monsoon rain falling. Return only the SVG in one code block.</pre></details>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 15</span> <span class="tname">Draw a scene under strict rules</span> <span class="tmini">Qwen 10/10 · Grok 10/10 · Sonnet 10/10 · DeepSeek 10/10 · Fable 10/10 · Opus 10/10</span></summary>
+<details class="task"><summary><span class="tid">Task 25</span> <span class="tname">Draw a scene under strict rules</span> <span class="tmini">Qwen 10/10 · Grok 10/10 · Sonnet 10/10 · DeepSeek 10/10 · Fable 10/10 · Opus 10/10</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can hold many precise, simultaneous requirements in mind while still producing something that looks right. Each model was asked to generate an SVG of a Chennai monsoon street market at dusk that must satisfy 10 exact, machine-checked rules: a specific canvas size, exactly one element marked as the moon, a group of at least 3 market-stall rectangles, a group of at least 40 rain lines, a puddle drawn as a path, some text containing the word "KAAPI" (South Indian filter coffee), a sky gradient that is defined and actually used, only hex colors (no color names), no more than 400 total drawing elements, and a technically valid file.</p>
 <p class="how"><strong>How it is scored:</strong> an automated check runs through all 10 rules and confirms each one is satisfied &#8212; no human judgment involved. All six models scored a perfect 10 out of 10, including DeepSeek run at its strongest reasoning mode. Interestingly, that doesn't mean the drawings are equally detailed: this check rewards following the rules, not adding extra detail &#8212; Grok passed with about 79 drawing elements while Qwen used roughly 237.</p>
