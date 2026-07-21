@@ -386,6 +386,13 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   reason: its code imports <code>NonExistentTimeError</code> from
   <code>zoneinfo</code>, a name that does not exist there, so the function never
   even runs.</p>
+  <p><strong>Re-run update (22 July):</strong> this trap turns out to be a
+  coin-flip for some models, not a fixed trait. Four fresh clean-context re-runs
+  per Claude model: <strong>Sonnet reproduced the naive-subtraction bug in 3 of
+  4 runs</strong> (its captured pass shown above was the outlier), Opus passed
+  3 of 4, and Fable failed 3 of 4 (its captured failure is real). Grok, DeepSeek
+  and Qwen re-runs are in flight &mdash; read the single-capture labels on these
+  cards accordingly.</p>
 
   <div class="callout">
     <p><strong>The question every single model got wrong (added 21 July).</strong>
@@ -397,21 +404,35 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
     answered 12.</strong> Every other question on the same task, every model got
     right; this one specific hyphen-and-em-dash counting rule tripped every single
     system tested, identically. It's the single most consistent result on this
-    entire page.</p>
+    entire page. <strong>Re-run update (22 July):</strong> four fresh re-runs per
+    Claude model confirm the 12-vs-13 miss in every single sample &mdash; and
+    surfaced one more: <strong>Opus missed the vowel-count question in all four
+    fresh runs</strong> (answering 6 where the correct count is 8), so its
+    captured 4/5 was the outlier &mdash; fresh Opus runs score 3/5. Fable held at
+    4/5 in all four re-runs; Sonnet in three of four (one run also fumbled the
+    string reversal).</p>
   </div>
 
   <p>One more result from the new battery, in the opposite direction: a
   misdirection-reasoning task (T21) reworded the classic fox/chicken/grain
   river-crossing puzzle with a boat that holds two items instead of one. Five of
-  six models solved it correctly (3 crossings). <strong>Claude Sonnet 5 answered
-  "1"</strong> &mdash; a plan that moves the fox and grain across together but
-  never gets the chicken across the river at all, and calls the puzzle finished.
-  Unlike the two traps above, this isn't a one-character slip or a rare edge
-  case &mdash; it's the only outright reasoning failure on the whole page, and it
-  belongs to the model that leads every other model here on raw coding checks.</p>
+  six models solved it correctly (3 crossings). <strong>Claude Sonnet 5's captured
+  sample answered "1"</strong> &mdash; a plan that moves the fox and grain across
+  together but never gets the chicken across the river at all, and calls the
+  puzzle finished. <strong>Re-run update (22 July): that failure did not survive
+  reproduction.</strong> Four fresh clean-context re-runs of Sonnet all solved the
+  puzzle correctly, via two different valid 3-crossing routes &mdash; the captured
+  miss was a 1-in-5 outlier, not a stable trait. An earlier version of this page
+  called it the only outright reasoning failure here; at n=4 that claim does not
+  hold, and per-task claims on this page are being restated as pass rates as
+  re-runs land.</p>
 
   <p>That is the whole story of the gap. <strong>Qwen and Grok</strong> sidestepped
-  both traps and finished clean. <strong>DeepSeek</strong>, run at its strongest
+  both traps and finished clean in the captured runs &mdash; though re-running is
+  softening that too: four fresh re-runs of Grok on the ledger task came back
+  clean only 2 of 4 times, with two distinct single-case misses (a
+  comma-bearing date it had previously parsed, and a basic INR row), so
+  &ldquo;clean&rdquo; there is fragile rather than robust. <strong>DeepSeek</strong>, run at its strongest
   reasoning setting, avoided the comma trap but still let one bad date through on
   the ledger task. <strong>Fable</strong> also avoided the comma trap but missed the
   calendar check in both places it appears. <strong>Sonnet</strong> used a real
@@ -5165,7 +5186,7 @@ Q4. 1/2 — flips are independent; past results don't matter.</pre></div>
 Q2. 5 minutes — each machine independently makes one widget in 5 minutes.
 Q3. 1 — the farmer can take both the fox and the grain (or fox+chicken+grain isn't needed) since boat holds two items, fox and grain together, leaving chicken alone safely, all in one crossing).
 Q4. 1/2 — coin flips are independent, past results don't affect the next flip.</pre></div>
-<p class="failnote">The bug isn&rsquo;t an off-by-one, it&rsquo;s a genuine reasoning failure: Sonnet answered 1 crossing for the rewritten river-crossing puzzle (correct is 3), proposing that the farmer take the fox and the grain across together in a single trip and leave the chicken behind on the near bank &mdash; a plan that never actually finishes getting everything across. Q1, Q2, and Q4 are all correct.</p>
+<p class="failnote">Original note: Sonnet answered 1 crossing for the rewritten river-crossing puzzle (correct is 3), proposing that the farmer take the fox and the grain across together in a single trip and leave the chicken behind on the near bank &mdash; a plan that never actually finishes getting everything across. Q1, Q2, and Q4 are all correct. <strong>Re-run update (22 July): four fresh clean-context samples of Sonnet all answered the river-crossing correctly (3 crossings, via two different valid routes). The captured miss shown above was the 1-in-5 outlier, not Sonnet&rsquo;s usual behaviour &mdash; a sampling artifact, not the genuine reasoning failure this note originally called it.</strong></p>
 <div class="modelout"><div class="mo-h"><span class="mo-name">Claude Opus 4.8</span><span class="tag ok">4/4</span></div><pre>Q1. $0.05 — the ball is 5¢ and the bat $1.05, differing by exactly $1.00.
 Q2. 5 minutes — each machine makes one widget in 5 minutes, so scaling machines and widgets equally keeps the time fixed.
 Q3. 3 — take two items over, return empty, take the last (e.g., fox+grain over, return, chicken over), which is the fewest possible since 3 items at 2 per trip needs 2 forward + 1 return.
