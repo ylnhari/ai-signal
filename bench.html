@@ -364,7 +364,7 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   the exact same automatic checks. A task counts as a full pass for a run only
   if <em>every</em> one of its hidden checks passes; the table below reports
   how many of the four runs were a full pass, per task, per model. Six tasks
-  (T3, T8, T12, T15, T19, T21) turn out to discriminate models sharply enough
+  (Tasks 3, 8, 12, 15, 19 and 21) turn out to discriminate models sharply enough
   from run to run to be worth a full table; the other nineteen tasks are a
   clean four-for-four for every model that has completed them so far &mdash;
   see the summary underneath.</p>
@@ -380,12 +380,12 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   <table>
     <thead><tr>
       <th class="model">Model</th>
-      <th>T3<br><span class="mono" style="font-size:.85em">comma parser</span></th>
-      <th>T8<br><span class="mono" style="font-size:.85em">ledger parser</span></th>
-      <th>T12<br><span class="mono" style="font-size:.85em">DST duration</span></th>
-      <th>T15<br><span class="mono" style="font-size:.85em">SQL NULLs</span></th>
-      <th>T19<br><span class="mono" style="font-size:.85em">char-counting</span></th>
-      <th>T21<br><span class="mono" style="font-size:.85em">misdirection</span></th>
+      <th>Task 3<br><span class="mono" style="font-size:.85em">comma parser</span></th>
+      <th>Task 8<br><span class="mono" style="font-size:.85em">ledger parser</span></th>
+      <th>Task 12<br><span class="mono" style="font-size:.85em">DST duration</span></th>
+      <th>Task 15<br><span class="mono" style="font-size:.85em">SQL NULLs</span></th>
+      <th>Task 19<br><span class="mono" style="font-size:.85em">char-counting</span></th>
+      <th>Task 21<br><span class="mono" style="font-size:.85em">misdirection</span></th>
     </tr></thead>
     <tbody>
       <tr>
@@ -426,36 +426,36 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   <p class="note">Reading the table: a cell is the count of runs (out of 4)
   that passed <em>every</em> hidden check for that task. &mdash; means no runs
   have been done yet for that model on that task. *Qwen has completed four
-  runs on T3 and T21 (4/4 each); T8 has one run so far (a pass); T12 is at 1 of
-  4; T15 has no runs yet. &dagger;One run each for Opus's T8, Fable's T3, and
-  Sonnet's T12 had a saving problem on our side &mdash; the code came back with
+  runs on Tasks 3, 12, 15, 19 and 21; Task 8 has one run so far (a pass) with
+  the rest queued. &dagger;One run each for Opus's Task 8, Fable's Task 3, and
+  Sonnet's Task 12 had a saving problem on our side &mdash; the code came back with
   stray explanation text wrapped around it, so it never runs, and it's counted
   here as a fail since that's what the saved file actually contains. Counting
-  only the three usable runs for each: Opus is clean 3 of 3 on T8, Fable 2 of 3
-  on T3, and Sonnet 1 of 3 on T12.</p>
+  only the three usable runs for each: Opus is clean 3 of 3 on Task 8, Fable
+  2 of 3 on Task 3, and Sonnet 1 of 3 on Task 12.</p>
   <p class="note"><strong>Everything outside these six tasks:</strong> all
   three Claude models (Sonnet, Opus, Fable) are a clean four-for-four on every
-  one of the other nineteen tasks &mdash; T1, T2, T4, T5, T6, T7, T9, T10, T11,
-  T13, T14, T16, T17, T18, T20, L1, L2, X1 (judged by eye), and X2 (10/10 on
-  every run) &mdash; so nothing outside these six tasks tells the three Claude
+  one of the other nineteen tasks &mdash; Tasks 1, 2, 4&ndash;7, 9&ndash;11,
+  13, 14, 16&ndash;18, 20, and 22 through 25 (Task 24 judged by eye; Task 25
+  10 of 10 on every run) &mdash; so nothing outside these six tasks tells the three Claude
   models apart. <strong>Grok 4.5 and DeepSeek have both been run four times on
   the rest of the lineup</strong>: Grok is a clean 4/4 on every one of these
-  nineteen tasks, including L1, L2, X1, and X2 &mdash; all twenty-five tasks
+  nineteen tasks, including 22 through 25 &mdash; all twenty-five tasks
   done. DeepSeek is likewise a clean 4/4 on all fifteen of the code/reasoning
-  tasks in this group (T1, T2, T4&ndash;T7, T9&ndash;T11, T13, T14,
-  T16&ndash;T18, T20); its four remaining tasks &mdash; L1, L2, X1, and X2
+  tasks in this group (Tasks 1, 2, 4&ndash;7, 9&ndash;11, 13, 14,
+  16&ndash;18 and 20); its four remaining tasks &mdash; 22 through 25
   &mdash; haven't had a four-run check yet, shown as dashes below. <strong>Qwen</strong>
-  has only had the four-run check on the six tasks above so far; the other
-  nineteen are dashes for it too. <strong>Gemini 3.5 Flash-Lite</strong>, the
+  has had the four-run check on five of the six tasks above (Task 8 is
+  mid-way); the other nineteen are dashes for it for now. <strong>Gemini 3.5 Flash-Lite</strong>, the
   one model with a four-run check on every task, has three more misses hiding
   outside the six above: it's clean only 2 of 4 on the cancellation-merge task
-  (T6), 1 of 4 on grapheme truncation (T14), 1 of 4 on the WAVE acrostic poem
-  (T20, missing the seven-words-per-line rule in 3 of its 4 runs), and 0 of 4
-  on spotting all four planted contradictions (L2, always finding the device
+  (Task 6), 1 of 4 on grapheme truncation (Task 14), 1 of 4 on the WAVE
+  acrostic poem (Task 20, missing the seven-words-per-line rule in 3 of its 4 runs), and 0 of 4
+  on spotting all four planted contradictions (Task 23, always finding the device
   and timeout conflicts but consistently dismissing at least one of the other
   two as not a real conflict). Gemini 3.6 Flash is a clean 4/4 on every one of
-  these nineteen tasks (its strict-drawing task, X2, has only one run so far,
-  a clean 10/10).</p>
+  these nineteen tasks except the strict-drawing one (Task 25), where three of
+  its four runs were flawless and one scored 9 of 10.</p>
 
   <h2>The one kind of task that told them apart</h2>
   <p>Ten of the eleven coding tasks were passed by every model tested, including the
@@ -512,7 +512,7 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   failing the identical three thousands-comma cases every time.</p>
 
   <h3>Trap 3 &mdash; a decade-old Python subtlety, not a new one (added 21 July)</h3>
-  <p>A harder task (T12) asks for the real elapsed seconds between two local
+  <p>A harder task (Task 12) asks for the real elapsed seconds between two local
   wall-clock times in a timezone that observes daylight saving, across the exact
   moment the clock jumps. Python's own documentation contains the trap: when you
   subtract two <em>aware</em> datetimes that happen to share the identical
@@ -565,7 +565,7 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
 
   <div class="callout">
     <p><strong>The question every single model gets wrong.</strong>
-    A non-code task (T19) asks five character-counting questions, including:
+    A non-code task (Task 19) asks five character-counting questions, including:
     count the words in a sentence where a hyphenated compound like
     "twenty-first-century" counts as ONE word and a standalone em dash does not
     count as a word at all. The correct count is <strong>13</strong>. <strong>All
@@ -584,7 +584,7 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
     wrong number for the same sentence, run after run.</p>
   </div>
 
-  <p>A misdirection-reasoning task (T21) reworded the classic fox/chicken/grain
+  <p>A misdirection-reasoning task (Task 21) reworded the classic fox/chicken/grain
   river-crossing puzzle with a boat that holds two items instead of one.
   <strong>Six of the eight models solve it correctly (3 crossings) in every one
   of their four runs</strong> &mdash; Sonnet, Opus, Fable, Grok, DeepSeek, and
@@ -597,7 +597,7 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   <p>That is the shape of the gap between the two hardest parsing tasks.
   Across four runs each: <strong>Qwen</strong> is clean on the comma trap
   (4/4) and has one clean run so far on the ledger task. <strong>Grok</strong>
-  sidesteps the comma trap most of the time (3/4), but the ledger task (T8) is
+  sidesteps the comma trap most of the time (3/4), but the ledger task (Task 8) is
   fragile for it too &mdash; clean only 2 of 4, with two distinct single-case
   misses (a comma-bearing date, and a basic INR row). <strong>DeepSeek</strong>,
   run at its strongest reasoning setting, avoids the comma trap about half the
@@ -4050,7 +4050,7 @@ FROM ranked
 WHERE rnk &lt;= 2
 ORDER BY city ASC, month ASC, revenue DESC, product ASC;</pre></div></details>
 </div></details>
-<details class="task"><summary><span class="tid">T12</span> <span class="tname">Elapsed real seconds across a DST change</span> <span class="tmini">Sonnet 1/4&dagger; &middot; Opus 3/4 &middot; Fable 4/4 &middot; Grok 2/4 &middot; DeepSeek 2/4 &middot; Qwen 1/4 &middot; Gemini 3.6 Flash 2/4 &middot; 3.5 Flash-Lite 0/4 &mdash; a coin-flip for most of the field</span></summary>
+<details class="task"><summary><span class="tid">Task 12</span> <span class="tname">Elapsed real seconds across a DST change</span> <span class="tmini">Sonnet 1/4&dagger; &middot; Opus 3/4 &middot; Fable 4/4 &middot; Grok 2/4 &middot; DeepSeek 2/4 &middot; Qwen 1/4 &middot; Gemini 3.6 Flash 2/4 &middot; 3.5 Flash-Lite 0/4 &mdash; a coin-flip for most of the field</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> computing the genuine number of elapsed seconds between two local wall-clock readings when a daylight-saving transition might sit anywhere between them, plus two explicit edge cases the prompt spells out: a wall-clock reading that never happens because the clock skips forward over it, and a wall-clock reading that happens twice because the clock falls back over it. It is a fair test because the &ldquo;obvious&rdquo; way to compute a duration in Python &mdash; build two timezone-aware <code>datetime</code> objects and subtract them &mdash; has a documented, easy-to-miss trap: per the CPython docs, if both operands are aware and share the same <code>tzinfo</code> attribute, that shared <code>tzinfo</code> is ignored entirely and the two <em>naive</em> wall-clock values are compared instead, silently discarding any DST offset difference between them.</p>
 <p class="how"><strong>How it is scored:</strong> eight hidden cases run from simple same-day and cross-midnight spans with no DST involved, up through spans that straddle the March spring-forward and November fall-back transitions, and the two explicit resolution rules from the prompt &mdash; a skipped (&ldquo;gap&rdquo;) local time resolved with the pre-jump offset, and a doubled (&ldquo;ambiguous&rdquo;) local time resolved to its first occurrence.</p>
@@ -4217,7 +4217,7 @@ def elapsed_seconds(tz_name, start, end):
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">T13</span> <span class="tname">Splitting a bill to the exact cent</span> <span class="tmini">all pass</span></summary>
+<details class="task"><summary><span class="tid">Task 13</span> <span class="tname">Splitting a bill to the exact cent</span> <span class="tmini">all pass</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> splitting a bill down to the exact cent requires exact decimal arithmetic the whole way through &mdash; never rounding through binary floating point at any intermediate step &mdash; correctly applying Python&rsquo;s less-common ROUND_HALF_EVEN &ldquo;banker&rsquo;s rounding&rdquo; when a total lands exactly halfway between two cents, and then distributing whatever leftover cents remain to the first N parts in a fixed, deterministic order.</p>
 <p class="how"><strong>How it is scored:</strong> cases check ordinary splits, an exactly-halfway total (2.675) that must round <em>up</em> because the digit before the 5 is odd, another exactly-halfway total (1.005) that must stay <em>down</em> because that digit is even, and remainder distribution of one or two leftover cents &mdash; verifying every case that the returned parts sum back to the exact rounded total, with no cent lost or invented.</p>
@@ -4392,7 +4392,7 @@ def split_bill(amounts, n):
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">T14</span> <span class="tname">Truncating to N user-perceived characters</span> <span class="tmini">all pass</span></summary>
+<details class="task"><summary><span class="tid">Task 14</span> <span class="tname">Truncating to N user-perceived characters</span> <span class="tmini">all pass</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> what a person perceives as one &ldquo;character&rdquo; often spans several Unicode code points &mdash; a base letter plus a combining accent mark, or a chain of emoji glued together end to end with zero-width joiners into a single glyph (the way a family emoji is really several people-emoji joined into one picture). This tests whether a model implements that clustering logic explicitly, code point by code point, rather than assuming <code>len(s)</code> or a naive slice lines up with what a user would call one character.</p>
 <p class="how"><strong>How it is scored:</strong> cases include plain ASCII truncation and an exact-boundary case that should NOT be truncated, a combining accent mark that must stay glued to the base letter it follows, an astral-plane emoji that must still count as a single cluster, and a ZWJ-joined emoji sequence that must never be split apart even though it spans multiple code points.</p>
@@ -4611,7 +4611,7 @@ def truncate_graphemes(s, n):
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">T15</span> <span class="tname">SQL: NULL semantics and join fan-out</span> <span class="tmini">Sonnet 4/4 &middot; Opus 4/4 &middot; Fable 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Qwen &mdash; &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 2/4</span></summary>
+<details class="task"><summary><span class="tid">Task 15</span> <span class="tname">SQL: NULL semantics and join fan-out</span> <span class="tmini">Sonnet 4/4 &middot; Opus 4/4 &middot; Fable 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Qwen 4/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 2/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> aggregating two independent one-to-many child tables (a customer&rsquo;s orders and their notes) off the same parent row without letting a join between the two multiply rows against each other &mdash; the classic &ldquo;join fan-out&rdquo; bug &mdash; while also getting three-valued NULL logic right: an order that exists but has not yet been priced should still count toward <code>total_orders</code> without counting toward <code>priced_orders</code> or <code>total_revenue</code>, and a stray NULL row in the exclusion table must not accidentally flag (or unflag) everyone.</p>
 <p class="how"><strong>How it is scored:</strong> checks confirm a customer&rsquo;s order totals do not change depending on how many notes they have and vice versa, that unpriced orders are counted separately from priced ones, that a customer with no children at all gets zeros rather than NULLs, and that a NULL row inserted into the flagged table does not silently exclude every customer via an unfiltered <code>NOT IN</code>.</p>
@@ -4792,7 +4792,7 @@ ORDER BY c.name ASC;</pre></div>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">T16</span> <span class="tname">Finding every pattern occurrence, in linear time</span> <span class="tmini">all pass</span></summary>
+<details class="task"><summary><span class="tid">Task 16</span> <span class="tname">Finding every pattern occurrence, in linear time</span> <span class="tmini">all pass</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> implementing substring search entirely from scratch &mdash; no <code>str.find</code>, no <code>in</code>, no <code>re</code> &mdash; while guaranteeing linear time. This is the kind of task where a solution that looks correct on small inputs (re-comparing characters from scratch at every starting position) is secretly quadratic, and only an adversarial large input exposes it.</p>
 <p class="how"><strong>How it is scored:</strong> small correctness cases check overlapping matches, a pattern longer than the text, and partial-overlap edge cases; a hidden 250,000-character adversarial case (a near-total-match pattern that never actually matches) is timed against a hard wall-clock budget that only a genuinely linear algorithm &mdash; every model here reached for KMP &mdash; can clear.</p>
@@ -5009,7 +5009,7 @@ Return only the complete function in one code block.</pre></details>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">T17</span> <span class="tname">SQL: the window-frame default trap</span> <span class="tmini">all pass</span></summary>
+<details class="task"><summary><span class="tid">Task 17</span> <span class="tname">SQL: the window-frame default trap</span> <span class="tmini">all pass</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> SQLite&rsquo;s window functions have a subtle default: a window with an <code>ORDER BY</code> but no explicit <code>ROWS</code>/<code>RANGE</code> clause defaults to a frame that only reaches the <em>current row</em>, not the whole partition. A <code>LAST_VALUE(...) OVER (PARTITION BY ... ORDER BY ...)</code> written without an explicit unbounded frame silently returns each row&rsquo;s own value instead of the true last event for that user &mdash; a bug invisible unless you know to look for it.</p>
 <p class="how"><strong>How it is scored:</strong> checks confirm <code>latest_amt</code> is identical across every row belonging to one user (not row-dependent), that a tie on the greatest timestamp is broken by the greatest <code>event_id</code>, and that a single-event user still comes out right &mdash; a case a naive default-frame query would still pass, which is exactly what makes the trap easy to miss.</p>
@@ -5103,7 +5103,7 @@ ORDER BY user_id, ts, event_id;</pre></div>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">T18</span> <span class="tname">A factory of validators (closures &amp; caches)</span> <span class="tmini">all pass</span></summary>
+<details class="task"><summary><span class="tid">Task 18</span> <span class="tname">A factory of validators (closures &amp; caches)</span> <span class="tmini">all pass</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> a classic Python late-binding closure trap: build several callables in a loop, each one supposed to remember its <em>own</em> spec from the moment it was created. A careless implementation lets every closure share the loop variable&rsquo;s final value instead of capturing it at creation time, so every validator silently ends up enforcing the <em>last</em> spec in the list. On top of that, each validator needs its own private cache dict rather than sharing one with its siblings.</p>
 <p class="how"><strong>How it is scored:</strong> checks confirm each validator enforces its own <code>min_len</code> (not the last spec&rsquo;s), boundary lengths pass/fail correctly, caches stay private per validator and per separate call to <code>make_validators</code>, and repeated calls with the same value are stable and never create duplicate cache entries.</p>
@@ -5225,7 +5225,7 @@ Validators may be called in any order, and any number of times.</pre></details>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">T19</span> <span class="tname">Character &amp; token-counting traps</span> <span class="tmini">never a perfect 5/5, any run: Sonnet, Opus, Fable, Grok, DeepSeek, Qwen, Gemini 3.6 Flash &middot; Gemini 3.5 Flash-Lite: perfect in 3 of 4 runs</span></summary>
+<details class="task"><summary><span class="tid">Task 19</span> <span class="tname">Character &amp; token-counting traps</span> <span class="tmini">never a perfect 5/5, any run: Sonnet, Opus, Fable, Grok, DeepSeek, Qwen, Gemini 3.6 Flash &middot; Gemini 3.5 Flash-Lite: perfect in 3 of 4 runs</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model actually reasons over a word&rsquo;s literal character sequence or just pattern-matches against a memorized &ldquo;shape&rdquo; of it &mdash; the same family of trap as the well-known &ldquo;how many r&rsquo;s in strawberry&rdquo; question. Five independent sub-questions: two letter-counting tasks, a full backwards spelling of a longer word, a vowel count, and a hyphen-aware word count where a hyphenated compound counts as exactly one word and a standalone em dash counts as none.</p>
 <p class="how"><strong>How it is scored:</strong> each of the five answers (Q1-Q5) is checked independently against its exact correct value or string, so a partial score is visible rather than an all-or-nothing pass.</p>
@@ -5288,7 +5288,7 @@ Q5. 12</pre></div>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">T20</span> <span class="tname">A constrained WAVE acrostic poem</span> <span class="tmini">Qwen 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Fable 4/4 &middot; Sonnet 4/4 &middot; Opus 4/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 1/4</span></summary>
+<details class="task"><summary><span class="tid">Task 20</span> <span class="tname">A constrained WAVE acrostic poem</span> <span class="tmini">Qwen 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Fable 4/4 &middot; Sonnet 4/4 &middot; Opus 4/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 1/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> a creative-writing task scored with zero subjectivity &mdash; four independent structural constraints must all hold at once: exactly 4 lines, the first letters spelling &ldquo;WAVE&rdquo; top to bottom, exactly 7 words on every single line, and lines 2 and 4 ending in the identical word. It tests whether a model can hold several hard formatting constraints in its head simultaneously while still producing readable language, not whether the poem is any good.</p>
 <p class="how"><strong>How it is scored:</strong> this is graded purely on structure, not taste &mdash; line count, the four acrostic letters, the per-line word count, and whether lines 2 and 4 share a last word are each checked mechanically and independently. All six original models satisfied every constraint. Both Gemini models were checked across four separate runs: <strong>3.6 Flash is clean 4 of 4</strong>, but <strong>3.5 Flash-Lite is clean only 1 of 4</strong> &mdash; its poems keep the acrostic and the shared last word on lines 2 and 4, but three of its four runs go long on the seven-words-per-line count (8 words instead of 7 on at least one line), a constraint every other model here hits consistently.</p>
@@ -5332,7 +5332,7 @@ Every wave returns again with the tide</pre></div>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">T21</span> <span class="tname">Misdirection reasoning</span> <span class="tmini">Qwen 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Fable 4/4 &middot; Sonnet 4/4 &middot; Opus 4/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 0/4 (the only model to fail this consistently)</span></summary>
+<details class="task"><summary><span class="tid">Task 21</span> <span class="tname">Misdirection reasoning</span> <span class="tmini">Qwen 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Fable 4/4 &middot; Sonnet 4/4 &middot; Opus 4/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 0/4 (the only model to fail this consistently)</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> four classic &ldquo;trick&rdquo; logic questions, each restated just enough to defeat rote memorization of its textbook answer: the bat-and-ball problem, the parallel-machines-and-widgets problem, a river-crossing puzzle rewritten with a two-item boat instead of the classic one-item boat, and the gambler&rsquo;s-fallacy coin-flip question. Each one rewards actually working through the constraint rather than pattern-matching to a memorized answer.</p>
 <p class="how"><strong>How it is scored:</strong> each of the four answers (Q1-Q4) is checked independently against its correct value, so partial credit is visible. Q3 in particular needs the true minimum number of crossings under the rewritten two-item-boat rule (3), not the classic single-item puzzle&rsquo;s answer.</p>
@@ -5391,7 +5391,7 @@ Q3. 3 — take two items over, return empty, take the last (e.g., fox+grain over
 Q4. 1/2 — the coin is fair and flips are independent, so prior heads don't change it.</pre></div>
 </details>
 </div></details>
-<details class="task"><summary><span class="tid">Task 22</span> <span class="tname">Recall from a big messy archive</span> <span class="tmini">Qwen 5/5 · Grok 5/5 · Sonnet 5/5 · DeepSeek 5/5 · Fable 5/5 · Opus 5/5</span></summary>
+<details class="task"><summary><span class="tid">Task 22</span> <span class="tname">Recall from a big messy archive</span> <span class="tmini">Sonnet 4/4 · Opus 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.6 Flash 4/4 · 3.5 Flash-Lite 4/4 · DeepSeek 1/1 run · Qwen 1/1 run</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can find and reconcile specific facts that are scattered across a long, messy, contradictory-looking document without inventing anything. The model is given a roughly 51KB archive of 42 meeting-minutes for a fictional project (pasted directly into the conversation) and then asked five precise factual questions: the final approved budget after several revisions, who owns a migration task and their role, when a load-test target changed and to what, how many times a launch was deferred and its final date, and which vendor was rejected and why.</p>
 <p class="how"><strong>How it is scored:</strong> each of the five answers is checked against the one correct fact buried in the document. All six models got every question right &mdash; a clean 5 out of 5 across the board, with the exact facts and meeting references intact.</p>
@@ -5439,7 +5439,7 @@ Answer precisely, citing no outside knowledge:
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 23</span> <span class="tname">Spot the contradictions</span> <span class="tmini">Qwen 4/4 · Grok 4/4 · Sonnet 4/4 · DeepSeek 4/4 · Fable 4/4 · Opus 4/4</span></summary>
+<details class="task"><summary><span class="tid">Task 23</span> <span class="tname">Spot the contradictions</span> <span class="tmini">Sonnet 4/4 · Opus 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.6 Flash 4/4 · 3.5 Flash-Lite 0/4 · DeepSeek 1/1 run · Qwen 1/1 run</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> careful reading and logical consistency-checking over a long text. The model is given a single product-specification document (pasted directly into the conversation) that has contradictions deliberately planted in it — statements that cannot both be true — and has to find every one of them, quote both sides, and cite the section numbers, without getting distracted by mere style issues that aren't actual contradictions.</p>
 <p class="how"><strong>How it is scored:</strong> did the model find every planted contradiction, and did it avoid raising false alarms about things that weren't real contradictions? All six models found all four with zero false alarms &mdash; each quoting both sides and citing the section numbers.</p>
@@ -5570,7 +5570,7 @@ Section 14: "Free-tier accounts are limited to a single project."
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 24</span> <span class="tname">Draw a scene, freely</span> <span class="tmini">Qwen coherent · Grok coherent · Sonnet coherent · DeepSeek coherent · Fable coherent · Opus coherent</span></summary>
+<details class="task"><summary><span class="tid">Task 24</span> <span class="tname">Draw a scene, freely</span> <span class="tmini">Sonnet coherent · Opus coherent · Fable coherent · Grok coherent · DeepSeek coherent · Qwen coherent · Gemini: drawn, not yet checked by eye</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> spatial imagination and the ability to turn a described scene into working drawing-code. Each model was asked to generate an SVG &#8212; a text-based image format where the model literally writes code that a browser renders into a picture &#8212; of an auto-rickshaw towing a server rack up a steep hill in monsoon rain, with no constraints on how to do it.</p>
 <p class="how"><strong>How it is scored:</strong> judged by eye &#8212; is it a coherent scene containing all the described elements (the rickshaw, the server rack, the hill, the rain)? All six models produced complete, coherent scenes.</p>
@@ -5586,7 +5586,7 @@ monsoon rain falling. Return only the SVG in one code block.</pre></details>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 25</span> <span class="tname">Draw a scene under strict rules</span> <span class="tmini">Qwen 10/10 · Grok 10/10 · Sonnet 10/10 · DeepSeek 10/10 · Fable 10/10 · Opus 10/10</span></summary>
+<details class="task"><summary><span class="tid">Task 25</span> <span class="tname">Draw a scene under strict rules</span> <span class="tmini">Sonnet 4/4 · Opus 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.5 Flash-Lite 4/4 · 3.6 Flash 3/4 (one run scored 9 of 10) · DeepSeek 1/1 run · Qwen 1/1 run</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can hold many precise, simultaneous requirements in mind while still producing something that looks right. Each model was asked to generate an SVG of a Chennai monsoon street market at dusk that must satisfy 10 exact, machine-checked rules: a specific canvas size, exactly one element marked as the moon, a group of at least 3 market-stall rectangles, a group of at least 40 rain lines, a puddle drawn as a path, some text containing the word "KAAPI" (South Indian filter coffee), a sky gradient that is defined and actually used, only hex colors (no color names), no more than 400 total drawing elements, and a technically valid file.</p>
 <p class="how"><strong>How it is scored:</strong> an automated check runs through all 10 rules and confirms each one is satisfied &#8212; no human judgment involved. All six models scored a perfect 10 out of 10, including DeepSeek run at its strongest reasoning mode. Interestingly, that doesn't mean the drawings are equally detailed: this check rewards following the rules, not adding extra detail &#8212; Grok passed with about 79 drawing elements while Qwen used roughly 237.</p>
