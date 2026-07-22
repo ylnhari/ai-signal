@@ -407,11 +407,11 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   commas:</p>
   <div class="codegrid two">
     <div class="codecard">
-      <div class="codecard-h"><span class="name">Qwen, Grok, DeepSeek &amp; Fable</span><span class="tag ok">handled it</span></div>
+      <div class="codecard-h"><span class="name">Sonnet &amp; Qwen (every run)</span><span class="tag ok">handled it</span></div>
       <pre>line.split(',', 2)   <span style="color:var(--muted)"># split on the first two commas only</span></pre>
     </div>
     <div class="codecard">
-      <div class="codecard-h"><span class="name">Sonnet &amp; Opus</span><span class="tag no">dropped the row</span></div>
+      <div class="codecard-h"><span class="name">Both Geminis (every run); Opus &amp; others in failing runs</span><span class="tag no">dropped the row</span></div>
       <pre>line.split(',')      <span style="color:var(--muted)"># splits 1,200.50 apart, row is lost</span></pre>
     </div>
   </div>
