@@ -164,26 +164,17 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   tasks, every model, added as they ship.</p>
   <p class="byline">By Hari Yelesetty &middot; updated 22 July 2026</p>
 
-  <p class="lead">The lineup so far, in the order I ran them &mdash; I add each
-  notable new model as it lands: <strong>Qwen3.8-Max-Preview</strong> (Alibaba),
-  <strong>Grok&nbsp;4.5</strong> (xAI), <strong>DeepSeek</strong> (run at its
-  strongest available reasoning setting), three from Anthropic &mdash;
-  <strong>Claude&nbsp;Fable&nbsp;5</strong>, <strong>Claude&nbsp;Sonnet&nbsp;5</strong>,
-  and <strong>Claude&nbsp;Opus&nbsp;4.8</strong> &mdash; and now two from Google,
-  <strong>Gemini&nbsp;3.6&nbsp;Flash</strong> and <strong>Gemini&nbsp;3.5&nbsp;Flash-Lite</strong>.
-  Each one gets the identical set of tasks, typed into its normal chat website, at
-  its out-of-the-box settings (DeepSeek's strongest mode is the one exception,
-  noted where it applies; the two Gemini models were run via Google's API
-  at default settings rather than a chat website &mdash; noted below). Then I
-  grade the answers, most of them automatically, against the exact edge cases a
-  rushed answer trips over &mdash; and re-run every task four times per model
-  from a clean context to check whether a single answer was typical or a
-  fluke.</p>
+  <p>The lineup: Claude&nbsp;Sonnet&nbsp;5, Claude&nbsp;Opus&nbsp;4.8 and Claude&nbsp;Fable&nbsp;5
+  (Anthropic), Grok&nbsp;4.5 (xAI), DeepSeek (run at its strongest reasoning
+  setting), Qwen3.8-Max-Preview (Alibaba), Gemini&nbsp;3.6&nbsp;Flash and
+  Gemini&nbsp;3.5&nbsp;Flash-Lite (Google). Each model gets the identical tasks at
+  out-of-the-box settings &mdash; typed into its normal chat website, except the
+  two Gemini models, which ran through Google's API at default settings. Answers
+  are graded, most of them automatically, against the exact edge cases a rushed
+  answer trips over &mdash; and every task is run four times per model from a
+  clean context, so no single fluke decides a number.</p>
 
-  <p>The tasks and the checks stay fixed, so every model is measured exactly the
-  same way &mdash; which means the table below simply grows a row each time a new
-  model is run. Any "Model A vs Model B" question you have can be answered by
-  reading two rows off it.</p>
+  
 
   <p>The tasks come in four families, and each one is built to probe a specific
   ability &mdash; and to hide a small trap that a careless answer walks straight
@@ -223,11 +214,9 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   <ul>
     <li><strong>Same conditions.</strong> Every prompt was pasted <em>word for
       word</em> into each model's own chat website, and I took the first answer
-      &mdash; one attempt, no coaching. Each model was run at the reasoning mode
-      shown next to its name in the table above. Going forward, the aim is to run
-      every model at its <em>strongest</em> available mode, for the fairest
-      possible comparison; the first round shown here used each site's own
-      default setting instead, which is why the modes differ row to row.</li>
+      &mdash; one attempt, no coaching. Each model runs at the mode shown next
+      to its name in the table: each site's own default, except DeepSeek, which
+      is deliberately run at its strongest reasoning setting.</li>
     <li><strong>Coding, graded automatically.</strong> Each program was run against
       a set of hidden checks &mdash; 124 across the eighteen tasks &mdash; that hammer
       the edge cases. A task only counts as passed if <em>every</em> one of its
@@ -246,21 +235,8 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
       for "close."</li>
     <li><strong>The checks stay private</strong> so no model can "study to the
       test." The prompts and the answers, though, are all here for you to inspect.</li>
-    <li><strong>Reproducibility, checked directly.</strong> A single answer can
-      make a coin-flip behavior look like a fixed trait, so every task is run
-      four separate times per model, from a fresh chat each time with no memory
-      of any earlier attempt, graded the same deterministic way, before any
-      finding is treated as a stable trait rather than a one-off. A separate
-      contamination check ran two tasks for the three Claude models completely
-      blind (no tool or file access, prompt piped in via stdin only, outside
-      this project entirely) and found the same scores as under normal
-      conditions &mdash; evidence, not proof, against those particular
-      tool-assisted runs having inflated results.</li>
-    <li><strong>Gemini's two entries were run differently.</strong> Every other
-      model was typed into its own chat website by hand. The two Gemini models
-      (3.6 Flash, 3.5 Flash-Lite) were run via Google's API at default settings
-      instead, and every number for them already reflects four separate runs,
-      not one.</li>
+    
+    
   </ul>
 
   <h2>The results</h2>
@@ -278,11 +254,11 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
     <tbody>
       <tr>
         <td class="model">Claude Sonnet 5<small>Anthropic &middot; Medium</small></td>
-        <td class="score full">121 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score gap">10 / 13</td>
+        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
       </tr>
       <tr>
         <td class="model">Claude Opus 4.8<small>Anthropic &middot; High</small></td>
-        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
+        <td class="score gap">115 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
       </tr>
       <tr>
         <td class="model">Qwen3.8-Max-Preview<small>Alibaba &middot; Think</small></td>
@@ -290,92 +266,64 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
       </tr>
       <tr>
         <td class="model">Claude Fable 5<small>Anthropic &middot; High</small></td>
-        <td class="score gap">117 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
+        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
       </tr>
       <tr>
         <td class="model">DeepSeek<small>DeepSeek &middot; Expert+DeepThink</small></td>
-        <td class="score gap">115 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
+        <td class="score gap">106 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
       </tr>
       <tr class="rowhi">
         <td class="model">Grok 4.5<small>xAI &middot; Fast</small></td>
-        <td class="score gap">113 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
+        <td class="score gap">112 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
       </tr>
       <tr>
         <td class="model">Gemini 3.5 Flash-Lite<small>Google &middot; default &middot; via API</small></td>
-        <td class="score gap">112 / 124</td><td>5 / 5</td><td class="score gap">3 / 4</td><td>not yet checked by eye</td><td class="score full">10 / 10</td><td class="score gap">12 / 13</td>
+        <td class="score gap">104 / 124</td><td>5 / 5</td><td class="score gap">2 / 4</td><td>not yet checked by eye</td><td class="score full">10 / 10</td><td class="score gap">9 / 13</td>
       </tr>
       <tr>
         <td class="model">Gemini 3.6 Flash<small>Google &middot; default &middot; via API</small></td>
-        <td class="score full">121 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score dash">10 / 10 (1 run)</td><td class="score gap">11 / 13</td>
+        <td class="score full">116 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score gap">9 / 10</td><td class="score gap">11 / 13</td>
       </tr>
     </tbody>
   </table>
   </div>
-  <p class="note">Both Gemini entries reflect four separate runs each, not one
-  attempt, since that is how they were added to this comparison &mdash; every
-  task has at least one run, and all but one (the strict-drawing task for
-  Gemini 3.6 Flash, marked above) have the full four. Gemini 3.5 Flash-Lite's
-  fact-recall score comes from an automated keyword scan rather than a human
-  read; its free drawing hasn't been checked by eye yet either.</p>
-  <p class="note">All six original models have been run on every one of the
-  twenty-five tasks, and two Gemini models have joined since. Every model that's
-  completed the contradiction-spotting test still finds all four planted
-  conflicts with zero false alarms &mdash; except Gemini 3.5 Flash-Lite, which
-  misses one (see below). <strong>Claude Sonnet 5 leads on raw coding
-  checks</strong>, and <strong>Grok 4.5 is last among the six original
-  models</strong> on that same measure, despite tying for first when this page
-  had fewer tasks. Settings were each site's own default except DeepSeek
-  (deliberately run at its strongest reasoning mode) and the two Gemini models
-  (API default, see the method note above); that's noted in the small print
-  under each name.</p>
+  <p>Gemini&nbsp;3.5&nbsp;Flash-Lite's fact-recall score comes from an automated
+  keyword scan rather than a human read, and its free drawing hasn't been
+  checked by eye yet.</p>
+  <p><strong>Reading the table.</strong> Every number is the floor a model
+  held across four separate runs &mdash; a check counts only if it passed in all
+  four &mdash; so these are results you can rely on, not lucky sittings.
+  (Qwen's row still reflects single runs on the tasks where its four-run
+  checks aren't finished; the stability table below marks those with dashes.)
+  No model sweeps the comparison: Claude&nbsp;Sonnet&nbsp;5 and
+  Claude&nbsp;Fable&nbsp;5 share the coding lead, and DeepSeek and
+  Gemini&nbsp;3.5&nbsp;Flash-Lite give up the most ground &mdash; almost always by
+  repeating one small mistake across runs rather than by failing broadly.
+  Counting whole tasks a model kept clean in every run, out of 18:
+  Sonnet&nbsp;17, Opus&nbsp;16, Fable&nbsp;16, Gemini&nbsp;3.6&nbsp;Flash&nbsp;16,
+  Grok&nbsp;15, DeepSeek&nbsp;15, Gemini&nbsp;3.5&nbsp;Flash-Lite&nbsp;12. Every
+  model finds all four planted contradictions with zero false alarms except
+  Gemini&nbsp;3.5&nbsp;Flash-Lite, which never finds more than three. Six of the
+  twenty-five tasks drive nearly all of these gaps &mdash; the stability table
+  below shows them run by run. None of it is about which model reasons
+  hardest; it's about where each one's carefulness runs out, and how
+  consistently.</p>
 
-  <p class="note"><strong>How much weight the middle of this table can carry.</strong>
-  The coding score counts individual checks passed. Count whole <em>tasks</em>
-  instead &mdash; a task counting only if every one of its checks passes &mdash; and
-  the ranking moves: by tasks-clean out of 18, it's Sonnet 17, Qwen 17,
-  DeepSeek 16, Opus 16, Grok 16, Fable 15. Both counting methods are correct; they
-  don't always agree, because the eighteen tasks carry unequal numbers of hidden
-  checks. Treat the top and bottom of the table as meaningful and the middle as
-  approximate. Six of the twenty-five tasks show real run-to-run variation for
-  at least one model &mdash; for those, the number that matters is the four-run
-  rate reported below, not a single sitting.</p>
-
-  <div class="callout">
-    <p><strong>The short version:</strong> no model sweeps this whole
-    comparison. Across four fresh runs of each model: <strong>Claude Sonnet
-    5</strong> leads on raw coding checks, and solves the misdirection puzzle
-    every time. <strong>Grok 4.5's</strong> SQL logic holds up in all four
-    runs too. The DST-elapsed-seconds task is close to a coin-flip for most of
-    the field: <strong>Opus</strong> resists it most often (clean 3 of 4);
-    <strong>Grok, DeepSeek, and Qwen</strong> each land in the exact same
-    naive-subtraction trap on roughly half their runs, via differently-shaped
-    pieces of code; both Gemini models fall into it too, one every time and one
-    on half its runs. <strong>Fable</strong> clears this task every time. Every
-    one of the eight models, with no exceptions, gives the identical wrong
-    answer to one character-counting question, in every run. None of this is
-    about which model can reason the hardest; it's about where each one's
-    carefulness runs out, and how consistently. Full story below.</p>
-  </div>
+  
 
   <h2>How steady are these results?</h2>
   <p>A single attempt can make a coin-flip behavior look like a fixed trait, in
-  either direction. So every task is checked four separate times per model,
-  from a fresh chat each time with no memory of any earlier attempt, graded by
-  the exact same automatic checks. A task counts as a full pass for a run only
-  if <em>every</em> one of its hidden checks passes; the table below reports
-  how many of the four runs were a full pass, per task, per model. Six tasks
-  (Tasks 3, 8, 12, 15, 19 and 21) turn out to discriminate models sharply enough
-  from run to run to be worth a full table; the other nineteen tasks are a
-  clean four-for-four for every model that has completed them so far &mdash;
-  see the summary underneath.</p>
-  <p class="note">A companion check: two tasks (long-document recall and the
-  closures/caches task) were also run completely <strong>blind</strong> for all
-  three Claude models &mdash; the prompt piped in via stdin only, run from an
-  empty directory with every tool disabled, so there was no way to see the
-  hidden checks or the answer key even by accident. All three models scored
-  identically clean under blind conditions as they did with normal tool access
-  &mdash; evidence (not proof) that the numbers on this page reflect real
-  capability, not incidental access to the answer.</p>
+  either direction &mdash; that's what the four runs per task are for. The table
+  reports how many of the four runs were a full pass (every hidden check) on
+  the six tasks that actually tell models apart from run to run &mdash; Tasks 3,
+  8, 12, 15, 19 and 21. The other nineteen tasks are a clean four-for-four for
+  every model that has completed them; the exceptions are summarised underneath.</p>
+  <p>A companion check: two tasks (the long-document recall and the
+  closures/caches task) were also re-run for the three Claude models in a
+  fully sealed setup &mdash; the model got the prompt text and nothing else, with
+  no tools, no files, and no possible route to the checks or answer keys. All
+  three scored exactly the same sealed as unsealed &mdash; evidence, not proof,
+  that the numbers here reflect real capability rather than lucky access.</p>
   <div class="tablewrap">
   <table>
     <thead><tr>
@@ -433,29 +381,19 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   here as a fail since that's what the saved file actually contains. Counting
   only the three usable runs for each: Opus is clean 3 of 3 on Task 8, Fable
   2 of 3 on Task 3, and Sonnet 1 of 3 on Task 12.</p>
-  <p class="note"><strong>Everything outside these six tasks:</strong> all
-  three Claude models (Sonnet, Opus, Fable) are a clean four-for-four on every
-  one of the other nineteen tasks &mdash; Tasks 1, 2, 4&ndash;7, 9&ndash;11,
-  13, 14, 16&ndash;18, 20, and 22 through 25 (Task 24 judged by eye; Task 25
-  10 of 10 on every run) &mdash; so nothing outside these six tasks tells the three Claude
-  models apart. <strong>Grok 4.5 and DeepSeek have both been run four times on
-  the rest of the lineup</strong>: Grok is a clean 4/4 on every one of these
-  nineteen tasks, including 22 through 25 &mdash; all twenty-five tasks
-  done. DeepSeek is likewise a clean 4/4 on all fifteen of the code/reasoning
-  tasks in this group (Tasks 1, 2, 4&ndash;7, 9&ndash;11, 13, 14,
-  16&ndash;18 and 20); its four remaining tasks &mdash; 22 through 25
-  &mdash; haven't had a four-run check yet, shown as dashes below. <strong>Qwen</strong>
-  has had the four-run check on five of the six tasks above (Task 8 is
-  mid-way); the other nineteen are dashes for it for now. <strong>Gemini 3.5 Flash-Lite</strong>, the
-  one model with a four-run check on every task, has three more misses hiding
-  outside the six above: it's clean only 2 of 4 on the cancellation-merge task
-  (Task 6), 1 of 4 on grapheme truncation (Task 14), 1 of 4 on the WAVE
-  acrostic poem (Task 20, missing the seven-words-per-line rule in 3 of its 4 runs), and 0 of 4
-  on spotting all four planted contradictions (Task 23, always finding the device
-  and timeout conflicts but consistently dismissing at least one of the other
-  two as not a real conflict). Gemini 3.6 Flash is a clean 4/4 on every one of
-  these nineteen tasks except the strict-drawing one (Task 25), where three of
-  its four runs were flawless and one scored 9 of 10.</p>
+  <p class="note"><strong>Outside these six tasks</strong>, every model with
+  completed runs is clean across the board &mdash; all three Claude models and
+  Grok are four-for-four on the other nineteen tasks (Task&nbsp;24 judged by
+  eye), and Grok has all twenty-five done. The exceptions:
+  Gemini&nbsp;3.5&nbsp;Flash-Lite is 2&nbsp;of&nbsp;4 on the cancellation merge
+  (Task&nbsp;6), 1&nbsp;of&nbsp;4 on grapheme truncation (Task&nbsp;14),
+  1&nbsp;of&nbsp;4 on the WAVE acrostic (Task&nbsp;20, usually missing the
+  seven-words-per-line rule), and 0&nbsp;of&nbsp;4 on the contradiction hunt
+  (Task&nbsp;23 &mdash; it always finds the device and timeout conflicts but
+  dismisses at least one of the other two). Gemini&nbsp;3.6&nbsp;Flash's one
+  blemish is the strict drawing (Task&nbsp;25): flawless in three runs, 9 of 10
+  in the fourth. DeepSeek's Tasks 22&ndash;25 and Qwen's other nineteen tasks
+  haven't had their four-run checks yet &mdash; those are the dashes.</p>
 
   <h2>The one kind of task that told them apart</h2>
   <p>Ten of the eleven coding tasks were passed by every model tested, including the
@@ -540,28 +478,15 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   reason: its code imports <code>NonExistentTimeError</code> from
   <code>zoneinfo</code>, a name that does not exist there, so the function never
   even runs.</p>
-  <p><strong>Across four fresh runs, this trap is close to a coin-flip for
-  most of the field.</strong> <strong>Sonnet passes only 1 of 4</strong>
-  &mdash; two runs reproduce the naive-subtraction bug outright, and a third
-  run's saved code had a saving problem on our side (see the dagger note
-  above) that, on inspection, contains the identical one-line bug, though our
-  automatic check can only confirm 2 of the 3 fails directly. Opus passes 3 of
-  4. <strong>Fable is clean 4 of 4</strong> on this task. Grok and DeepSeek are
-  just as volatile: <strong>Grok is clean only 2 of 4</strong> (one run
-  hallucinates a nonexistent <code>zoneinfo.NonExistentTimeError</code>
-  import, one run gets the classic naive-subtraction bug, two pass clean), and
-  <strong>DeepSeek is similarly split, 2 of 4 clean</strong> (one run
-  hallucinates a <em>different</em> nonexistent zoneinfo exception,
-  <code>AmbiguousTimeError</code>, and a separate run reproduces the plain
-  naive-subtraction bug). <strong>Qwen is clean only 1 of 4</strong>, the same
-  naive-subtraction bug catching the other three runs. Both Gemini models fall
-  into this bug too: <strong>Gemini 3.5 Flash-Lite fails all 4 runs
-  identically</strong> (the same naive-subtraction trap, exactly 3 of 8 cases
-  every time), while <strong>Gemini 3.6 Flash is split down the middle, clean
-  in 2 of 4 and caught by the identical bug in the other 2</strong> &mdash;
-  the same high-variance pattern as Grok and DeepSeek. Across every model,
-  only Claude Opus 4.8's <code>.timestamp()</code>-based approach shows real,
-  if imperfect, resistance to this trap.</p>
+  <p>The stability table above has the exact run-by-run rates &mdash; for most of
+  the field this trap is close to a coin-flip. What's telling is <em>how</em>
+  each model fails. Grok and DeepSeek each invented a nonexistent
+  <span class="mono">zoneinfo</span> exception in one run &mdash; different names,
+  same fabrication. Sonnet, Qwen and both Gemini models reproduce the plain
+  naive-subtraction bug in almost every failing run (Gemini&nbsp;3.5&nbsp;Flash-Lite
+  identically in all four). Fable clears the task every run, and Opus's
+  <span class="mono">.timestamp()</span>-based habit is the only other approach
+  that shows real, if imperfect, resistance.</p>
 
   <div class="callout">
     <p><strong>The question every single model gets wrong.</strong>
@@ -594,29 +519,17 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   sample size, to fail the river-crossing question consistently rather than as
   an occasional miss.</p>
 
-  <p>That is the shape of the gap between the two hardest parsing tasks.
-  Across four runs each: <strong>Qwen</strong> is clean on the comma trap
-  (4/4) and has one clean run so far on the ledger task. <strong>Grok</strong>
-  sidesteps the comma trap most of the time (3/4), but the ledger task (Task 8) is
-  fragile for it too &mdash; clean only 2 of 4, with two distinct single-case
-  misses (a comma-bearing date, and a basic INR row). <strong>DeepSeek</strong>,
-  run at its strongest reasoning setting, avoids the comma trap about half the
-  time (2/4) and never clears the ledger task's one bad-date case (0/4).
-  <strong>Fable</strong> is a mixed bag on the comma trap (2/4) and clean only
-  1 of 4 on the ledger task, with the same single-case INR miss recurring in
-  three of its four runs. <strong>Sonnet</strong> is clean 4/4 on both the
-  comma trap and the ledger task. <strong>Opus</strong> fails the comma trap
-  most of the time (1/4) and is clean 3 of 4 on the ledger task, with one run's
-  saved code unusable because of a saving problem on our side (see the dagger
-  note above). Gemini splits cleanly down the middle:
-  <strong>3.6 Flash sails through the ledger task every time (4/4)</strong>
-  but fails the messy-statement parser every time (0/4); <strong>3.5
-  Flash-Lite fails both</strong>, joining Grok and DeepSeek's specific weak spot
-  on the ledger's basic INR case. None of it is about how deeply a model can
-  think; even DeepSeek's strongest reasoning mode doesn't catch its one bad-date
-  case. It is about whether a model reaches for the careful tool when it's
-  told, plainly, that the data is messy &mdash; and how consistently it reaches
-  for that tool across repeated tries.</p>
+  <p>That is the shape of the gap between the two hardest parsing tasks &mdash;
+  the table above has every rate. The details worth keeping: Grok's two ledger
+  misses are two <em>different</em> single cases (a comma-bearing date, a basic
+  INR row), not one repeatable weakness; Fable's ledger failures are the same
+  single INR case in three of four runs; DeepSeek never clears the ledger's
+  one bad-date case even at its strongest reasoning setting; and
+  Gemini&nbsp;3.6&nbsp;Flash sails the ledger every time while failing the
+  messy-statement parser every time &mdash; the mirror image of most of the
+  field. It is not about how deeply a model can think. It is about whether it
+  reaches for the careful tool when told, plainly, that the data is messy
+  &mdash; and how consistently.</p>
 
   <hr>
   <h2>Every task, in full</h2>
