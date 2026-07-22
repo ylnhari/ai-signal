@@ -2466,7 +2466,7 @@ Return only the complete class in one code block.</pre></details>
         return False</pre></div></details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tmini">as captured: DeepSeek, Fable &amp; Opus stumble &middot; at n=4: Sonnet 4/4, Opus 1/4, Fable 4/4, Grok 2/4, DeepSeek 0/4, Gemini 3.6F 4/4 / 3.5FL 0/4</span></summary>
+<details class="task"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tmini">as captured: DeepSeek, Fable &amp; Opus stumble &middot; at n=4: Sonnet 4/4, Opus 3/3 valid&dagger;, Fable 1/4, Grok 2/4, DeepSeek 0/4, Gemini 3.6F 4/4 / 3.5FL 0/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> This pushes the messy-parsing idea further: descriptions can now be wrapped in quotes so they are allowed to contain commas, dates come in four formats (including one where a comma is legitimately part of the date itself), amounts can be in three currencies that all need converting to a common one, and duplicate rows need to be dropped. It is a strong test of handling several layers of ambiguous formatting at once without them interfering with each other.</p>
 <p class="how"><strong>How it is scored:</strong> The checks include quoted descriptions with embedded commas and escaped quotes, all four date formats, currency-symbol mismatches, duplicate rows, and invalid dates that must be silently dropped.</p>
