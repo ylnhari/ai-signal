@@ -434,20 +434,12 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
       <pre>1 &lt;= day &lt;= 31          <span style="color:var(--muted)"># "31 is a valid number", so Feb 31 passes</span></pre>
     </div>
   </div>
-  <p><strong>Across four fresh runs from a blank chat, this task splits the
-  field.</strong> <strong>Sonnet is clean 4 of 4</strong>, including the
-  calendar check. <strong>Opus fails most runs, clean only 1 of 4.</strong>
-  <strong>Fable is a genuine mixed bag, 2 of 4 clean</strong> &mdash; one run
-  fails the same comma-and-calendar combination Opus does, one run's saved
-  code had a saving problem on our side (see the dagger note above) rather
-  than being a real failure, and two runs are clean. <strong>Grok is clean 3
-  of 4</strong>, with one run failing all three thousands-comma cases &mdash;
-  the identical comma trap that catches both Gemini models every time.
-  <strong>DeepSeek is clean 2 of 4</strong>, with two different multi-case
-  misses in the other two runs. <strong>Qwen is clean 4 of 4</strong> on this
-  task. Both Gemini models land squarely in the classic comma trap every
-  single run &mdash; 0 of 4 clean for both 3.6 Flash and 3.5 Flash-Lite,
-  failing the identical three thousands-comma cases every time.</p>
+  <p>The stability table above has this task's run-by-run rates. What the runs
+  reveal underneath: Grok's one failing run trips all three thousands-comma
+  cases at once &mdash; the identical comma trap that catches both Gemini
+  models in every single run. DeepSeek's two failing runs are two different
+  multi-case misses, not one repeatable slip. And Sonnet and Qwen clear this
+  task in every run &mdash; the only two models that do.</p>
 
   <h3>Trap 3 &mdash; a decade-old Python subtlety, not a new one (added 21 July)</h3>
   <p>A harder task (Task 12) asks for the real elapsed seconds between two local
