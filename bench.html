@@ -1535,7 +1535,7 @@ def rotation_index(a):
 
 <details class="task"><summary><span class="tid">Task 5</span> <span class="tname">Finding the top cities by sales (SQL)</span> <span class="tmini">all pass</span></summary>
 <div class="body">
-<p class="what"><strong>What it probes:</strong> A everyday reporting query: join two tables, filter to a date range, group by city, and return the top few by total spend. This is a fair baseline test of SQL fluency - correct joins, correct filtering on NULLs, and correct tie-breaking in the ORDER BY.</p>
+<p class="what"><strong>What it probes:</strong> An everyday reporting query: join two tables, filter to a date range, group by city, and return the top few by total spend. This is a fair baseline test of SQL fluency - correct joins, correct filtering on NULLs, and correct tie-breaking in the ORDER BY.</p>
 <p class="how"><strong>How it is scored:</strong> The checks verify the query excludes orders with missing customer links or missing city data, correctly bounds the date range, and breaks ties alphabetically by city.</p>
 <details class="sub"><summary>Show the exact prompt given to every model</summary><pre>SQLite schema:
 
@@ -2287,7 +2287,7 @@ Return only the complete class in one code block.</pre></details>
         return False</pre></div></details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tmini">Sonnet 4/4 &middot; Opus 3/4&dagger; &middot; Fable 1/4 &middot; Grok 2/4 &middot; DeepSeek 0/4 &middot; Qwen 1/1 (one run) &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 0/4</span></summary>
+<details class="task"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tmini">Sonnet 4/4 &middot; Opus 3/4&dagger; &middot; Fable 1/4 &middot; Grok 2/4 &middot; DeepSeek 0/4 &middot; Qwen 4/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 0/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> This pushes the messy-parsing idea further: descriptions can now be wrapped in quotes so they are allowed to contain commas, dates come in four formats (including one where a comma is legitimately part of the date itself), amounts can be in three currencies that all need converting to a common one, and duplicate rows need to be dropped. It is a strong test of handling several layers of ambiguous formatting at once without them interfering with each other.</p>
 <p class="how"><strong>How it is scored:</strong> The checks include quoted descriptions with embedded commas and escaped quotes, all four date formats, currency-symbol mismatches, duplicate rows, and invalid dates that must be silently dropped.</p>
