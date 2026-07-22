@@ -5307,7 +5307,7 @@ Q4. 1/2 — the coin is fair and flips are independent, so prior heads don't cha
 <details class="task"><summary><span class="tid">Task 22</span> <span class="tname">Recall from a big messy archive</span> <span class="tmini">Sonnet 4/4 · Opus 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.6 Flash 4/4 · 3.5 Flash-Lite 4/4 · DeepSeek 1/1 run · Qwen 1/1 run</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can find and reconcile specific facts that are scattered across a long, messy, contradictory-looking document without inventing anything. The model is given a roughly 51KB archive of 42 meeting-minutes for a fictional project (pasted directly into the conversation) and then asked five precise factual questions: the final approved budget after several revisions, who owns a migration task and their role, when a load-test target changed and to what, how many times a launch was deferred and its final date, and which vendor was rejected and why.</p>
-<p class="how"><strong>How it is scored:</strong> each of the five answers is checked against the one correct fact buried in the document. All six models got every question right &mdash; a clean 5 out of 5 across the board, with the exact facts and meeting references intact.</p>
+<p class="how"><strong>How it is scored:</strong> each of the five answers is checked against the one correct fact buried in the document. Every model answers all five questions correctly &mdash; exact facts and meeting references intact &mdash; in every run it has completed.</p>
 <details class="sub"><summary>Show the exact prompt</summary><pre>[The complete minutes archive of Project Meghdoot is pasted above this prompt, in the same message.]
 
 The document above is the complete minutes archive of Project Meghdoot.
@@ -5355,7 +5355,7 @@ Answer precisely, citing no outside knowledge:
 <details class="task"><summary><span class="tid">Task 23</span> <span class="tname">Spot the contradictions</span> <span class="tmini">Sonnet 4/4 · Opus 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.6 Flash 4/4 · 3.5 Flash-Lite 0/4 · DeepSeek 1/1 run · Qwen 1/1 run</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> careful reading and logical consistency-checking over a long text. The model is given a single product-specification document (pasted directly into the conversation) that has contradictions deliberately planted in it — statements that cannot both be true — and has to find every one of them, quote both sides, and cite the section numbers, without getting distracted by mere style issues that aren't actual contradictions.</p>
-<p class="how"><strong>How it is scored:</strong> did the model find every planted contradiction, and did it avoid raising false alarms about things that weren't real contradictions? All six models found all four with zero false alarms &mdash; each quoting both sides and citing the section numbers.</p>
+<p class="how"><strong>How it is scored:</strong> did the model find every planted contradiction, and did it avoid raising false alarms about things that weren't real contradictions? Every model finds all four with zero false alarms in every completed run &mdash; quoting both sides and citing sections &mdash; except Gemini&nbsp;3.5&nbsp;Flash-Lite, which always finds the device and timeout conflicts but dismisses at least one of the other two.</p>
 <details class="sub"><summary>Show the exact prompt</summary><pre>[A single product specification document is pasted above this prompt, in the same message.]
 
 The document above is a single product specification. It contains internal
@@ -5486,7 +5486,7 @@ Section 14: "Free-tier accounts are limited to a single project."
 <details class="task"><summary><span class="tid">Task 24</span> <span class="tname">Draw a scene, freely</span> <span class="tmini">Sonnet coherent · Opus coherent · Fable coherent · Grok coherent · DeepSeek coherent · Qwen coherent · Gemini: drawn, not yet checked by eye</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> spatial imagination and the ability to turn a described scene into working drawing-code. Each model was asked to generate an SVG &#8212; a text-based image format where the model literally writes code that a browser renders into a picture &#8212; of an auto-rickshaw towing a server rack up a steep hill in monsoon rain, with no constraints on how to do it.</p>
-<p class="how"><strong>How it is scored:</strong> judged by eye &#8212; is it a coherent scene containing all the described elements (the rickshaw, the server rack, the hill, the rain)? All six models produced complete, coherent scenes.</p>
+<p class="how"><strong>How it is scored:</strong> judged by eye &#8212; is it a coherent scene containing all the described elements (the rickshaw, the server rack, the hill, the rain)? Every drawing reviewed so far is a complete, coherent scene; the two Gemini drawings haven't been reviewed yet.</p>
 <details class="sub"><summary>Show the exact prompt</summary><pre>Generate an SVG of an auto-rickshaw towing a server rack up a steep hill,
 monsoon rain falling. Return only the SVG in one code block.</pre></details>
 <details class="sub" open><summary>See what each model drew</summary>
@@ -5502,7 +5502,7 @@ monsoon rain falling. Return only the SVG in one code block.</pre></details>
 <details class="task"><summary><span class="tid">Task 25</span> <span class="tname">Draw a scene under strict rules</span> <span class="tmini">Sonnet 4/4 · Opus 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.5 Flash-Lite 4/4 · 3.6 Flash 3/4 (one run scored 9 of 10) · DeepSeek 1/1 run · Qwen 1/1 run</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can hold many precise, simultaneous requirements in mind while still producing something that looks right. Each model was asked to generate an SVG of a Chennai monsoon street market at dusk that must satisfy 10 exact, machine-checked rules: a specific canvas size, exactly one element marked as the moon, a group of at least 3 market-stall rectangles, a group of at least 40 rain lines, a puddle drawn as a path, some text containing the word "KAAPI" (South Indian filter coffee), a sky gradient that is defined and actually used, only hex colors (no color names), no more than 400 total drawing elements, and a technically valid file.</p>
-<p class="how"><strong>How it is scored:</strong> an automated check runs through all 10 rules and confirms each one is satisfied &#8212; no human judgment involved. All six models scored a perfect 10 out of 10, including DeepSeek run at its strongest reasoning mode. Interestingly, that doesn't mean the drawings are equally detailed: this check rewards following the rules, not adding extra detail &#8212; Grok passed with about 79 drawing elements while Qwen used roughly 237.</p>
+<p class="how"><strong>How it is scored:</strong> an automated check runs through all 10 rules and confirms each one is satisfied &#8212; no human judgment involved. Every completed run but one passes all 10 rules; the single exception is one Gemini&nbsp;3.6&nbsp;Flash run that satisfied 9 of the 10. Interestingly, that doesn't mean the drawings are equally detailed: this check rewards following the rules, not adding extra detail &#8212; Grok passed with about 79 drawing elements while Qwen used roughly 237.</p>
 <details class="sub"><summary>Show the exact prompt</summary><pre>Generate an SVG of a Chennai monsoon street market at dusk. Return only the
 SVG in one code block. Your SVG MUST satisfy ALL of these constraints:
 
@@ -5542,31 +5542,24 @@ SVG in one code block. Your SVG MUST satisfy ALL of these constraints:
       checks, I ran them against a known-correct set of answers (everything should
       pass) and a deliberately-broken set (the exact traps should fail) &mdash; and
       they behaved as expected. The checks stay private so no model can memorise them.</li>
-    <li><strong>This is a standing comparison, not a one-time test.</strong> All six
-      original models are complete on all twenty-five tasks; two Gemini models
-      have joined since. More models are queued to run next, and every notable
-      new model that ships gets added in turn. Same twenty-five tasks, same
-      checks, every time, so the table above simply keeps growing and any model
-      can be compared against any other by reading their rows.</li>
-    <li><strong>Not a fixed, final ranking.</strong> Each row is a snapshot on
-      the date it was run, and the picture has grown more nuanced as harder
-      tasks were added: the model that swept the first eleven code tasks
-      cleanly (Grok 4.5) is now the one with the most misses among the six
-      original models on the fuller set. Six of the twenty-five tasks also show
-      real run-to-run variation for at least one model &mdash; see
-      &ldquo;How steady are these results?&rdquo; above for the four-run detail
-      on exactly which ones, and by how much.</li>
+    <li><strong>A standing comparison, not a one-time test.</strong> The tasks
+      and the checks never change, so any model can be compared with any other
+      by reading their rows, and notable new models get added over time. No
+      row is a final verdict &mdash; six of the twenty-five tasks show real
+      run-to-run variation for at least one model (see &ldquo;How steady are
+      these results?&rdquo; above for exactly which ones), which is why every
+      number here is the floor a model held across four runs, not one
+      sitting.</li>
+    
   </ul>
 
-  <p class="note">If you take one thing away: the harder tasks didn't just add
-  numbers, they changed which model looks best &mdash; and they surfaced a bug
-  five different models share (across four labs, including both Gemini
-  models), and a question every model answers the same wrong way, run after
-  run. Running each model four times shows that some of the most
-  discriminating single-sample results are themselves a coin-flip, task by
-  task. That is a better reason to distrust a narrow, single-shot comparison
-  than any single failed task on its own. Check back &mdash; this page grows
-  every time a new model or a new task is added.</p>
+  <p class="note">If you take one thing away: these models are separated less
+  by intelligence than by carefulness. Five of them, across four labs, share
+  one identical decade-old Python bug; every one of the eight answers the same
+  counting question the same wrong way, run after run; and several results
+  that look like fixed traits in a single sitting turn out to be coin-flips
+  across four. A one-run comparison of models &mdash; anyone's &mdash; deserves
+  deep suspicion.</p>
 
   <h2>Related writing</h2>
 
