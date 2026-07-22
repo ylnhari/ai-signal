@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="An ongoing, hands-on comparison of today's leading AI models on twenty-one real coding, reasoning, and drawing tasks — with every prompt, every answer, and how each was scored.">
+<meta name="description" content="An ongoing, hands-on comparison of today's leading AI models on twenty-five real coding, reasoning, and drawing tasks — with every prompt, every answer, how each was scored, and n=4 reproducibility checks on every finding.">
 <title>How today's leading AI models handle real coding, reading, and drawing</title>
 <style>
 :root{
@@ -36,7 +36,7 @@
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:'Segoe UI',system-ui,sans-serif;line-height:1.65;
   -webkit-font-smoothing:antialiased;}
-.wrap{max-width:1280px;margin:0 auto;padding:0 32px 72px;}
+.wrap{max-width:1440px;margin:0 auto;padding:0 32px 72px;}
 .mono{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;}
 a{color:var(--accent);text-decoration:none;}
 a:hover{text-decoration:underline;}
@@ -45,7 +45,7 @@ a:hover{text-decoration:underline;}
 .topbar{position:sticky;top:0;z-index:20;background:var(--bar);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   border-bottom:1px solid var(--line);}
-.topbar-inner{max-width:1280px;margin:0 auto;padding:12px 32px 10px;
+.topbar-inner{max-width:1440px;margin:0 auto;padding:12px 32px 10px;
   display:flex;align-items:center;justify-content:space-between;gap:14px;}
 .wordmark{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
   font-weight:600;letter-spacing:.1em;font-size:.8rem;text-transform:uppercase;color:var(--ink);}
@@ -58,18 +58,18 @@ h1{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
   font-weight:600;font-size:clamp(1.9rem,6vw,2.7rem);line-height:1.12;
   text-wrap:balance;margin:36px 0 10px;}
 .dek{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
-  font-size:1.18rem;color:var(--muted);max-width:60ch;margin:0 0 8px;}
+  font-size:1.18rem;color:var(--muted);max-width:72ch;margin:0 0 8px;}
 .byline{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.72rem;
   color:var(--muted);margin:14px 0 0;}
 h2{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
   font-weight:600;font-size:1.5rem;margin:48px 0 6px;}
 h3{font-size:1.05rem;margin:26px 0 4px;}
-p{max-width:66ch;margin:12px 0;}
+p{max-width:82ch;margin:12px 0;}
 .lead{font-size:1.08rem;}
 p code,li code,td code{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
   font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:4px;}
 strong{font-weight:650;}
-ul{max-width:66ch;padding-left:20px;}
+ul{max-width:82ch;padding-left:20px;}
 li{margin:6px 0;}
 hr{border:none;border-top:1px solid var(--line);margin:40px 0;}
 
@@ -157,23 +157,28 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
 <main class="wrap">
   <h1>How today's leading AI models handle real coding, reading, and drawing</h1>
   <p class="dek">Benchmark scores are easy to quote and hard to trust. So I run
-  the strongest AI models through the same twenty-one hands-on tasks &mdash; the
+  the strongest AI models through the same twenty-five hands-on tasks &mdash; the
   messy, detail-heavy kind that separates a model that <em>looks</em> right from
-  one that <em>is</em> right &mdash; and check every single answer. Same tasks,
-  every model, added as they ship.</p>
-  <p class="byline">By Hari Yelesetty &middot; updated 21 July 2026</p>
+  one that <em>is</em> right &mdash; and check every single answer, then re-run
+  the results four times over to see which findings actually hold up. Same
+  tasks, every model, added as they ship.</p>
+  <p class="byline">By Hari Yelesetty &middot; updated 22 July 2026</p>
 
   <p class="lead">The lineup so far, in the order I ran them &mdash; I add each
   notable new model as it lands: <strong>Qwen3.8-Max-Preview</strong> (Alibaba),
   <strong>Grok&nbsp;4.5</strong> (xAI), <strong>DeepSeek</strong> (run at its
-  strongest available reasoning setting), and three from Anthropic &mdash;
+  strongest available reasoning setting), three from Anthropic &mdash;
   <strong>Claude&nbsp;Fable&nbsp;5</strong>, <strong>Claude&nbsp;Sonnet&nbsp;5</strong>,
-  and <strong>Claude&nbsp;Opus&nbsp;4.8</strong>.
+  and <strong>Claude&nbsp;Opus&nbsp;4.8</strong> &mdash; and now two from Google,
+  <strong>Gemini&nbsp;3.6&nbsp;Flash</strong> and <strong>Gemini&nbsp;3.5&nbsp;Flash-Lite</strong>.
   Each one gets the identical set of tasks, typed into its normal chat website, at
   its out-of-the-box settings (DeepSeek's strongest mode is the one exception,
-  noted where it applies) &mdash; the same experience you'd get. Then I grade
-  the answers, most of them automatically, against the exact edge cases a rushed
-  answer trips over.</p>
+  noted where it applies; the two Gemini columns were collected via Google's API
+  at default settings rather than a chat website &mdash; noted below). Then I
+  grade the answers, most of them automatically, against the exact edge cases a
+  rushed answer trips over &mdash; and, as of 22 July, re-run every task four
+  times per model from a clean context to check whether a single captured
+  answer was typical or a fluke.</p>
 
   <p>The tasks and the checks stay fixed, so every model is measured exactly the
   same way &mdash; which means the table below simply grows a row each time a new
@@ -241,6 +246,24 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
       for "close."</li>
     <li><strong>The checks stay private</strong> so no model can "study to the
       test." The prompts and the answers, though, are all here for you to inspect.</li>
+    <li><strong>Reproducibility, added 22 July.</strong> A single captured answer
+      can be a fluke in either direction, so every task is now being re-run four
+      times per model (n=4) from a fresh, clean context, graded the same
+      deterministic way, before any finding is treated as a stable trait rather
+      than a one-off. Where a single-sample verdict on this page flipped under
+      n=4 &mdash; a "fail" that mostly passes on re-run, or vice versa &mdash;
+      it's called out explicitly rather than quietly corrected. A separate
+      contamination check re-collected two tasks for the three Claude models
+      completely blind (no tool or file access, prompt via stdin only, outside
+      the repo) and found no divergence from the original scores &mdash;
+      evidence, not proof, against those particular tool-assisted collections
+      having inflated results.</li>
+    <li><strong>Gemini's two columns were collected differently.</strong> Every
+      other column was typed into the model's own chat website by hand. The two
+      Gemini columns (3.6 Flash, 3.5 Flash-Lite) were collected via Google's API
+      at default settings instead, and were born at n=4 &mdash; there is no
+      single "first capture" for them, only the four-sample record described
+      throughout this page.</li>
   </ul>
 
   <h2>The results</h2>
@@ -280,20 +303,46 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
         <td class="model">Grok 4.5<small>xAI &middot; Fast</small></td>
         <td class="score gap">113 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
       </tr>
+      <tr>
+        <td class="model">Gemini 3.5 Flash-Lite<small>Google &middot; default &middot; API &middot; n=4</small></td>
+        <td class="score gap">110 / 122*</td><td>5 / 5*</td><td class="score gap">3 / 4*</td><td>pending review</td><td class="score full">10 / 10</td><td class="score gap">12 / 13</td>
+      </tr>
+      <tr>
+        <td class="model">Gemini 3.6 Flash<small>Google &middot; default &middot; API &middot; n=4 &middot; collection in progress</small></td>
+        <td class="score dash">64 / 67 (partial)</td><td class="score dash">not yet run</td><td class="score dash">not yet run</td><td class="score dash">not yet run</td><td class="score dash">not yet run</td><td class="score gap">7 / 9 (partial)</td>
+      </tr>
     </tbody>
   </table>
   </div>
-  <p class="note">All six models have now been run on every task, including the
-  seven harder coding/SQL tasks and the three new reasoning-and-language tasks
-  added on 21 July. Every model still finds all four planted conflicts in the
-  contradiction-spotting test with zero false alarms, and every model still earns
-  full marks on fact recall and both drawings. But the ranking on the original
-  fifteen-task battery does <strong>not</strong> survive the harder one:
-  <strong>Claude Sonnet 5 now leads on raw coding checks</strong>, and
+  <p class="note">* Gemini 3.5 Flash-Lite's cells marked with an asterisk are
+  the first of its four fresh samples, shown here for shape-comparison with the
+  single-capture rows above it; the model was born at n=4, so its real number is
+  a distribution, not a point &mdash; see &ldquo;Reproducibility at n=4&rdquo;
+  below for the full spread. Its coding denominator (122, not 124) reflects a
+  known one-case grading discrepancy on T16 in its collection environment,
+  flagged rather than papered over. Its fact-recall column is an automated
+  keyword screen, not a human read, and is marked pending human confirmation.
+  Its free-drawing SVG is likewise unreviewed by a human eye. Gemini 3.6 Flash
+  is mid-collection: only 10 of 18 code tasks and 2 of 3 reasoning/language
+  tasks have any samples yet, so most of its cells are placeholders, not zeros.</p>
+  <p class="note">All six original models have been run on every one of the
+  twenty-five tasks, including the seven harder coding/SQL tasks and the three
+  reasoning-and-language tasks added on 21 July, and two Gemini columns joined
+  on 22 July (one full, one still collecting). Every model that's completed the
+  contradiction-spotting test still finds all four planted conflicts with zero
+  false alarms &mdash; except Gemini 3.5 Flash-Lite, the first column to miss
+  one (see below). The ranking on the original fifteen-task battery does
+  <strong>not</strong> survive the harder one: <strong>Claude Sonnet 5 leads on
+  raw coding checks</strong> in the single-capture snapshot below, and
   <strong>Grok 4.5 &mdash; tied for first when this page had fewer tasks &mdash;
-  is now last.</strong> Settings were each site's own default except DeepSeek,
-  which was deliberately run at its strongest available reasoning mode; that's
-  noted in the small print under its name.</p>
+  is last among the six original models.</strong> Settings were each site's own
+  default except DeepSeek (deliberately run at its strongest reasoning mode) and
+  the two Gemini columns (API default, see the method note above); that's noted
+  in the small print under each name. <strong>Since 22 July, every number on
+  this page is also being checked against four fresh, clean-context re-runs
+  &mdash; the &ldquo;Reproducibility at n=4&rdquo; section below is the more
+  trustworthy read of what each model actually does, task by task, versus what
+  one lucky or unlucky sitting captured.</strong></p>
 
   <p class="note"><strong>How much weight the middle of this table can carry.</strong>
   The coding column counts individual checks passed. Count whole <em>tasks</em>
@@ -302,20 +351,119 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   DeepSeek 16, Opus 16, Grok 16, Fable 15. Both counting methods are correct; they
   don't always agree, because the eighteen tasks carry unequal numbers of hidden
   checks. Treat the top and bottom of the table as meaningful and the middle as
-  approximate.</p>
+  approximate &mdash; and treat the whole table as a single sitting's snapshot,
+  not a settled verdict; several of these exact numbers move once you re-run at
+  n=4, per the section below.</p>
 
   <div class="callout">
-    <p><strong>The short version, so far:</strong> no model sweeps anymore. Claude
-    Sonnet 5 leads on raw coding checks, but is the weakest of the six on the new
-    reasoning-and-language battery &mdash; it's the only model that gets a
-    misdirection puzzle genuinely wrong, not just miscounted. Three completely
-    different models &mdash; Claude Fable 5, Grok 4.5, and Qwen3.8-Max-Preview &mdash;
-    independently fall into the exact same obscure timezone bug, via three
-    differently-shaped pieces of code. And every single model, all six, gives the
-    identical wrong answer to one character-counting question. None of this is
-    about which model can reason the hardest; it's about where each one's
-    carefulness runs out. Full story below.</p>
+    <p><strong>The short version, so far:</strong> no model sweeps anymore, and
+    at n=4 several single-sitting verdicts turned out to be one-off flukes in
+    both directions. Claude Sonnet 5 leads on raw coding checks in the captured
+    snapshot, but its single "genuine reasoning failure" on the misdirection
+    battery did not reproduce &mdash; four fresh runs all solved it. Grok 4.5's
+    one SQL "typo" fail never reproduced either. Meanwhile Sonnet's captured
+    <em>pass</em> on the timezone task turned out to be the fluke: it fails most
+    fresh re-runs. Three completely different models &mdash; Claude Fable 5,
+    Grok 4.5, and Qwen3.8-Max-Preview &mdash; independently fall into the exact
+    same obscure timezone bug, via three differently-shaped pieces of code, and
+    both new Gemini columns fall into it too. Every single one of the eight
+    models tested, with no exceptions, gives the identical wrong answer to one
+    character-counting question. None of this is about which model can reason
+    the hardest; it's about where each one's carefulness runs out, and how much
+    a single captured answer can mislead you about which model that is. Full
+    story below.</p>
   </div>
+
+  <h2>Reproducibility at n=4</h2>
+  <p>Everything above this point was, for a long time, a single sitting per
+  model &mdash; one prompt, one answer, one verdict. A single sample can make a
+  coin-flip behavior look like a fixed trait, in either direction. Starting 22
+  July, every task is being re-run four times per model (n=4) from a fresh,
+  clean context &mdash; no memory of the earlier attempt, graded by the exact
+  same deterministic checks. A task counts as "clean" for a sample only if
+  <em>every</em> one of its hidden checks passes; the tables below report how
+  many of the four fresh samples were clean, per task, per model. Six tasks
+  (T3, T8, T12, T15, T19, T21) discriminate models sharply enough to be worth
+  a full table; the other nineteen tasks were, for every model checked so far,
+  either a clean 4-of-4 sweep for all three Claude models (no discrimination
+  found) or are still mid-collection for the newer columns &mdash; see the
+  summary underneath.</p>
+  <p class="note">A companion check: two tasks (L1 long-doc recall, T18
+  closures/caches) were re-collected completely <strong>blind</strong> for all
+  three Claude models &mdash; prompt piped in via stdin only, run from an empty
+  directory outside this repo, every tool disabled, so there was no way to read
+  the hidden grader or the answer key even by accident. All three models scored
+  identically clean, blind, as they did with normal tool access &mdash;
+  evidence (not proof) that the numbers on this page reflect real capability,
+  not incidental access to the answer.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr>
+      <th class="model">Model</th>
+      <th>T3<br><span class="mono" style="font-size:.85em">comma parser</span></th>
+      <th>T8<br><span class="mono" style="font-size:.85em">ledger parser</span></th>
+      <th>T12<br><span class="mono" style="font-size:.85em">DST duration</span></th>
+      <th>T15<br><span class="mono" style="font-size:.85em">SQL NULLs</span></th>
+      <th>T19<br><span class="mono" style="font-size:.85em">char-counting</span></th>
+      <th>T21<br><span class="mono" style="font-size:.85em">misdirection</span></th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="model">Claude Sonnet 5</td>
+        <td class="score gap">3/4</td><td class="score full">4/4</td><td class="score gap">1/4</td><td class="score full">4/4</td><td class="score gap">0/4 clean (4/5 &times;3, 3/5 &times;1)</td><td class="score full">4/4</td>
+      </tr>
+      <tr>
+        <td class="model">Claude Opus 4.8</td>
+        <td class="score gap">1/4</td><td class="score gap">1/4</td><td class="score gap">3/4</td><td class="score full">4/4</td><td class="score gap">0/4 clean (3/5 &times;4)</td><td class="score full">4/4</td>
+      </tr>
+      <tr>
+        <td class="model">Claude Fable 5</td>
+        <td class="score full">4/4</td><td class="score full">4/4</td><td class="score gap">1/4</td><td class="score full">4/4</td><td class="score gap">0/4 clean (4/5 &times;4)</td><td class="score full">4/4</td>
+      </tr>
+      <tr>
+        <td class="model">Grok 4.5</td>
+        <td class="score full">4/4</td><td class="score gap">2/4</td><td class="score gap">2/4</td><td class="score full">4/4</td><td class="score gap">0/4 clean (4/5 &times;4)</td><td class="score full">4/4</td>
+      </tr>
+      <tr>
+        <td class="model">DeepSeek</td>
+        <td class="score gap">2/4</td><td class="score dash">0/4</td><td class="score gap">2/4</td><td class="score full">4/4</td><td class="score gap">0/4 clean (4/5 &times;4)</td><td class="score full">4/4</td>
+      </tr>
+      <tr>
+        <td class="model">Qwen3.8-Max-Preview</td>
+        <td class="score dash">2/2 so far*</td><td class="score dash">n=1 only</td><td class="score dash">n=1 only</td><td class="score dash">n=1 only</td><td class="score gap">0/4 clean (4/5 &times;4)</td><td class="score full">4/4</td>
+      </tr>
+      <tr>
+        <td class="model">Gemini 3.5 Flash-Lite</td>
+        <td class="score dash">0/4</td><td class="score dash">0/4</td><td class="score dash">0/4</td><td class="score gap">2/4</td><td class="score full">3/4 clean (5/5)</td><td class="score dash">0/4</td>
+      </tr>
+      <tr>
+        <td class="model">Gemini 3.6 Flash</td>
+        <td class="score dash">0/4</td><td class="score full">4/4</td><td class="score gap">2/4</td><td class="score full">4/4</td><td class="score gap">0/4 clean (4/5 &times;2, 3/5 &times;2)</td><td class="score full">4/4</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">Reading the table: a cell is the count of fresh samples (out
+  of 4) that passed <em>every</em> hidden check for that task. Where a cell
+  differs sharply from what's captured in the task cards further down, that's
+  a flip &mdash; called out by name in the prose above and below. *Qwen's T3
+  collection is paused after 2 of 4 samples (both clean); T8/T12/T15 haven't
+  started their re-run yet, so those three cells are still the original single
+  captured sample, not n=4. DeepSeek and Qwen are both mid-sweep on several
+  other tasks too (see below).</p>
+  <p class="note"><strong>Everything outside these six tasks, so far:</strong>
+  all three Claude models (Sonnet, Opus, Fable) are confirmed at a clean 4-of-4
+  on every one of the other nineteen tasks &mdash; T1, T2, T4, T5, T6, T7, T9,
+  T10, T11, T13, T14, T16, T17, T18, T20, L1, L2, X1 (qualitative), and X2
+  (10/10 on every sample) &mdash; so nothing outside Tier 1 discriminates among
+  the three Claude columns. The browser-driven vendors are still mid-sweep on
+  these: <strong>Grok</strong> is done and clean (4/4) on T5, T6, T7, T9, T10,
+  T11, T14, and T18, with T13/T16/T17/T20 still pending. <strong>DeepSeek</strong>
+  has only T6 done (4/4 clean) outside Tier 1; T7, T9, T14, and T18 are in
+  flight. <strong>Qwen</strong>'s re-run queue is prioritizing the Tier-1 tasks
+  above first and hasn't started the rest. Collection for both is currently
+  paused rather than actively progressing &mdash; expect these cells to fill in
+  over time, not on any fixed schedule.</p>
 
   <h2>The one kind of task that told them apart</h2>
   <p>Ten of the eleven coding tasks were passed by every model tested, including the
@@ -356,6 +504,20 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
       <pre>1 &lt;= day &lt;= 31          <span style="color:var(--muted)"># "31 is a valid number", so Feb 31 passes</span></pre>
     </div>
   </div>
+  <p><strong>Re-run update (22 July): T3 flips both ways at n=4.</strong> Four
+  fresh clean-context samples per model: <strong>Sonnet actually passes 3 of
+  4</strong> &mdash; the captured fail shown above was the minority outcome,
+  not the norm. Opus still fails most of the time, 1 of 4 clean, confirming its
+  captured miss. <strong>Fable, whose single captured sample failed on the
+  calendar check, comes back a clean 4 of 4 on re-run.</strong> Grok confirms
+  its captured clean sweep, 4 of 4. DeepSeek's captured pass turns out to be
+  fragile: clean only 2 of 4, with two different multi-case misses in the
+  other two. Qwen has 2 of 4 fresh samples collected so far (both clean,
+  matching its captured pass), with the rest paused mid-collection rather than
+  a completed n=4. Both new Gemini columns land squarely in the classic comma
+  trap every single time &mdash; 0 of 4 clean for both 3.6 Flash and 3.5
+  Flash-Lite, failing the identical three thousands-comma cases in every
+  sample.</p>
 
   <h3>Trap 3 &mdash; a decade-old Python subtlety, not a new one (added 21 July)</h3>
   <p>A harder task (T12) asks for the real elapsed seconds between two local
@@ -387,12 +549,27 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   <code>zoneinfo</code>, a name that does not exist there, so the function never
   even runs.</p>
   <p><strong>Re-run update (22 July):</strong> this trap turns out to be a
-  coin-flip for some models, not a fixed trait. Four fresh clean-context re-runs
+  coin-flip for most models, not a fixed trait. Four fresh clean-context re-runs
   per Claude model: <strong>Sonnet reproduced the naive-subtraction bug in 3 of
   4 runs</strong> (its captured pass shown above was the outlier), Opus passed
-  3 of 4, and Fable failed 3 of 4 (its captured failure is real). Grok, DeepSeek
-  and Qwen re-runs are in flight &mdash; read the single-capture labels on these
-  cards accordingly.</p>
+  3 of 4, and Fable failed 3 of 4 (its captured failure is real, but not
+  universal). Grok and DeepSeek are now at n=4 too, and both are just as
+  volatile: <strong>Grok comes back clean only 2 of 4</strong> (one run
+  hallucinates a nonexistent <code>zoneinfo.NonExistentTimeError</code> import,
+  one run gets the classic naive-subtraction bug, two pass clean), and
+  <strong>DeepSeek is similarly split, 2 of 4 clean</strong> (one run
+  hallucinates a <em>different</em> nonexistent zoneinfo exception,
+  <code>AmbiguousTimeError</code> &mdash; the same hallucination genre as its
+  captured failure, reached via a different invented name). Qwen's re-runs
+  haven't started on this task, so its captured fail still stands as n=1. Both
+  Gemini columns join the models this bug already caught: <strong>Gemini 3.5
+  Flash-Lite fails all 4 fresh samples identically</strong> (the same
+  naive-subtraction trap, exactly 3 of 8 cases every time), while <strong>Gemini
+  3.6 Flash is split down the middle, clean in 2 of 4 and caught by the
+  identical bug in the other 2</strong> &mdash; the same high-variance pattern
+  as Grok and DeepSeek. Across every model now sampled at n=4 on this task,
+  only Claude Sonnet 5 and Claude Opus 4.8's <code>.timestamp()</code>-based
+  approach shows real (if imperfect) resistance.</p>
 
   <div class="callout">
     <p><strong>The question every single model got wrong (added 21 July).</strong>
@@ -410,7 +587,15 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
     fresh runs</strong> (answering 6 where the correct count is 8), so its
     captured 4/5 was the outlier &mdash; fresh Opus runs score 3/5. Fable held at
     4/5 in all four re-runs; Sonnet in three of four (one run also fumbled the
-    string reversal).</p>
+    string reversal). <strong>Grok, DeepSeek, and Qwen are now confirmed at n=4
+    too: all three reproduce the identical 12-vs-13 miss in every one of their
+    four fresh samples</strong> &mdash; the miss is now confirmed universal and
+    robust across all six original models, not just a captured artifact.
+    <strong>Gemini 3.5 Flash-Lite is the first model tested, at any sample
+    count, to get this question right at all: 3 of its 4 fresh samples
+    answered the correct 13.</strong> Gemini 3.6 Flash misses it in all 4
+    samples like everyone else, and in half of those samples also botches the
+    backwards-spelling question the same way Sonnet occasionally does.</p>
   </div>
 
   <p>One more result from the new battery, in the opposite direction: a
@@ -425,23 +610,41 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   miss was a 1-in-5 outlier, not a stable trait. An earlier version of this page
   called it the only outright reasoning failure here; at n=4 that claim does not
   hold, and per-task claims on this page are being restated as pass rates as
-  re-runs land.</p>
+  re-runs land. <strong>Grok, DeepSeek, Fable, Opus, and Qwen are all now
+  confirmed clean at n=4 on this puzzle as well</strong> &mdash; every one of
+  their fresh samples solves it correctly, matching their captured passes.
+  Gemini splits sharply on this one: <strong>3.6 Flash solves it cleanly in
+  all 4 samples, but 3.5 Flash-Lite gets it wrong in all 4</strong> &mdash; the
+  only model in this whole battery, at any sample size, to fail the
+  river-crossing question consistently rather than as an occasional outlier.</p>
 
-  <p>That is the whole story of the gap. <strong>Qwen and Grok</strong> sidestepped
-  both traps and finished clean in the captured runs &mdash; though re-running is
-  softening that too: four fresh re-runs of Grok on the ledger task came back
-  clean only 2 of 4 times, with two distinct single-case misses (a
-  comma-bearing date it had previously parsed, and a basic INR row), so
-  &ldquo;clean&rdquo; there is fragile rather than robust. <strong>DeepSeek</strong>, run at its strongest
-  reasoning setting, avoided the comma trap but still let one bad date through on
-  the ledger task. <strong>Fable</strong> also avoided the comma trap but missed the
-  calendar check in both places it appears. <strong>Sonnet</strong> used a real
-  calendar but the careless split, so it lost only the comma cases. <strong>Opus</strong>
-  missed both, and its loose date-check bit a second time on the ledger task &mdash;
-  a bad-date row that should have been dropped slipped through. None of it is about
-  how deeply a model can think; even DeepSeek's strongest reasoning mode didn't
-  catch its one bad-date case. It is about whether a model reaches for the careful
-  tool when it's told, plainly, that the data is messy.</p>
+  <p>That is the whole story of the gap, as first captured. <strong>Qwen and
+  Grok</strong> sidestepped both traps and finished clean in the captured runs
+  &mdash; though re-running is softening that too: four fresh re-runs of Grok on
+  the ledger task (T8) came back clean only 2 of 4 times, with two distinct
+  single-case misses (a comma-bearing date it had previously parsed, and a
+  basic INR row), so &ldquo;clean&rdquo; there is fragile rather than robust.
+  <strong>DeepSeek</strong>, run at its strongest reasoning setting, avoided the
+  comma trap but still let one bad date through on the ledger task, and that
+  miss reproduces solidly at n=4 (0 of 4 clean). <strong>Fable</strong> also
+  avoided the comma trap but missed the calendar check in both places it
+  appears in the captured run &mdash; yet its ledger-task miss did
+  <strong>not</strong> survive n=4: four fresh samples all came back clean,
+  the opposite of what the single capture suggested. <strong>Sonnet</strong>
+  used a real calendar but the careless split, so it lost only the comma
+  cases, and its ledger pass reproduces cleanly at n=4 (4 of 4). <strong>Opus</strong>
+  missed both, and its loose date-check bit a second time on the ledger task
+  &mdash; a bad-date row that should have been dropped slipped through; this one
+  reproduces too, 1 of 4 clean at n=4. Gemini adds a genuine split of its own:
+  <strong>3.6 Flash sails through the ledger task clean every time (4 of 4)</strong>
+  but fails the messy-statement parser every time (0 of 4); <strong>3.5
+  Flash-Lite fails both</strong>, joining Grok and DeepSeek's specific weak spot
+  on the ledger's basic INR case. None of it is about how deeply a model can
+  think; even DeepSeek's strongest reasoning mode didn't catch its one bad-date
+  case. It is about whether a model reaches for the careful tool when it's
+  told, plainly, that the data is messy &mdash; and, per the re-runs, about how
+  often it reaches for that tool consistently rather than just some of the
+  time.</p>
 
   <hr>
   <h2>Every task, in full</h2>
@@ -846,10 +1049,16 @@ Return only the complete class in one code block.</pre></details>
         return False</pre></div></details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 3</span> <span class="tname">Parsing a messy bank statement</span> <span class="tmini">Fable, Sonnet &amp; Opus stumble</span></summary>
+<details class="task"><summary><span class="tid">Task 3</span> <span class="tname">Parsing a messy bank statement</span> <span class="tmini">as captured: Fable, Sonnet &amp; Opus stumble &middot; at n=4: Sonnet 3/4, Opus 1/4, Fable 4/4, Grok 4/4, DeepSeek 2/4, Gemini 0/4 (both)</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> Real-world data is messy, and this task hands the model a bank statement with three different date formats, currency symbols, thousands-separator commas, and two different ways of marking a debit (parentheses or a trailing "DR"). It is a fair test because careful parsing under ambiguity - especially not letting a plain formatting comma get confused with the field-separating comma - separates models that handle edge cases from ones that pattern-match the common case.</p>
 <p class="how"><strong>How it is scored:</strong> The checks include amounts with thousands separators, all three date formats, both debit notations, and deliberately invalid or impossible dates that should be silently skipped.</p>
+<p class="failnote">See &ldquo;Reproducibility at n=4&rdquo; and Trap 1/2 above the fold
+for the full re-run picture &mdash; the tags below are the original single
+captures. Sonnet's captured fail turned out to be the minority outcome (it
+passes 3 of 4 fresh samples); Fable's captured fail did not reproduce at all
+(4 of 4 clean). Both Gemini columns, added 22 July, fail this task in all 4
+fresh samples via the identical thousands-comma trap.</p>
 <details class="sub"><summary>Show the exact prompt given to every model</summary><pre>Write a Python function `parse_statement(text)` and nothing else.
 
 `text` is a multiline string; each non-empty line SHOULD be
@@ -2194,10 +2403,17 @@ Return only the complete class in one code block.</pre></details>
         return False</pre></div></details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tmini">DeepSeek, Fable &amp; Opus stumble</span></summary>
+<details class="task"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tmini">as captured: DeepSeek, Fable &amp; Opus stumble &middot; at n=4: Sonnet 4/4, Opus 1/4, Fable 4/4, Grok 2/4, DeepSeek 0/4, Gemini 3.6F 4/4 / 3.5FL 0/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> This pushes the messy-parsing idea further: descriptions can now be wrapped in quotes so they are allowed to contain commas, dates come in four formats (including one where a comma is legitimately part of the date itself), amounts can be in three currencies that all need converting to a common one, and duplicate rows need to be dropped. It is a strong test of handling several layers of ambiguous formatting at once without them interfering with each other.</p>
 <p class="how"><strong>How it is scored:</strong> The checks include quoted descriptions with embedded commas and escaped quotes, all four date formats, currency-symbol mismatches, duplicate rows, and invalid dates that must be silently dropped.</p>
+<p class="failnote">See &ldquo;Reproducibility at n=4&rdquo; above the fold for the
+full re-run picture. Fable's captured fail here did <strong>not</strong>
+reproduce &mdash; 4 of 4 fresh samples clean, the opposite of the single
+capture below. Grok's captured pass is fragile (clean only 2 of 4). Gemini
+3.6 Flash sails through this one clean every time; Gemini 3.5 Flash-Lite
+fails every time, mostly on the same basic-INR case that also trips Grok and
+DeepSeek.</p>
 <details class="sub"><summary>Show the exact prompt given to every model</summary><pre>Write a Python function `parse_ledger(text)` and nothing else.
 
 `text` is a multiline string; each non-empty line SHOULD be
@@ -3865,7 +4081,7 @@ FROM ranked
 WHERE rnk &lt;= 2
 ORDER BY city ASC, month ASC, revenue DESC, product ASC;</pre></div></details>
 </div></details>
-<details class="task"><summary><span class="tid">T12</span> <span class="tname">Elapsed real seconds across a DST change</span> <span class="tmini">Qwen, Grok, DeepSeek &amp; Fable stumble</span></summary>
+<details class="task"><summary><span class="tid">T12</span> <span class="tname">Elapsed real seconds across a DST change</span> <span class="tmini">as captured: Qwen, Grok, DeepSeek &amp; Fable stumble &middot; at n=4: Sonnet 1/4, Opus 3/4, Fable 1/4, Grok 2/4, DeepSeek 2/4, Gemini 3.6F 2/4 / 3.5FL 0/4 &mdash; this task is a coin-flip for almost everyone</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> computing the genuine number of elapsed seconds between two local wall-clock readings when a daylight-saving transition might sit anywhere between them, plus two explicit edge cases the prompt spells out: a wall-clock reading that never happens because the clock skips forward over it, and a wall-clock reading that happens twice because the clock falls back over it. It is a fair test because the &ldquo;obvious&rdquo; way to compute a duration in Python &mdash; build two timezone-aware <code>datetime</code> objects and subtract them &mdash; has a documented, easy-to-miss trap: per the CPython docs, if both operands are aware and share the same <code>tzinfo</code> attribute, that shared <code>tzinfo</code> is ignored entirely and the two <em>naive</em> wall-clock values are compared instead, silently discarding any DST offset difference between them.</p>
 <p class="how"><strong>How it is scored:</strong> eight hidden cases run from simple same-day and cross-midnight spans with no DST involved, up through spans that straddle the March spring-forward and November fall-back transitions, and the two explicit resolution rules from the prompt &mdash; a skipped (&ldquo;gap&rdquo;) local time resolved with the pre-jump offset, and a doubled (&ldquo;ambiguous&rdquo;) local time resolved to its first occurrence.</p>
@@ -4426,10 +4642,16 @@ def truncate_graphemes(s, n):
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">T15</span> <span class="tname">SQL: NULL semantics and join fan-out</span> <span class="tmini">Grok stumbles</span></summary>
+<details class="task"><summary><span class="tid">T15</span> <span class="tname">SQL: NULL semantics and join fan-out</span> <span class="tmini">as captured: Grok stumbles &middot; at n=4: Grok's fail never reproduced (4/4 clean) &mdash; the one clean reversal on this page; Gemini 3.6F 4/4, 3.5FL 2/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> aggregating two independent one-to-many child tables (a customer&rsquo;s orders and their notes) off the same parent row without letting a join between the two multiply rows against each other &mdash; the classic &ldquo;join fan-out&rdquo; bug &mdash; while also getting three-valued NULL logic right: an order that exists but has not yet been priced should still count toward <code>total_orders</code> without counting toward <code>priced_orders</code> or <code>total_revenue</code>, and a stray NULL row in the exclusion table must not accidentally flag (or unflag) everyone.</p>
 <p class="how"><strong>How it is scored:</strong> checks confirm a customer&rsquo;s order totals do not change depending on how many notes they have and vice versa, that unpriced orders are counted separately from priced ones, that a customer with no children at all gets zeros rather than NULLs, and that a NULL row inserted into the flagged table does not silently exclude every customer via an unfiltered <code>NOT IN</code>.</p>
+<p class="failnote"><strong>Re-run update (22 July):</strong> Grok's captured fail
+(the <code>o.priced.priced_orders</code> typo shown below) did not reproduce
+even once in four fresh samples &mdash; a clean reversal, not a fluke in the
+other direction. Every other original model is confirmed clean at n=4 too.
+Gemini 3.6 Flash is also clean every time; Gemini 3.5 Flash-Lite is the one
+column with a real (if partial) weakness here, clean in only 2 of 4 samples.</p>
 <details class="sub"><summary>Show the exact prompt given to every model</summary><pre>SQLite schema:
 
 ```sql
@@ -5034,7 +5256,7 @@ Validators may be called in any order, and any number of times.</pre></details>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">T19</span> <span class="tname">Character &amp; token-counting traps</span> <span class="tmini">Qwen 4/5 &middot; Grok 4/5 &middot; DeepSeek 4/5 &middot; Fable 4/5 &middot; Sonnet 3/5 &middot; Opus 4/5</span></summary>
+<details class="task"><summary><span class="tid">T19</span> <span class="tname">Character &amp; token-counting traps</span> <span class="tmini">as captured: Qwen 4/5 &middot; Grok 4/5 &middot; DeepSeek 4/5 &middot; Fable 4/5 &middot; Sonnet 3/5 &middot; Opus 4/5 &middot; at n=4: universal Q5 miss confirmed 4/4 for Grok/DeepSeek/Qwen; Gemini 3.5 Flash-Lite cracks it 3/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model actually reasons over a word&rsquo;s literal character sequence or just pattern-matches against a memorized &ldquo;shape&rdquo; of it &mdash; the same family of trap as the well-known &ldquo;how many r&rsquo;s in strawberry&rdquo; question. Five independent sub-questions: two letter-counting tasks, a full backwards spelling of a longer word, a vowel count, and a hyphen-aware word count where a hyphenated compound counts as exactly one word and a standalone em dash counts as none.</p>
 <p class="how"><strong>How it is scored:</strong> each of the five answers (Q1-Q5) is checked independently against its exact correct value or string, so a partial score is visible rather than an all-or-nothing pass.</p>
@@ -5141,7 +5363,7 @@ Every wave returns again with the tide</pre></div>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">T21</span> <span class="tname">Misdirection reasoning</span> <span class="tmini">Qwen 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Fable 4/4 &middot; Sonnet 3/4 &middot; Opus 4/4</span></summary>
+<details class="task"><summary><span class="tid">T21</span> <span class="tname">Misdirection reasoning</span> <span class="tmini">as captured: Qwen 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Fable 4/4 &middot; Sonnet 3/4 &middot; Opus 4/4 &middot; at n=4: Sonnet's miss never reproduced (4/4 clean); Gemini 3.6F 4/4 clean, 3.5FL 0/4 (only model to fail this consistently)</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> four classic &ldquo;trick&rdquo; logic questions, each restated just enough to defeat rote memorization of its textbook answer: the bat-and-ball problem, the parallel-machines-and-widgets problem, a river-crossing puzzle rewritten with a two-item boat instead of the classic one-item boat, and the gambler&rsquo;s-fallacy coin-flip question. Each one rewards actually working through the constraint rather than pattern-matching to a memorized answer.</p>
 <p class="how"><strong>How it is scored:</strong> each of the four answers (Q1-Q4) is checked independently against its correct value, so partial credit is visible. Q3 in particular needs the true minimum number of crossings under the rewritten two-item-boat rule (3), not the classic single-item puzzle&rsquo;s answer.</p>
@@ -5432,26 +5654,37 @@ SVG in one code block. Your SVG MUST satisfy ALL of these constraints:
       pass) and a deliberately-broken set (the exact traps should fail) &mdash; and
       they behaved as expected. The checks stay private so no model can memorise them.</li>
     <li><strong>This is a standing benchmark, not a one-time test.</strong> All six
-      models are now complete on all twenty-one tasks. More models are queued to run
-      next, and every notable new model that ships gets added in turn. Same twenty-one
-      tasks, same checks, every time, so the table above simply keeps growing and any
-      model can be compared against any other by reading their rows.</li>
-    <li><strong>A snapshot, not a permanent verdict.</strong> Each row reflects one
-      careful sitting on the date it was run, not a fixed, final ranking &mdash; and
-      as new rows are added, the overall picture can shift. It already has once:
-      the first eleven code tasks and two drawing tasks made this look like a
-      two-trap story with a clean top tier. Seven harder code tasks and three
-      reasoning-and-language tasks later, the ranking reshuffled, a shared bug
-      surfaced across three unrelated models, and the model with the cleanest
-      original sweep (Grok 4.5) is now the one with the most misses.</li>
+      original models are complete on all twenty-five tasks; two Gemini columns
+      joined on 22 July (one full, one still collecting). More models are queued
+      to run next, and every notable new model that ships gets added in turn.
+      Same twenty-five tasks, same checks, every time, so the table above simply
+      keeps growing and any model can be compared against any other by reading
+      their rows.</li>
+    <li><strong>A snapshot, not a permanent verdict &mdash; literally, now.</strong>
+      Each row started as one careful sitting on the date it was run, not a
+      fixed, final ranking &mdash; and the overall picture has shifted more than
+      once already. The first eleven code tasks and two drawing tasks made this
+      look like a two-trap story with a clean top tier. Seven harder code tasks
+      and three reasoning-and-language tasks later, the ranking reshuffled, a
+      shared bug surfaced across three unrelated models, and the model with the
+      cleanest original sweep (Grok 4.5) became the one with the most misses.
+      Then four fresh clean-context re-runs per model (n=4, from 22 July)
+      reshuffled several individual verdicts again &mdash; a captured "fail" or
+      "pass" on six of the tasks turned out to be one sample out of several
+      possible outcomes, not a fixed property of the model. See
+      &ldquo;Reproducibility at n=4&rdquo; above for exactly which ones, and by
+      how much.</li>
   </ul>
 
   <p class="note">If you take one thing away: pushing the battery harder didn't
   just move the numbers, it changed which model looks best &mdash; and it surfaced
-  a bug three different labs' models share, and a question every single model
-  answered the same wrong way. That is a better reason to distrust a narrow
-  benchmark than any single failed task on its own. Check back &mdash; this page
-  grows every time a new model, or a new task, is added.</p>
+  a bug three different labs' models share (now five, with both Gemini columns),
+  and a question every single model answered the same wrong way. Re-running each
+  model four times moved the numbers again, in both directions, on the exact
+  tasks that looked most discriminating on a single sample. That is a better
+  reason to distrust a narrow, single-shot benchmark than any single failed task
+  on its own. Check back &mdash; this page grows every time a new model, a new
+  task, or a new round of re-runs is added.</p>
 
   <h2>Related writing</h2>
 
