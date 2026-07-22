@@ -428,7 +428,7 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
     <tbody>
       <tr>
         <td class="model">Claude Sonnet 5</td>
-        <td class="score full">4/4</td><td class="score full">4/4</td><td class="score gap">1/4</td><td class="score full">4/4</td><td class="score gap">0/4 clean (4/5 &times;3, 3/5 &times;1)</td><td class="score full">4/4</td>
+        <td class="score full">4/4</td><td class="score full">4/4</td><td class="score gap">1/4&dagger;</td><td class="score full">4/4</td><td class="score gap">0/4 clean (4/5 &times;3, 3/5 &times;1)</td><td class="score full">4/4</td>
       </tr>
       <tr>
         <td class="model">Claude Opus 4.8</td>
@@ -470,15 +470,15 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   re-run hasn't started at all &mdash; that cell has zero repro samples, not
   one, so &ldquo;not started&rdquo; replaces the single-capture placeholder
   this table used to show for it. DeepSeek and Qwen are both mid-sweep on
-  several other tasks too (see below). &dagger;Opus's T8 sample-4 and Fable's
-  T3 sample-4 are each a corrupted capture, not a graded failure &mdash; the
+  several other tasks too (see below). &dagger;Opus's T8 sample-4, Fable's
+  T3 sample-4 and Sonnet's T12 sample-2 are each a corrupted capture, not a graded failure &mdash; the
   saved solution file has leftover prose or a markdown fence saved verbatim
   around the code, so it never parses (a documented extraction wrinkle, see
   repro-audit/README.md). The cell counts them as failing because that is
   literally what is on disk today; discount that one sample as ungraded
   rather than failed and the rate over the three valid samples is 3 of 3
-  clean for Opus's T8 and 2 of 3 clean for Fable's T3, pending
-  re-collection of the corrupted fourth sample in each case.</p>
+  clean for Opus's T8, 2 of 3 clean for Fable's T3 and 1 of 3 clean for
+  Sonnet's T12, pending re-collection of the corrupted sample in each case.</p>
   <p class="note"><strong>Everything outside these six tasks, as of the 22
   July authoritative re-grade:</strong> all three Claude models (Sonnet, Opus,
   Fable) are confirmed at a clean 4-of-4 on every one of the other nineteen
@@ -4144,7 +4144,7 @@ FROM ranked
 WHERE rnk &lt;= 2
 ORDER BY city ASC, month ASC, revenue DESC, product ASC;</pre></div></details>
 </div></details>
-<details class="task"><summary><span class="tid">T12</span> <span class="tname">Elapsed real seconds across a DST change</span> <span class="tmini">as captured: Qwen, Grok, DeepSeek &amp; Fable stumble &middot; at n=4: Sonnet 1/4, Opus 3/4, Fable 1/4, Grok 2/4, DeepSeek 2/4, Gemini 3.6F 2/4 / 3.5FL 0/4 &mdash; this task is a coin-flip for almost everyone</span></summary>
+<details class="task"><summary><span class="tid">T12</span> <span class="tname">Elapsed real seconds across a DST change</span> <span class="tmini">as captured: Qwen, Grok, DeepSeek &amp; Fable stumble &middot; at n=4: Sonnet 1/4&dagger;, Opus 3/4, Fable 4/4, Grok 2/4, DeepSeek 2/4, Gemini 3.6F 2/4 / 3.5FL 0/4 &mdash; this task is a coin-flip for almost everyone</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> computing the genuine number of elapsed seconds between two local wall-clock readings when a daylight-saving transition might sit anywhere between them, plus two explicit edge cases the prompt spells out: a wall-clock reading that never happens because the clock skips forward over it, and a wall-clock reading that happens twice because the clock falls back over it. It is a fair test because the &ldquo;obvious&rdquo; way to compute a duration in Python &mdash; build two timezone-aware <code>datetime</code> objects and subtract them &mdash; has a documented, easy-to-miss trap: per the CPython docs, if both operands are aware and share the same <code>tzinfo</code> attribute, that shared <code>tzinfo</code> is ignored entirely and the two <em>naive</em> wall-clock values are compared instead, silently discarding any DST offset difference between them.</p>
 <p class="how"><strong>How it is scored:</strong> eight hidden cases run from simple same-day and cross-midnight spans with no DST involved, up through spans that straddle the March spring-forward and November fall-back transitions, and the two explicit resolution rules from the prompt &mdash; a skipped (&ldquo;gap&rdquo;) local time resolved with the pre-jump offset, and a doubled (&ldquo;ambiguous&rdquo;) local time resolved to its first occurrence.</p>
