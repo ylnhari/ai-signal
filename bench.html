@@ -357,7 +357,7 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
       </tr>
       <tr>
         <td class="model">Qwen3.8-Max-Preview</td>
-        <td class="score full">4/4</td><td class="score full">4/4</td><td class="score gap">1/4</td><td class="score full">4/4</td><td class="score gap">0/4 clean (4/5 &times;4)</td><td class="score full">4/4</td>
+        <td class="score full">4/4</td><td class="score full">3/3 so far</td><td class="score gap">1/4</td><td class="score full">4/4</td><td class="score gap">0/4 clean (4/5 &times;4)</td><td class="score full">4/4</td>
       </tr>
       <tr>
         <td class="model">Gemini 3.5 Flash-Lite</td>
@@ -2275,7 +2275,7 @@ Return only the complete class in one code block.</pre></details>
         return False</pre></div></details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tmini">Sonnet 4/4 &middot; Opus 3/4&dagger; &middot; Fable 1/4 &middot; Grok 2/4 &middot; DeepSeek 0/4 &middot; Qwen 4/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 0/4</span></summary>
+<details class="task"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tmini">Sonnet 4/4 &middot; Opus 3/4&dagger; &middot; Fable 1/4 &middot; Grok 2/4 &middot; DeepSeek 0/4 &middot; Qwen 3/3 so far &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 0/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> This pushes the messy-parsing idea further: descriptions can now be wrapped in quotes so they are allowed to contain commas, dates come in four formats (including one where a comma is legitimately part of the date itself), amounts can be in three currencies that all need converting to a common one, and duplicate rows need to be dropped. It is a strong test of handling several layers of ambiguous formatting at once without them interfering with each other.</p>
 <p class="how"><strong>How it is scored:</strong> The checks include quoted descriptions with embedded commas and escaped quotes, all four date formats, currency-symbol mismatches, duplicate rows, and invalid dates that must be silently dropped.</p>
