@@ -256,32 +256,32 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
         <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
       </tr>
       <tr>
-        <td class="model">Claude Opus 4.8<small>Anthropic &middot; High</small></td>
-        <td class="score gap">115 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
+        <td class="model">Claude Fable 5<small>Anthropic &middot; High</small></td>
+        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
       </tr>
       <tr>
         <td class="model">Qwen3.8-Max-Preview<small>Alibaba &middot; Think</small></td>
         <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
       </tr>
       <tr>
-        <td class="model">Claude Fable 5<small>Anthropic &middot; High</small></td>
-        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
+        <td class="model">Gemini 3.6 Flash<small>Google &middot; default &middot; via API</small></td>
+        <td class="score full">116 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score gap">9 / 10</td><td class="score gap">11 / 13</td>
+      </tr>
+      <tr>
+        <td class="model">Claude Opus 4.8<small>Anthropic &middot; High</small></td>
+        <td class="score gap">115 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
+      </tr>
+      <tr>
+        <td class="model">Grok 4.5<small>xAI &middot; Fast</small></td>
+        <td class="score gap">112 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
       </tr>
       <tr>
         <td class="model">DeepSeek<small>DeepSeek &middot; Expert+DeepThink</small></td>
         <td class="score gap">106 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
       </tr>
-      <tr class="rowhi">
-        <td class="model">Grok 4.5<small>xAI &middot; Fast</small></td>
-        <td class="score gap">112 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
-      </tr>
       <tr>
         <td class="model">Gemini 3.5 Flash-Lite<small>Google &middot; default &middot; via API</small></td>
         <td class="score gap">104 / 124</td><td>5 / 5</td><td class="score gap">2 / 4</td><td>not yet checked by eye</td><td class="score full">10 / 10</td><td class="score gap">9 / 13</td>
-      </tr>
-      <tr>
-        <td class="model">Gemini 3.6 Flash<small>Google &middot; default &middot; via API</small></td>
-        <td class="score full">116 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score gap">9 / 10</td><td class="score gap">11 / 13</td>
       </tr>
     </tbody>
   </table>
@@ -357,7 +357,7 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
       </tr>
       <tr>
         <td class="model">Qwen3.8-Max-Preview</td>
-        <td class="score full">4/4</td><td class="score dash">1/1*</td><td class="score gap">1/4</td><td class="score dash">&mdash;</td><td class="score gap">0/4 clean (4/5 &times;4)</td><td class="score full">4/4</td>
+        <td class="score full">4/4</td><td class="score full">4/4</td><td class="score gap">1/4</td><td class="score full">4/4</td><td class="score gap">0/4 clean (4/5 &times;4)</td><td class="score full">4/4</td>
       </tr>
       <tr>
         <td class="model">Gemini 3.5 Flash-Lite</td>
@@ -372,9 +372,7 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   </div>
   <p class="note">Reading the table: a cell is the count of runs (out of 4)
   that passed <em>every</em> hidden check for that task. &mdash; means no runs
-  have been done yet for that model on that task. *Qwen has completed four
-  runs on Tasks 3, 12, 15, 19 and 21; Task 8 has one run so far (a pass) with
-  the rest queued. &dagger;One run each for Opus's Task 8, Fable's Task 3, and
+  have been done yet for that model on that task. &dagger;One run each for Opus's Task 8, Fable's Task 3, and
   Sonnet's Task 12 had a saving problem on our side &mdash; the code came back with
   stray explanation text wrapped around it, so it never runs, and it's counted
   here as a fail since that's what the saved file actually contains. Counting
@@ -450,21 +448,20 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   <code>.timestamp()</code> values instead sidesteps the shortcut entirely:</p>
   <div class="codegrid two">
     <div class="codecard">
-      <div class="codecard-h"><span class="name">Claude Sonnet 5 &amp; Claude Opus 4.8</span><span class="tag ok">correct</span></div>
+      <div class="codecard-h"><span class="name">Claude Opus 4.8 &amp; Claude Fable 5</span><span class="tag ok">correct</span></div>
       <pre>return e.timestamp() - s.timestamp()   <span style="color:var(--muted)"># sidesteps the shortcut entirely</span></pre>
     </div>
     <div class="codecard">
-      <div class="codecard-h"><span class="name">Claude Fable 5, Grok 4.5 &amp; Qwen3.8-Max-Preview</span><span class="tag no">off by exactly 1 hour, 5 of 8 cases</span></div>
+      <div class="codecard-h"><span class="name">Sonnet, Grok &amp; Qwen (their failing runs)</span><span class="tag no">off by exactly 1 hour, 5 of 8 cases</span></div>
       <pre>return (end_dt - start_dt).total_seconds()   <span style="color:var(--muted)"># same tzinfo object &rarr; naive subtraction, DST offset silently dropped</span></pre>
     </div>
   </div>
   <p>What makes this one worth calling out: <strong>three completely
   independent, differently-shaped pieces of code fall into the identical trap.</strong>
-  Fable's and Qwen's are simple one-line subtractions. Grok's is nothing like
+  Sonnet's and Qwen's are simple one-line subtractions. Grok's is nothing like
   that &mdash; it's an elaborate 15-line routine that manually walks backwards
   second-by-second to correctly resolve the spring-forward gap, gets that hard
-  part right, and <em>still</em> ends on the exact same naive subtraction as the
-  other two. Sophistication in the gap-handling logic did not protect it from a
+  part right, and <em>still</em> ends on the exact same naive subtraction as the others. Sophistication in the gap-handling logic did not protect it from a
   bug in the very last line. DeepSeek fails all 8 cases too, but for an unrelated
   reason: its code imports <code>NonExistentTimeError</code> from
   <code>zoneinfo</code>, a name that does not exist there, so the function never
