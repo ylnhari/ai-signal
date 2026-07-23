@@ -151,6 +151,9 @@ details.task,h2[id]{scroll-margin-top:74px}
 a.tlink{color:inherit;text-decoration:none;border-bottom:1px dotted var(--muted);}
 a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decoration:none;}
 .t19d{font-weight:400;font-size:.75em;color:var(--muted);white-space:nowrap;display:block;}
+.fine{font-size:.88rem;color:var(--muted);}
+.fine strong{color:var(--ink);}
+.fine a{color:var(--accent);}
 </style>
 </head>
 <body>
@@ -229,7 +232,8 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
       were checked against a prepared answer sheet: exact facts, exact
       contradictions, and &mdash; just as important &mdash; no invented ones.</li>
     <li><strong>Drawings, judged two ways.</strong> The free-form drawing was judged
-      by eye (is it a coherent scene with all the requested parts?). The strict one
+      by eye &mdash; a coherence check, then the editor ranked the drawings against
+      each other (<a class="tlink" href="#task-24">Task 24</a> shows each one with its verdict). The strict one
       was scored by a script that verifies ten precise requirements.</li>
     <li><strong>Reasoning and language, graded against an exact key.</strong> The
       character-counting questions have one correct number each; the poem is
@@ -258,31 +262,31 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
     <tbody>
       <tr>
         <td class="model">Claude Sonnet 5<small>Anthropic &middot; Medium</small></td>
-        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
+        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>5th of 6</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
       </tr>
       <tr>
         <td class="model">Claude Fable 5<small>Anthropic &middot; High</small></td>
-        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
+        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>2nd of 6</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
       </tr>
       <tr>
         <td class="model">Qwen3.8-Max-Preview<small>Alibaba &middot; Think</small></td>
-        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
+        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>1st of 6</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
       </tr>
       <tr>
         <td class="model">Gemini 3.6 Flash<small>Google &middot; default &middot; via API</small></td>
-        <td class="score full">116 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score gap">9 / 10</td><td class="score gap">11 / 13</td>
+        <td class="score full">116 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete, unranked</td><td class="score gap">9 / 10</td><td class="score gap">11 / 13</td>
       </tr>
       <tr>
         <td class="model">Claude Opus 4.8<small>Anthropic &middot; High</small></td>
-        <td class="score gap">115 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
+        <td class="score gap">115 / 124</td><td>5 / 5</td><td>4 / 4</td><td>4th of 6</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
       </tr>
       <tr>
         <td class="model">Grok 4.5<small>xAI &middot; Fast</small></td>
-        <td class="score gap">112 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
+        <td class="score gap">112 / 124</td><td>5 / 5</td><td>4 / 4</td><td>6th of 6</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
       </tr>
       <tr>
         <td class="model">DeepSeek<small>DeepSeek &middot; Expert+DeepThink</small></td>
-        <td class="score gap">106 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
+        <td class="score gap">106 / 124</td><td>5 / 5</td><td>4 / 4</td><td>3rd of 6</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
       </tr>
       <tr>
         <td class="model">Gemini 3.5 Flash-Lite<small>Google &middot; default &middot; via API</small></td>
@@ -5486,19 +5490,19 @@ Section 14: "Free-tier accounts are limited to a single project."
 </details>
 </div></details>
 
-<details class="task" id="task-24"><summary><span class="tid">Task 24</span> <span class="tname">Draw a scene, freely</span> <span class="tfam">drawing &middot; judged by eye</span> <span class="tmini">Sonnet coherent · Opus coherent · Fable coherent · Grok coherent · DeepSeek coherent · Qwen coherent · Gemini: drawn, not yet checked by eye</span></summary>
+<details class="task" id="task-24"><summary><span class="tid">Task 24</span> <span class="tname">Draw a scene, freely</span> <span class="tfam">drawing &middot; judged by eye</span> <span class="tmini">Qwen 1st &middot; Fable 2nd &middot; DeepSeek 3rd &middot; Opus 4th &middot; Sonnet 5th &middot; Grok 6th &middot; Gemini: drawn, not yet ranked</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> spatial imagination and the ability to turn a described scene into working drawing-code. Each model was asked to generate an SVG &#8212; a text-based image format where the model literally writes code that a browser renders into a picture &#8212; of an auto-rickshaw towing a server rack up a steep hill in monsoon rain, with no constraints on how to do it.</p>
-<p class="how"><strong>How it is scored:</strong> judged by eye &#8212; is it a coherent scene containing all the described elements (the rickshaw, the server rack, the hill, the rain)? Every drawing reviewed so far is a complete, coherent scene; the two Gemini drawings haven't been reviewed yet.</p>
+<p class="how"><strong>How it is scored:</strong> judged by eye, in two steps. First: is it a coherent scene containing all the described elements (the rickshaw, the server rack, the hill, the rain)? All six drawings below clear that bar. Then the editor ranked the six against each other, looking at whether the rack rides <em>behind</em> the vehicle on a believable tow line, whether the wheels actually sit on the road, and how much of the storm made it in &mdash; night lighting, lightning, puddles, a strapped-down rack. The two Gemini drawings haven&rsquo;t been ranked yet.</p>
 <details class="sub"><summary>Show the exact prompt</summary><pre>Generate an SVG of an auto-rickshaw towing a server rack up a steep hill,
 monsoon rain falling. Return only the SVG in one code block.</pre></details>
 <details class="sub" open><summary>See what each model drew</summary>
-<figure class="drawing"><figcaption>Qwen3.8-Max-Preview</figcaption><img class="svgshot" src="bench-assets/qwen-rickshaw.svg" alt="Qwen's rickshaw scene" loading="lazy"></figure>
-<figure class="drawing"><figcaption>Grok 4.5</figcaption><img class="svgshot" src="bench-assets/grok-rickshaw.svg" alt="Grok's rickshaw scene" loading="lazy"></figure>
-<figure class="drawing"><figcaption>Claude Sonnet 5</figcaption><img class="svgshot" src="bench-assets/sonnet-rickshaw.svg" alt="Sonnet's rickshaw scene" loading="lazy"></figure>
-<figure class="drawing"><figcaption>DeepSeek (Expert+DeepThink)</figcaption><img class="svgshot" src="bench-assets/deepseek-rickshaw.svg" alt="DeepSeek's rickshaw scene" loading="lazy"></figure>
-<figure class="drawing"><figcaption>Claude Fable 5</figcaption><img class="svgshot" src="bench-assets/fable-rickshaw.svg" alt="Fable's rickshaw scene" loading="lazy"></figure>
-<figure class="drawing"><figcaption>Claude Opus 4.8</figcaption><img class="svgshot" src="bench-assets/opus-rickshaw.svg" alt="Opus's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Qwen3.8-Max-Preview &middot; ranked 1st &mdash; a real night scene: lightning, headlight beams on a marked road, the rack strapped down, puddles on the tarmac</figcaption><img class="svgshot" src="bench-assets/qwen-rickshaw.svg" alt="Qwen's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Grok 4.5 &middot; ranked 6th &mdash; flat ground instead of a hill, no tow line at all, the most cartoonish of the set</figcaption><img class="svgshot" src="bench-assets/grok-rickshaw.svg" alt="Grok's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Claude Sonnet 5 &middot; ranked 5th &mdash; the rack sits ahead of the vehicle that is supposed to be pulling it, and the rope barely connects</figcaption><img class="svgshot" src="bench-assets/sonnet-rickshaw.svg" alt="Sonnet's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>DeepSeek (Expert+DeepThink) &middot; ranked 3rd &mdash; all the elements, but the tow rope is a dashed sketch-line and the rickshaw reads more road-roller than rickshaw</figcaption><img class="svgshot" src="bench-assets/deepseek-rickshaw.svg" alt="DeepSeek's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Claude Fable 5 &middot; ranked 2nd &mdash; everything in its place (rack trailing on its own wheels, tow line, exhaust), just plainer than Qwen&rsquo;s</figcaption><img class="svgshot" src="bench-assets/fable-rickshaw.svg" alt="Fable's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Claude Opus 4.8 &middot; ranked 4th &mdash; gets most of it right, but the rickshaw floats above the road</figcaption><img class="svgshot" src="bench-assets/opus-rickshaw.svg" alt="Opus's rickshaw scene" loading="lazy"></figure>
 </details>
 </div></details>
 
@@ -5533,11 +5537,14 @@ SVG in one code block. Your SVG MUST satisfy ALL of these constraints:
 
   <hr>
   <h2>A few honest notes</h2>
-  <ul>
-    <li><strong>Defaults, on purpose.</strong> Each model ran at its own site's
-      default setting, and those defaults differ. That means this isn't a perfectly
-      controlled lab experiment &mdash; it's a snapshot of what a real person gets
-      when they open each chat and paste the same request.</li>
+  <ul class="fine">
+    <li><strong>Defaults, on purpose &mdash; with two exceptions.</strong> Six of
+      the eight models ran at their own chat site's default setting; DeepSeek was
+      deliberately run at its strongest reasoning setting, and the two Gemini
+      models ran through Google's API at its defaults. Those settings differ
+      from each other, so this isn't a perfectly controlled lab experiment
+      &mdash; it's a snapshot of what a real person gets by pasting the same
+      request into each.</li>
     <li><strong>One shot each.</strong> I took the first answer, with no retries or
       hints. A model might well fix its slip if you point it out &mdash; but the
       whole point was to see who gets it right unprompted on messy data.</li>
@@ -5567,7 +5574,7 @@ SVG in one code block. Your SVG MUST satisfy ALL of these constraints:
   <p class="note">Longer pieces that lean on these results, or that this page grew out of.
   Each is on the site and on Medium.</p>
 
-  <ul>
+  <ul class="fine">
     <li><a href="https://ylnhari.github.io/blog/posts/2026-07-18-sonnet-5-vs-grok-4-5-one-line/">Claude Sonnet 5 vs Grok 4.5: Same Intelligence, and a Price Gap Opening in September</a>
       &mdash; the post that first found the comma trap
       (<a href="https://ylnhari.medium.com/claude-sonnet-5-vs-grok-4-5-same-intelligence-and-a-price-gap-opening-in-september-4049078e3843">also on Medium</a>)</li>
