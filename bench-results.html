@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="A standing hands-on comparison of leading AI models on the same twenty-five tasks.">
-<title>Model Face-Off</title>
+<title>Model Face-Off &mdash; The results</title>
 <style>
 :root{
   --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
@@ -183,74 +183,78 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
 </div></div>
 
 <div class="wrap docs"><div class="docsgrid">
-<nav class="pagenav" aria-label="Report pages"><a href="bench.html" class="here">Overview</a><a href="bench-method.html">How it was run</a><a href="bench-results.html">The results</a><a href="bench-runs.html">Every run</a><a href="bench-traps.html">The traps</a><a href="bench-tasks.html">All 25 tasks</a><a href="bench-compare.html">Compare</a><a href="bench-notes.html">Notes &amp; writing</a></nav>
+<nav class="pagenav" aria-label="Report pages"><a href="bench.html">Overview</a><a href="bench-method.html">How it was run</a><a href="bench-results.html" class="here">The results</a><a href="bench-runs.html">Every run</a><a href="bench-traps.html">The traps</a><a href="bench-tasks.html">All 25 tasks</a><a href="bench-compare.html">Compare</a><a href="bench-notes.html">Notes &amp; writing</a></nav>
 <main class="content">
-  <h1>How today's leading AI models handle real coding, reading, and drawing</h1>
-  <p class="dek">Benchmark scores are easy to quote and hard to trust. So I run
-  the strongest AI models through the same twenty-five hands-on tasks &mdash; the
-  messy, detail-heavy kind that separates a model that <em>looks</em> right from
-  one that <em>is</em> right &mdash; and check every single answer, then re-run
-  the results four times over to see which findings actually hold up. Same tasks, same checks, every model.</p>
-  <p class="byline">By Hari Yelesetty &middot; updated 22 July 2026</p>
-
-  <p>The lineup: Claude&nbsp;Sonnet&nbsp;5, Claude&nbsp;Opus&nbsp;4.8 and Claude&nbsp;Fable&nbsp;5
-  (Anthropic), Grok&nbsp;4.5 (xAI), DeepSeek (run at its strongest reasoning
-  setting), Qwen3.8-Max-Preview (Alibaba), Gemini&nbsp;3.6&nbsp;Flash and
-  Gemini&nbsp;3.5&nbsp;Flash-Lite (Google). Each model gets the identical tasks at
-  out-of-the-box settings &mdash; typed into its normal chat website, except the
-  two Gemini models, which ran through Google's API at default settings. Answers
-  are graded, most of them automatically, against the exact edge cases a rushed
-  answer trips over &mdash; and every task is run four times per model from a
-  clean context, so no single fluke decides a number.</p>
+<h2>The results</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr>
+      <th class="model">Model</th>
+      <th>Coding<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#tasks">Tasks 1&ndash;18 &middot; 124 checks</a></span></th>
+      <th>Fact recall<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#task-22">Task 22</a></span></th>
+      <th>Spotting<br>contradictions<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#task-23">Task 23</a></span></th>
+      <th>Free<br>drawing<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#task-24">Task 24</a></span></th>
+      <th>Strict drawing<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#task-25">Task 25 &middot; of 10</a></span></th>
+      <th>Reasoning &amp;<br>language<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#task-19">Tasks 19&ndash;21 &middot; of 13</a></span></th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="model">Claude Sonnet 5<small>Anthropic &middot; Medium</small></td>
+        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>5th of 6</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
+      </tr>
+      <tr>
+        <td class="model">Claude Fable 5<small>Anthropic &middot; High</small></td>
+        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>2nd of 6</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
+      </tr>
+      <tr>
+        <td class="model">Qwen3.8-Max-Preview<small>Alibaba &middot; Think</small></td>
+        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>1st of 6</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
+      </tr>
+      <tr>
+        <td class="model">Gemini 3.6 Flash<small>Google &middot; default &middot; via API</small></td>
+        <td class="score full">116 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete, unranked</td><td class="score gap">9 / 10</td><td class="score gap">11 / 13</td>
+      </tr>
+      <tr>
+        <td class="model">Claude Opus 4.8<small>Anthropic &middot; High</small></td>
+        <td class="score gap">115 / 124</td><td>5 / 5</td><td>4 / 4</td><td>4th of 6</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
+      </tr>
+      <tr>
+        <td class="model">Grok 4.5<small>xAI &middot; Fast</small></td>
+        <td class="score gap">112 / 124</td><td>5 / 5</td><td>4 / 4</td><td>6th of 6</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
+      </tr>
+      <tr>
+        <td class="model">DeepSeek<small>DeepSeek &middot; Expert+DeepThink</small></td>
+        <td class="score gap">106 / 124</td><td>5 / 5</td><td>4 / 4</td><td>3rd of 6</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
+      </tr>
+      <tr>
+        <td class="model">Gemini 3.5 Flash-Lite<small>Google &middot; default &middot; via API</small></td>
+        <td class="score gap">104 / 124</td><td>5 / 5</td><td class="score gap">2 / 4</td><td>not yet checked by eye</td><td class="score full">10 / 10</td><td class="score gap">9 / 13</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Gemini&nbsp;3.5&nbsp;Flash-Lite's fact-recall score comes from an automated
+  keyword scan rather than a human read, and its free drawing hasn't been
+  checked by eye yet.</p>
+  <p><strong>Reading the table.</strong> Every number is the floor a model
+  held across four separate runs &mdash; a check counts only if it passed in all
+  four &mdash; so these are results you can rely on, not lucky sittings.
+  No model sweeps the comparison: Claude&nbsp;Sonnet&nbsp;5 and
+  Claude&nbsp;Fable&nbsp;5 share the coding lead, and DeepSeek and
+  Gemini&nbsp;3.5&nbsp;Flash-Lite give up the most ground &mdash; almost always by
+  repeating one small mistake across runs rather than by failing broadly.
+  Counting whole tasks a model kept clean in every run, out of 18:
+  Sonnet&nbsp;17, Qwen&nbsp;17, Opus&nbsp;16, Fable&nbsp;16, Gemini&nbsp;3.6&nbsp;Flash&nbsp;16,
+  Grok&nbsp;15, DeepSeek&nbsp;15, Gemini&nbsp;3.5&nbsp;Flash-Lite&nbsp;12. Every
+  model finds all four planted contradictions with zero false alarms except
+  Gemini&nbsp;3.5&nbsp;Flash-Lite, which never finds more than three. Eleven of the twenty-five tasks carry every one of these gaps &mdash; <a class="tlink" href="bench-runs.html#steady">the run-by-run record</a> shows them run by run. None of it is about which model reasons
+  hardest; it's about where each one's carefulness runs out, and how
+  consistently.</p>
 
   
 
-  <p>The tasks come in <a class="tlink" href="bench-tasks.html#tasks">four families</a>, and each one is built to probe a specific
-  ability &mdash; and to hide a small trap that a careless answer walks straight
-  into:</p>
-  <ul>
-    <li><strong><a class="tlink" href="bench-tasks.html#task-1">Writing and fixing code</a> (18 tasks).</strong> Small, self-contained
-      programming problems &mdash; merging overlapping calendar events, a rate
-      limiter, parsers for messy financial data, two "here's buggy code, fix it"
-      challenges, a speed-sensitive problem that punishes a slow approach, database
-      queries, timezone/DST-aware duration math, exact-cent money rounding, Unicode
-      text truncation, SQL NULL-handling and join fan-out, and a closures/mutable-default
-      trap. Each answer is run against a hidden set of automated checks &mdash;
-      <strong>124 in total</strong> &mdash; that pound on the corner cases: empty
-      inputs, boundary values, deliberately malformed data, daylight-saving-time
-      transitions.</li>
-    <li><strong><a class="tlink" href="bench-tasks.html#task-22">Reading and reasoning over long documents</a> (2 tasks).</strong> The
-      model is handed a large, dense document and asked either to pull out precise
-      facts scattered through it, or to find places where the document quietly
-      contradicts itself.</li>
-    <li><strong><a class="tlink" href="bench-tasks.html#task-24">Turning a description into a picture</a> (2 tasks).</strong> Here the
-      model has to draw. It writes the picture as <strong>SVG</strong> &mdash; a
-      text-based image format where you describe a picture in code
-      (<code>&lt;circle&gt;</code>, <code>&lt;rect&gt;</code>, <code>&lt;path&gt;</code>&hellip;)
-      and a browser renders it. One drawing is judged by eye; the other must
-      satisfy ten exact, machine-checked requirements while still looking right.</li>
-    <li><strong><a class="tlink" href="bench-tasks.html#task-19">Reasoning and language under pressure</a> (3 tasks).</strong> No code
-      this time &mdash; just five character-counting and spelling questions from the
-      "how many r's in strawberry" family, a poem that must satisfy four exact
-      structural rules at once (an acrostic, a fixed word count per line, a
-      matching rhyme word) while still reading like a poem, and four classic
-      misdirection puzzles reworded so a model can't just pattern-match a
-      memorized answer.</li>
-  </ul>
-
   
-
-  <h2>What&rsquo;s in this report</h2>
-<ul class="fine">
-  <li><strong><a class="tlink" href="bench-method.html">How it was run</a>.</strong> Same prompts, same conditions, graded by hidden checks &mdash; the ground rules.</li>
-  <li><strong><a class="tlink" href="bench-results.html">The results</a>.</strong> The scoreboard: every model&rsquo;s floor across four runs, column by column.</li>
-  <li><strong><a class="tlink" href="bench-runs.html">Every run</a>.</strong> The complete record &mdash; all twenty-five tasks, every model, every run.</li>
-  <li><strong><a class="tlink" href="bench-traps.html">The traps</a>.</strong> The messy-data traps that actually told the models apart.</li>
-  <li><strong><a class="tlink" href="bench-tasks.html">All 25 tasks</a>.</strong> Each task in full: prompt, what it probes, and what each model did.</li>
-  <li><strong><a class="tlink" href="bench-compare.html">Compare</a>.</strong> Pick models and tasks; line up scores, answers and drawings side by side.</li>
-  <li><strong><a class="tlink" href="bench-notes.html">Notes & writing</a>.</strong> Caveats worth knowing, and the longer pieces these results feed.</li>
-</ul>
-<nav class="booknav"><span></span><a href="bench-method.html">How it was run &rarr;</a></nav>
+<nav class="booknav"><a href="bench-method.html">&larr; How it was run</a><a href="bench-runs.html">Every run &rarr;</a></nav>
 <footer class="foot">
     A hands-on model comparison &middot; by <a href="https://ylnhari.github.io">Hari Yelesetty</a>
     <div class="foot-links">

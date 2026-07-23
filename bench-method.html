@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="A standing hands-on comparison of leading AI models on the same twenty-five tasks.">
-<title>Model Face-Off</title>
+<title>Model Face-Off &mdash; How it was run</title>
 <style>
 :root{
   --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
@@ -183,74 +183,41 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
 </div></div>
 
 <div class="wrap docs"><div class="docsgrid">
-<nav class="pagenav" aria-label="Report pages"><a href="bench.html" class="here">Overview</a><a href="bench-method.html">How it was run</a><a href="bench-results.html">The results</a><a href="bench-runs.html">Every run</a><a href="bench-traps.html">The traps</a><a href="bench-tasks.html">All 25 tasks</a><a href="bench-compare.html">Compare</a><a href="bench-notes.html">Notes &amp; writing</a></nav>
+<nav class="pagenav" aria-label="Report pages"><a href="bench.html">Overview</a><a href="bench-method.html" class="here">How it was run</a><a href="bench-results.html">The results</a><a href="bench-runs.html">Every run</a><a href="bench-traps.html">The traps</a><a href="bench-tasks.html">All 25 tasks</a><a href="bench-compare.html">Compare</a><a href="bench-notes.html">Notes &amp; writing</a></nav>
 <main class="content">
-  <h1>How today's leading AI models handle real coding, reading, and drawing</h1>
-  <p class="dek">Benchmark scores are easy to quote and hard to trust. So I run
-  the strongest AI models through the same twenty-five hands-on tasks &mdash; the
-  messy, detail-heavy kind that separates a model that <em>looks</em> right from
-  one that <em>is</em> right &mdash; and check every single answer, then re-run
-  the results four times over to see which findings actually hold up. Same tasks, same checks, every model.</p>
-  <p class="byline">By Hari Yelesetty &middot; updated 22 July 2026</p>
-
-  <p>The lineup: Claude&nbsp;Sonnet&nbsp;5, Claude&nbsp;Opus&nbsp;4.8 and Claude&nbsp;Fable&nbsp;5
-  (Anthropic), Grok&nbsp;4.5 (xAI), DeepSeek (run at its strongest reasoning
-  setting), Qwen3.8-Max-Preview (Alibaba), Gemini&nbsp;3.6&nbsp;Flash and
-  Gemini&nbsp;3.5&nbsp;Flash-Lite (Google). Each model gets the identical tasks at
-  out-of-the-box settings &mdash; typed into its normal chat website, except the
-  two Gemini models, which ran through Google's API at default settings. Answers
-  are graded, most of them automatically, against the exact edge cases a rushed
-  answer trips over &mdash; and every task is run four times per model from a
-  clean context, so no single fluke decides a number.</p>
-
-  
-
-  <p>The tasks come in <a class="tlink" href="bench-tasks.html#tasks">four families</a>, and each one is built to probe a specific
-  ability &mdash; and to hide a small trap that a careless answer walks straight
-  into:</p>
+<h2>How the test was run</h2>
+  <p>Fairness came from keeping everything identical except the model:</p>
   <ul>
-    <li><strong><a class="tlink" href="bench-tasks.html#task-1">Writing and fixing code</a> (18 tasks).</strong> Small, self-contained
-      programming problems &mdash; merging overlapping calendar events, a rate
-      limiter, parsers for messy financial data, two "here's buggy code, fix it"
-      challenges, a speed-sensitive problem that punishes a slow approach, database
-      queries, timezone/DST-aware duration math, exact-cent money rounding, Unicode
-      text truncation, SQL NULL-handling and join fan-out, and a closures/mutable-default
-      trap. Each answer is run against a hidden set of automated checks &mdash;
-      <strong>124 in total</strong> &mdash; that pound on the corner cases: empty
-      inputs, boundary values, deliberately malformed data, daylight-saving-time
-      transitions.</li>
-    <li><strong><a class="tlink" href="bench-tasks.html#task-22">Reading and reasoning over long documents</a> (2 tasks).</strong> The
-      model is handed a large, dense document and asked either to pull out precise
-      facts scattered through it, or to find places where the document quietly
-      contradicts itself.</li>
-    <li><strong><a class="tlink" href="bench-tasks.html#task-24">Turning a description into a picture</a> (2 tasks).</strong> Here the
-      model has to draw. It writes the picture as <strong>SVG</strong> &mdash; a
-      text-based image format where you describe a picture in code
-      (<code>&lt;circle&gt;</code>, <code>&lt;rect&gt;</code>, <code>&lt;path&gt;</code>&hellip;)
-      and a browser renders it. One drawing is judged by eye; the other must
-      satisfy ten exact, machine-checked requirements while still looking right.</li>
-    <li><strong><a class="tlink" href="bench-tasks.html#task-19">Reasoning and language under pressure</a> (3 tasks).</strong> No code
-      this time &mdash; just five character-counting and spelling questions from the
-      "how many r's in strawberry" family, a poem that must satisfy four exact
-      structural rules at once (an acrostic, a fixed word count per line, a
-      matching rhyme word) while still reading like a poem, and four classic
-      misdirection puzzles reworded so a model can't just pattern-match a
-      memorized answer.</li>
+    <li><strong>Same conditions.</strong> Every prompt was pasted <em>word for
+      word</em> into each model's own chat website, and I took the first answer
+      &mdash; one attempt, no coaching. Each model runs at the mode shown next
+      to its name in the table: each site's own default, except DeepSeek, which
+      is deliberately run at its strongest reasoning setting.</li>
+    <li><strong>Coding, graded automatically.</strong> Each program was run against
+      a set of hidden checks &mdash; 124 across the eighteen tasks &mdash; that hammer
+      the edge cases. A task only counts as passed if <em>every</em> one of its
+      checks passes, so a single overlooked corner case fails the whole task.</li>
+    <li><strong>Reading, graded against a key.</strong> The long-document answers
+      were checked against a prepared answer sheet: exact facts, exact
+      contradictions, and &mdash; just as important &mdash; no invented ones.</li>
+    <li><strong>Drawings, judged two ways.</strong> The free-form drawing was judged
+      by eye &mdash; a coherence check, then the editor ranked the drawings against
+      each other (<a class="tlink" href="bench-tasks.html#task-24">Task 24</a> shows each one with its verdict). The strict one
+      was scored by a script that verifies ten precise requirements.</li>
+    <li><strong>Reasoning and language, graded against an exact key.</strong> The
+      character-counting questions have one correct number each; the poem is
+      checked programmatically against all four of its rules (line count, first
+      letters, word count per line, matching end word); the misdirection puzzles
+      each have one correct final answer, checked exactly &mdash; no partial credit
+      for "close."</li>
+    <li><strong>The checks stay private</strong> so no model can "study to the
+      test." The prompts and the answers, though, are all here for you to inspect.</li>
+    
+    
   </ul>
 
   
-
-  <h2>What&rsquo;s in this report</h2>
-<ul class="fine">
-  <li><strong><a class="tlink" href="bench-method.html">How it was run</a>.</strong> Same prompts, same conditions, graded by hidden checks &mdash; the ground rules.</li>
-  <li><strong><a class="tlink" href="bench-results.html">The results</a>.</strong> The scoreboard: every model&rsquo;s floor across four runs, column by column.</li>
-  <li><strong><a class="tlink" href="bench-runs.html">Every run</a>.</strong> The complete record &mdash; all twenty-five tasks, every model, every run.</li>
-  <li><strong><a class="tlink" href="bench-traps.html">The traps</a>.</strong> The messy-data traps that actually told the models apart.</li>
-  <li><strong><a class="tlink" href="bench-tasks.html">All 25 tasks</a>.</strong> Each task in full: prompt, what it probes, and what each model did.</li>
-  <li><strong><a class="tlink" href="bench-compare.html">Compare</a>.</strong> Pick models and tasks; line up scores, answers and drawings side by side.</li>
-  <li><strong><a class="tlink" href="bench-notes.html">Notes & writing</a>.</strong> Caveats worth knowing, and the longer pieces these results feed.</li>
-</ul>
-<nav class="booknav"><span></span><a href="bench-method.html">How it was run &rarr;</a></nav>
+<nav class="booknav"><a href="bench.html">&larr; Overview</a><a href="bench-results.html">The results &rarr;</a></nav>
 <footer class="foot">
     A hands-on model comparison &middot; by <a href="https://ylnhari.github.io">Hari Yelesetty</a>
     <div class="foot-links">

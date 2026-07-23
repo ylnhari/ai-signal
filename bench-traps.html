@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="A standing hands-on comparison of leading AI models on the same twenty-five tasks.">
-<title>Model Face-Off</title>
+<title>Model Face-Off &mdash; The traps</title>
 <style>
 :root{
   --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
@@ -183,74 +183,134 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
 </div></div>
 
 <div class="wrap docs"><div class="docsgrid">
-<nav class="pagenav" aria-label="Report pages"><a href="bench.html" class="here">Overview</a><a href="bench-method.html">How it was run</a><a href="bench-results.html">The results</a><a href="bench-runs.html">Every run</a><a href="bench-traps.html">The traps</a><a href="bench-tasks.html">All 25 tasks</a><a href="bench-compare.html">Compare</a><a href="bench-notes.html">Notes &amp; writing</a></nav>
+<nav class="pagenav" aria-label="Report pages"><a href="bench.html">Overview</a><a href="bench-method.html">How it was run</a><a href="bench-results.html">The results</a><a href="bench-runs.html">Every run</a><a href="bench-traps.html" class="here">The traps</a><a href="bench-tasks.html">All 25 tasks</a><a href="bench-compare.html">Compare</a><a href="bench-notes.html">Notes &amp; writing</a></nav>
 <main class="content">
-  <h1>How today's leading AI models handle real coding, reading, and drawing</h1>
-  <p class="dek">Benchmark scores are easy to quote and hard to trust. So I run
-  the strongest AI models through the same twenty-five hands-on tasks &mdash; the
-  messy, detail-heavy kind that separates a model that <em>looks</em> right from
-  one that <em>is</em> right &mdash; and check every single answer, then re-run
-  the results four times over to see which findings actually hold up. Same tasks, same checks, every model.</p>
-  <p class="byline">By Hari Yelesetty &middot; updated 22 July 2026</p>
+<h2>The one kind of task that told them apart</h2>
+  <p>Twelve of the eighteen coding tasks were passed by every model tested, on every run, including the genuinely tricky ones. The gap opened on the tasks that mimic <em>real</em>
+  data &mdash; a bank statement, a shared-format ledger &mdash; where the input is
+  deliberately messy. Two traps were hidden in that data, and each model's fate
+  came down to a single line.</p>
 
-  <p>The lineup: Claude&nbsp;Sonnet&nbsp;5, Claude&nbsp;Opus&nbsp;4.8 and Claude&nbsp;Fable&nbsp;5
-  (Anthropic), Grok&nbsp;4.5 (xAI), DeepSeek (run at its strongest reasoning
-  setting), Qwen3.8-Max-Preview (Alibaba), Gemini&nbsp;3.6&nbsp;Flash and
-  Gemini&nbsp;3.5&nbsp;Flash-Lite (Google). Each model gets the identical tasks at
-  out-of-the-box settings &mdash; typed into its normal chat website, except the
-  two Gemini models, which ran through Google's API at default settings. Answers
-  are graded, most of them automatically, against the exact edge cases a rushed
-  answer trips over &mdash; and every task is run four times per model from a
-  clean context, so no single fluke decides a number.</p>
+  <h3>Trap 1 &mdash; numbers with commas in them</h3>
+  <p>A money amount like <code>1,200.50</code> contains a comma. If you split a
+  <code>date,description,amount</code> line on <em>every</em> comma, that amount
+  shatters into two pieces, the row no longer has the right shape, and it silently
+  vanishes. The fix is one word &mdash; tell the split to stop after the first two
+  commas:</p>
+  <div class="codegrid two">
+    <div class="codecard">
+      <div class="codecard-h"><span class="name">Sonnet &amp; Qwen (every run)</span><span class="tag ok">handled it</span></div>
+      <pre>line.split(',', 2)   <span style="color:var(--muted)"># split on the first two commas only</span></pre>
+    </div>
+    <div class="codecard">
+      <div class="codecard-h"><span class="name">Both Geminis (every run); Opus &amp; others in failing runs</span><span class="tag no">dropped the row</span></div>
+      <pre>line.split(',')      <span style="color:var(--muted)"># splits 1,200.50 apart, row is lost</span></pre>
+    </div>
+  </div>
 
-  
+  <h3>Trap 2 &mdash; dates that can't exist</h3>
+  <p>The data also plants impossible dates like <code>2026-02-29</code> (2026 isn't
+  a leap year) and <code>2026-04-31</code> (April has 30 days), which are supposed
+  to be thrown out. Checking against a real calendar catches them. Checking only
+  that the day is "between 1 and 31" does not:</p>
+  <div class="codegrid two">
+    <div class="codecard">
+      <div class="codecard-h"><span class="name">Qwen, Grok &amp; Sonnet</span><span class="tag ok">rejected them</span></div>
+      <pre>date(year, month, day)   <span style="color:var(--muted)"># a real calendar refuses Feb 29</span></pre>
+    </div>
+    <div class="codecard">
+      <div class="codecard-h"><span class="name">DeepSeek, Fable &amp; Opus</span><span class="tag no">let them in</span></div>
+      <pre>1 &lt;= day &lt;= 31          <span style="color:var(--muted)"># "31 is a valid number", so Feb 31 passes</span></pre>
+    </div>
+  </div>
+  <p>The <a class="tlink" href="bench-runs.html#steady">run-by-run record</a> has this task's run-by-run rates. What the runs
+  reveal underneath: Grok's one failing run trips all three thousands-comma
+  cases at once &mdash; the identical comma trap that catches both Gemini
+  models in every single run. DeepSeek's two failing runs are two different
+  multi-case misses, not one repeatable slip. And Sonnet and Qwen clear this
+  task in every run &mdash; the only two models that do.</p>
 
-  <p>The tasks come in <a class="tlink" href="bench-tasks.html#tasks">four families</a>, and each one is built to probe a specific
-  ability &mdash; and to hide a small trap that a careless answer walks straight
-  into:</p>
-  <ul>
-    <li><strong><a class="tlink" href="bench-tasks.html#task-1">Writing and fixing code</a> (18 tasks).</strong> Small, self-contained
-      programming problems &mdash; merging overlapping calendar events, a rate
-      limiter, parsers for messy financial data, two "here's buggy code, fix it"
-      challenges, a speed-sensitive problem that punishes a slow approach, database
-      queries, timezone/DST-aware duration math, exact-cent money rounding, Unicode
-      text truncation, SQL NULL-handling and join fan-out, and a closures/mutable-default
-      trap. Each answer is run against a hidden set of automated checks &mdash;
-      <strong>124 in total</strong> &mdash; that pound on the corner cases: empty
-      inputs, boundary values, deliberately malformed data, daylight-saving-time
-      transitions.</li>
-    <li><strong><a class="tlink" href="bench-tasks.html#task-22">Reading and reasoning over long documents</a> (2 tasks).</strong> The
-      model is handed a large, dense document and asked either to pull out precise
-      facts scattered through it, or to find places where the document quietly
-      contradicts itself.</li>
-    <li><strong><a class="tlink" href="bench-tasks.html#task-24">Turning a description into a picture</a> (2 tasks).</strong> Here the
-      model has to draw. It writes the picture as <strong>SVG</strong> &mdash; a
-      text-based image format where you describe a picture in code
-      (<code>&lt;circle&gt;</code>, <code>&lt;rect&gt;</code>, <code>&lt;path&gt;</code>&hellip;)
-      and a browser renders it. One drawing is judged by eye; the other must
-      satisfy ten exact, machine-checked requirements while still looking right.</li>
-    <li><strong><a class="tlink" href="bench-tasks.html#task-19">Reasoning and language under pressure</a> (3 tasks).</strong> No code
-      this time &mdash; just five character-counting and spelling questions from the
-      "how many r's in strawberry" family, a poem that must satisfy four exact
-      structural rules at once (an acrostic, a fixed word count per line, a
-      matching rhyme word) while still reading like a poem, and four classic
-      misdirection puzzles reworded so a model can't just pattern-match a
-      memorized answer.</li>
-  </ul>
+  <h3>Trap 3 &mdash; a decade-old Python subtlety, not a new one (added 21 July)</h3>
+  <p>A harder task (Task 12) asks for the real elapsed seconds between two local
+  wall-clock times in a timezone that observes daylight saving, across the exact
+  moment the clock jumps. Python's own documentation contains the trap: when you
+  subtract two <em>aware</em> datetimes that happen to share the identical
+  <code>tzinfo</code> object, Python silently takes a shortcut and compares the
+  base (naive) datetimes, discarding any difference in UTC offset. Diffing
+  <code>.timestamp()</code> values instead sidesteps the shortcut entirely:</p>
+  <div class="codegrid two">
+    <div class="codecard">
+      <div class="codecard-h"><span class="name">Claude Opus 4.8 &amp; Claude Fable 5</span><span class="tag ok">correct</span></div>
+      <pre>return e.timestamp() - s.timestamp()   <span style="color:var(--muted)"># sidesteps the shortcut entirely</span></pre>
+    </div>
+    <div class="codecard">
+      <div class="codecard-h"><span class="name">Sonnet, Grok &amp; Qwen (their failing runs)</span><span class="tag no">off by exactly 1 hour, 5 of 8 cases</span></div>
+      <pre>return (end_dt - start_dt).total_seconds()   <span style="color:var(--muted)"># same tzinfo object &rarr; naive subtraction, DST offset silently dropped</span></pre>
+    </div>
+  </div>
+  <p>What makes this one worth calling out: <strong>three completely
+  independent, differently-shaped pieces of code fall into the identical trap.</strong>
+  Sonnet's and Qwen's are simple one-line subtractions. Grok's is nothing like
+  that &mdash; it's an elaborate 15-line routine that manually walks backwards
+  second-by-second to correctly resolve the spring-forward gap, gets that hard
+  part right, and <em>still</em> ends on the exact same naive subtraction as the others. Sophistication in the gap-handling logic did not protect it from a
+  bug in the very last line. DeepSeek fails all 8 cases too, but for an unrelated
+  reason: its code imports <code>NonExistentTimeError</code> from
+  <code>zoneinfo</code>, a name that does not exist there, so the function never
+  even runs.</p>
+  <p>The <a class="tlink" href="bench-runs.html#steady">run-by-run record</a> has the exact run-by-run rates &mdash; for most of
+  the field this trap is close to a coin-flip. What's telling is <em>how</em>
+  each model fails. Grok and DeepSeek each invented a nonexistent
+  <span class="mono">zoneinfo</span> exception in one run &mdash; different names,
+  same fabrication. Sonnet, Qwen and both Gemini models reproduce the plain
+  naive-subtraction bug in almost every failing run (Gemini&nbsp;3.5&nbsp;Flash-Lite
+  identically in all four). Fable clears the task every run, and Opus's
+  <span class="mono">.timestamp()</span>-based habit is the only other approach
+  that shows real, if imperfect, resistance.</p>
 
-  
+  <div class="callout">
+    <p><strong>The question every single model gets wrong.</strong>
+    A non-code task (Task 19) asks five character-counting questions, including:
+    count the words in a sentence where a hyphenated compound like
+    "twenty-first-century" counts as ONE word and a standalone em dash does not
+    count as a word at all. The correct count is <strong>13</strong>. <strong>All
+    eight models &mdash; Sonnet, Opus, Fable, Grok, DeepSeek, Qwen, and both
+    Gemini models &mdash; get this wrong in every one of their four runs,
+    answering 12 instead</strong>, with one exception: <strong>Gemini 3.5
+    Flash-Lite gets it right in 3 of its 4 runs</strong> &mdash; the only model,
+    at any sample size, to answer this question correctly at all. Every other
+    question on the task, every model gets right almost every run: Opus also
+    misses the vowel-count question in all four of its runs (answering 6 where
+    the correct count is 8, so it never scores better than 3 of 5); Sonnet
+    fumbles the string-reversal question in one of its four runs; Gemini 3.6
+    Flash fumbles the same string-reversal question in two of its four runs.
+    It's the single most consistent finding on this page: eight different
+    systems, from six different labs, almost all landing on the identical
+    wrong number for the same sentence, run after run.</p>
+  </div>
 
-  <h2>What&rsquo;s in this report</h2>
-<ul class="fine">
-  <li><strong><a class="tlink" href="bench-method.html">How it was run</a>.</strong> Same prompts, same conditions, graded by hidden checks &mdash; the ground rules.</li>
-  <li><strong><a class="tlink" href="bench-results.html">The results</a>.</strong> The scoreboard: every model&rsquo;s floor across four runs, column by column.</li>
-  <li><strong><a class="tlink" href="bench-runs.html">Every run</a>.</strong> The complete record &mdash; all twenty-five tasks, every model, every run.</li>
-  <li><strong><a class="tlink" href="bench-traps.html">The traps</a>.</strong> The messy-data traps that actually told the models apart.</li>
-  <li><strong><a class="tlink" href="bench-tasks.html">All 25 tasks</a>.</strong> Each task in full: prompt, what it probes, and what each model did.</li>
-  <li><strong><a class="tlink" href="bench-compare.html">Compare</a>.</strong> Pick models and tasks; line up scores, answers and drawings side by side.</li>
-  <li><strong><a class="tlink" href="bench-notes.html">Notes & writing</a>.</strong> Caveats worth knowing, and the longer pieces these results feed.</li>
-</ul>
-<nav class="booknav"><span></span><a href="bench-method.html">How it was run &rarr;</a></nav>
+  <p>A misdirection-reasoning task (Task 21) reworded the classic fox/chicken/grain
+  river-crossing puzzle with a boat that holds two items instead of one.
+  <strong>Six of the eight models solve it correctly (3 crossings) in every one
+  of their four runs</strong> &mdash; Sonnet, Opus, Fable, Grok, DeepSeek, and
+  Qwen, each via a valid 3-crossing route. Gemini splits sharply on this one:
+  <strong>3.6 Flash solves it cleanly in all 4 runs, but 3.5 Flash-Lite gets it
+  wrong in all 4</strong> &mdash; the only model in this comparison, at any
+  sample size, to fail the river-crossing question consistently rather than as
+  an occasional miss.</p>
+
+  <p>That is the shape of the gap between the two hardest parsing tasks &mdash;
+  the table above has every rate. The details worth keeping: Grok's two ledger
+  misses are two <em>different</em> single cases (a comma-bearing date, a basic
+  INR row), not one repeatable weakness; Fable's ledger failures are the same
+  single INR case in three of four runs; DeepSeek never clears the ledger's
+  one bad-date case even at its strongest reasoning setting; and
+  Gemini&nbsp;3.6&nbsp;Flash sails the ledger every time while failing the
+  messy-statement parser every time &mdash; the mirror image of most of the
+  field. It is not about how deeply a model can think. It is about whether it
+  reaches for the careful tool when told, plainly, that the data is messy
+  &mdash; and how consistently.</p>
+<nav class="booknav"><a href="bench-runs.html">&larr; Every run</a><a href="bench-tasks.html">All 25 tasks &rarr;</a></nav>
 <footer class="foot">
     A hands-on model comparison &middot; by <a href="https://ylnhari.github.io">Hari Yelesetty</a>
     <div class="foot-links">
