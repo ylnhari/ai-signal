@@ -261,7 +261,7 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
       </tr>
       <tr>
         <td class="model">Qwen3.8-Max-Preview<small>Alibaba &middot; Think</small></td>
-        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score full">12 / 13</td>
+        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>complete</td><td class="score full">10 / 10</td><td class="score gap">11 / 13</td>
       </tr>
       <tr>
         <td class="model">Gemini 3.6 Flash<small>Google &middot; default &middot; via API</small></td>
@@ -292,14 +292,12 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   <p><strong>Reading the table.</strong> Every number is the floor a model
   held across four separate runs &mdash; a check counts only if it passed in all
   four &mdash; so these are results you can rely on, not lucky sittings.
-  (Qwen's row still reflects single runs on the tasks where its four-run
-  checks aren't finished; the stability table below marks those with dashes.)
   No model sweeps the comparison: Claude&nbsp;Sonnet&nbsp;5 and
   Claude&nbsp;Fable&nbsp;5 share the coding lead, and DeepSeek and
   Gemini&nbsp;3.5&nbsp;Flash-Lite give up the most ground &mdash; almost always by
   repeating one small mistake across runs rather than by failing broadly.
   Counting whole tasks a model kept clean in every run, out of 18:
-  Sonnet&nbsp;17, Opus&nbsp;16, Fable&nbsp;16, Gemini&nbsp;3.6&nbsp;Flash&nbsp;16,
+  Sonnet&nbsp;17, Qwen&nbsp;17, Opus&nbsp;16, Fable&nbsp;16, Gemini&nbsp;3.6&nbsp;Flash&nbsp;16,
   Grok&nbsp;15, DeepSeek&nbsp;15, Gemini&nbsp;3.5&nbsp;Flash-Lite&nbsp;12. Every
   model finds all four planted contradictions with zero false alarms except
   Gemini&nbsp;3.5&nbsp;Flash-Lite, which never finds more than three. Six of the
@@ -357,7 +355,7 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
       </tr>
       <tr>
         <td class="model">Qwen3.8-Max-Preview</td>
-        <td class="score full">4/4</td><td class="score full">3/3 so far</td><td class="score gap">1/4</td><td class="score full">4/4</td><td class="score gap">0/4 clean (4/5 &times;4)</td><td class="score full">4/4</td>
+        <td class="score full">4/4</td><td class="score full">3/3 runs</td><td class="score gap">1/4</td><td class="score full">4/4</td><td class="score gap">0/4 clean (4/5 &times;4)</td><td class="score full">4/4</td>
       </tr>
       <tr>
         <td class="model">Gemini 3.5 Flash-Lite</td>
@@ -389,8 +387,9 @@ td.model small{display:block;font-weight:400;color:var(--muted);font-size:.72rem
   (Task&nbsp;23 &mdash; it always finds the device and timeout conflicts but
   dismisses at least one of the other two). Gemini&nbsp;3.6&nbsp;Flash's one
   blemish is the strict drawing (Task&nbsp;25): flawless in three runs, 9 of 10
-  in the fourth. DeepSeek's Tasks 22&ndash;25 and Qwen's other nineteen tasks
-  haven't had their four-run checks yet &mdash; those are the dashes.</p>
+  in the fourth. Qwen's one blemish outside the six is the WAVE acrostic
+  (Task&nbsp;20): 3 of 4, one run writing two six-word lines. DeepSeek's Tasks
+  22&ndash;25 haven't had their four-run checks yet &mdash; those are the dashes.</p>
 
   <h2>The one kind of task that told them apart</h2>
   <p>Ten of the eleven coding tasks were passed by every model tested, including the
@@ -2275,7 +2274,7 @@ Return only the complete class in one code block.</pre></details>
         return False</pre></div></details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tmini">Sonnet 4/4 &middot; Opus 3/4&dagger; &middot; Fable 1/4 &middot; Grok 2/4 &middot; DeepSeek 0/4 &middot; Qwen 3/3 so far &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 0/4</span></summary>
+<details class="task"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tmini">Sonnet 4/4 &middot; Opus 3/4&dagger; &middot; Fable 1/4 &middot; Grok 2/4 &middot; DeepSeek 0/4 &middot; Qwen 3/3 runs &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 0/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> This pushes the messy-parsing idea further: descriptions can now be wrapped in quotes so they are allowed to contain commas, dates come in four formats (including one where a comma is legitimately part of the date itself), amounts can be in three currencies that all need converting to a common one, and duplicate rows need to be dropped. It is a strong test of handling several layers of ambiguous formatting at once without them interfering with each other.</p>
 <p class="how"><strong>How it is scored:</strong> The checks include quoted descriptions with embedded commas and escaped quotes, all four date formats, currency-symbol mismatches, duplicate rows, and invalid dates that must be silently dropped.</p>
@@ -5189,7 +5188,7 @@ Q5. 12</pre></div>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 20</span> <span class="tname">A constrained WAVE acrostic poem</span> <span class="tmini">Qwen 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Fable 4/4 &middot; Sonnet 4/4 &middot; Opus 4/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 1/4</span></summary>
+<details class="task"><summary><span class="tid">Task 20</span> <span class="tname">A constrained WAVE acrostic poem</span> <span class="tmini">Sonnet 4/4 &middot; Opus 4/4 &middot; Fable 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Qwen 3/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 1/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> a creative-writing task scored with zero subjectivity &mdash; four independent structural constraints must all hold at once: exactly 4 lines, the first letters spelling &ldquo;WAVE&rdquo; top to bottom, exactly 7 words on every single line, and lines 2 and 4 ending in the identical word. It tests whether a model can hold several hard formatting constraints in its head simultaneously while still producing readable language, not whether the poem is any good.</p>
 <p class="how"><strong>How it is scored:</strong> this is graded purely on structure, not taste &mdash; line count, the four acrostic letters, the per-line word count, and whether lines 2 and 4 share a last word are each checked mechanically and independently. All six original models satisfied every constraint. Both Gemini models were checked across four separate runs: <strong>3.6 Flash is clean 4 of 4</strong>, but <strong>3.5 Flash-Lite is clean only 1 of 4</strong> &mdash; its poems keep the acrostic and the shared last word on lines 2 and 4, but three of its four runs go long on the seven-words-per-line count (8 words instead of 7 on at least one line), a constraint every other model here hits consistently.</p>
@@ -5292,7 +5291,7 @@ Q3. 3 — take two items over, return empty, take the last (e.g., fox+grain over
 Q4. 1/2 — the coin is fair and flips are independent, so prior heads don't change it.</pre></div>
 </details>
 </div></details>
-<details class="task"><summary><span class="tid">Task 22</span> <span class="tname">Recall from a big messy archive</span> <span class="tmini">Sonnet 4/4 · Opus 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.6 Flash 4/4 · 3.5 Flash-Lite 4/4 · DeepSeek 1/1 run · Qwen 1/1 run</span></summary>
+<details class="task"><summary><span class="tid">Task 22</span> <span class="tname">Recall from a big messy archive</span> <span class="tmini">Sonnet 4/4 · Opus 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.6 Flash 4/4 · 3.5 Flash-Lite 4/4 · Qwen 4/4 · DeepSeek 1/1 run</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can find and reconcile specific facts that are scattered across a long, messy, contradictory-looking document without inventing anything. The model is given a roughly 51KB archive of 42 meeting-minutes for a fictional project (pasted directly into the conversation) and then asked five precise factual questions: the final approved budget after several revisions, who owns a migration task and their role, when a load-test target changed and to what, how many times a launch was deferred and its final date, and which vendor was rejected and why.</p>
 <p class="how"><strong>How it is scored:</strong> each of the five answers is checked against the one correct fact buried in the document. Every model answers all five questions correctly &mdash; exact facts and meeting references intact &mdash; in every run it has completed.</p>
@@ -5340,7 +5339,7 @@ Answer precisely, citing no outside knowledge:
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 23</span> <span class="tname">Spot the contradictions</span> <span class="tmini">Sonnet 4/4 · Opus 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.6 Flash 4/4 · 3.5 Flash-Lite 0/4 · DeepSeek 1/1 run · Qwen 1/1 run</span></summary>
+<details class="task"><summary><span class="tid">Task 23</span> <span class="tname">Spot the contradictions</span> <span class="tmini">Sonnet 4/4 · Opus 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.6 Flash 4/4 · 3.5 Flash-Lite 0/4 · Qwen 4/4 · DeepSeek 1/1 run</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> careful reading and logical consistency-checking over a long text. The model is given a single product-specification document (pasted directly into the conversation) that has contradictions deliberately planted in it — statements that cannot both be true — and has to find every one of them, quote both sides, and cite the section numbers, without getting distracted by mere style issues that aren't actual contradictions.</p>
 <p class="how"><strong>How it is scored:</strong> did the model find every planted contradiction, and did it avoid raising false alarms about things that weren't real contradictions? Every model finds all four with zero false alarms in every completed run &mdash; quoting both sides and citing sections &mdash; except Gemini&nbsp;3.5&nbsp;Flash-Lite, which always finds the device and timeout conflicts but dismisses at least one of the other two.</p>
@@ -5487,7 +5486,7 @@ monsoon rain falling. Return only the SVG in one code block.</pre></details>
 </details>
 </div></details>
 
-<details class="task"><summary><span class="tid">Task 25</span> <span class="tname">Draw a scene under strict rules</span> <span class="tmini">Sonnet 4/4 · Opus 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.5 Flash-Lite 4/4 · 3.6 Flash 3/4 (one run scored 9 of 10) · DeepSeek 1/1 run · Qwen 1/1 run</span></summary>
+<details class="task"><summary><span class="tid">Task 25</span> <span class="tname">Draw a scene under strict rules</span> <span class="tmini">Sonnet 4/4 · Opus 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.5 Flash-Lite 4/4 · 3.6 Flash 3/4 (one run scored 9 of 10) · Qwen 4/4 · DeepSeek 1/1 run</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can hold many precise, simultaneous requirements in mind while still producing something that looks right. Each model was asked to generate an SVG of a Chennai monsoon street market at dusk that must satisfy 10 exact, machine-checked rules: a specific canvas size, exactly one element marked as the moon, a group of at least 3 market-stall rectangles, a group of at least 40 rain lines, a puddle drawn as a path, some text containing the word "KAAPI" (South Indian filter coffee), a sky gradient that is defined and actually used, only hex colors (no color names), no more than 400 total drawing elements, and a technically valid file.</p>
 <p class="how"><strong>How it is scored:</strong> an automated check runs through all 10 rules and confirms each one is satisfied &#8212; no human judgment involved. Every completed run but one passes all 10 rules; the single exception is one Gemini&nbsp;3.6&nbsp;Flash run that satisfied 9 of the 10. Interestingly, that doesn't mean the drawings are equally detailed: this check rewards following the rules, not adding extra detail &#8212; Grok passed with about 79 drawing elements while Qwen used roughly 237.</p>
