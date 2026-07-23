@@ -1,0 +1,286 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
+  <defs>
+    <!-- Sky Gradient -->
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#090514"/>
+      <stop offset="35%" stop-color="#1c1033"/>
+      <stop offset="65%" stop-color="#4a154b"/>
+      <stop offset="85%" stop-color="#7e22ce"/>
+      <stop offset="100%" stop-color="#c2410c"/>
+    </linearGradient>
+
+    <!-- Ground Wet Reflection Gradient -->
+    <linearGradient id="groundGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="30%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#030712"/>
+    </linearGradient>
+
+    <!-- Stall Glow Radial Gradients -->
+    <radialGradient id="warmGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fef08a" stop-opacity="0.9"/>
+      <stop offset="30%" stop-color="#f59e0b" stop-opacity="0.6"/>
+      <stop offset="70%" stop-color="#b45309" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="greenGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a7f3d0" stop-opacity="0.8"/>
+      <stop offset="40%" stop-color="#10b981" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Puddle Reflection Gradient -->
+    <linearGradient id="puddleReflect" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.6"/>
+      <stop offset="30%" stop-color="#c084fc" stop-opacity="0.5"/>
+      <stop offset="70%" stop-color="#f59e0b" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#1e1b4b" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <!-- Canvas Blur Filter for Wet Reflections -->
+    <filter id="blurReflect" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <!-- Sky Background -->
+  <rect width="1200" height="800" fill="url(#sky)"/>
+
+  <!-- Moon -->
+  <circle id="moon" cx="920" cy="130" r="38" fill="#fef08a" opacity="0.85"/>
+  <circle cx="920" cy="130" r="48" fill="#fef08a" opacity="0.15"/>
+
+  <!-- Background Clouds / Monsoon Haze -->
+  <path d="M 0 220 Q 300 160 600 230 T 1200 180 L 1200 380 L 0 380 Z" fill="#2e1065" opacity="0.5"/>
+  <path d="M 0 260 Q 400 200 800 270 T 1200 230 L 1200 420 L 0 420 Z" fill="#1e112a" opacity="0.7"/>
+
+  <!-- Distant Chennai Skyline Silhouettes (Gopuram & Buildings) -->
+  <!-- Temple Gopuram Silhouette -->
+  <path d="M 850 420 L 860 310 L 870 315 L 873 260 L 882 265 L 885 220 L 892 225 L 895 190 L 905 190 L 908 225 L 915 220 L 918 265 L 927 260 L 930 315 L 940 310 L 950 420 Z" fill="#0d0714"/>
+  <!-- Gopuram Kalasam (Spires) -->
+  <path d="M 897 190 L 897 180 M 900 190 L 900 178 M 903 190 L 903 180" stroke="#0d0714" stroke-width="2"/>
+  
+  <!-- Distant Trees / Palms -->
+  <path d="M 150 420 Q 155 330 130 270 Q 160 280 180 260 Q 170 290 200 300 Q 170 310 175 420 Z" fill="#090d16"/>
+  <path d="M 130 270 Q 100 250 70 260 Q 100 275 110 290 Q 90 280 130 270 Z" fill="#090d16"/>
+  <path d="M 1050 420 Q 1040 340 1070 280 Q 1040 290 1020 270 Q 1030 300 1000 310 Q 1030 320 1035 420 Z" fill="#0d0714"/>
+
+  <!-- Street Floor / Asphalt -->
+  <rect x="0" y="420" width="1200" height="380" fill="url(#groundGrad)"/>
+
+  <!-- Distant Street Lights & Atmospheric Glows -->
+  <circle cx="250" cy="380" r="60" fill="url(#warmGlow)"/>
+  <circle cx="700" cy="370" r="80" fill="url(#warmGlow)"/>
+  <circle cx="1020" cy="390" r="50" fill="url(#greenGlow)"/>
+
+  <!-- Ground Light Reflections (Blurred) -->
+  <g filter="url(#blurReflect)" opacity="0.6">
+    <!-- Reflection of Kaapi Stall -->
+    <ellipse cx="200" cy="560" rx="120" ry="15" fill="#f59e0b"/>
+    <ellipse cx="200" cy="620" rx="90" ry="30" fill="#d97706"/>
+    <rect x="120" y="480" width="160" height="200" fill="#b45309" opacity="0.3"/>
+    <!-- Reflection of Flower Stall -->
+    <ellipse cx="500" cy="570" rx="100" ry="18" fill="#10b981"/>
+    <ellipse cx="500" cy="640" rx="130" ry="25" fill="#047857"/>
+    <!-- Reflection of Tiffin Center -->
+    <ellipse cx="820" cy="580" rx="110" ry="20" fill="#f97316"/>
+    <ellipse cx="820" cy="660" rx="140" ry="35" fill="#c2410c"/>
+    <!-- Auto Rickshaw Reflection -->
+    <ellipse cx="1060" cy="670" rx="80" ry="20" fill="#eab308"/>
+  </g>
+
+  <!-- Main Puddle (Constraint #5: id="puddle", <path>) -->
+  <path id="puddle" d="M 180 640 C 320 600, 520 610, 680 650 C 850 690, 1020 630, 1120 700 C 1180 740, 980 790, 720 780 C 450 770, 280 790, 120 750 C 40 720, 70 670, 180 640 Z" fill="url(#puddleReflect)" stroke="#7dd3fc" stroke-width="1" stroke-opacity="0.5"/>
+
+  <!-- Secondary Wet Patches -->
+  <path d="M 50 530 C 120 520, 220 535, 280 550 C 200 565, 100 560, 50 530 Z" fill="#1e293b" opacity="0.7"/>
+  <path d="M 850 540 C 950 530, 1050 545, 1150 560 C 1020 575, 920 570, 850 540 Z" fill="#1e293b" opacity="0.6"/>
+
+  <!-- Market Stalls Group (Constraint #3: id="stalls", >=3 <rect> elements) -->
+  <g id="stalls">
+    <!-- STALL 1: Degree Kaapi Stall (Left) -->
+    <!-- Structure/Background -->
+    <rect x="70" y="380" width="260" height="170" fill="#0f172a"/>
+    <!-- Canopy/Roof -->
+    <rect x="55" y="365" width="290" height="25" fill="#991b1b"/>
+    <path d="M 55 390 L 345 390 L 335 400 L 65 400 Z" fill="#7f1d1d"/>
+    <!-- Support Poles -->
+    <rect x="75" y="390" width="8" height="150" fill="#334155"/>
+    <rect x="317" y="390" width="8" height="150" fill="#334155"/>
+    <!-- Counter Table -->
+    <rect x="65" y="460" width="270" height="80" fill="#1e293b"/>
+    <rect x="60" y="450" width="280" height="15" fill="#475569"/>
+    <!-- Kaapi Stall Glowing Signboard -->
+    <rect x="85" y="315" width="230" height="45" fill="#451a03" stroke="#f59e0b" stroke-width="2"/>
+    <!-- Constraint #6: Text includes "KAAPI" -->
+    <text x="200" y="345" fill="#fef08a" font-family="sans-serif" font-weight="900" font-size="21" text-anchor="middle" letter-spacing="2">DEGREE KAAPI</text>
+
+    <!-- Stall 1 Details: Brass Dabara / Pot & Steam -->
+    <path d="M 110 450 L 130 450 L 125 430 L 115 430 Z" fill="#ca8a04"/>
+    <path d="M 140 450 L 170 450 L 165 415 L 145 415 Z" fill="#eab308"/>
+    <!-- Hanging Bulb -->
+    <line x1="200" y1="390" x2="200" y2="415" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="200" cy="420" r="8" fill="#fef08a"/>
+    <circle cx="200" cy="420" r="25" fill="url(#warmGlow)"/>
+
+    <!-- STALL 2: Fresh Flower Stall (Center) -->
+    <!-- Structure -->
+    <rect x="410" y="390" width="220" height="160" fill="#064e3b"/>
+    <!-- Canopy (Tarpaulin Sheet) -->
+    <rect x="395" y="375" width="250" height="20" fill="#047857"/>
+    <!-- Counter -->
+    <rect x="400" y="470" width="240" height="75" fill="#022c22"/>
+    <rect x="390" y="460" width="260" height="12" fill="#059669"/>
+    <!-- Hanging Jasmine Garlands (Malli Poo) -->
+    <g fill="#f8fafc">
+      <rect x="420" y="395" width="6" height="55" rx="3"/>
+      <rect x="435" y="395" width="6" height="60" rx="3"/>
+      <rect x="450" y="395" width="6" height="50" rx="3"/>
+      <rect x="570" y="395" width="6" height="50" rx="3"/>
+      <rect x="585" y="395" width="6" height="65" rx="3"/>
+      <rect x="600" y="395" width="6" height="55" rx="3"/>
+    </g>
+    <!-- Marigold Garlands (Orange/Yellow) -->
+    <g fill="#f97316">
+      <rect x="470" y="395" width="8" height="45" rx="4"/>
+      <rect x="485" y="395" width="8" height="50" rx="4"/>
+      <rect x="535" y="395" width="8" height="50" rx="4"/>
+      <rect x="550" y="395" width="8" height="45" rx="4"/>
+    </g>
+    <!-- Flower Lights -->
+    <circle cx="510" cy="415" r="7" fill="#a7f3d0"/>
+    <circle cx="510" cy="415" r="30" fill="url(#greenGlow)"/>
+
+    <!-- STALL 3: Tiffin / Snack Stall (Right) -->
+    <!-- Structure -->
+    <rect x="730" y="375" width="240" height="180" fill="#1e1b4b"/>
+    <!-- Canopy -->
+    <rect x="715" y="360" width="270" height="22" fill="#c2410c"/>
+    <rect x="715" y="382" width="270" height="8" fill="#9a3412"/>
+    <!-- Counter -->
+    <rect x="720" y="465" width="260" height="85" fill="#312e81"/>
+    <rect x="710" y="455" width="280" height="14" fill="#4338ca"/>
+    <!-- Signboard -->
+    <rect x="760" y="320" width="180" height="35" fill="#7c2d12" stroke="#fb923c" stroke-width="1.5"/>
+    <text x="850" y="343" fill="#ffedd5" font-family="sans-serif" font-weight="bold" font-size="16" text-anchor="middle">HOT TIFFIN</text>
+    <!-- Steam / Cooking Pot Details -->
+    <ellipse cx="770" cy="445" rx="20" ry="10" fill="#94a3b8"/>
+    <rect x="750" y="425" width="40" height="20" fill="#64748b"/>
+    <!-- Light Bulb -->
+    <circle cx="850" cy="405" r="9" fill="#fde047"/>
+    <circle cx="850" cy="405" r="35" fill="url(#warmGlow)"/>
+  </g>
+
+  <!-- Auto Rickshaw Silhouette (Iconic Chennai Motif - Right Foreground) -->
+  <g id="autorickshaw">
+    <!-- Body Frame -->
+    <path d="M 980 520 L 1020 440 L 1120 440 L 1160 490 L 1170 560 L 970 560 Z" fill="#090d16"/>
+    <!-- Yellow Top Hood -->
+    <path d="M 1015 442 L 1125 442 L 1145 480 L 1000 480 Z" fill="#eab308"/>
+    <!-- Black Lower Body -->
+    <path d="M 980 485 L 1155 485 L 1165 550 L 975 550 Z" fill="#111827"/>
+    <!-- Windshield / Window Cutouts -->
+    <path d="M 1020 450 L 1060 450 L 1058 480 L 1012 480 Z" fill="#1e293b"/>
+    <path d="M 1070 450 L 1115 450 L 1130 480 L 1068 480 Z" fill="#1e293b"/>
+    <!-- Wheels -->
+    <circle cx="1010" cy="560" r="22" fill="#030712" stroke="#374151" stroke-width="4"/>
+    <circle cx="1130" cy="560" r="22" fill="#030712" stroke="#374151" stroke-width="4"/>
+    <!-- Tail Light Red Glow -->
+    <circle cx="973" cy="515" r="5" fill="#ef4444"/>
+    <circle cx="973" cy="515" r="15" fill="#ef4444" opacity="0.4"/>
+  </g>
+
+  <!-- Vendor & Customer Silhouettes -->
+  <!-- Kaapi Vendor -->
+  <path d="M 200 425 Q 210 415 220 425 L 225 460 L 195 460 Z" fill="#0f172a"/>
+  <circle cx="210" cy="410" r="8" fill="#0f172a"/>
+  <!-- Customer with Umbrella (Left Foreground) -->
+  <g id="customer1">
+    <!-- Umbrella Dome -->
+    <path d="M 260 510 A 50 35 0 0 1 360 510 Z" fill="#1e1b4b" stroke="#4338ca" stroke-width="2"/>
+    <line x1="310" y1="510" x2="310" y2="590" stroke="#0f172a" stroke-width="3"/>
+    <!-- Body silhouette -->
+    <path d="M 295 540 Q 310 530 325 540 L 330 610 L 290 610 Z" fill="#090d16"/>
+  </g>
+
+  <!-- Customer at Flower Stall -->
+  <g id="customer2">
+    <path d="M 610 480 A 40 28 0 0 1 690 480 Z" fill="#064e3b"/>
+    <line x1="650" y1="480" x2="650" y2="570" stroke="#090d16" stroke-width="3"/>
+    <path d="M 635 510 Q 650 500 665 510 L 670 580 L 630 580 Z" fill="#090d16"/>
+  </g>
+
+  <!-- Rain Group (Constraint #4: id="rain", >=40 <line> elements) -->
+  <g id="rain" stroke="#bae6fd" stroke-width="1.2" opacity="0.55" stroke-linecap="round">
+    <!-- 48 Rain Streak Lines Slanting Down-Left -->
+    <line x1="50" y1="30" x2="30" y2="90"/>
+    <line x1="120" y1="10" x2="100" y2="70"/>
+    <line x1="200" y1="50" x2="180" y2="110"/>
+    <line x1="280" y1="20" x2="260" y2="80"/>
+    <line x1="350" y1="60" x2="330" y2="120"/>
+    <line x1="420" y1="0" x2="400" y2="60"/>
+    <line x1="500" y1="40" x2="480" y2="100"/>
+    <line x1="580" y1="10" x2="560" y2="70"/>
+    <line x1="650" y1="50" x2="630" y2="110"/>
+    <line x1="730" y1="20" x2="710" y2="80"/>
+    <line x1="800" y1="60" x2="780" y2="120"/>
+    <line x1="880" y1="10" x2="860" y2="70"/>
+    <line x1="950" y1="40" x2="930" y2="100"/>
+    <line x1="1030" y1="0" x2="1010" y2="60"/>
+    <line x1="1100" y1="30" x2="1080" y2="90"/>
+    <line x1="1170" y1="50" x2="1150" y2="110"/>
+
+    <line x1="30" y1="200" x2="10" y2="260"/>
+    <line x1="100" y1="170" x2="80" y2="230"/>
+    <line x1="180" y1="220" x2="160" y2="280"/>
+    <line x1="250" y1="180" x2="230" y2="240"/>
+    <line x1="330" y1="240" x2="310" y2="300"/>
+    <line x1="400" y1="190" x2="380" y2="250"/>
+    <line x1="480" y1="230" x2="460" y2="290"/>
+    <line x1="550" y1="170" x2="530" y2="230"/>
+    <line x1="630" y1="210" x2="610" y2="270"/>
+    <line x1="700" y1="180" x2="680" y2="240"/>
+    <line x1="780" y1="230" x2="760" y2="290"/>
+    <line x1="850" y1="190" x2="830" y2="250"/>
+    <line x1="930" y1="220" x2="910" y2="280"/>
+    <line x1="1000" y1="170" x2="980" y2="230"/>
+    <line x1="1080" y1="210" x2="1060" y2="270"/>
+    <line x1="1150" y1="180" x2="1130" y2="240"/>
+
+    <line x1="60" y1="380" x2="40" y2="440"/>
+    <line x1="140" y1="350" x2="120" y2="410"/>
+    <line x1="220" y1="400" x2="200" y2="460"/>
+    <line x1="290" y1="360" x2="270" y2="420"/>
+    <line x1="370" y1="410" x2="350" y2="470"/>
+    <line x1="440" y1="370" x2="420" y2="430"/>
+    <line x1="520" y1="420" x2="500" y2="480"/>
+    <line x1="590" y1="350" x2="570" y2="410"/>
+    <line x1="670" y1="390" x2="650" y2="450"/>
+    <line x1="740" y1="360" x2="720" y2="420"/>
+    <line x1="820" y1="410" x2="800" y2="470"/>
+    <line x1="890" y1="370" x2="870" y2="430"/>
+    <line x1="970" y1="400" x2="950" y2="460"/>
+    <line x1="1040" y1="350" x2="1020" y2="410"/>
+    <line x1="1120" y1="390" x2="1100" y2="450"/>
+    <line x1="1190" y1="360" x2="1170" y2="420"/>
+
+    <line x1="80" y1="550" x2="60" y2="610" stroke-width="1.8" opacity="0.7"/>
+    <line x1="240" y1="580" x2="220" y2="640" stroke-width="1.8" opacity="0.7"/>
+    <line x1="410" y1="540" x2="390" y2="600" stroke-width="1.8" opacity="0.7"/>
+    <line x1="580" y1="570" x2="560" y2="630" stroke-width="1.8" opacity="0.7"/>
+    <line x1="750" y1="550" x2="730" y2="610" stroke-width="1.8" opacity="0.7"/>
+    <line x1="910" y1="580" x2="890" y2="640" stroke-width="1.8" opacity="0.7"/>
+    <line x1="1080" y1="540" x2="1060" y2="600" stroke-width="1.8" opacity="0.7"/>
+  </g>
+
+  <!-- Splashes / Rain Ripples in Foreground Puddles -->
+  <g stroke="#e0f2fe" stroke-width="1" fill="none" opacity="0.6">
+    <ellipse cx="250" cy="670" rx="12" ry="4"/>
+    <ellipse cx="250" cy="670" rx="4" ry="1.5"/>
+    <ellipse cx="520" cy="710" rx="16" ry="5"/>
+    <ellipse cx="520" cy="710" rx="6" ry="2"/>
+    <ellipse cx="820" cy="680" rx="14" ry="4.5"/>
+    <ellipse cx="820" cy="680" rx="5" ry="1.8"/>
+  </g>
+</svg>

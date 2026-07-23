@@ -174,6 +174,9 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
     white-space:nowrap;padding:4px 10px;}
   .pagenav a.here{border-color:var(--accent);}
 }
+.eyecheck td,.eyecheck th{font-size:.78rem;padding:7px 8px;}
+.eyecheck td.el{text-align:left;font-family:inherit;white-space:normal;min-width:150px;}
+.eyecheck .tc{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.6rem;color:var(--muted);white-space:nowrap;}
 </style>
 </head>
 <body>
@@ -476,7 +479,124 @@ def merge_busy(intervals):
             result[-1] = (result[-1][0], seg[1], seg[2])
         else:
             result.append(seg)
-    return result</pre></div></details>
+    return result</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">passed</span></div><pre>import heapq
+from collections import defaultdict
+
+
+def merge_busy(intervals):
+    if not intervals:
+        return []
+
+    xs = set()
+    starts = defaultdict(list)
+    for s, e, p in intervals:
+        xs.add(s)
+        xs.add(e)
+        starts[s].append((-p, e))
+
+    sorted_xs = sorted(xs)
+    heap = []
+    res = []
+
+    for i in range(len(sorted_xs) - 1):
+        x_curr = sorted_xs[i]
+        x_next = sorted_xs[i + 1]
+
+        if x_curr in starts:
+            for item in starts[x_curr]:
+                heapq.heappush(heap, item)
+
+        while heap and heap[0][1] &lt;= x_curr:
+            heapq.heappop(heap)
+
+        if heap:
+            cur_prio = -heap[0][0]
+            if res and res[-1][1] == x_curr and res[-1][2] == cur_prio:
+                res[-1] = (res[-1][0], x_next, cur_prio)
+            else:
+                res.append((x_curr, x_next, cur_prio))
+
+    return res</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">passed</span></div><pre>def merge_busy(intervals):
+    if not intervals:
+        return []
+
+    events = []
+    for start, end, prio in intervals:
+        if start &lt; end:
+            events.append((start, 1, prio))
+            events.append((end, -1, prio))
+
+    if not events:
+        return []
+
+    events.sort(key=lambda x: x[0])
+
+    from heapq import heappush, heappop
+
+    active = []
+    # Using a dictionary to track counts for lazy deletion in heap
+    # But since priorities can be any int, we can use a frequency map and max-heap
+    from collections import defaultdict
+
+    counts = defaultdict(int)
+    # We need to efficiently get the max priority.
+    # Since Python's heapq is a min-heap, we can store negative priorities.
+    max_heap = []
+    removed = defaultdict(int)
+
+    def add_prio(p):
+        counts[p] += 1
+        heappush(max_heap, -p)
+
+    def remove_prio(p):
+        counts[p] -= 1
+        removed[p] += 1
+        while max_heap and removed[-max_heap[0]] &gt; 0:
+            top = -heappop(max_heap)
+            removed[top] -= 1
+
+    def get_max_prio():
+        while max_heap and removed[-max_heap[0]] &gt; 0:
+            top = -heappop(max_heap)
+            removed[top] -= 1
+        return -max_heap[0] if max_heap else None
+
+    res = []
+    n = len(events)
+    i = 0
+    while i &lt; n:
+        cur_x = events[i][0]
+        # Process all events at cur_x
+        while i &lt; n and events[i][0] == cur_x:
+            _, typ, p = events[i]
+            if typ == 1:
+                add_prio(p)
+            else:
+                remove_prio(p)
+            i += 1
+
+        if i &lt; n:
+            next_x = events[i][0]
+            if cur_x &lt; next_x:
+                prio = get_max_prio()
+                if prio is not None:
+                    res.append((cur_x, next_x, prio))
+
+    if not res:
+        return []
+
+    # Coalesce adjacent segments with the same priority
+    coalesced = [res[0]]
+    for start, end, prio in res[1:]:
+        last_start, last_end, last_prio = coalesced[-1]
+        if last_end == start and last_prio == prio:
+            coalesced[-1] = (last_start, end, prio)
+        else:
+            coalesced.append((start, end, prio))
+
+    return coalesced</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=1">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
 <details class="task" id="task-2"><summary><span class="tid">Task 2</span> <span class="tname">Building a rate limiter (token bucket)</span> <span class="tfam">coding &middot; 8 checks</span> <span class="tmini">all pass</span></summary>
@@ -618,6 +738,51 @@ Return only the complete class in one code block.</pre></details>
         if elapsed &gt; 0:
             self.tokens = min(self.capacity, self.tokens + elapsed * self.refill_rate)
         self.last = now
+        if self.tokens &gt;= n:
+            self.tokens -= n
+            return True
+        return False</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">passed</span></div><pre>class TokenBucket:
+
+    def __init__(self, capacity: float, refill_rate: float):
+        self.capacity = float(capacity)
+        self.refill_rate = float(refill_rate)
+        self.tokens = float(capacity)
+        self.last_update = None
+
+    def allow(self, n: float = 1.0, now: float = 0.0) -&gt; bool:
+        if self.last_update is None:
+            self.last_update = float(now)
+        elif now &gt; self.last_update:
+            elapsed = now - self.last_update
+            self.tokens = min(
+                self.capacity, self.tokens + elapsed * self.refill_rate
+            )
+            self.last_update = float(now)
+
+        if self.tokens &gt;= n:
+            self.tokens -= n
+            return True
+        return False</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">passed</span></div><pre>class TokenBucket:
+
+    def __init__(self, capacity: float, refill_rate: float):
+        self.capacity = float(capacity)
+        self.refill_rate = float(refill_rate)
+        self.tokens = float(capacity)
+        self.last_time = None
+
+    def allow(self, n: float = 1.0, now: float = 0.0) -&gt; bool:
+        if self.last_time is None:
+            self.last_time = now
+        else:
+            elapsed = now - self.last_time
+            if elapsed &gt; 0:
+                self.tokens = min(
+                    self.capacity, self.tokens + elapsed * self.refill_rate
+                )
+            self.last_time = max(self.last_time, now)
+
         if self.tokens &gt;= n:
             self.tokens -= n
             return True
@@ -1128,6 +1293,195 @@ def parse_statement(text):
         results.append({"date": date, "description": desc, "amount": amount})
 
     return sorted(results, key=lambda r: r["date"])</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag no">failed</span></div><pre>import datetime
+import re
+
+
+def parse_statement(text):
+    results = []
+    months = {
+        "Jan": 1,
+        "Feb": 2,
+        "Mar": 3,
+        "Apr": 4,
+        "May": 5,
+        "Jun": 6,
+        "Jul": 7,
+        "Aug": 8,
+        "Sep": 9,
+        "Oct": 10,
+        "Nov": 11,
+        "Dec": 12,
+    }
+
+    if not isinstance(text, str):
+        return []
+
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+
+        parts = line.split(",")
+        if len(parts) != 3:
+            continue
+
+        date_raw, desc_raw, amount_raw = parts
+
+        desc = desc_raw.strip()
+
+        # Parse Date
+        d_str = date_raw.strip()
+        iso_date = None
+
+        try:
+            # YYYY-MM-DD
+            m1 = re.match(r"^(\d{4})-(\d{1,2})-(\d{1,2})$", d_str)
+            if m1:
+                y, m, d = map(int, m1.groups())
+                datetime.date(y, m, d)
+                iso_date = f"{y:04d}-{m:02d}-{d:02d}"
+
+            # DD/MM/YYYY
+            if not iso_date:
+                m2 = re.match(r"^(\d{1,2})/(\d{1,2})/(\d{4})$", d_str)
+                if m2:
+                    d, m, y = map(int, m2.groups())
+                    datetime.date(y, m, d)
+                    iso_date = f"{y:04d}-{m:02d}-{d:02d}"
+
+            # D Mon YYYY
+            if not iso_date:
+                m3 = re.match(r"^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$", d_str)
+                if m3:
+                    d, mon_str, y = m3.group(1), m3.group(2).capitalize(), m3.group(3)
+                    if mon_str in months:
+                        y, m, d = int(y), months[mon_str], int(d)
+                        datetime.date(y, m, d)
+                        iso_date = f"{y:04d}-{m:02d}-{d:02d}"
+
+            if not iso_date:
+                continue
+        except Exception:
+            continue
+
+        # Parse Amount
+        try:
+            amt_str = amount_raw.strip()
+            is_neg = False
+
+            if amt_str.endswith(" DR"):
+                is_neg = True
+                amt_str = amt_str[:-3].strip()
+            elif amt_str.endswith("DR"):
+                is_neg = True
+                amt_str = amt_str[:-2].strip()
+            elif amt_str.startswith("(") and amt_str.endswith(")"):
+                is_neg = True
+                amt_str = amt_str[1:-1].strip()
+
+            amt_str = (
+                amt_str.replace("₹", "").replace("$", "").replace(",", "").strip()
+            )
+            val = float(amt_str)
+            if is_neg:
+                val = -abs(val)
+
+            results.append({"date": iso_date, "description": desc, "amount": val})
+        except Exception:
+            continue
+
+    results.sort(key=lambda x: x["date"])
+    return results</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag no">failed</span></div><pre>from datetime import datetime
+
+
+def parse_statement(text):
+    months = {
+        "Jan": 1,
+        "Feb": 2,
+        "Mar": 3,
+        "Apr": 4,
+        "May": 5,
+        "Jun": 6,
+        "Jul": 7,
+        "Aug": 8,
+        "Sep": 9,
+        "Oct": 10,
+        "Nov": 11,
+        "Dec": 12,
+    }
+
+    results = []
+
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+
+        parts = line.split(",")
+        if len(parts) != 3:
+            continue
+
+        date_str, desc_str, amt_str = parts[0].strip(), parts[1].strip(), parts[2].strip()
+
+        # Parse date
+        parsed_date = None
+        # Try DD/MM/YYYY
+        try:
+            dt = datetime.strptime(date_str, "%d/%m/%Y")
+            parsed_date = dt.strftime("%Y-%m-%d")
+        except ValueError:
+            pass
+
+        # Try YYYY-MM-DD
+        if not parsed_date:
+            try:
+                dt = datetime.strptime(date_str, "%Y-%m-%d")
+                parsed_date = dt.strftime("%Y-%m-%d")
+            except ValueError:
+                pass
+
+        # Try D Mon YYYY
+        if not parsed_date:
+            try:
+                d_parts = date_str.split()
+                if len(d_parts) == 3 and d_parts[1] in months:
+                    day = int(d_parts[0])
+                    month = months[d_parts[1]]
+                    year = int(d_parts[2])
+                    dt = datetime(year, month, day)
+                    parsed_date = dt.strftime("%Y-%m-%d")
+            except (ValueError, KeyError, IndexError):
+                pass
+
+        if not parsed_date:
+            continue
+
+        # Parse amount
+        is_negative = False
+        clean_amt = amt_str
+
+        if clean_amt.startswith("(") and clean_amt.endswith(")"):
+            is_negative = True
+            clean_amt = clean_amt[1:-1].strip()
+        elif clean_amt.endswith(" DR") or clean_amt.endswith(" dr"):
+            is_negative = True
+            clean_amt = clean_amt[:-3].strip()
+
+        clean_amt = clean_amt.replace("₹", "").replace("$", "").replace(",", "").strip()
+
+        try:
+            amount = float(clean_amt)
+            if is_negative:
+                amount = -amount
+        except ValueError:
+            continue
+
+        results.append(
+            {"date": parsed_date, "description": desc_str, "amount": amount}
+        )
+
+    return sorted(results, key=lambda x: x["date"])</pre></div>
 <p class="failnote">Two bugs here. First, the same every-comma split problem as above breaks on thousands-separator amounts. Second, dates are checked with a simple numeric range (day between 1 and 31) instead of a real calendar, so impossible dates like February 29 or April 31 get wrongly accepted.</p></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=3">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
@@ -1219,6 +1573,28 @@ def rotation_index(a):
             lo = mid + 1
         else:
             hi = mid
+    return lo</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">passed</span></div><pre>def rotation_index(a):
+    if not a:
+        return -1
+    lo, hi = 0, len(a) - 1
+    while lo &lt; hi:
+        mid = (lo + hi) // 2
+        if a[mid] &gt; a[hi]:
+            lo = mid + 1
+        else:
+            hi = mid
+    return lo</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">passed</span></div><pre>def rotation_index(a):
+    if not a:
+        return -1
+    lo, hi = 0, len(a) - 1
+    while lo &lt; hi:
+        mid = (lo + hi) // 2
+        if a[mid] &gt; a[hi]:
+            lo = mid + 1
+        else:
+            hi = mid
     return lo</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=4">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
@@ -1297,6 +1673,24 @@ WHERE o.customer_id IS NOT NULL
   AND o.created_at &lt;= '2026-03-31'
 GROUP BY c.city
 ORDER BY total DESC, city ASC
+LIMIT 3;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">passed</span></div><pre>SELECT c.city, SUM(o.amount) AS total
+FROM orders o
+JOIN customers c ON o.customer_id = c.id
+WHERE o.created_at BETWEEN '2026-01-01' AND '2026-03-31'
+  AND c.city IS NOT NULL
+GROUP BY c.city
+ORDER BY total DESC, c.city ASC
+LIMIT 3;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">passed</span></div><pre>SELECT c.city, SUM(o.amount) AS total
+FROM orders o
+JOIN customers c ON o.customer_id = c.id
+WHERE o.created_at &gt;= '2026-01-01' 
+  AND o.created_at &lt;= '2026-03-31'
+  AND o.customer_id IS NOT NULL 
+  AND c.city IS NOT NULL
+GROUP BY c.city
+ORDER BY total DESC, c.city ASC
 LIMIT 3;</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=5">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
@@ -1667,7 +2061,138 @@ def merge_busy2(intervals, cancels):
             result[-1] = (result[-1][0], seg[1], seg[2])
         else:
             result.append(seg)
-    return result</pre></div></details>
+    return result</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">passed</span></div><pre>from collections import defaultdict
+import heapq
+
+def merge_busy2(intervals, cancels):
+    if not intervals:
+        return []
+
+    events = defaultdict(list)
+    for s, e, p in intervals:
+        events[s].append(('int_start', p))
+        events[e].append(('int_end', p))
+    for s, e in cancels:
+        events[s].append(('cancel_start',))
+        events[e].append(('cancel_end',))
+
+    sorted_x = sorted(events.keys())
+
+    active_cancels = 0
+    active_prios = defaultdict(int)
+    heap = []
+
+    pieces = []
+
+    for i in range(len(sorted_x)):
+        x = sorted_x[i]
+        for event in events[x]:
+            kind = event[0]
+            if kind == 'int_start':
+                p = event[1]
+                if active_prios[p] == 0:
+                    heapq.heappush(heap, -p)
+                active_prios[p] += 1
+            elif kind == 'int_end':
+                p = event[1]
+                active_prios[p] -= 1
+            elif kind == 'cancel_start':
+                active_cancels += 1
+            elif kind == 'cancel_end':
+                active_cancels -= 1
+
+        while heap and active_prios[-heap[0]] == 0:
+            heapq.heappop(heap)
+
+        if i &lt; len(sorted_x) - 1:
+            next_x = sorted_x[i + 1]
+            if active_cancels == 0 and heap:
+                max_p = -heap[0]
+                pieces.append((x, next_x, max_p))
+
+    res = []
+    for s, e, p in pieces:
+        if res and res[-1][1] == s and res[-1][2] == p:
+            res[-1] = (res[-1][0], e, p)
+        else:
+            res.append((s, e, p))
+
+    return res</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">passed</span></div><pre>def merge_busy2(intervals, cancels):
+    if not intervals:
+        return []
+
+    events = []
+    for start, end, prio in intervals:
+        events.append((start, 1, prio))
+        events.append((end, -1, prio))
+
+    for start, end in cancels:
+        events.append((start, 0, None))
+        events.append((end, 0, None))
+
+    events.sort(key=lambda x: (x[0], x[1], x[2] if x[2] is not None else 0))
+
+    active_intervals = {}
+
+    def add_prio(p):
+        active_intervals[p] = active_intervals.get(p, 0) + 1
+
+    def remove_prio(p):
+        active_intervals[p] -= 1
+        if active_intervals[p] == 0:
+            del active_intervals[p]
+
+    def get_max_prio():
+        if not active_intervals:
+            return None
+        return max(active_intervals.keys())
+
+    cancel_depth = 0
+    res = []
+    prev_x = None
+
+    i = 0
+    n = len(events)
+    while i &lt; n:
+        x = events[i][0]
+
+        while i &lt; n and events[i][0] == x:
+            _, t, p = events[i]
+            if t == 1:
+                add_prio(p)
+            elif t == -1:
+                remove_prio(p)
+            else:
+                pass
+            i += 1
+
+        next_x = events[i][0] if i &lt; n else None
+
+        if next_x is not None and next_x &gt; x:
+            current_cancels = 0
+            for cs, ce in cancels:
+                if cs &lt; next_x and ce &gt; x:
+                    current_cancels += 1
+
+            if current_cancels == 0:
+                p = get_max_prio()
+                if p is not None:
+                    res.append((x, next_x, p))
+
+    if not res:
+        return []
+
+    coalesced = [res[0]]
+    for start, end, prio in res[1:]:
+        p_start, p_end, p_prio = coalesced[-1]
+        if p_end == start and p_prio == prio:
+            coalesced[-1] = (p_start, end, prio)
+        else:
+            coalesced.append((start, end, prio))
+
+    return coalesced</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=6">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
 <details class="task" id="task-7"><summary><span class="tid">Task 7</span> <span class="tname">A rate limiter with nested budgets</span> <span class="tfam">coding &middot; 8 checks</span> <span class="tmini">all pass</span></summary>
@@ -1973,7 +2498,86 @@ Return only the complete class in one code block.</pre></details>
             for node in chain:
                 self.tokens[node] -= n
             return True
-        return False</pre></div></details>
+        return False</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">passed</span></div><pre>class RateTree:
+
+    class _Node:
+
+        def __init__(self, capacity: float, refill_rate: float, parent: str | None):
+            self.capacity = float(capacity)
+            self.refill_rate = float(refill_rate)
+            self.parent = parent
+            self.tokens = float(capacity)
+            self.last_update = 0.0
+
+    def __init__(self, spec: dict[str, tuple[float, float, str | None]]):
+        self.nodes = {
+            name: self._Node(cap, rate, parent)
+            for name, (cap, rate, parent) in spec.items()
+        }
+
+    def allow(self, name: str, n: float = 1.0, now: float = 0.0) -&gt; bool:
+        chain = []
+        curr = name
+        while curr is not None:
+            chain.append(self.nodes[curr])
+            curr = self.nodes[curr].parent
+
+        for node in chain:
+            if now &gt; node.last_update:
+                elapsed = now - node.last_update
+                node.tokens = min(
+                    node.capacity, node.tokens + elapsed * node.refill_rate
+                )
+                node.last_update = now
+
+        if all(node.tokens &gt;= n for node in chain):
+            for node in chain:
+                node.tokens -= n
+            return True
+        return False</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">passed</span></div><pre>class RateTree:
+    class _Node:
+        __slots__ = ('name', 'capacity', 'refill_rate', 'parent_name', 'tokens', 'last_time')
+
+        def __init__(self, name: str, capacity: float, refill_rate: float, parent_name: str | None):
+            self.name = name
+            self.capacity = capacity
+            self.refill_rate = refill_rate
+            self.parent_name = parent_name
+            self.tokens = capacity
+            self.last_time = 0.0
+
+        def update(self, now: float) -&gt; None:
+            if now &gt; self.last_time:
+                elapsed = now - self.last_time
+                self.tokens = min(self.capacity, self.tokens + elapsed * self.refill_rate)
+                self.last_time = now
+
+    def __init__(self, spec: dict[str, tuple[float, float, str | None]]):
+        self.nodes: dict[str, RateTree._Node] = {}
+        for name, (capacity, refill_rate, parent) in spec.items():
+            self.nodes[name] = self._Node(name, capacity, refill_rate, parent)
+
+    def allow(self, name: str, n: float = 1.0, now: float = 0.0) -&gt; bool:
+        path = []
+        curr_name: str | None = name
+        while curr_name is not None:
+            node = self.nodes[curr_name]
+            path.append(node)
+            curr_name = node.parent_name
+
+        for node in path:
+            node.update(now)
+
+        for node in path:
+            if node.tokens &lt; n:
+                return False
+
+        for node in path:
+            node.tokens -= n
+
+        return True</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=7">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
 <details class="task" id="task-8"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">Sonnet 4/4 &middot; Opus 3/4&dagger; &middot; Fable 1/4 &middot; Grok 2/4 &middot; DeepSeek 0/4 &middot; Qwen 3/3 runs &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 0/4</span></summary>
@@ -2890,6 +3494,291 @@ def parse_ledger(text):
         rows.append({"date": date, "description": desc, "amount_inr": amount_inr})
 
     return sorted(rows, key=lambda r: (r["date"], -abs(r["amount_inr"])))</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">passed</span></div><pre>import datetime
+import re
+
+
+def parse_ledger(text):
+    if not isinstance(text, str):
+        return []
+
+    months = {
+        "jan": 1,
+        "feb": 2,
+        "mar": 3,
+        "apr": 4,
+        "may": 5,
+        "jun": 6,
+        "jul": 7,
+        "aug": 8,
+        "sep": 9,
+        "oct": 10,
+        "nov": 11,
+        "dec": 12,
+    }
+
+    rates = {"INR": 1.0, "USD": 83.5, "EUR": 90.25}
+
+    # Date regexes matching start of line up to the separator comma
+    pat_a = re.compile(
+        r"^(?P&lt;mon&gt;[A-Za-z]{3})\s+(?P&lt;day&gt;\d{1,2}),\s*(?P&lt;year&gt;\d{4})\s*,"
+    )
+    pat_b = re.compile(
+        r"^(?P&lt;day&gt;\d{1,2})\s+(?P&lt;mon&gt;[A-Za-z]{3})\s+(?P&lt;year&gt;\d{4})\s*,"
+    )
+    pat_c = re.compile(
+        r"^(?P&lt;day&gt;\d{1,2})/(?P&lt;month&gt;\d{1,2})/(?P&lt;year&gt;\d{4})\s*,"
+    )
+    pat_d = re.compile(
+        r"^(?P&lt;year&gt;\d{4})-(?P&lt;month&gt;\d{1,2})-(?P&lt;day&gt;\d{1,2})\s*,"
+    )
+
+    rows = []
+    seen = set()
+
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+
+        dt_match = None
+        match_type = None
+        for p_type, pat in [
+            ("A", pat_a),
+            ("B", pat_b),
+            ("C", pat_c),
+            ("D", pat_d),
+        ]:
+            m = pat.match(line)
+            if m:
+                dt_match = m
+                match_type = p_type
+                break
+
+        if not dt_match:
+            continue
+
+        try:
+            if match_type in ("A", "B"):
+                m_str = dt_match.group("mon").lower()
+                if m_str not in months:
+                    continue
+                month = months[m_str]
+                day = int(dt_match.group("day"))
+                year = int(dt_match.group("year"))
+            else:
+                month = int(dt_match.group("month"))
+                day = int(dt_match.group("day"))
+                year = int(dt_match.group("year"))
+
+            dt = datetime.date(year, month, day)
+            date_str = dt.strftime("%Y-%m-%d")
+        except ValueError:
+            continue
+
+        rem = line[dt_match.end() :].strip()
+
+        curr_match = re.search(r",\s*(INR|USD|EUR)\s*$", rem)
+        if not curr_match:
+            continue
+
+        currency = curr_match.group(1)
+        desc_and_amt = rem[: curr_match.start()].strip()
+        if not desc_and_amt:
+            continue
+
+        if desc_and_amt.startswith('"'):
+            i = 1
+            desc_chars = []
+            closed = False
+            while i &lt; len(desc_and_amt):
+                if desc_and_amt[i] == '"':
+                    if (
+                        i + 1 &lt; len(desc_and_amt)
+                        and desc_and_amt[i + 1] == '"'
+                    ):
+                        desc_chars.append('"')
+                        i += 2
+                    else:
+                        closed = True
+                        i += 1
+                        break
+                else:
+                    desc_chars.append(desc_and_amt[i])
+                    i += 1
+            if not closed:
+                continue
+            desc = "".join(desc_chars).strip()
+            rest = desc_and_amt[i:].lstrip()
+            if not rest.startswith(","):
+                continue
+            amt_str = rest[1:].strip()
+        else:
+            if "," not in desc_and_amt:
+                continue
+            desc_part, amt_str = desc_and_amt.split(",", 1)
+            desc = desc_part.strip()
+            amt_str = amt_str.strip()
+
+        try:
+            s = amt_str
+            if not s:
+                continue
+            is_neg = False
+            if "(" in s and ")" in s:
+                is_neg = True
+                s = s.replace("(", "").replace(")", "")
+            if re.search(r"\bDR\b", s, re.IGNORECASE):
+                is_neg = True
+                s = re.sub(r"\bDR\b", "", s, flags=re.IGNORECASE)
+            if "-" in s:
+                is_neg = True
+                s = s.replace("-", "")
+            s = re.sub(r"[₹$€,]", "", s).strip()
+            if not s:
+                continue
+            val = float(s)
+            if is_neg:
+                val = -val
+        except ValueError:
+            continue
+
+        amount_inr = round(val * rates[currency], 2) + 0.0
+
+        dedup_key = (date_str, desc, amount_inr)
+        if dedup_key in seen:
+            continue
+        seen.add(dedup_key)
+
+        rows.append(
+            {"date": date_str, "description": desc, "amount_inr": amount_inr}
+        )
+
+    rows.sort(key=lambda r: (r["date"], -abs(r["amount_inr"])))
+    return rows</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag no">failed</span></div><pre>import csv
+from datetime import datetime
+import io
+import re
+
+
+def parse_ledger(text):
+    MONTHS = {
+        "Jan": 1,
+        "Feb": 2,
+        "Mar": 3,
+        "Apr": 4,
+        "May": 5,
+        "Jun": 6,
+        "Jul": 7,
+        "Aug": 8,
+        "Sep": 9,
+        "Oct": 10,
+        "Nov": 11,
+        "Dec": 12,
+    }
+    RATES = {"INR": 1.0, "USD": 83.5, "EUR": 90.25}
+
+    results = []
+    seen = set()
+
+    for row in csv.reader(io.StringIO(text)):
+        if not row or not any(row):
+            continue
+        if len(row) != 4:
+            continue
+
+        date_str, desc_str, amt_str, curr_str = [c.strip() for c in row]
+        desc_str = desc_str.strip()
+
+        # Currency
+        currency = curr_str.upper()
+        if currency not in RATES:
+            continue
+
+        # Date normalization
+        norm_date = None
+        # 1. DD/MM/YYYY
+        m = re.match(r"^(\d{1,2})/(\d{1,2})/(\d{4})$", date_str)
+        if m:
+            d, mo, y = int(m.group(1)), int(m.group(2)), int(m.group(3))
+            try:
+                norm_date = datetime(y, mo, d).strftime("%Y-%m-%d")
+            except ValueError:
+                pass
+
+        # 2. YYYY-MM-DD
+        if not norm_date:
+            m = re.match(r"^(\d{4})-(\d{1,2})-(\d{1,2})$", date_str)
+            if m:
+                y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3))
+                try:
+                    norm_date = datetime(y, mo, d).strftime("%Y-%m-%d")
+                except ValueError:
+                    pass
+
+        # 3. D Mon YYYY (e.g. 3 Jan 2026)
+        if not norm_date:
+            m = re.match(r"^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$", date_str)
+            if m:
+                d, mon_str, y = int(m.group(1)), m.group(2).capitalize(), int(m.group(3))
+                if mon_str in MONTHS:
+                    try:
+                        norm_date = datetime(y, MONTHS[mon_str], d).strftime("%Y-%m-%d")
+                    except ValueError:
+                        pass
+
+        # 4. Mon D, YYYY (e.g. Jan 3, 2026)
+        if not norm_date:
+            m = re.match(r"^([A-Za-z]{3})\s+(\d{1,2}),\s+(\d{4})$", date_str)
+            if m:
+                mon_str, d, y = m.group(1).capitalize(), int(m.group(2)), int(m.group(3))
+                if mon_str in MONTHS:
+                    try:
+                        norm_date = datetime(y, MONTHS[mon_str], d).strftime("%Y-%m-%d")
+                    except ValueError:
+                        pass
+
+        if not norm_date:
+            continue
+
+        # Amount parsing
+        a_clean = amt_str.replace(" ", "")
+        is_negative = False
+        if a_clean.startswith("(") and a_clean.endswith(")"):
+            is_negative = True
+            a_clean = a_clean[1:-1]
+        elif a_clean.endswith("DR") or a_clean.endswith("dr"):
+            is_negative = True
+            a_clean = a_clean[:-2]
+
+        # Strip symbols
+        for sym in ["₹", "$", "€"]:
+            a_clean = a_clean.replace(sym, "")
+
+        a_clean = a_clean.replace(",", "")
+
+        try:
+            val = float(a_clean)
+        except ValueError:
+            continue
+
+        if is_negative:
+            val = -val
+
+        amount_inr = round(val * RATES[currency], 2)
+
+        key = (norm_date, desc_str, amount_inr)
+        if key in seen:
+            continue
+        seen.add(key)
+
+        results.append(
+            {"date": norm_date, "description": desc_str, "amount_inr": amount_inr}
+        )
+
+    results.sort(key=lambda x: (x["date"], -abs(x["amount_inr"])))
+    return results</pre></div>
 <p class="failnote">The bug: dates are validated with a simple numeric range (day between 1 and 31) instead of checking against a real calendar, so an impossible date like April 31 slips through and produces a row that should have been silently skipped.</p></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=8">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
@@ -3259,7 +4148,99 @@ class LRUCache:
         return self._data[key][0]
 
     def size(self, now):
-        return sum(1 for k in self._data if not self._expired(k, now))</pre></div></details>
+        return sum(1 for k in self._data if not self._expired(k, now))</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">passed</span></div><pre>from collections import OrderedDict
+
+
+class LRUCache:
+    def __init__(self, capacity, ttl):
+        self.capacity = capacity
+        self.ttl = ttl
+        self._data = OrderedDict()  # key -&gt; (value, stored_time)
+
+    def _is_expired(self, stored_time, now):
+        return now - stored_time &gt; self.ttl
+
+    def put(self, key, value, now):
+        if key not in self._data:
+            if len(self._data) &gt;= self.capacity:
+                expired_keys = [
+                    k for k, (_, t) in self._data.items() if self._is_expired(t, now)
+                ]
+                for k in expired_keys:
+                    del self._data[k]
+
+                if len(self._data) &gt;= self.capacity:
+                    self._data.popitem(last=False)
+
+        self._data[key] = (value, now)
+        self._data.move_to_end(key)
+
+    def get(self, key, now):
+        if key not in self._data:
+            return None
+        value, stored_time = self._data[key]
+        if self._is_expired(stored_time, now):
+            del self._data[key]
+            return None
+        self._data.move_to_end(key)
+        return value
+
+    def size(self, now):
+        return sum(
+            1 for _, stored_time in self._data.values() if not self._is_expired(stored_time, now)
+        )</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">passed</span></div><pre>class LRUCache:
+    def __init__(self, capacity, ttl):
+        self.capacity = capacity
+        self.ttl = ttl
+        self._data = {}     # key -&gt; (value, stored_time)
+        self._order = []    # least-recently-used first
+
+    def _expired(self, key, now):
+        return now - self._data[key][1] &gt; self.ttl
+
+    def _purge(self, now):
+        expired_keys = [k for k in self._order if now - self._data[k][1] &gt; self.ttl]
+        for k in expired_keys:
+            del self._data[k]
+            self._order.remove(k)
+
+    def put(self, key, value, now):
+        if key in self._data:
+            self._data[key] = (value, now)
+            self._order.remove(key)
+            self._order.append(key)
+            return
+
+        self._purge(now)
+        
+        if len(self._data) &gt;= self.capacity:
+            while self._order and self._order[0] not in self._data:
+                self._order.pop(0)
+            if self._order:
+                victim = self._order.pop(0)
+                if victim in self._data:
+                    del self._data[victim]
+
+        self._data[key] = (value, now)
+        self._order.append(key)
+
+    def get(self, key, now):
+        if key not in self._data:
+            return None
+        if self._expired(key, now):
+            del self._data[key]
+            if key in self._order:
+                self._order.remove(key)
+            return None
+        self._order.remove(key)
+        self._order.append(key)
+        return self._data[key][0]
+
+    def size(self, now):
+        self._purge(now)
+        return len(self._data)</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=9">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
 <details class="task" id="task-10"><summary><span class="tid">Task 10</span> <span class="tname">Finding peak concurrent load at scale</span> <span class="tfam">coding &middot; 6 checks</span> <span class="tmini">all pass</span></summary>
@@ -3433,7 +4414,58 @@ Return only the complete function in one code block.</pre></details>
         if cur &gt; peak:
             peak = cur
             peak_t = t
-    return (peak, peak_t)</pre></div></details>
+    return (peak, peak_t)</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">passed</span></div><pre>def max_load(events):
+    if not events:
+        return (0, 0)
+
+    changes = {}
+    for start, end, weight in events:
+        changes[start] = changes.get(start, 0) + weight
+        changes[end] = changes.get(end, 0) - weight
+
+    max_l = 0
+    best_t = 0
+    curr_l = 0
+
+    for t in sorted(changes.keys()):
+        curr_l += changes[t]
+        if curr_l &gt; max_l:
+            max_l = curr_l
+            best_t = t
+
+    return (max_l, best_t)</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">passed</span></div><pre>def max_load(events):
+    if not events:
+        return (0, 0)
+
+    points = []
+    for start, end, weight in events:
+        points.append((start, weight))
+        points.append((end, -weight))
+
+    # Sort by time. If times are equal, process 'end' events (-weight)
+    # before 'start' events (+weight) to correctly handle half-open intervals [start, end).
+    points.sort(key=lambda x: (x[0], x[1]))
+
+    max_peak = 0
+    earliest_t = 0
+    current_load = 0
+    i = 0
+    n = len(points)
+
+    while i &lt; n:
+        current_time = points[i][0]
+        # Process all point changes happening at the exact same 'current_time'
+        while i &lt; n and points[i][0] == current_time:
+            current_load += points[i][1]
+            i += 1
+
+        if current_load &gt; max_peak:
+            max_peak = current_load
+            earliest_t = current_time
+
+    return (max_peak, earliest_t)</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=10">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
 <details class="task" id="task-11"><summary><span class="tid">Task 11</span> <span class="tname">Ranking top products per city and month (SQL)</span> <span class="tfam">coding &middot; 3 checks</span> <span class="tmini">all pass</span></summary>
@@ -3649,6 +4681,79 @@ SELECT city, month, product, revenue,
        ROUND(100.0 * revenue / total, 1) AS share
 FROM ranked
 WHERE rnk &lt;= 2
+ORDER BY city ASC, month ASC, revenue DESC, product ASC;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">passed</span></div><pre>WITH product_revenue AS (
+    SELECT
+        stores.city AS city,
+        strftime('%Y-%m', sales.sold_on) AS month,
+        sales.product AS product,
+        SUM(sales.amount) AS revenue
+    FROM sales
+    JOIN stores ON sales.store_id = stores.id
+    WHERE sales.store_id IS NOT NULL
+      AND stores.city IS NOT NULL
+      AND sales.product IS NOT NULL
+    GROUP BY stores.city, strftime('%Y-%m', sales.sold_on), sales.product
+),
+ranked_products AS (
+    SELECT
+        city,
+        month,
+        product,
+        revenue,
+        ROUND(100.0 * revenue / SUM(revenue) OVER (PARTITION BY city, month), 1) AS share,
+        RANK() OVER (PARTITION BY city, month ORDER BY revenue DESC) AS rnk
+    FROM product_revenue
+)
+SELECT
+    city,
+    month,
+    product,
+    revenue,
+    share
+FROM ranked_products
+WHERE rnk &lt;= 2
+ORDER BY city ASC, month ASC, revenue DESC, product ASC;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">passed</span></div><pre>WITH monthly_sales AS (
+    SELECT 
+        s.city,
+        strftime('%Y-%m', sa.sold_on) AS month,
+        sa.product,
+        SUM(sa.amount) AS revenue
+    FROM sales sa
+    JOIN stores s ON sa.store_id = s.id
+    WHERE sa.store_id IS NOT NULL 
+      AND s.city IS NOT NULL 
+      AND sa.product IS NOT NULL
+    GROUP BY s.city, strftime('%Y-%m', sa.sold_on), sa.product
+),
+city_month_totals AS (
+    SELECT 
+        city,
+        month,
+        SUM(revenue) AS total_revenue
+    FROM monthly_sales
+    GROUP BY city, month
+),
+ranked_products AS (
+    SELECT 
+        m.city,
+        m.month,
+        m.product,
+        m.revenue,
+        ROUND(100.0 * m.revenue / c.total_revenue, 1) AS share,
+        RANK() OVER (PARTITION BY m.city, m.month ORDER BY m.revenue DESC) AS rnk
+    FROM monthly_sales m
+    JOIN city_month_totals c ON m.city = c.city AND m.month = c.month
+)
+SELECT 
+    city,
+    month,
+    product,
+    revenue,
+    share
+FROM ranked_products
+WHERE rnk &lt;= 2
 ORDER BY city ASC, month ASC, revenue DESC, product ASC;</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=11">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 <details class="task" id="task-12"><summary><span class="tid">Task 12</span> <span class="tname">Elapsed real seconds across a DST change</span> <span class="tfam">coding &middot; 8 checks</span> <span class="tmini">Sonnet 1/4&dagger; &middot; Opus 3/4 &middot; Fable 4/4 &middot; Grok 2/4 &middot; DeepSeek 2/4 &middot; Qwen 1/4 &middot; Gemini 3.6 Flash 2/4 &middot; 3.5 Flash-Lite 0/4 &mdash; a coin-flip for most of the field</span></summary>
@@ -3815,6 +4920,73 @@ def elapsed_seconds(tz_name, start, end):
     s = datetime.strptime(start, fmt).replace(tzinfo=zone)  # fold=0 by default
     e = datetime.strptime(end, fmt).replace(tzinfo=zone)    # fold=0 by default
     return e.timestamp() - s.timestamp()</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">8/8</span></div><pre>from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
+
+
+def elapsed_seconds(tz_name: str, start: str, end: str):
+    tz = ZoneInfo(tz_name)
+
+    def to_utc(dt_str: str) -&gt; datetime:
+        dt_naive = datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S")
+        dt0 = dt_naive.replace(tzinfo=tz, fold=0)
+
+        # Valid local wall time (unambiguous or first occurrence of fall-back)
+        if dt0.astimezone(tz).replace(tzinfo=None) == dt_naive:
+            return dt0.astimezone(timezone.utc)
+
+        # Spring-forward gap: use UTC offset immediately BEFORE the jump
+        for h in range(1, 25):
+            prev = dt_naive - timedelta(hours=h)
+            cand = prev.replace(tzinfo=tz, fold=0)
+            if cand.astimezone(tz).replace(tzinfo=None) == prev:
+                off_before = cand.utcoffset()
+                return dt_naive.replace(tzinfo=timezone(off_before)).astimezone(
+                    timezone.utc
+                )
+
+    return (to_utc(end) - to_utc(start)).total_seconds()</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag no">3/8</span></div><pre>from datetime import datetime
+from zoneinfo import ZoneInfo
+
+
+def elapsed_seconds(tz_name: str, start: str, end: str) -&gt; float:
+    tz = ZoneInfo(tz_name)
+
+    def parse_local_time(dt_str: str) -&gt; datetime:
+        naive = datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S")
+        try:
+            return naive.replace(tzinfo=tz, fold=0)
+        except Exception:
+            pass
+
+        try:
+            return naive.replace(tzinfo=ZoneInfo("UTC")) - tz.utcoffset(
+                naive.replace(tzinfo=ZoneInfo("UTC"))
+            )
+        except Exception:
+            pass
+
+        # Fallback for spring-forward gap using offset before the jump
+        dt_utc_guess = naive.replace(tzinfo=ZoneInfo("UTC"))
+        offset = None
+        for delta_minutes in (-1, -2, -5, -10, -30, -60, -120):
+            from datetime import timedelta
+
+            test_utc = dt_utc_guess + timedelta(minutes=delta_minutes)
+            off = tz.utcoffset(test_utc)
+            if off is not None:
+                offset = off
+                break
+        if offset is None:
+            offset = tz.utcoffset(dt_utc_guess)
+
+        return naive.replace(tzinfo=ZoneInfo("UTC")) - offset
+
+    dt_start = parse_local_time(start)
+    dt_end = parse_local_time(end)
+
+    return (dt_end - dt_start).total_seconds()</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=12">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
@@ -3989,6 +5161,41 @@ def split_bill(amounts, n):
     for i in range(n):
         cents = base + 1 if i &lt; rem else base
         parts.append(f"{cents // 100}.{cents % 100:02d}")
+    return parts</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">8/8</span></div><pre>from decimal import Decimal, ROUND_HALF_EVEN
+
+
+def split_bill(amounts, n):
+    total = sum((Decimal(a) for a in amounts), Decimal("0"))
+    rounded_total = total.quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
+    total_cents = int(rounded_total * 100)
+
+    base_cents = total_cents // n
+    remainder = total_cents % n
+
+    parts = []
+    for i in range(n):
+        cents = base_cents + (1 if i &lt; remainder else 0)
+        parts.append(f"{cents // 100}.{cents % 100:02d}")
+
+    return parts</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">8/8</span></div><pre>from decimal import Decimal, ROUND_HALF_EVEN
+
+
+def split_bill(amounts, n):
+    total = sum(Decimal(a) for a in amounts)
+    cents = int(
+        (total * 100).quantize(Decimal("1"), rounding=ROUND_HALF_EVEN)
+    )
+
+    base = cents // n
+    remainder = cents % n
+
+    parts = []
+    for i in range(n):
+        share = base + (1 if i &lt; remainder else 0)
+        parts.append(f"{share / 100:.2f}")
+
     return parts</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=13">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
@@ -4209,6 +5416,71 @@ def truncate_graphemes(s, n):
     if len(clusters) &lt;= n:
         return s
     return ''.join(clusters[:n]) + '...'</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">7/7</span></div><pre>import unicodedata
+
+
+def truncate_graphemes(s, n):
+    clusters = []
+    zwj_pending = False
+
+    for cp in s:
+        if not clusters:
+            clusters.append(cp)
+            zwj_pending = cp == "\u200d"
+        elif cp == "\u200d":
+            clusters[-1] += cp
+            zwj_pending = True
+        elif unicodedata.category(cp) == "Mn":
+            clusters[-1] += cp
+        else:
+            if zwj_pending:
+                clusters[-1] += cp
+                zwj_pending = False
+            else:
+                clusters.append(cp)
+
+    if len(clusters) &lt;= n:
+        return s
+    return "".join(clusters[:n]) + "..."</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag no">6/7</span></div><pre>import unicodedata
+
+def truncate_graphemes(s, n):
+    if not s:
+        return s
+
+    clusters = []
+    current_cluster = []
+    join_next = False
+
+    for cp in s:
+        is_mn = (unicodedata.category(cp) == "Mn")
+        is_zwj = (cp == "\u200D")
+
+        if not current_cluster:
+            # First code point in a cluster
+            current_cluster.append(cp)
+            join_next = is_zwj
+        else:
+            if join_next:
+                # ZWJ forces this code point (and its following Mn) into the current cluster
+                current_cluster.append(cp)
+                join_next = is_zwj
+            elif is_mn:
+                # Combining mark always attaches to the current cluster
+                current_cluster.append(cp)
+            else:
+                # Normal code point starts a new cluster
+                clusters.append("".join(current_cluster))
+                current_cluster = [cp]
+                join_next = is_zwj
+
+    if current_cluster:
+        clusters.append("".join(current_cluster))
+
+    if len(clusters) &lt;= n:
+        return s
+    else:
+        return "".join(clusters[:n]) + "..."</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=14">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
@@ -4388,6 +5660,62 @@ LEFT JOIN (
   FROM notes
   GROUP BY customer_id
 ) n ON n.customer_id = c.id
+WHERE c.id NOT IN (SELECT customer_id FROM flagged WHERE customer_id IS NOT NULL)
+ORDER BY c.name ASC;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">6/6</span></div><pre>WITH order_stats AS (
+    SELECT
+        customer_id,
+        COUNT(*) AS total_orders,
+        COUNT(amount) AS priced_orders,
+        COALESCE(SUM(amount), 0) AS total_revenue
+    FROM orders
+    GROUP BY customer_id
+),
+note_stats AS (
+    SELECT
+        customer_id,
+        COUNT(*) AS note_count
+    FROM notes
+    GROUP BY customer_id
+)
+SELECT
+    c.name,
+    COALESCE(o.total_orders, 0) AS total_orders,
+    COALESCE(o.priced_orders, 0) AS priced_orders,
+    COALESCE(o.total_revenue, 0) AS total_revenue,
+    COALESCE(n.note_count, 0) AS note_count
+FROM customers c
+LEFT JOIN order_stats o ON c.id = o.customer_id
+LEFT JOIN note_stats n ON c.id = n.customer_id
+WHERE NOT EXISTS (
+    SELECT 1 
+    FROM flagged f 
+    WHERE f.customer_id = c.id
+)
+ORDER BY c.name ASC;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">6/6</span></div><pre>SELECT 
+    c.name,
+    COALESCE(o_stats.total_orders, 0) AS total_orders,
+    COALESCE(o_stats.priced_orders, 0) AS priced_orders,
+    COALESCE(o_stats.total_revenue, 0.0) AS total_revenue,
+    COALESCE(n_stats.note_count, 0) AS note_count
+FROM customers c
+LEFT JOIN (
+    SELECT 
+        customer_id,
+        COUNT(*) AS total_orders,
+        COUNT(amount) AS priced_orders,
+        SUM(amount) AS total_revenue
+    FROM orders
+    GROUP BY customer_id
+) o_stats ON c.id = o_stats.customer_id
+LEFT JOIN (
+    SELECT 
+        customer_id,
+        COUNT(*) AS note_count
+    FROM notes
+    GROUP BY customer_id
+) n_stats ON c.id = n_stats.customer_id
 WHERE c.id NOT IN (SELECT customer_id FROM flagged WHERE customer_id IS NOT NULL)
 ORDER BY c.name ASC;</pre></div>
 </details>
@@ -4607,6 +5935,76 @@ Return only the complete function in one code block.</pre></details>
             result.append(i - m + 1)
             k = lps[k - 1]  # allow overlapping matches
     return result</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">7/7</span></div><pre>def find_all_occurrences(text, pattern):
+    n = len(text)
+    m = len(pattern)
+
+    if m &gt; n or m == 0:
+        return []
+
+    # Compute Knuth-Morris-Pratt (KMP) prefix function (LPS table)
+    pi = [0] * m
+    j = 0
+    for i in range(1, m):
+        while j &gt; 0 and pattern[i] != pattern[j]:
+            j = pi[j - 1]
+        if pattern[i] == pattern[j]:
+            j += 1
+        pi[i] = j
+
+    result = []
+    j = 0  # Number of matched characters in pattern
+    for i in range(n):
+        while j &gt; 0 and text[i] != pattern[j]:
+            j = pi[j - 1]
+        if text[i] == pattern[j]:
+            j += 1
+        if j == m:
+            result.append(i - m + 1)
+            j = pi[j - 1]
+
+    return result</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">7/7</span></div><pre>def find_all_occurrences(text, pattern):
+    n = len(text)
+    m = len(pattern)
+    if m &gt; n:
+        return []
+
+    # Compute the LPS (Longest Proper Prefix which is also Suffix) array for KMP
+    lps = [0] * m
+    length = 0
+    i = 1
+    while i &lt; m:
+        if pattern[i] == pattern[length]:
+            length += 1
+            lps[i] = length
+            i += 1
+        else:
+            if length != 0:
+                length = lps[length - 1]
+            else:
+                lps[i] = 0
+                i += 1
+
+    result = []
+    i = 0  # index for text
+    j = 0  # index for pattern
+    while i &lt; n:
+        if pattern[j] == text[i]:
+            i += 1
+            j += 1
+
+        if j == m:
+            result.append(i - j)
+            # Instead of resetting j to 0, use lps to allow overlapping matches
+            j = lps[j - 1]
+        elif i &lt; n and pattern[j] != text[i]:
+            if j != 0:
+                j = lps[j - 1]
+            else:
+                i += 1
+
+    return result</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=16">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
@@ -4701,6 +6099,31 @@ ORDER BY user_id ASC, ts ASC, event_id ASC;</pre></div>
     ) AS latest_amt
 FROM events
 ORDER BY user_id, ts, event_id;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">7/7</span></div><pre>SELECT
+    event_id,
+    user_id,
+    ts,
+    amt,
+    FIRST_VALUE(amt) OVER (
+        PARTITION BY user_id
+        ORDER BY ts DESC, event_id DESC
+    ) AS latest_amt
+FROM events
+ORDER BY
+    user_id ASC,
+    ts ASC,
+    event_id ASC;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">7/7</span></div><pre>SELECT 
+    event_id, 
+    user_id, 
+    ts, 
+    amt,
+    FIRST_VALUE(amt) OVER (
+        PARTITION BY user_id 
+        ORDER BY ts DESC, event_id DESC
+    ) AS latest_amt
+FROM events
+ORDER BY user_id ASC, ts ASC, event_id ASC;</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=17">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
@@ -4823,6 +6246,34 @@ Validators may be called in any order, and any number of times.</pre></details>
         validator.cache = cache
         validators.append(validator)
     return validators</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">8/8</span></div><pre>def make_validators(specs):
+    class Validator:
+
+        def __init__(self, field_name, min_len):
+            self.field_name = field_name
+            self.min_len = min_len
+            self.cache = {}
+
+        def __call__(self, value):
+            if value not in self.cache:
+                self.cache[value] = len(value) &gt;= self.min_len
+            return self.cache[value]
+
+    return [Validator(field_name, min_len) for field_name, min_len in specs]</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">8/8</span></div><pre>def make_validators(specs):
+    validators = []
+    for field_name, min_len in specs:
+        cache = {}
+        def validator(val, fn=field_name, ml=min_len, c=cache):
+            if val in c:
+                return c[val]
+            res = len(val) &gt;= ml
+            c[val] = res
+            return res
+        validator.field_name = field_name
+        validator.cache = cache
+        validators.append(validator)
+    return validators</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=18">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
@@ -4886,6 +6337,16 @@ Q2. 3
 Q3. yllacihcrareih
 Q4. 8
 Q5. 12</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag no">3/5</span></div><pre>Q1. 3
+Q2. 3
+Q3. yllacihcraereih
+Q4. 8
+Q5. 12</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">5/5</span></div><pre>Q1. 3
+Q2. 3
+Q3. yllacihcrareih
+Q4. 8
+Q5. 13</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=19">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
@@ -4930,6 +6391,14 @@ Every night the waves come home again</pre></div>
 And salt spray fills the morning tide
 Vast blue water stretches far beyond sight
 Every wave returns again with the tide</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">4/4</span></div><pre>Wild foam rises high above the abyss.
+Always crashing softly on the distant shore.
+Vast blue waters carry all our dreams.
+Endless tides return to touch the shore.</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag ok">4/4</span></div><pre>Water crashes softly on the endless shore,
+Above the deep and dark blue sea,
+Vast currents pull towards the ocean floor,
+Echoes of waves upon the blue sea.</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=20">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
@@ -4990,6 +6459,14 @@ output below is a single example.</p>
 Q2. 5 minutes — each machine makes one widget in 5 minutes, so scaling machines and widgets equally keeps the time fixed.
 Q3. 3 — take two items over, return empty, take the last (e.g., fox+grain over, return, chicken over), which is the fewest possible since 3 items at 2 per trip needs 2 forward + 1 return.
 Q4. 1/2 — the coin is fair and flips are independent, so prior heads don't change it.</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.6 Flash</span><span class="tag ok">4/4</span></div><pre>Q1. $0.05 (or 5 cents) — Solving $x + (x + \$1.00) = \$1.10$ gives the cost of the ball as $x = \$0.05$.
+Q2. 5 minutes — Each machine takes 5 minutes to make one widget, so 100 machines operating simultaneously will produce 100 widgets in 5 minutes.
+Q3. 3 — The farmer takes the fox and grain first (1), returns alone (2), and then takes the chicken across (3).
+Q4. 1/2 (or 50%) — Coin flips are independent events, so previous outcomes do not affect the probability of the 6th flip.</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">Gemini 3.5 Flash-Lite</span><span class="tag no">3/4</span></div><pre>Q1. $0.05; The ball costs 5 cents and the bat costs $1.05, which equals $1.10 and a $1.00 difference.
+Q2. 5 minutes; Each machine makes one widget in 5 minutes, so 100 machines working simultaneously will make 100 widgets in 5 minutes.
+Q3. 2; Since the boat holds the farmer and both items, the farmer can take all three across in a single round-trip, resulting in 2 one-way crossings.
+Q4. 1/2; Coin flips are independent events, so past results do not affect the probability of future flips.</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=21">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 <details class="task" id="task-22"><summary><span class="tid">Task 22</span> <span class="tname">Recall from a big messy archive</span> <span class="tfam">reading &middot; 5 questions</span> <span class="tmini">Sonnet 4/4 · Opus 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.6 Flash 4/4 · 3.5 Flash-Lite 4/4 · Qwen 4/4 · DeepSeek 1/1 run</span></summary>
@@ -5178,12 +6655,16 @@ Section 14: "Free-tier accounts are limited to a single project."
 <details class="sub"><summary>Show the exact prompt</summary><pre>Generate an SVG of an auto-rickshaw towing a server rack up a steep hill,
 monsoon rain falling. Return only the SVG in one code block.</pre></details>
 <details class="sub" open><summary>See what each model drew</summary>
-<figure class="drawing"><figcaption>Qwen3.8-Max-Preview &middot; ranked 1st &mdash; a real night scene: lightning, headlight beams on a marked road, the rack strapped down, puddles on the tarmac</figcaption><img class="svgshot" src="bench-assets/qwen-rickshaw.svg" alt="Qwen's rickshaw scene" loading="lazy"></figure>
-<figure class="drawing"><figcaption>Grok 4.5 &middot; ranked 6th &mdash; flat ground instead of a hill, no tow line at all, the most cartoonish of the set</figcaption><img class="svgshot" src="bench-assets/grok-rickshaw.svg" alt="Grok's rickshaw scene" loading="lazy"></figure>
-<figure class="drawing"><figcaption>Claude Sonnet 5 &middot; ranked 5th &mdash; the rack sits ahead of the vehicle that is supposed to be pulling it, and the rope barely connects</figcaption><img class="svgshot" src="bench-assets/sonnet-rickshaw.svg" alt="Sonnet's rickshaw scene" loading="lazy"></figure>
-<figure class="drawing"><figcaption>DeepSeek (Expert+DeepThink) &middot; ranked 3rd &mdash; all the elements, but the tow rope is a dashed sketch-line and the rickshaw reads more road-roller than rickshaw</figcaption><img class="svgshot" src="bench-assets/deepseek-rickshaw.svg" alt="DeepSeek's rickshaw scene" loading="lazy"></figure>
-<figure class="drawing"><figcaption>Claude Fable 5 &middot; ranked 2nd &mdash; everything in its place (rack trailing on its own wheels, tow line, exhaust), just plainer than Qwen&rsquo;s</figcaption><img class="svgshot" src="bench-assets/fable-rickshaw.svg" alt="Fable's rickshaw scene" loading="lazy"></figure>
-<figure class="drawing"><figcaption>Claude Opus 4.8 &middot; ranked 4th &mdash; gets most of it right, but the rickshaw floats above the road</figcaption><img class="svgshot" src="bench-assets/opus-rickshaw.svg" alt="Opus's rickshaw scene" loading="lazy"></figure>
+<p class="note">What the editor&rsquo;s eye found in each drawing &mdash; &#10003; present, &#10007; missing; &ldquo;yet to come&rdquo; means that cell hasn&rsquo;t been reviewed by eye.</p><div class="tablewrap"><table class="eyecheck" aria-label="Editor checklist for the rickshaw drawing"><thead><tr><th class="model">Element</th><th>Sonnet 5</th><th>Fable 5</th><th>Qwen3.8-Max-Preview</th><th>3.6 Flash</th><th>Opus 4.8</th><th>Grok 4.5</th><th>DeepSeek</th><th>3.5 Flash-Lite</th></tr></thead><tbody><tr><td class="el">a steep hill</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td><td class="score full">&#10003;</td><td class="score gap">&#10007;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">a road</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td><td class="score full">&#10003;</td><td class="score gap">&#10007;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">monsoon rain</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">a recognizable auto-rickshaw</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td class="score gap">&#10007;</td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">the server rack</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">rack behind the vehicle</td><td class="score gap">&#10007;</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td><td class="score full">&#10003;</td><td class="score gap">&#10007;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">a tow line, properly connected</td><td class="score gap">&#10007;</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td><td class="score full">&#10003;</td><td class="score gap">&#10007;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">wheels on the road</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td><td class="score gap">&#10007;</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">night lighting / headlights</td><td class="score gap">&#10007;</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td><td class="score full">&#10003;</td><td class="score gap">&#10007;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">lightning</td><td class="score gap">&#10007;</td><td class="score gap">&#10007;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td><td class="score gap">&#10007;</td><td class="score full">&#10003;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">puddles</td><td class="score full">&#10003;</td><td class="score gap">&#10007;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td><td class="score gap">&#10007;</td><td class="score gap">&#10007;</td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">rack tied down</td><td class="score gap">&#10007;</td><td class="score gap">&#10007;</td><td class="score full">&#10003;</td><td><span class="tc">yet to come</span></td><td class="score gap">&#10007;</td><td class="score gap">&#10007;</td><td class="score gap">&#10007;</td><td><span class="tc">yet to come</span></td></tr></tbody></table></div>
+<figure class="drawing"><figcaption>Qwen3.8-Max-Preview &middot; ranked 1st</figcaption><img class="svgshot" src="bench-assets/qwen-rickshaw.svg" alt="Qwen's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Grok 4.5 &middot; ranked 6th</figcaption><img class="svgshot" src="bench-assets/grok-rickshaw.svg" alt="Grok's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Claude Sonnet 5 &middot; ranked 5th</figcaption><img class="svgshot" src="bench-assets/sonnet-rickshaw.svg" alt="Sonnet's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>DeepSeek (Expert+DeepThink) &middot; ranked 3rd</figcaption><img class="svgshot" src="bench-assets/deepseek-rickshaw.svg" alt="DeepSeek's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Claude Fable 5 &middot; ranked 2nd</figcaption><img class="svgshot" src="bench-assets/fable-rickshaw.svg" alt="Fable's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Claude Opus 4.8 &middot; ranked 4th</figcaption><img class="svgshot" src="bench-assets/opus-rickshaw.svg" alt="Opus's rickshaw scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Gemini 3.6 Flash &middot; eye verdict yet to come</figcaption><img class="svgshot" src="bench-assets/gemini36-rickshaw.svg" alt="Gemini 3.6 Flash's rickshaw drawing" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Gemini 3.5 Flash-Lite &middot; eye verdict yet to come</figcaption><img class="svgshot" src="bench-assets/geminifl-rickshaw.svg" alt="Gemini 3.5 Flash-Lite's rickshaw drawing" loading="lazy"></figure>
+
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=24">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
@@ -5207,12 +6688,16 @@ SVG in one code block. Your SVG MUST satisfy ALL of these constraints:
 9. At most 400 elements total.
 10. The document is valid (well-formed, parses cleanly).</pre></details>
 <details class="sub" open><summary>See what each model drew</summary>
+<p class="note">The ten machine-checked rules are scored above; this is the editor&rsquo;s eye on the picture itself &mdash; &ldquo;yet to come&rdquo; means that cell hasn&rsquo;t been reviewed.</p><div class="tablewrap"><table class="eyecheck" aria-label="Editor checklist for the market drawing"><thead><tr><th class="model">Element</th><th>Sonnet 5</th><th>Fable 5</th><th>Qwen3.8-Max-Preview</th><th>3.6 Flash</th><th>Opus 4.8</th><th>Grok 4.5</th><th>DeepSeek</th><th>3.5 Flash-Lite</th></tr></thead><tbody><tr><td class="el">the moon visible</td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">three or more market stalls</td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">rain falling</td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">a puddle</td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">the KAAPI sign readable</td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">a dusk sky</td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td></tr><tr><td class="el">reads as a street market overall</td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td><td><span class="tc">yet to come</span></td></tr></tbody></table></div>
 <figure class="drawing"><figcaption>Qwen3.8-Max-Preview</figcaption><img class="svgshot" src="bench-assets/qwen-market.svg" alt="Qwen's market scene" loading="lazy"></figure>
 <figure class="drawing"><figcaption>Grok 4.5</figcaption><img class="svgshot" src="bench-assets/grok-market.svg" alt="Grok's market scene" loading="lazy"></figure>
 <figure class="drawing"><figcaption>Claude Sonnet 5</figcaption><img class="svgshot" src="bench-assets/sonnet-market.svg" alt="Sonnet's market scene" loading="lazy"></figure>
 <figure class="drawing"><figcaption>DeepSeek (Expert+DeepThink) — 10/10</figcaption><img class="svgshot" src="bench-assets/deepseek-market.svg" alt="DeepSeek's market scene" loading="lazy"></figure>
 <figure class="drawing"><figcaption>Claude Fable 5</figcaption><img class="svgshot" src="bench-assets/fable-market.svg" alt="Fable's market scene" loading="lazy"></figure>
 <figure class="drawing"><figcaption>Claude Opus 4.8</figcaption><img class="svgshot" src="bench-assets/opus-market.svg" alt="Opus's market scene" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Gemini 3.6 Flash &middot; eye verdict yet to come</figcaption><img class="svgshot" src="bench-assets/gemini36-market.svg" alt="Gemini 3.6 Flash's market drawing" loading="lazy"></figure>
+<figure class="drawing"><figcaption>Gemini 3.5 Flash-Lite &middot; eye verdict yet to come</figcaption><img class="svgshot" src="bench-assets/geminifl-market.svg" alt="Gemini 3.5 Flash-Lite's market drawing" loading="lazy"></figure>
+
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=25">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 <nav class="booknav"><a href="bench-traps.html">&larr; The traps</a><a href="bench-compare.html">Compare &rarr;</a></nav>

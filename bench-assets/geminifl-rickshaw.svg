@@ -1,0 +1,271 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient: Stormy Night -->
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329" />
+      <stop offset="50%" stop-color="#162347" />
+      <stop offset="100%" stop-color="#2c3c6d" />
+    </linearGradient>
+
+    <!-- Hill Gradient: Steep Dark Silhouette -->
+    <linearGradient id="hillGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111c18" />
+      <stop offset="100%" stop-color="#070b0a" />
+    </linearGradient>
+
+    <!-- Road Gradient -->
+    <linearGradient id="roadGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1f2421" />
+      <stop offset="100%" stop-color="#2e3532" />
+    </linearGradient>
+
+    <!-- Auto-rickshaw Body Gradients (Classic Yellow & Green) -->
+    <linearGradient id="autoYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffcc00" />
+      <stop offset="100%" stop-color="#cc9900" />
+    </linearGradient>
+    <linearGradient id="autoGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#008b45" />
+      <stop offset="100%" stop-color="#004d26" />
+    </linearGradient>
+
+    <!-- Glow Filter for Headlights & Server LEDs -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Raindrop Pattern/Reusable line -->
+    <line id="drop" x1="0" y1="0" x2="-8" y2="25" stroke="#aadaff" stroke-width="1.5" stroke-opacity="0.6" stroke-linecap="round" />
+  </defs>
+
+  <!-- ==================== BACKGROUND ==================== -->
+  <rect width="1200" height="800" fill="url(#skyGrad)" />
+
+  <!-- Lightning Flash / Distant Glow -->
+  <path d="M700,0 L650,150 L720,150 L630,350" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.3" />
+  <circle cx="200" cy="150" r="120" fill="#ffffff" fill-opacity="0.03" />
+
+  <!-- Distant City Silhouette / Palm Trees -->
+  <path d="M0,500 L50,490 L80,510 L120,480 L160,520 L200,470 L250,525 L320,490 L400,535 L500,500 L600,550 L750,530 L900,580 L1050,600 L1200,620 L1200,800 L0,800 Z" fill="#0d151c" />
+
+  <!-- ==================== THE STEEP HILL ==================== -->
+  <!-- Hill goes up from bottom-left to top-right (approx 25-30 degree slope) -->
+  <polygon points="-50,850 1250,300 1250,900 -50,900" fill="url(#hillGrad)" />
+  
+  <!-- Hillside details: Shrubberies and rocks in the dark -->
+  <path d="M100,680 Q130,660 160,690 T220,700 T300,680 T400,720 T550,690 T700,710 T900,660 T1100,600 L1250,610 L1250,900 L0,900 Z" fill="#0b120f" />
+
+  <!-- ==================== THE ROAD ==================== -->
+  <!-- A winding steep asphalt road -->
+  <!-- Transformed coordinate space visually via points -->
+  <g>
+    <!-- Road Surface -->
+    <polygon points="0,720 350,650 800,480 1200,360 1200,420 800,540 350,710 0,790" fill="url(#roadGrad)" />
+    
+    <!-- Road Edges / Curbs -->
+    <polygon points="0,717 350,647 800,477 1200,357 1200,360 800,480 350,650 0,720" fill="#4a5550" />
+    <polygon points="0,790 350,710 800,540 1200,420 1200,425 800,547 350,717 0,797" fill="#3a4540" />
+
+    <!-- Road Center Dashes (Perspective scaling) -->
+    <path d="M150,747 L220,728 M300,705 L370,682 M460,650 L530,620 M630,590 L700,560 M810,515 L880,488 M990,445 L1060,420" stroke="#f1c40f" stroke-width="4" stroke-dasharray="15,10" stroke-linecap="round" opacity="0.8" />
+  </g>
+
+  <!-- ==================== VEHICLE & CARGO (MAIN GROUP) ==================== -->
+  <!-- Rotated/Placed on the slope. Hill angle is roughly -16 degrees. -->
+  <g transform="translate(380, 500) rotate(-16)">
+
+    <!-- SPRAY / MUD from wheels (Monsoon effect) -->
+    <path d="M-110,65 Q-130,50 -100,40" fill="none" stroke="#2c3532" stroke-width="8" stroke-linecap="round" opacity="0.7" />
+    <path d="M10,85 Q-10,75 5,50" fill="none" stroke="#2c3532" stroke-width="6" stroke-linecap="round" opacity="0.7" />
+
+    <!-- ==================== AUTO-RICKSHAW (TOWING) ==================== -->
+    <g id="auto-rickshaw">
+      <!-- Rear Wheel Assembly -->
+      <circle cx="-90" cy="50" r="28" fill="#111" />
+      <circle cx="-90" cy="50" r="18" fill="#444" />
+      <circle cx="-90" cy="50" r="6" fill="#888" />
+      <!-- Mudguard -->
+      <path d="M -120,40 A 35,35 0 0,1 -60,40 L -65,25 A 25,25 0 0,0 -115,25 Z" fill="url(#autoGreen)" />
+
+      <!-- Engine Compartment & Chassis Body -->
+      <path d="M-130,25 L-50,20 L-40,55 L-110,55 Z" fill="#222" />
+      <path d="M-115,10 L-45,10 L-35,45 L-105,45 Z" fill="url(#autoGreen)" />
+
+      <!-- Cabin / Hood (Green & Yellow iconic split) -->
+      <path d="M-60,0 L20,-5 L25,45 L-40,45 Z" fill="url(#autoYellow)" />
+      <!-- Green Canvas Top Trim -->
+      <path d="M-65,-5 L15,-10 L25,-2 L-60,0 Z" fill="url(#autoGreen)" />
+
+      <!-- Front Fork & Wheel -->
+      <g transform="translate(25, 10)">
+        <line x1="0" y1="-15" x2="15" y2="40" stroke="#111" stroke-width="6" stroke-linecap="round" />
+        <circle cx="18" cy="45" r="22" fill="#111" />
+        <circle cx="18" cy="45" r="12" fill="#555" />
+        <!-- Handlebars -->
+        <path d="M-2,-18 L8,-22" stroke="#111" stroke-width="5" stroke-linecap="round" />
+        <!-- Mudguard Front -->
+        <path d="M -2,25 A 25,25 0 0,1 35,30 L 25,15 A 15,15 0 0,0 5,15 Z" fill="url(#autoGreen)" />
+      </g>
+
+      <!-- Driver Silhouette -->
+      <path d="M-20,0 C-15,-15 5,-15 10,0 C5,10 -15,10 -20,0 Z" fill="#1a1a1a" /> <!-- Head/Helmet -->
+      <path d="M-25,0 C-25,-5 -5,0 -5,35 L-30,40 Z" fill="#2c3e50" /> <!-- Body leaning forward into the climb -->
+
+      <!-- Headlight & Beam -->
+      <g filter="url(#glow)">
+        <circle cx="38" cy="15" r="7" fill="#ffffaa" />
+      </g>
+      <polygon points="42,15 250,-20 230,70" fill="#ffffaa" fill-opacity="0.12" />
+
+      <!-- Windshield Frame & Rain Wiper -->
+      <path d="M-50,-2 L15,-7 L18,30 L-40,32 Z" fill="#aaccff" fill-opacity="0.3" stroke="#004d26" stroke-width="3" />
+      <line x1="-10" y1="5" x2="-25" y2="25" stroke="#111" stroke-width="2" /> <!-- Wiper in action -->
+
+      <!-- License Plate (Tough commute flavor) -->
+      <rect x="-35" y="38" width="22" height="10" fill="#f1c40f" rx="1" />
+      <text x="-32" y="46" font-family="monospace" font-size="7" fill="#000" font-weight="bold">MH-04</text>
+    </g>
+
+    <!-- ==================== TOW BAR / HITCH ==================== -->
+    <g id="hitch">
+      <!-- Heavy steel tow bar connecting rickshaw to trailer -->
+      <line x1="-120" y1="20" x2="-180" y2="10" stroke="#333" stroke-width="8" stroke-linecap="round" />
+      <circle cx="-150" cy="15" r="4" fill="#666" />
+      <!-- Sparks/Stress glow at connection point -->
+      <circle cx="-120" cy="20" r="3" fill="#ff5500" filter="url(#softGlow)" />
+    </g>
+
+    <!-- ==================== THE SERVER RACK TRAILER ==================== -->
+    <g id="server-trailer" transform="translate(-230, -15)">
+      <!-- Trailer Flatbed / Chassis -->
+      <rect x="-20" y="35" width="130" height="12" fill="#222" rx="2" />
+      <!-- Trailer Wheels (Dual Axle for heavy enterprise load) -->
+      <circle cx="10" cy="50" r="20" fill="#111" />
+      <circle cx="10" cy="50" r="10" fill="#555" />
+      <circle cx="80" cy="50" r="20" fill="#111" />
+      <circle cx="80" cy="50" r="10" fill="#555" />
+
+      <!-- Heavy-Duty Server Rack Cabinet -->
+      <rect x="0" y="-85" width="90" height="125" fill="#1a1c23" rx="4" stroke="#444" stroke-width="2" />
+      <!-- Front Glass Door Frame -->
+      <rect x="5" y="-75" width="80" height="105" fill="#0d1117" rx="2" stroke="#2d3748" stroke-width="1.5" />
+
+      <!-- Server Blades (Stacked inside with blinking LEDs) -->
+      <!-- Rack Unit 1 -->
+      <rect x="10" y="-70" width="70" height="12" fill="#2d3748" rx="1" />
+      <circle cx="18" cy="-64" r="2" fill="#00ffcc" filter="url(#softGlow)" /> <!-- Power -->
+      <circle cx="25" cy="-64" r="2" fill="#ff3333" /> <!-- HDD Error/Activity -->
+      <circle cx="32" cy="-64" r="2" fill="#00ff00" /> <!-- Net -->
+
+      <!-- Rack Unit 2 -->
+      <rect x="10" y="-54" width="70" height="12" fill="#2d3748" rx="1" />
+      <circle cx="18" cy="-48" r="2" fill="#00ffcc" filter="url(#softGlow)" />
+      <circle cx="25" cy="-48" r="2" fill="#00ff00" />
+      <circle cx="32" cy="-48" r="2" fill="#00ff00" />
+      <rect x="50" y="-52" width="24" height="8" fill="#1a202c" rx="1" />
+
+      <!-- Rack Unit 3 (Switch / Router with massive blinking activity) -->
+      <rect x="10" y="-38" width="70" height="12" fill="#2d3748" rx="1" />
+      <circle cx="18" cy="-32" r="2" fill="#00ffcc" filter="url(#softGlow)" />
+      <circle cx="25" cy="-32" r="1.5" fill="#ffcc00" />
+      <circle cx="30" cy="-32" r="1.5" fill="#00ff00" />
+      <circle cx="35" cy="-32" r="1.5" fill="#00ff00" />
+      <circle cx="40" cy="-32" r="1.5" fill="#ff3333" />
+      <circle cx="45" cy="-32" r="1.5" fill="#00ff00" />
+
+      <!-- Rack Unit 4 -->
+      <rect x="10" y="-22" width="70" height="12" fill="#2d3748" rx="1" />
+      <circle cx="18" cy="-16" r="2" fill="#00ffcc" filter="url(#softGlow)" />
+      <circle cx="25" cy="-16" r="2" fill="#00ff00" />
+
+      <!-- Rack Unit 5 (UPS / Battery Backup) -->
+      <rect x="10" y="-6" width="70" height="28" fill="#202633" rx="1" />
+      <text x="25" y="10" font-family="monospace" font-size="8" fill="#ff9900" font-weight="bold">APC UPS</text>
+      <circle cx="70" cy="8" r="3" fill="#ff3333" filter="url(#softGlow)" /> <!-- Warning/On Battery -->
+
+      <!-- UPS / Server Exhaust Fans (Rear/Top vent lines visible) -->
+      <line x1="75" y1="-70" x2="75" y2="20" stroke="#111" stroke-width="2" stroke-dasharray="2,2" />
+
+      <!-- Tarpaulin / Monsoon Protection (Flapping over the top of the rack) -->
+      <path d="M-5,-90 Q40,-105 95,-85 L90,-75 Q40,-90 -2,-70 Z" fill="#27ae60" />
+      <!-- Ropes tying down the server rack -->
+      <path d="M15,-87 L15,35" stroke="#d35400" stroke-width="3" />
+      <path d="M70,-83 L70,35" stroke="#d35400" stroke-width="3" />
+      <!-- Dangling loose rope end -->
+      <path d="M70,35 Q85,55 75,70" fill="none" stroke="#d35400" stroke-width="2" />
+
+      <!-- Warning Sign taped to the back -->
+      <rect x="30" y="25" width="30" height="18" fill="#f1c40f" rx="1" transform="rotate(5 45 34)" />
+      <text x="33" y="37" font-family="sans-serif" font-weight="bold" font-size="9" fill="#000" transform="rotate(5 45 34)">FRAGILE</text>
+
+      <!-- Cable bundle trailing from the rack forward into the auto -->
+      <path d="M0,-50 Q-60,-40 -120,10" fill="none" stroke="#ff00ff" stroke-width="4" stroke-linecap="round" opacity="0.8" />
+      <path d="M0,-45 Q-55,-35 -120,15" fill="none" stroke="#00ffff" stroke-width="3" stroke-linecap="round" opacity="0.8" />
+      <path d="M0,-55 Q-65,-45 -120,5" fill="none" stroke="#ffff00" stroke-width="3" stroke-linecap="round" opacity="0.8" />
+    </g>
+
+  </g>
+
+  <!-- ==================== FOREGROUND MONSOON RAIN ==================== -->
+  <!-- Heavy diagonal sheets of rain falling across the frame -->
+  <g opacity="0.65">
+    <!-- Using multiple duplicated instances with offsets for depth -->
+    <use href="#drop" x="100" y="50" />
+    <use href="#drop" x="150" y="10" />
+    <use href="#drop" x="220" y="120" />
+    <use href="#drop" x="80" y="250" />
+    <use href="#drop" x="300" y="80" />
+    <use href="#drop" x="350" y="200" />
+    <use href="#drop" x="420" y="30" />
+    <use href="#drop" x="480" y="150" />
+    <use href="#drop" x="550" y="90" />
+    <use href="#drop" x="620" y="10" />
+    <use href="#drop" x="680" y="180" />
+    <use href="#drop" x="750" y="70" />
+    <use href="#drop" x="820" y="220" />
+    <use href="#drop" x="890" y="130" />
+    <use href="#drop" x="950" y="40" />
+    <use href="#drop" x="1020" y="160" />
+    <use href="#drop" x="1100" y="90" />
+    <use href="#drop" x="1150" y="200" />
+
+    <!-- Denser Layer -->
+    <use href="#drop" x="50" y="400" />
+    <use href="#drop" x="130" y="350" />
+    <use href="#drop" x="190" y="500" />
+    <use href="#drop" x="270" y="420" />
+    <use href="#drop" x="340" y="550" />
+    <use href="#drop" x="410" y="380" />
+    <use href="#drop" x="490" y="490" />
+    <use href="#drop" x="570" y="360" />
+    <use href="#drop" x="640" y="480" />
+    <use href="#drop" x="720" y="390" />
+    <use href="#drop" x="790" y="520" />
+    <use href="#drop" x="870" y="440" />
+    <use href="#drop" x="940" y="530" />
+    <use href="#drop" x="1010" y="370" />
+    <use href="#drop" x="1080" y="480" />
+    <use href="#drop" x="1170" y="350" />
+  </g>
+
+  <!-- Heavy Splash / Puddles on the road -->
+  <ellipse cx="450" cy="620" rx="25" ry="5" fill="#aadaff" fill-opacity="0.3" filter="url(#softGlow)" />
+  <ellipse cx="720" cy="530" rx="35" ry="7" fill="#aadaff" fill-opacity="0.25" filter="url(#softGlow)" />
+  <ellipse cx="250" cy="690" rx="18" ry="4" fill="#aadaff" fill-opacity="0.3" filter="url(#softGlow)" />
+
+  <!-- Foreground Rain Overlay (Very close, large streaks) -->
+  <g stroke="#cceeff" stroke-width="2" stroke-linecap="round" opacity="0.4">
+    <line x1="200" y1="0" x2="160" y2="100" />
+    <line x1="500" y1="200" x2="460" y2="300" />
+    <line x1="850" y1="100" x2="810" y2="200" />
+    <line x1="1000" y1="400" x2="960" y2="500" />
+    <line x1="100" y1="500" x2="60" y2="600" />
+    <line x1="700" y1="550" x2="660" y2="650" />
+  </g>
+
+</svg>

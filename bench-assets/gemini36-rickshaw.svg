@@ -1,0 +1,459 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
+  <defs>
+    <!-- Background Sky & Environment Gradients -->
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="30%" y2="100%">
+      <stop offset="0%" stop-color="#060913"/>
+      <stop offset="50%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#1b263b"/>
+    </linearGradient>
+
+    <linearGradient id="hillGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111d13"/>
+      <stop offset="40%" stop-color="#09140c"/>
+      <stop offset="100%" stop-color="#020804"/>
+    </linearGradient>
+
+    <linearGradient id="roadGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#212529"/>
+      <stop offset="50%" stop-color="#343a40"/>
+      <stop offset="100%" stop-color="#15191d"/>
+    </linearGradient>
+
+    <!-- Light Beam Gradient -->
+    <linearGradient id="headlightBeam" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.9"/>
+      <stop offset="20%" stop-color="#ffea00" stop-opacity="0.4"/>
+      <stop offset="60%" stop-color="#ffae00" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#ffae00" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Rickshaw Metallic & Painted Body Gradients -->
+    <linearGradient id="tukYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffea00"/>
+      <stop offset="60%" stop-color="#ffaa00"/>
+      <stop offset="100%" stop-color="#c67d00"/>
+    </linearGradient>
+
+    <linearGradient id="tukGreen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#008044"/>
+      <stop offset="100%" stop-color="#004d28"/>
+    </linearGradient>
+
+    <linearGradient id="metalDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#495057"/>
+      <stop offset="50%" stop-color="#212529"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+
+    <!-- Server Rack Gradients -->
+    <linearGradient id="serverBody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="20%" stop-color="#0f172a"/>
+      <stop offset="80%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#090d16"/>
+    </linearGradient>
+
+    <linearGradient id="tarpGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0077b6"/>
+      <stop offset="50%" stop-color="#023e8a"/>
+      <stop offset="100%" stop-color="#03045e"/>
+    </linearGradient>
+
+    <!-- Rain Pattern/Gradients -->
+    <linearGradient id="rainStreak" x1="0%" y1="0%" x2="20%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#a5f3fc" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Glow Filters -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <filter id="brightGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur1"/>
+      <feGaussianBlur stdDeviation="15" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="waterBlur">
+      <feGaussianBlur stdDeviation="1"/>
+    </filter>
+  </defs>
+
+  <!-- Background Sky -->
+  <rect width="1200" height="800" fill="url(#skyGrad)"/>
+
+  <!-- Lightning Bolt Flash in Distance -->
+  <path d="M 850 0 L 820 120 L 840 130 L 790 280 L 810 285 L 750 450" 
+        stroke="#e0f2fe" stroke-width="3" fill="none" opacity="0.3" filter="url(#glow)"/>
+  <path d="M 850 0 L 820 120 L 840 130 L 790 280 L 810 285 L 750 450" 
+        stroke="#ffffff" stroke-width="1" fill="none" opacity="0.8"/>
+
+  <!-- Distant Clouds & Atmosphere -->
+  <ellipse cx="800" cy="150" rx="300" ry="80" fill="#1e293b" opacity="0.5" filter="url(#brightGlow)"/>
+  <ellipse cx="400" cy="100" rx="400" ry="100" fill="#0f172a" opacity="0.7"/>
+
+  <!-- Background Hill (Distant Slope) -->
+  <path d="M -100 600 L 1300 150 L 1300 800 L -100 800 Z" fill="#0b1320" opacity="0.9"/>
+  <path d="M -100 520 L 1300 70 L 1300 600 Z" fill="#08101d" opacity="0.6"/>
+
+  <!-- Steep Main Road / Hill Side (-20 deg slope) -->
+  <!-- Ground Base -->
+  <path d="M -100 780 L 1300 300 L 1300 900 L -100 900 Z" fill="url(#hillGrad)"/>
+  
+  <!-- Asphalt Road Bed -->
+  <path d="M -100 750 L 1300 270 L 1300 370 L -100 850 Z" fill="url(#roadGrad)"/>
+  <path d="M -100 750 L 1300 270" stroke="#475569" stroke-width="8"/> <!-- Road edge top -->
+
+  <!-- Wet Mud / Edge Detail -->
+  <path d="M -100 765 Q 200 670 400 605 T 1000 405 T 1300 295 L 1300 330 L -100 850 Z" fill="#141a10" opacity="0.8"/>
+
+  <!-- Mud / Water Streams Flowing Downhill -->
+  <g stroke="#64748b" stroke-width="2" opacity="0.4" fill="none">
+    <path d="M 1200 310 C 1000 380 900 400 700 470 C 500 540 300 600 -50 730" stroke-width="6" stroke="#334155"/>
+    <path d="M 1150 320 C 950 390 850 420 650 490 C 450 560 250 620 -80 750" stroke-width="2" stroke="#94a3b8"/>
+    <path d="M 900 400 Q 750 440 600 500 T 100 680" stroke-width="4" stroke="#475569"/>
+  </g>
+
+  <!-- Far Background Rain (Behind Vehicle) -->
+  <g stroke="url(#rainStreak)" stroke-width="1.5" opacity="0.4">
+    <line x1="200" y1="0" x2="50" y2="400"/>
+    <line x1="400" y1="0" x2="250" y2="400"/>
+    <line x1="600" y1="0" x2="450" y2="400"/>
+    <line x1="800" y1="0" x2="650" y2="400"/>
+    <line x1="1000" y1="0" x2="850" y2="400"/>
+    <line x1="1200" y1="0" x2="1050" y2="400"/>
+    <line x1="100" y1="200" x2="-50" y2="600"/>
+    <line x1="300" y1="200" x2="150" y2="600"/>
+    <line x1="500" y1="200" x2="350" y2="600"/>
+    <line x1="700" y1="200" x2="550" y2="600"/>
+    <line x1="900" y1="200" x2="750" y2="600"/>
+    <line x1="1100" y1="200" x2="950" y2="600"/>
+  </g>
+
+  <!-- ================= MAIN VEHICLE & LOAD GROUP (Tilted at -18.5 deg) ================= -->
+  <!-- Centered and rotated to match the steep hill slope -->
+  <g transform="translate(550, 500) rotate(-18.5)">
+
+    <!-- Exhaust Smoke / Steam (Blowing Backwards downhill) -->
+    <g opacity="0.35">
+      <circle cx="110" cy="35" r="12" fill="#94a3b8" filter="url(#glow)"/>
+      <circle cx="70" cy="45" r="18" fill="#64748b" filter="url(#glow)"/>
+      <circle cx="20" cy="55" r="25" fill="#475569" filter="url(#glow)"/>
+      <circle cx="-40" cy="65" r="35" fill="#334155" filter="url(#glow)"/>
+    </g>
+
+    <!-- TOW CABLE / ROPE -->
+    <!-- Strain lines & tension -->
+    <path d="M 130 25 L -50 35" stroke="#111" stroke-width="8"/>
+    <path d="M 130 25 L -50 35" stroke="#f59e0b" stroke-width="4" stroke-dasharray="12,6"/>
+    <!-- Snapping Tension Effect/Water Dripping off Rope -->
+    <path d="M 130 22 L -50 32" stroke="#ffffff" stroke-width="1" opacity="0.6"/>
+    <path d="M 40 30 L 38 45 M -10 33 L -12 48" stroke="#38bdf8" stroke-width="2" opacity="0.8"/>
+
+    <!-- ================= SERVER RACK TRAILER (THE LOAD) ================= -->
+    <g id="server-trailer">
+      <!-- Trailer Chassis Base -->
+      <rect x="-190" y="45" width="130" height="12" rx="4" fill="url(#metalDark)"/>
+      <rect x="-185" y="42" width="120" height="4" fill="#94a3b8"/>
+      
+      <!-- Trailer Wheels -->
+      <!-- Rear Trailer Wheel -->
+      <g transform="translate(-160, 55)">
+        <circle cx="0" cy="0" r="20" fill="#1e293b"/>
+        <circle cx="0" cy="0" r="13" fill="#475569"/>
+        <circle cx="0" cy="0" r="6" fill="#0f172a"/>
+        <!-- Mud splash on wheel -->
+        <path d="M -15 5 Q -25 15 -35 10" stroke="#78350f" stroke-width="3" fill="none"/>
+      </g>
+      <!-- Front Trailer Wheel -->
+      <g transform="translate(-90, 55)">
+        <circle cx="0" cy="0" r="20" fill="#1e293b"/>
+        <circle cx="0" cy="0" r="13" fill="#475569"/>
+        <circle cx="0" cy="0" r="6" fill="#0f172a"/>
+      </g>
+
+      <!-- SERVER RACK CABINET -->
+      <!-- Main Outer Frame -->
+      <rect x="-180" y="-120" width="100" height="165" rx="6" fill="url(#serverBody)" stroke="#334155" stroke-width="3"/>
+      <!-- Inner Glass/Rack Depth -->
+      <rect x="-173" y="-112" width="86" height="149" rx="3" fill="#030712"/>
+
+      <!-- Rack Units (Servers/Switches) -->
+      <!-- Unit 1: Power Distribution / Main Switch -->
+      <rect x="-168" y="-106" width="76" height="18" fill="#1e293b" rx="2"/>
+      <circle cx="-158" cy="-97" r="3" fill="#ef4444" filter="url(#glow)"/>
+      <circle cx="-148" cy="-97" r="3" fill="#22c55e" filter="url(#glow)"/>
+      <rect x="-135" y="-100" width="35" height="6" fill="#0f172a" rx="1"/>
+
+      <!-- Unit 2: Storage Array (HDD Bays) -->
+      <rect x="-168" y="-84" width="76" height="24" fill="#111827" rx="2"/>
+      <g fill="#38bdf8" opacity="0.8">
+        <rect x="-164" y="-80" width="12" height="4" rx="1"/>
+        <rect x="-164" y="-74" width="12" height="4" rx="1"/>
+        <rect x="-148" y="-80" width="12" height="4" rx="1"/>
+        <rect x="-148" y="-74" width="12" height="4" rx="1"/>
+        <rect x="-132" y="-80" width="12" height="4" rx="1"/>
+        <rect x="-132" y="-74" width="12" height="4" rx="1"/>
+        <!-- Blinking Activity LEDs -->
+        <circle cx="-112" cy="-78" r="1.5" fill="#22c55e"/>
+        <circle cx="-108" cy="-78" r="1.5" fill="#22c55e"/>
+        <circle cx="-112" cy="-72" r="1.5" fill="#eab308"/>
+        <circle cx="-108" cy="-72" r="1.5" fill="#22c55e"/>
+      </g>
+
+      <!-- Unit 3: Blade Server High-Density Unit -->
+      <rect x="-168" y="-56" width="76" height="28" fill="#1e293b" rx="2"/>
+      <!-- Status Display Screen -->
+      <rect x="-162" y="-50" width="28" height="16" fill="#0284c7" filter="url(#glow)" opacity="0.8"/>
+      <path d="M -158 -42 L -150 -46 L -144 -38 L -138 -42" stroke="#ffffff" stroke-width="1.5" fill="none"/>
+      <!-- Glowing Blue LEDs Array -->
+      <g fill="#06b6d4" filter="url(#glow)">
+        <circle cx="-126" cy="-48" r="2"/>
+        <circle cx="-120" cy="-48" r="2"/>
+        <circle cx="-114" cy="-48" r="2"/>
+        <circle cx="-108" cy="-48" r="2"/>
+        <circle cx="-126" cy="-40" r="2"/>
+        <circle cx="-120" cy="-40" r="2"/>
+        <circle cx="-114" cy="-40" r="2"/>
+        <circle cx="-108" cy="-40" r="2" fill="#ef4444"/> <!-- ERROR LED -->
+      </g>
+
+      <!-- Unit 4: Core Router / Patch Panel -->
+      <rect x="-168" y="-24" width="76" height="22" fill="#0f172a" rx="2"/>
+      <!-- Messy Ethernet Patch Cables dangling & plugged in -->
+      <path d="M -160 -14 C -150 -4 -155 10 -145 20 C -140 28 -148 40 -130 35" stroke="#ef4444" stroke-width="2" fill="none"/>
+      <path d="M -152 -14 C -140 -2 -145 15 -130 18 C -120 20 -115 35 -120 45" stroke="#3b82f6" stroke-width="2" fill="none"/>
+      <path d="M -140 -14 C -130 -6 -135 12 -120 22" stroke="#22c55e" stroke-width="2" fill="none"/>
+      <path d="M -125 -14 C -120 -8 -110 5 -100 25 T -80 50" stroke="#eab308" stroke-width="2" fill="none"/>
+
+      <!-- Unit 5: Heavy Duty UPS/Battery -->
+      <rect x="-168" y="2" width="76" height="24" fill="#1e293b" rx="2"/>
+      <rect x="-160" y="8" width="16" height="12" fill="#334155"/>
+      <text x="-158" y="17" font-family="monospace" font-size="7" font-weight="bold" fill="#22c55e">BAT</text>
+      <!-- Overload Warning Light -->
+      <circle cx="-104" cy="14" r="4" fill="#ef4444" filter="url(#brightGlow)"/>
+
+      <!-- Rain / Water Streaming Down Server Glass -->
+      <g stroke="#7dd3fc" stroke-width="1" opacity="0.5">
+        <line x1="-170" y1="-110" x2="-168" y2="-60"/>
+        <line x1="-140" y1="-100" x2="-138" y2="-30"/>
+        <line x1="-100" y1="-110" x2="-98" y2="-40"/>
+        <line x1="-120" y1="-50" x2="-118" y2="30"/>
+      </g>
+
+      <!-- Flapping / Torn Tarp Cover (Emergency Protection) -->
+      <path d="M -185 -125 
+               C -185 -125 -130 -140 -80 -120 
+               C -70 -100 -75 -70 -65 -50 
+               C -55 -30 -80 -20 -70 10
+               L -80 30
+               C -90 10 -95 -80 -105 -100
+               C -130 -115 -185 -110 -185 -125 Z" 
+            fill="url(#tarpGrad)" opacity="0.85"/>
+      
+      <!-- Tarp Straps / Bungees -->
+      <path d="M -182 -90 L -85 -60" stroke="#f97316" stroke-width="2"/>
+      <path d="M -182 -30 L -92 -10" stroke="#f97316" stroke-width="2"/>
+      <!-- Flapping Tarp Tail (Wind Effect) -->
+      <path d="M -70 -120 C -50 -135 -30 -125 -10 -140 C -20 -120 -40 -110 -65 -100 Z" fill="#023e8a" opacity="0.8"/>
+
+      <!-- Water Splashes off Top of Server Rack -->
+      <g stroke="#e0f2fe" stroke-width="1.5" fill="none" opacity="0.8">
+        <path d="M -170 -123 C -172 -130 -178 -132 -182 -128"/>
+        <path d="M -130 -133 C -132 -140 -138 -142 -142 -138"/>
+        <path d="M -100 -127 C -102 -134 -108 -136 -112 -132"/>
+      </g>
+    </g> <!-- END SERVER RACK TRAILER -->
+
+
+    <!-- ================= AUTO RICKSHAW (TUK-TUK) ================= -->
+    <g id="auto-rickshaw">
+
+      <!-- Rear Wheel -->
+      <g transform="translate(130, 50)">
+        <circle cx="0" cy="0" r="25" fill="#0f172a"/>
+        <circle cx="0" cy="0" r="16" fill="#334155"/>
+        <circle cx="0" cy="0" r="14" fill="#1e293b"/>
+        <circle cx="0" cy="0" r="6" fill="#64748b"/>
+        <!-- Spinning Motion Lines -->
+        <circle cx="0" cy="0" r="20" stroke="#94a3b8" stroke-width="1" stroke-dasharray="8,8" fill="none" opacity="0.6"/>
+        <!-- Mudguard -->
+        <path d="M -28 -5 A 28 28 0 0 1 20 -20" stroke="#1e293b" stroke-width="8" fill="none"/>
+      </g>
+
+      <!-- Front Wheel -->
+      <g transform="translate(320, 50)">
+        <circle cx="0" cy="0" r="22" fill="#0f172a"/>
+        <circle cx="0" cy="0" r="14" fill="#334155"/>
+        <circle cx="0" cy="0" r="12" fill="#1e293b"/>
+        <circle cx="0" cy="0" r="5" fill="#64748b"/>
+        <circle cx="0" cy="0" r="17" stroke="#94a3b8" stroke-width="1" stroke-dasharray="6,6" fill="none" opacity="0.6"/>
+        <!-- Front Fork / Suspension -->
+        <path d="M 0 0 L -15 -35 L -5 -38" stroke="#64748b" stroke-width="5" fill="none"/>
+        <!-- Mudguard -->
+        <path d="M -25 -8 A 24 24 0 0 1 18 -18" stroke="#ffea00" stroke-width="6" fill="none"/>
+      </g>
+
+      <!-- Chassis Base Structure -->
+      <path d="M 100 45 L 310 45 L 330 20 L 280 15 L 100 15 Z" fill="url(#metalDark)"/>
+
+      <!-- Driver Silhouette & Interior -->
+      <!-- Driver Body (Leaning Forward Straining Upward) -->
+      <path d="M 180 15 
+               C 180 -10 195 -25 210 -20 
+               C 225 -15 235 0 240 10 
+               C 245 20 230 25 220 20
+               C 210 15 200 25 180 15 Z" 
+            fill="#1e293b"/>
+      <!-- Driver Head with Rain Helmet/Cap -->
+      <circle cx="222" cy="-22" r="10" fill="#0f172a"/>
+      <path d="M 215 -25 L 232 -20 L 225 -15 Z" fill="#dc2626"/> <!-- Red Cap Peak -->
+      <!-- Arms Stretching to Handlebars -->
+      <path d="M 210 -5 L 260 0" stroke="#1e293b" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 210 -5 L 260 0" stroke="#fcd34d" stroke-width="4" stroke-linecap="round"/> <!-- Raincoat sleeve -->
+      <!-- Handlebar -->
+      <path d="M 255 -8 L 265 8" stroke="#64748b" stroke-width="4"/>
+
+      <!-- Rickshaw Main Body Cabin (Green Bottom, Yellow Canopy Roof) -->
+      
+      <!-- Lower Body (Green Panel) -->
+      <path d="M 110 30 
+               L 120 -15 
+               L 200 -15 
+               L 270 -5 
+               L 285 20 
+               L 250 38 
+               L 130 38 Z" 
+            fill="url(#tukGreen)" stroke="#004d28" stroke-width="1"/>
+      
+      <!-- Yellow Side Stripe / Trim -->
+      <path d="M 118 -5 L 268 -5 L 265 3 L 116 3 Z" fill="url(#tukYellow)"/>
+      
+      <!-- Rickshaw Back / Side Metal Pillars -->
+      <path d="M 115 -12 L 125 -80 L 145 -80 L 130 -12 Z" fill="#1e293b"/>
+      <path d="M 200 -15 L 210 -75 L 220 -75 L 208 -15 Z" fill="#1e293b"/>
+      <path d="M 270 -5 L 275 -70 L 285 -65 L 278 10 Z" fill="#1e293b"/>
+
+      <!-- Canopy Roof (Iconic Yellow Rounded Top) -->
+      <path d="M 110 -75 
+               C 110 -85 140 -95 200 -95 
+               C 260 -95 295 -75 300 -65 
+               C 302 -60 280 -62 260 -65 
+               C 200 -68 125 -68 110 -75 Z" 
+            fill="url(#tukYellow)"/>
+      
+      <!-- Canopy Fabric Ribs / Folds -->
+      <path d="M 150 -91 C 155 -80 158 -70 160 -67" stroke="#d97706" stroke-width="2" fill="none"/>
+      <path d="M 210 -94 C 212 -80 214 -70 215 -66" stroke="#d97706" stroke-width="2" fill="none"/>
+      <path d="M 260 -86 C 260 -75 260 -68 258 -65" stroke="#d97706" stroke-width="2" fill="none"/>
+
+      <!-- Windshield Frame & Glass -->
+      <path d="M 275 -65 L 290 5 L 270 5 L 258 -65 Z" fill="#0f172a"/>
+      <!-- Glass Screen (Blue Tint with Reflection) -->
+      <path d="M 273 -60 L 286 0 L 273 0 L 262 -60 Z" fill="#38bdf8" opacity="0.4"/>
+      <!-- Wiper Blade Clearing Arc -->
+      <path d="M 265 -10 A 30 30 0 0 1 283 -35" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.7"/>
+      <line x1="270" y1="-5" x2="280" y2="-32" stroke="#0f172a" stroke-width="2"/> <!-- Wiper arm -->
+
+      <!-- Front Nose / Hood (Yellow) -->
+      <path d="M 270 5 
+               C 290 5 315 10 325 20 
+               C 320 30 295 38 280 35 
+               L 270 5 Z" 
+            fill="url(#tukYellow)"/>
+
+      <!-- HEADLIGHT & LIGHT BEAM -->
+      <!-- Headlight Housing -->
+      <circle cx="320" cy="22" r="10" fill="#64748b"/>
+      <circle cx="322" cy="22" r="7" fill="#fff" filter="url(#brightGlow)"/>
+
+      <!-- Dramatic Volumetric Light Beam penetrating rain -->
+      <polygon points="324,17 1000,-80 1000,180 324,27" fill="url(#headlightBeam)" opacity="0.8" style="mix-blend-mode: screen;"/>
+      
+      <!-- Illuminated Raindrops in Beam -->
+      <g stroke="#ffffff" stroke-width="1.5" opacity="0.8">
+        <line x1="400" y1="10" x2="380" y2="40"/>
+        <line x1="550" y1="-10" x2="530" y2="20"/>
+        <line x1="480" y1="30" x2="460" y2="60"/>
+        <line x1="650" y1="20" x2="630" y2="50"/>
+        <line x1="750" y1="-20" x2="730" y2="10"/>
+        <line x1="700" y1="40" x2="680" y2="70"/>
+        <line x1="850" y1="10" x2="830" y2="40"/>
+      </g>
+
+      <!-- Water Spray / Mud Splatters from Wheels (High Speed Strain) -->
+      <!-- Rear Wheel Spray -->
+      <path d="M 105 50 C 80 55 50 40 20 50 C 50 35 80 40 110 45 Z" fill="#94a3b8" opacity="0.5" filter="url(#waterBlur)"/>
+      <path d="M 100 52 C 70 65 30 60 -10 75 C 30 50 70 48 95 48 Z" fill="#38bdf8" opacity="0.4" filter="url(#waterBlur)"/>
+      <!-- Front Wheel Spray -->
+      <path d="M 295 52 C 270 60 240 55 210 70 C 240 50 270 48 290 48 Z" fill="#38bdf8" opacity="0.4" filter="url(#waterBlur)"/>
+
+      <!-- Water Dripping off Rickshaw Roof Canopy -->
+      <g stroke="#7dd3fc" stroke-width="2" opacity="0.7">
+        <line x1="110" y1="-70" x2="108" y2="-55"/>
+        <line x1="130" y1="-67" x2="128" y2="-50"/>
+        <line x1="180" y1="-67" x2="178" y2="-52"/>
+        <line x1="240" y1="-66" x2="238" y2="-48"/>
+        <line x1="298" y1="-60" x2="296" y2="-40"/>
+      </g>
+
+      <!-- Decorative Text/Details on Auto -->
+      <text x="135" y="20" font-family="sans-serif" font-weight="900" font-size="10" fill="#ffffff" opacity="0.9" letter-spacing="1">KING</text>
+      <text x="280" y="28" font-family="sans-serif" font-weight="bold" font-size="6" fill="#1e293b">404</text>
+
+    </g> <!-- END AUTO RICKSHAW -->
+
+  </g> <!-- ================= END MAIN VEHICLE GROUP ================= -->
+
+
+  <!-- FOREGROUND ELEMENTS (Heavy Rain Overlay, Water Streams, Vignette) -->
+
+  <!-- Heavy Slanted Rain Lines (Foreground Layer for Depth) -->
+  <g stroke="url(#rainStreak)" stroke-width="2.5" opacity="0.7">
+    <line x1="150" y1="-50" x2="-50" y2="450"/>
+    <line x1="350" y1="-50" x2="150" y2="450"/>
+    <line x1="550" y1="-50" x2="350" y2="450"/>
+    <line x1="750" y1="-50" x2="550" y2="450"/>
+    <line x1="950" y1="-50" x2="750" y2="450"/>
+    <line x1="1150" y1="-50" x2="950" y2="450"/>
+
+    <line x1="250" y1="350" x2="0" y2="850"/>
+    <line x1="450" y1="350" x2="200" y2="850"/>
+    <line x1="650" y1="350" x2="400" y2="850"/>
+    <line x1="850" y1="350" x2="600" y2="850"/>
+    <line x1="1050" y1="350" x2="800" y2="850"/>
+    <line x1="1250" y1="350" x2="1000" y2="850"/>
+  </g>
+
+  <!-- Ground Water Splashes (Impact Crowns) -->
+  <g stroke="#e0f2fe" stroke-width="1.5" fill="none" opacity="0.6">
+    <!-- Splash 1 -->
+    <path d="M 200 730 C 198 723 192 720 188 725 M 200 730 C 202 721 208 720 212 726"/>
+    <!-- Splash 2 -->
+    <path d="M 450 630 C 448 623 442 620 438 625 M 450 630 C 452 621 458 620 462 626"/>
+    <!-- Splash 3 -->
+    <path d="M 700 540 C 698 533 692 530 688 535 M 700 540 C 702 531 708 530 712 536"/>
+    <!-- Splash 4 -->
+    <path d="M 950 440 C 948 433 942 430 938 435 M 950 440 C 952 431 958 430 962 436"/>
+  </g>
+
+  <!-- Mist / Fog Layer along Road Surface -->
+  <path d="M -100 780 Q 300 620 700 480 T 1300 260 L 1300 340 Q 700 560 -100 860 Z" 
+        fill="#94a3b8" opacity="0.12" filter="url(#brightGlow)"/>
+
+  <!-- Storm Vignette / Dark Border Gradient -->
+  <radialGradient id="vignette" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+    <stop offset="80%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#020617" stop-opacity="0.7"/>
+  </radialGradient>
+  <rect width="1200" height="800" fill="url(#vignette)" style="mix-blend-mode: multiply;"/>
+
+</svg>
