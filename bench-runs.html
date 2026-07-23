@@ -192,8 +192,8 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
   run. Each cell is how many of that model&rsquo;s runs were a full pass
   (every hidden check) on that task; the small line in the Task 19 row
   breaks that task&rsquo;s runs down score by score. Task 24, the free
-  drawing, is judged by eye rather than counted, so its row carries the
-  editor&rsquo;s verdict instead.</p>
+  drawing, has no hidden checks; its row shows elements found on my checklist
+  (out of 12) and my rank &mdash; the two Gemini ranks: yet to come.</p>
   <p>A companion check: two tasks (the long-document recall and the
   closures/caches task) were also re-run for the three Claude models in a
   fully sealed setup &mdash; the model got the prompt text and nothing else, with
@@ -260,7 +260,7 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
       <tr>
         <td class="model"><a class="tlink" href="bench-tasks.html#task-23">Task 23</a><small>reading</small></td><td class="score full">4/4</td><td class="score full">4/4</td><td class="score full">4/4</td><td class="score full">4/4</td><td class="score full">4/4</td><td class="score full">4/4</td><td class="score full">1/1</td><td class="score dash">0/4</td></tr>
       <tr>
-        <td class="model"><a class="tlink" href="bench-tasks.html#task-24">Task 24</a><small>drawing</small></td><td class="score gap">5th</td><td class="score full">2nd</td><td class="score full">1st</td><td class="score dash">drawn</td><td class="score full">4th</td><td class="score gap">6th</td><td class="score full">3rd</td><td class="score dash">not checked</td></tr>
+        <td class="model"><a class="tlink" href="bench-tasks.html#task-24">Task 24</a><small>drawing</small></td><td class="score gap">7/12<span class="t19d">my rank: 5th</span></td><td class="score gap">9/12<span class="t19d">my rank: 2nd</span></td><td class="score full">12/12<span class="t19d">my rank: 1st</span></td><td class="score gap">11/12<span class="t19d">rank yet to come</span></td><td class="score gap">8/12<span class="t19d">my rank: 4th</span></td><td class="score dash">5/12<span class="t19d">my rank: 6th</span></td><td class="score gap">9/12<span class="t19d">my rank: 3rd</span></td><td class="score gap">10/12<span class="t19d">rank yet to come</span></td></tr>
       <tr>
         <td class="model"><a class="tlink" href="bench-tasks.html#task-25">Task 25</a><small>drawing</small></td><td class="score full">4/4</td><td class="score full">4/4</td><td class="score full">4/4</td><td class="score gap">3/4</td><td class="score full">4/4</td><td class="score full">4/4</td><td class="score full">1/1</td><td class="score full">4/4</td></tr>
     </tbody></table>
