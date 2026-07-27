@@ -201,6 +201,10 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
     </tr></thead>
     <tbody>
       <tr>
+        <td class="model">Claude Opus 5<small>Anthropic &middot; default &middot; via CLI</small></td>
+        <td class="score full">121 / 124</td><td>5 / 5</td><td>4 / 4</td><td><span class="rankpend">yet to come</span></td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; yet to come</span></td><td class="score full">12 / 13</td>
+      </tr>
+      <tr>
         <td class="model">Claude Sonnet 5<small>Anthropic &middot; Medium</small></td>
         <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>7/12 &middot; 5th</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; yet to come</span></td><td class="score gap">11 / 13</td>
       </tr>
@@ -245,13 +249,17 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
   <p><strong>Reading the table.</strong> Every number is the floor a model
   held across four separate runs &mdash; a check counts only if it passed in all
   four &mdash; so these are results you can rely on, not lucky sittings.
-  No model sweeps the comparison: Claude&nbsp;Sonnet&nbsp;5 and
-  Claude&nbsp;Fable&nbsp;5 share the coding lead, and DeepSeek and
+  Claude&nbsp;Opus&nbsp;5 now leads the coding column outright at 121 of 124,
+  the first column to clear 119; DeepSeek and
   Gemini&nbsp;3.5&nbsp;Flash-Lite give up the most ground &mdash; almost always by
   repeating one small mistake across runs rather than by failing broadly.
   Counting whole tasks a model kept clean in every run, out of 18:
-  Sonnet&nbsp;17, Qwen&nbsp;17, Opus&nbsp;16, Fable&nbsp;16, Gemini&nbsp;3.6&nbsp;Flash&nbsp;16,
-  Grok&nbsp;15, DeepSeek&nbsp;15, Gemini&nbsp;3.5&nbsp;Flash-Lite&nbsp;12. Every
+  Opus&nbsp;5&nbsp;17, Sonnet&nbsp;17, Qwen&nbsp;17, Opus&nbsp;4.8&nbsp;16,
+  Fable&nbsp;16, Gemini&nbsp;3.6&nbsp;Flash&nbsp;16, Grok&nbsp;15, DeepSeek&nbsp;15,
+  Gemini&nbsp;3.5&nbsp;Flash-Lite&nbsp;12. But the newest and strongest column
+  still fails the sentence-word-count question in every single run: eight of
+  the nine models answer it wrong all four times, and the one model that ever
+  gets it right is the weakest overall. Every
   model finds all four planted contradictions with zero false alarms except
   Gemini&nbsp;3.5&nbsp;Flash-Lite, which never finds more than three. Eleven of the twenty-five tasks carry every one of these gaps &mdash; <a class="tlink" href="bench-runs.html#steady">the run-by-run record</a> shows them run by run. None of it is about which model reasons
   hardest; it's about where each one's carefulness runs out, and how

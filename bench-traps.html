@@ -273,27 +273,30 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
     A non-code task (Task 19) asks five character-counting questions, including:
     count the words in a sentence where a hyphenated compound like
     "twenty-first-century" counts as ONE word and a standalone em dash does not
-    count as a word at all. The correct count is <strong>13</strong>. <strong>All
-    eight models &mdash; Sonnet, Opus, Fable, Grok, DeepSeek, Qwen, and both
-    Gemini models &mdash; get this wrong in every one of their four runs,
-    answering 12 instead</strong>, with one exception: <strong>Gemini 3.5
-    Flash-Lite gets it right in 3 of its 4 runs</strong> &mdash; the only model,
-    at any sample size, to answer this question correctly at all. Every other
-    question on the task, every model gets right almost every run: Opus also
-    misses the vowel-count question in all four of its runs (answering 6 where
-    the correct count is 8, so it never scores better than 3 of 5); Sonnet
-    fumbles the string-reversal question in one of its four runs; Gemini 3.6
-    Flash fumbles the same string-reversal question in two of its four runs.
-    It's the single most consistent finding on this page: eight different
-    systems, from six different labs, almost all landing on the identical
-    wrong number for the same sentence, run after run.</p>
+    count as a word at all. The correct count is <strong>13</strong>.
+    <strong>Eight of the nine models &mdash; Sonnet&nbsp;5, Opus&nbsp;4.8,
+    Opus&nbsp;5, Fable, Grok, DeepSeek, Qwen and Gemini&nbsp;3.6&nbsp;Flash
+    &mdash; get this wrong in every one of their four runs, answering 12
+    instead.</strong> The sole exception is <strong>Gemini 3.5 Flash-Lite,
+    which gets it right in 3 of its 4 runs</strong> &mdash; the only model, at
+    any sample size, to answer this question correctly at all. Every other
+    question on the task, every model gets right almost every run:
+    Opus&nbsp;4.8 also misses the vowel-count question in all four of its runs
+    (answering 6 where the correct count is 8, so it never scores better than
+    3 of 5); Sonnet fumbles the string-reversal question in one of its four
+    runs; Gemini 3.6 Flash fumbles the same string-reversal question in two of
+    its four runs. It's the single most consistent finding on this page: nine
+    different systems, from six different labs, almost all landing on the
+    identical wrong number for the same sentence, run after run &mdash; and
+    the newest and strongest column, Opus&nbsp;5, misses it exactly like the
+    rest.</p>
   </div>
 
   <p>A misdirection-reasoning task (Task 21) reworded the classic fox/chicken/grain
   river-crossing puzzle with a boat that holds two items instead of one.
-  <strong>Six of the eight models solve it correctly (3 crossings) in every one
-  of their four runs</strong> &mdash; Sonnet, Opus, Fable, Grok, DeepSeek, and
-  Qwen, each via a valid 3-crossing route. Gemini splits sharply on this one:
+  <strong>Seven of the nine models solve it correctly (3 crossings) in every one
+  of their four runs</strong> &mdash; Sonnet&nbsp;5, Opus&nbsp;4.8, Opus&nbsp;5,
+  Fable, Grok, DeepSeek, and Qwen, each via a valid 3-crossing route. Gemini splits sharply on this one:
   <strong>3.6 Flash solves it cleanly in all 4 runs, but 3.5 Flash-Lite gets it
   wrong in all 4</strong> &mdash; the only model in this comparison, at any
   sample size, to fail the river-crossing question consistently rather than as
