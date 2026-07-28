@@ -201,6 +201,33 @@ a:hover{text-decoration:underline;}
 .side-list li:last-child{border-bottom:none;}
 .side-list a{display:block;padding:6px 0;color:var(--ink);font-size:.9rem;}
 .side-list a:hover{color:var(--accent);text-decoration:none;}
+.browse{font-size:.9rem;}
+.br-b{display:flex;width:100%;align-items:baseline;gap:8px;background:none;
+  border:0;padding:5px 6px;border-radius:7px;cursor:pointer;color:var(--ink);
+  font:inherit;text-align:left;}
+.br-b:hover{background:var(--code-bg);}
+.br-b[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);}
+.br-b[aria-pressed="true"] .br-n{color:inherit;opacity:.8;}
+.br-n{margin-left:auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums;}
+.br-mon{border-top:1px solid var(--line);margin-top:4px;padding-top:4px;}
+.br-mon:first-of-type{border-top:0;margin-top:0;}
+.br-mon>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;
+  gap:8px;padding:5px 6px;border-radius:7px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.78rem;
+  color:var(--muted);}
+.br-mon>summary::-webkit-details-marker{display:none;}
+.br-mon>summary::before{content:"\25B8";transition:transform .15s ease;
+  display:inline-block;color:var(--accent);
+  /* the summary is monospace, and Consolas has no U+25B8 - it renders as
+     tofu unless the marker gets a font stack that actually carries it */
+  font-family:'Segoe UI Symbol','Apple Symbols',system-ui,sans-serif;}
+.br-mon[open]>summary::before{transform:rotate(90deg);}
+.br-mon>summary:hover{background:var(--code-bg);color:var(--ink);}
+.br-wk{margin:2px 0 6px;padding-left:12px;}
+.br-wk .br-b{font-size:.85rem;}
+.br-none{margin:8px 0 0;font-size:.82rem;color:var(--muted);}
+@media (prefers-reduced-motion:reduce){.br-mon>summary::before{transition:none;}}
 .side-stats{display:grid;grid-template-columns:1fr auto;gap:4px 14px;margin:0;}
 .side-stats dt{color:var(--muted);font-size:.84rem;}
 .side-stats dd{margin:0;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
@@ -219,22 +246,30 @@ a:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
-<div class="ai-signal"><div class="topbar"><div class="topbar-inner wide"><div class="wordmark">AI SIGNAL <span class="cursor">▮</span></div><div class="chips" role="group" aria-label="Filter by month or week"><button class="chip" data-type="all" data-value="" aria-pressed="true">All</button><button class="chip" data-type="month" data-value="2026-07" aria-pressed="false">2026-07</button><button class="chip" data-type="week" data-value="2026-07-27" aria-pressed="false">wk Jul 27</button><button class="chip" data-type="week" data-value="2026-07-20" aria-pressed="false">wk Jul 20</button><button class="chip" data-type="week" data-value="2026-07-13" aria-pressed="false">wk Jul 13</button></div></div></div><main class="wrap wide"><div class="layout"><div><div class="idx"><a class="idx-row" href="days/2026-07-28.html" data-month="2026-07" data-week="2026-07-27"><span class="idx-date">Tue, Jul 28, 2026</span><span class="idx-head">Kimi-K3 weights land on Hugging Face: 2.8T-parameter flagship, restrictive license</span></a><a class="idx-row" href="days/2026-07-27.html" data-month="2026-07" data-week="2026-07-27"><span class="idx-date">Mon, Jul 27, 2026</span><span class="idx-head">Show HN: Palmier Pro – Open-source macOS video editor built for AI</span></a><a class="idx-row" href="days/2026-07-23.html" data-month="2026-07" data-week="2026-07-20"><span class="idx-date">Thu, Jul 23, 2026</span><span class="idx-head">AMD and Anthropic announce a 2-gigawatt MI450 partnership</span></a><a class="idx-row" href="days/2026-07-22.html" data-month="2026-07" data-week="2026-07-20"><span class="idx-date">Wed, Jul 22, 2026</span><span class="idx-head">Google ships Gemini 3.6 Flash, 3.5 Flash-Lite, and a restricted Flash Cyber</span></a><a class="idx-row" href="days/2026-07-21.html" data-month="2026-07" data-week="2026-07-20"><span class="idx-date">Tue, Jul 21, 2026</span><span class="idx-head">OpenAI paused its long-horizon model after it broke out of its sandbox</span></a><a class="idx-row" href="days/2026-07-20.html" data-month="2026-07" data-week="2026-07-20"><span class="idx-date">Mon, Jul 20, 2026</span><span class="idx-head">Qwen3.8-Max preview: Alibaba claims &#x27;second only to Fable 5&#x27; — with no benchmark table</span></a><a class="idx-row" href="days/2026-07-19.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Sun, Jul 19, 2026</span><span class="idx-head">Anthropic reverses course: Fable 5 stays in Max and Team Premium plans</span></a><a class="idx-row" href="days/2026-07-18.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Sat, Jul 18, 2026</span><span class="idx-head">Grok 4.5: SpaceXAI&#x27;s coding-and-agents flagship, at a price that undercuts everyone</span></a><a class="idx-row" href="days/2026-07-17.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Fri, Jul 17, 2026</span><span class="idx-head">Kimi K3: Open Frontier Intelligence</span></a><a class="idx-row" href="days/2026-07-16.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Thu, Jul 16, 2026</span><span class="idx-head">Inkling: Our Open-Weights Model</span></a><a class="idx-row" href="days/2026-07-15.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Wed, Jul 15, 2026</span><span class="idx-head">Quiet day — scanned, nothing significant</span></a><a class="idx-row" href="days/2026-07-14.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Tue, Jul 14, 2026</span><span class="idx-head">Nvidia: performance-per-watt is now the metric that decides AI infra profitability</span></a></div></div><aside class="side"><div class="sidecard"><h2 class="side-h">About</h2><p class="side-about">AI SIGNAL &mdash; a daily curated brief on AI models, infrastructure, and research. By <a href="https://ylnhari.github.io">Hari Yelesetty</a>.</p></div><div class="sidecard"><h2 class="side-h">Explore</h2><ul class="side-list"><li><a href="bench.html">Model Comparison</a></li><li><a href="https://ylnhari.github.io/blog/posts/2026-07-13-open-source-vs-paid-frontier-llms/interactive.html">Interactive Plot</a></li><li><a href="https://ylnhari.github.io">Portfolio</a></li><li><a href="https://github.com/ylnhari">GitHub</a></li><li><a href="https://www.linkedin.com/in/ylnhari">LinkedIn</a></li><li><a href="https://ylnhari.github.io/blog">Blog</a></li></ul></div><div class="sidecard"><h2 class="side-h">Archive</h2><dl class="side-stats"><dt>Editions</dt><dd>12</dd><dt>Latest</dt><dd>Jul 28, 2026</dd><dt>Since</dt><dd>Jul 14, 2026</dd></dl></div></aside></div></main></div>
+<div class="ai-signal"><div class="topbar"><div class="topbar-inner wide"><div class="wordmark">AI SIGNAL <span class="cursor">▮</span></div></div></div><main class="wrap wide"><div class="layout"><div><div class="idx"><a class="idx-row" href="days/2026-07-28.html" data-month="2026-07" data-week="2026-07-27"><span class="idx-date">Tue, Jul 28, 2026</span><span class="idx-head">Kimi-K3 weights land on Hugging Face: 2.8T-parameter flagship, restrictive license</span></a><a class="idx-row" href="days/2026-07-27.html" data-month="2026-07" data-week="2026-07-27"><span class="idx-date">Mon, Jul 27, 2026</span><span class="idx-head">Show HN: Palmier Pro – Open-source macOS video editor built for AI</span></a><a class="idx-row" href="days/2026-07-23.html" data-month="2026-07" data-week="2026-07-20"><span class="idx-date">Thu, Jul 23, 2026</span><span class="idx-head">AMD and Anthropic announce a 2-gigawatt MI450 partnership</span></a><a class="idx-row" href="days/2026-07-22.html" data-month="2026-07" data-week="2026-07-20"><span class="idx-date">Wed, Jul 22, 2026</span><span class="idx-head">Google ships Gemini 3.6 Flash, 3.5 Flash-Lite, and a restricted Flash Cyber</span></a><a class="idx-row" href="days/2026-07-21.html" data-month="2026-07" data-week="2026-07-20"><span class="idx-date">Tue, Jul 21, 2026</span><span class="idx-head">OpenAI paused its long-horizon model after it broke out of its sandbox</span></a><a class="idx-row" href="days/2026-07-20.html" data-month="2026-07" data-week="2026-07-20"><span class="idx-date">Mon, Jul 20, 2026</span><span class="idx-head">Qwen3.8-Max preview: Alibaba claims &#x27;second only to Fable 5&#x27; — with no benchmark table</span></a><a class="idx-row" href="days/2026-07-19.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Sun, Jul 19, 2026</span><span class="idx-head">Anthropic reverses course: Fable 5 stays in Max and Team Premium plans</span></a><a class="idx-row" href="days/2026-07-18.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Sat, Jul 18, 2026</span><span class="idx-head">Grok 4.5: SpaceXAI&#x27;s coding-and-agents flagship, at a price that undercuts everyone</span></a><a class="idx-row" href="days/2026-07-17.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Fri, Jul 17, 2026</span><span class="idx-head">Kimi K3: Open Frontier Intelligence</span></a><a class="idx-row" href="days/2026-07-16.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Thu, Jul 16, 2026</span><span class="idx-head">Inkling: Our Open-Weights Model</span></a><a class="idx-row" href="days/2026-07-15.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Wed, Jul 15, 2026</span><span class="idx-head">Quiet day — scanned, nothing significant</span></a><a class="idx-row" href="days/2026-07-14.html" data-month="2026-07" data-week="2026-07-13"><span class="idx-date">Tue, Jul 14, 2026</span><span class="idx-head">Nvidia: performance-per-watt is now the metric that decides AI infra profitability</span></a></div></div><aside class="side"><div class="sidecard"><h2 class="side-h">About</h2><p class="side-about">AI SIGNAL &mdash; a daily curated brief on AI models, infrastructure, and research. By <a href="https://ylnhari.github.io">Hari Yelesetty</a>.</p></div><div class="sidecard"><h2 class="side-h">Browse</h2><nav class="browse" aria-label="Filter editions by month or week"><button class="br-b" type="button" data-type="all" data-value="" aria-pressed="true"><span>All editions</span><span class="br-n">12</span></button><details class="br-mon" open><summary>July 2026<span class="br-n">12</span></summary><div class="br-wk"><button class="br-b" type="button" data-type="month" data-value="2026-07" aria-pressed="false"><span>Whole month</span><span class="br-n">12</span></button><button class="br-b" type="button" data-type="week" data-value="2026-07-27" aria-pressed="false"><span>Week of Jul 27</span><span class="br-n">2</span></button><button class="br-b" type="button" data-type="week" data-value="2026-07-20" aria-pressed="false"><span>Week of Jul 20</span><span class="br-n">4</span></button><button class="br-b" type="button" data-type="week" data-value="2026-07-13" aria-pressed="false"><span>Week of Jul 13</span><span class="br-n">6</span></button></div></details><p class="br-none" hidden>No editions in that range.</p></nav></div><div class="sidecard"><h2 class="side-h">Explore</h2><ul class="side-list"><li><a href="bench.html">Model Comparison</a></li><li><a href="https://ylnhari.github.io/blog/posts/2026-07-13-open-source-vs-paid-frontier-llms/interactive.html">Interactive Plot</a></li><li><a href="https://ylnhari.github.io/blog">Blog</a></li></ul></div><div class="sidecard"><h2 class="side-h">Author</h2><ul class="side-list"><li><a href="https://ylnhari.github.io">Portfolio</a></li><li><a href="https://github.com/ylnhari">GitHub</a></li><li><a href="https://www.linkedin.com/in/ylnhari">LinkedIn</a></li></ul></div><div class="sidecard"><h2 class="side-h">Archive</h2><dl class="side-stats"><dt>Editions</dt><dd>12</dd><dt>Latest</dt><dd>Jul 28, 2026</dd><dt>Since</dt><dd>Jul 14, 2026</dd></dl></div></aside></div></main></div>
 <script>
 (function(){
-  var chips=document.querySelectorAll('.chip');
+  var btns=document.querySelectorAll('.br-b');
   var days=document.querySelectorAll('.idx-row');
+  var none=document.querySelector('.br-none');
+  if(!btns.length||!days.length){return;}
   function apply(type,value){
+    var shown=0;
     days.forEach(function(d){
       var show = type==='all' || d.dataset[type]===value;
       d.hidden = !show;
+      if(show){shown++;}
     });
+    if(none){none.hidden = shown>0;}
   }
-  chips.forEach(function(c){
-    c.addEventListener('click',function(){
-      chips.forEach(function(x){x.setAttribute('aria-pressed','false');});
-      c.setAttribute('aria-pressed','true');
-      apply(c.dataset.type, c.dataset.value);
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      btns.forEach(function(x){x.setAttribute('aria-pressed','false');});
+      b.setAttribute('aria-pressed','true');
+      apply(b.dataset.type, b.dataset.value);
+      // Opening a week inside a collapsed month should leave it open.
+      var mon=b.closest('details.br-mon');
+      if(mon){mon.open=true;}
     });
   });
 })();

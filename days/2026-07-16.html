@@ -201,6 +201,33 @@ a:hover{text-decoration:underline;}
 .side-list li:last-child{border-bottom:none;}
 .side-list a{display:block;padding:6px 0;color:var(--ink);font-size:.9rem;}
 .side-list a:hover{color:var(--accent);text-decoration:none;}
+.browse{font-size:.9rem;}
+.br-b{display:flex;width:100%;align-items:baseline;gap:8px;background:none;
+  border:0;padding:5px 6px;border-radius:7px;cursor:pointer;color:var(--ink);
+  font:inherit;text-align:left;}
+.br-b:hover{background:var(--code-bg);}
+.br-b[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);}
+.br-b[aria-pressed="true"] .br-n{color:inherit;opacity:.8;}
+.br-n{margin-left:auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums;}
+.br-mon{border-top:1px solid var(--line);margin-top:4px;padding-top:4px;}
+.br-mon:first-of-type{border-top:0;margin-top:0;}
+.br-mon>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;
+  gap:8px;padding:5px 6px;border-radius:7px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.78rem;
+  color:var(--muted);}
+.br-mon>summary::-webkit-details-marker{display:none;}
+.br-mon>summary::before{content:"\25B8";transition:transform .15s ease;
+  display:inline-block;color:var(--accent);
+  /* the summary is monospace, and Consolas has no U+25B8 - it renders as
+     tofu unless the marker gets a font stack that actually carries it */
+  font-family:'Segoe UI Symbol','Apple Symbols',system-ui,sans-serif;}
+.br-mon[open]>summary::before{transform:rotate(90deg);}
+.br-mon>summary:hover{background:var(--code-bg);color:var(--ink);}
+.br-wk{margin:2px 0 6px;padding-left:12px;}
+.br-wk .br-b{font-size:.85rem;}
+.br-none{margin:8px 0 0;font-size:.82rem;color:var(--muted);}
+@media (prefers-reduced-motion:reduce){.br-mon>summary::before{transition:none;}}
 .side-stats{display:grid;grid-template-columns:1fr auto;gap:4px 14px;margin:0;}
 .side-stats dt{color:var(--muted);font-size:.84rem;}
 .side-stats dd{margin:0;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
