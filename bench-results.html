@@ -192,50 +192,15 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
   <table>
     <thead><tr>
       <th class="model">Model</th>
-      <th>Coding<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#tasks">Tasks 1&ndash;18 &middot; 124 checks</a></span></th>
+      <th>Coding<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#tasks">Tasks 1&ndash;18 &middot; average of 4 runs &middot; worst</a></span></th>
       <th>Fact recall<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#task-22">Task 22</a></span></th>
       <th>Spotting<br>contradictions<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#task-23">Task 23</a></span></th>
       <th>Free<br>drawing<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#task-24">Task 24 &middot; elements of 12 &middot; my rank</a></span></th>
       <th>Strict drawing<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#task-25">Task 25 &middot; rules of 10 &middot; elements of 7 &middot; my rank</a></span></th>
-      <th>Reasoning &amp;<br>language<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#task-19">Tasks 19&ndash;21 &middot; of 13</a></span></th>
+      <th>Reasoning &amp;<br>language<br><span class="mono" style="font-size:.9em"><a class="tlink" href="bench-tasks.html#task-19">Tasks 19&ndash;21 &middot; average &middot; worst</a></span></th>
     </tr></thead>
     <tbody>
-      <tr>
-        <td class="model">Claude Opus 5<small>Anthropic &middot; default &middot; via CLI</small></td>
-        <td class="score full">121 / 124</td><td>5 / 5</td><td>4 / 4</td><td>12/12 &middot; 1st</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 1st</span></td><td class="score full">12 / 13</td>
-      </tr>
-      <tr>
-        <td class="model">Claude Sonnet 5<small>Anthropic &middot; Medium</small></td>
-        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>7/12 &middot; 5th</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 4th</span></td><td class="score gap">11 / 13</td>
-      </tr>
-      <tr>
-        <td class="model">Claude Fable 5<small>Anthropic &middot; High</small></td>
-        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>9/12 &middot; 2nd</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 2nd</span></td><td class="score full">12 / 13</td>
-      </tr>
-      <tr>
-        <td class="model">Qwen3.8-Max-Preview<small>Alibaba &middot; Think</small></td>
-        <td class="score full">119 / 124</td><td>5 / 5</td><td>4 / 4</td><td>12/12 &middot; 1st</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 1st</span></td><td class="score gap">11 / 13</td>
-      </tr>
-      <tr>
-        <td class="model">Gemini 3.6 Flash<small>Google &middot; default &middot; via API</small></td>
-        <td class="score full">116 / 124</td><td>5 / 5</td><td>4 / 4</td><td>11/12 &middot; 1st</td><td><span class="score gap">9 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 3rd</span></td><td class="score gap">11 / 13</td>
-      </tr>
-      <tr>
-        <td class="model">Claude Opus 4.8<small>Anthropic &middot; High</small></td>
-        <td class="score gap">115 / 124</td><td>5 / 5</td><td>4 / 4</td><td>8/12 &middot; 4th</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 4th</span></td><td class="score gap">11 / 13</td>
-      </tr>
-      <tr>
-        <td class="model">Grok 4.5<small>xAI &middot; Fast</small></td>
-        <td class="score gap">112 / 124</td><td>5 / 5</td><td>4 / 4</td><td>5/12 &middot; 6th</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 5/7 &middot; 5th</span></td><td class="score full">12 / 13</td>
-      </tr>
-      <tr>
-        <td class="model">DeepSeek<small>DeepSeek &middot; Expert+DeepThink</small></td>
-        <td class="score gap">106 / 124</td><td>5 / 5</td><td>4 / 4</td><td>9/12 &middot; 3rd</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 4th</span></td><td class="score full">12 / 13</td>
-      </tr>
-      <tr>
-        <td class="model">Gemini 3.5 Flash-Lite<small>Google &middot; default &middot; via API</small></td>
-        <td class="score gap">104 / 124</td><td>5 / 5</td><td class="score gap">2 / 4</td><td>10/12 &middot; 4th</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 6/7 &middot; 4th</span></td><td class="score gap">9 / 13</td>
-      </tr>
+      <tr><td class="model">Claude Opus 5<small>Anthropic &middot; default &middot; via CLI</small></td><td><span class="score">123.2 / 124</span> <span class="rankpend">&middot; worst 121</span></td><td>5 / 5</td><td>4 / 4</td><td>12/12 &middot; 1st</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 1st</span></td><td><span class="score">12.0 / 13</span> <span class="rankpend">&middot; worst 12</span></td></tr><tr><td class="model">Claude Fable 5<small>Anthropic &middot; High</small></td><td><span class="score">122.2 / 124</span> <span class="rankpend">&middot; worst 119</span></td><td>5 / 5</td><td>4 / 4</td><td>9/12 &middot; 2nd</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 2nd</span></td><td><span class="score">12.0 / 13</span> <span class="rankpend">&middot; worst 12</span></td></tr><tr><td class="model">Claude Opus 4.8<small>Anthropic &middot; High</small></td><td><span class="score">120.8 / 124</span> <span class="rankpend">&middot; worst 115</span></td><td>5 / 5</td><td>4 / 4</td><td>8/12 &middot; 4th</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 4th</span></td><td><span class="score">11.0 / 13</span> <span class="rankpend">&middot; worst 11</span></td></tr><tr><td class="model">Claude Sonnet 5<small>Anthropic &middot; Medium</small></td><td><span class="score">120.2 / 124</span> <span class="rankpend">&middot; worst 119</span></td><td>5 / 5</td><td>4 / 4</td><td>7/12 &middot; 5th</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 4th</span></td><td><span class="score">11.8 / 13</span> <span class="rankpend">&middot; worst 11</span></td></tr><tr><td class="model">Qwen3.8-Max-Preview<small>Alibaba &middot; Think</small></td><td><span class="score">120.2 / 124</span> <span class="rankpend">&middot; worst 119</span></td><td>5 / 5</td><td>4 / 4</td><td>12/12 &middot; 1st</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 1st</span></td><td><span class="score">11.8 / 13</span> <span class="rankpend">&middot; worst 11</span></td></tr><tr><td class="model">Grok 4.5<small>xAI &middot; Fast</small></td><td><span class="score">119.5 / 124</span> <span class="rankpend">&middot; worst 112</span></td><td>5 / 5</td><td>4 / 4</td><td>5/12 &middot; 6th</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 5/7 &middot; 5th</span></td><td><span class="score">12.0 / 13</span> <span class="rankpend">&middot; worst 12</span></td></tr><tr><td class="model">Gemini 3.6 Flash<small>Google &middot; default &middot; via API</small></td><td><span class="score">118.5 / 124</span> <span class="rankpend">&middot; worst 116</span></td><td>5 / 5</td><td>4 / 4</td><td>11/12 &middot; 1st</td><td><span class="score gap">9 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 3rd</span></td><td><span class="score">11.5 / 13</span> <span class="rankpend">&middot; worst 11</span></td></tr><tr><td class="model">DeepSeek<small>DeepSeek &middot; Expert+DeepThink</small></td><td><span class="score">117.2 / 124</span> <span class="rankpend">&middot; worst 106</span></td><td>5 / 5</td><td>4 / 4</td><td>9/12 &middot; 3rd</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 7/7 &middot; 4th</span></td><td><span class="score">12.0 / 13</span> <span class="rankpend">&middot; worst 12</span></td></tr><tr><td class="model">Gemini 3.5 Flash-Lite<small>Google &middot; default &middot; via API</small></td><td><span class="score">109.8 / 124</span> <span class="rankpend">&middot; worst 104</span></td><td>5 / 5</td><td class="score gap">2 / 4</td><td>10/12 &middot; 4th</td><td><span class="score full">10 / 10</span> <span class="rankpend">&middot; 6/7 &middot; 4th</span></td><td><span class="score">10.8 / 13</span> <span class="rankpend">&middot; worst 9</span></td></tr>
     </tbody>
   </table>
   </div>
@@ -247,11 +212,14 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
   models satisfy all ten rules and all seven elements, and I still rank them
   from first to fourth</strong>. Identical scores, visibly different pictures.
   A drawing can satisfy every requirement and still be the worse one.</p>
-  <p><strong>Reading the table.</strong> Every number is the floor a model
-  held across four separate runs &mdash; a check counts only if it passed in all
-  four &mdash; so these are results you can rely on, not lucky sittings.
-  Claude&nbsp;Opus&nbsp;5 now leads the coding column outright at 121 of 124,
-  the first column to clear 119; DeepSeek and
+  <p><strong>Reading the table.</strong> The headline number is a model's
+  <strong>average across four separate runs</strong>, with its <strong>worst</strong>
+  run beside it. Averaging is what makes columns comparable &mdash; it does not
+  drift as you run a model more times, and it still works where a column has
+  three runs rather than four. The worst run is the number to read if you plan
+  to take an answer unchecked.
+  Claude&nbsp;Opus&nbsp;5 leads on both, averaging 123.2 of 124 and never
+  dropping below 121; DeepSeek and
   Gemini&nbsp;3.5&nbsp;Flash-Lite give up the most ground &mdash; almost always by
   repeating one small mistake across runs rather than by failing broadly.
   Counting whole tasks a model kept clean in every run, out of 18:
@@ -267,18 +235,22 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
   consistently.</p>
 
   <h2>How to read the ordering</h2>
-  <p>Every number above is a <strong>floor</strong>: a check counts only if it
-  passed in all four runs, so one careless run costs a model the whole check.
-  That is deliberate &mdash; it is the behaviour I most want to surface &mdash;
-  but it means <strong>the ordering ranks consistency, not raw ability</strong>.</p>
+  <p>The table is ordered by the <strong>average</strong> run, not the worst.
+  That is a deliberate change. A worst-run score is the minimum of however many
+  times I ran the model, so it keeps sliding downward the more carefully a model
+  is measured &mdash; scoring this same data as three runs instead of four lifts
+  DeepSeek by nearly three points. A number that moves with the sample size is
+  not a property of the model, and it cannot be compared against a column run a
+  different number of times.</p>
 
-  <p>Score the same runs by their average instead of their worst, and the table
-  reshuffles:</p>
+  <p>The worst run is still worth publishing, and it is still in every cell,
+  because it answers a different question: not <em>how good is this model</em>
+  but <em>how bad does it get</em>. Set the two side by side and the distance
+  between them is the interesting part:</p>
 
   <div class="tablewrap">
   <table>
-    <thead><tr><th class="model">Model</th><th>Worst run<br>
-      <span class="mono" style="font-size:.9em">what I publish</span></th>
+    <thead><tr><th class="model">Model</th><th>Worst run</th>
       <th>Average run</th><th>Gap</th></tr></thead>
     <tbody><tr><td class="model">Claude Opus 5</td><td class="score full">121 / 124</td><td class="score">123.2 / 124</td><td class="score ">&minus;2.2</td></tr><tr><td class="model">Claude Fable 5</td><td class="score full">119 / 124</td><td class="score">122.2 / 124</td><td class="score ">&minus;3.2</td></tr><tr><td class="model">Claude Sonnet 5</td><td class="score full">119 / 124</td><td class="score">120.2 / 124</td><td class="score ">&minus;1.2</td></tr><tr><td class="model">Qwen3.8-Max-Preview</td><td class="score full">119 / 124</td><td class="score">120.2 / 124</td><td class="score ">&minus;1.2</td></tr><tr><td class="model">Gemini 3.6 Flash</td><td class="score full">116 / 124</td><td class="score">118.5 / 124</td><td class="score ">&minus;2.5</td></tr><tr><td class="model">Claude Opus 4.8</td><td class="score gap">115 / 124</td><td class="score">120.8 / 124</td><td class="score gap">&minus;5.8</td></tr><tr><td class="model">Grok 4.5</td><td class="score gap">112 / 124</td><td class="score">119.5 / 124</td><td class="score gap">&minus;7.5</td></tr><tr><td class="model">DeepSeek</td><td class="score gap">106 / 124</td><td class="score">117.2 / 124</td><td class="score gap">&minus;11.2</td></tr><tr><td class="model">Gemini 3.5 Flash-Lite</td><td class="score gap">104 / 124</td><td class="score">109.8 / 124</td><td class="score gap">&minus;5.8</td></tr></tbody>
   </table>
@@ -286,11 +258,14 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
 
   <p>The <strong>gap</strong> is the column worth staring at: it is the distance
   between a model's typical work and its bad day. DeepSeek loses eleven points
-  to it and Grok&nbsp;4.5 seven and a half &mdash; both are far more capable than
-  their published totals suggest, and far less dependable. Sonnet&nbsp;5 and Qwen
-  lose barely one. <strong>Claude&nbsp;Opus&nbsp;4.8 moves from sixth on the
-  published table to third on the average one</strong>: it is not less able than
-  the models listed above it, it is less repeatable.</p>
+  to it and Grok&nbsp;4.5 seven and a half &mdash; both do markedly better work
+  than their worst run implies, and are markedly less dependable.
+  Sonnet&nbsp;5 and Qwen lose barely one: what they manage once, they manage
+  every time. <strong>Claude&nbsp;Opus&nbsp;4.8 is the clearest case</strong>
+  &mdash; third on average, sixth on its worst run. The same model, six places
+  apart depending on which question you ask. Ordered by worst run, as this table
+  was until 2026-07-29, it read as the weaker model. It is not weaker; it is
+  streakier.</p>
 
   <p>Two more things before quoting any of this. Four runs is enough to catch a
   coin-flip but <strong>not enough to separate models a few points apart</strong>
