@@ -266,6 +266,41 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
   hardest; it's about where each one's carefulness runs out, and how
   consistently.</p>
 
+  <h2>How to read the ordering</h2>
+  <p>Every number above is a <strong>floor</strong>: a check counts only if it
+  passed in all four runs, so one careless run costs a model the whole check.
+  That is deliberate &mdash; it is the behaviour I most want to surface &mdash;
+  but it means <strong>the ordering ranks consistency, not raw ability</strong>.</p>
+
+  <p>Score the same runs by their average instead of their worst, and the table
+  reshuffles:</p>
+
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th class="model">Model</th><th>Worst run<br>
+      <span class="mono" style="font-size:.9em">what I publish</span></th>
+      <th>Average run</th><th>Gap</th></tr></thead>
+    <tbody><tr><td class="model">Claude Opus 5</td><td class="score full">121 / 124</td><td class="score">123.2 / 124</td><td class="score ">&minus;2.2</td></tr><tr><td class="model">Claude Fable 5</td><td class="score full">119 / 124</td><td class="score">122.2 / 124</td><td class="score ">&minus;3.2</td></tr><tr><td class="model">Claude Sonnet 5</td><td class="score full">119 / 124</td><td class="score">120.2 / 124</td><td class="score ">&minus;1.2</td></tr><tr><td class="model">Qwen3.8-Max-Preview</td><td class="score full">119 / 124</td><td class="score">120.2 / 124</td><td class="score ">&minus;1.2</td></tr><tr><td class="model">Gemini 3.6 Flash</td><td class="score full">116 / 124</td><td class="score">118.5 / 124</td><td class="score ">&minus;2.5</td></tr><tr><td class="model">Claude Opus 4.8</td><td class="score gap">115 / 124</td><td class="score">120.8 / 124</td><td class="score gap">&minus;5.8</td></tr><tr><td class="model">Grok 4.5</td><td class="score gap">112 / 124</td><td class="score">119.5 / 124</td><td class="score gap">&minus;7.5</td></tr><tr><td class="model">DeepSeek</td><td class="score gap">106 / 124</td><td class="score">117.2 / 124</td><td class="score gap">&minus;11.2</td></tr><tr><td class="model">Gemini 3.5 Flash-Lite</td><td class="score gap">104 / 124</td><td class="score">109.8 / 124</td><td class="score gap">&minus;5.8</td></tr></tbody>
+  </table>
+  </div>
+
+  <p>The <strong>gap</strong> is the column worth staring at: it is the distance
+  between a model's typical work and its bad day. DeepSeek loses eleven points
+  to it and Grok&nbsp;4.5 seven and a half &mdash; both are far more capable than
+  their published totals suggest, and far less dependable. Sonnet&nbsp;5 and Qwen
+  lose barely one. <strong>Claude&nbsp;Opus&nbsp;4.8 moves from sixth on the
+  published table to third on the average one</strong>: it is not less able than
+  the models listed above it, it is less repeatable.</p>
+
+  <p>Two more things before quoting any of this. Four runs is enough to catch a
+  coin-flip but <strong>not enough to separate models a few points apart</strong>
+  &mdash; treat the leaders as a group rather than a ranking; the gap between
+  first and fourth here is roughly one task. And every model ran at its own
+  out-of-the-box setting, which is not the same setting for everyone:
+  Sonnet&nbsp;5 did this at Medium effort while Fable&nbsp;5 and Opus&nbsp;4.8
+  ran at High.</p>
+
+
   
 
   
