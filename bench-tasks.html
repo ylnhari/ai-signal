@@ -230,7 +230,7 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
   model received, how the answer was scored, and what each model actually produced.
   The tasks every model passed cleanly are here too, for completeness.</p>
 
-<details class="task" id="task-1"><summary><span class="tid">Task 1</span> <span class="tname">Merging overlapping time blocks by priority</span> <span class="tfam">coding &middot; 11 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-1"><summary><span class="tid">Task 1</span> <span class="tname">Merging overlapping time blocks by priority</span> <span class="tfam">coding &middot; 11 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> This asks for a classic interval-merging algorithm, but with a twist: overlapping time blocks each carry a priority, and the winner at any given moment is whichever block has the highest priority. It is a fair test of careful reasoning because the tricky part is not the merging itself, it is handling the edges correctly - touching intervals, equal priorities that should be glued back together, and gaps where nothing is covered at all.</p>
 <p class="how"><strong>How it is scored:</strong> The checks feed in overlapping, non-overlapping, and edge-touching intervals and confirm the output segments are non-overlapping, correctly prioritized, sorted, and coalesced exactly where they should be.</p>
@@ -633,10 +633,53 @@ def merge_busy(intervals):
         else:
             out.append((x, nxt, top))
 
-    return out</pre></div></details>
+    return out</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">passed</span></div><pre>def merge_busy(intervals):
+    if not intervals:
+        return []
+
+    events = []
+    for s, e, p in intervals:
+        events.append((s, 0, p))
+        events.append((e, 1, p))
+    events.sort()
+
+    counts = {}
+    result = []
+    i = 0
+    n = len(events)
+
+    while i &lt; n:
+        coord = events[i][0]
+        j = i
+        while j &lt; n and events[j][0] == coord:
+            if events[j][1] == 1:
+                p = events[j][2]
+                counts[p] -= 1
+                if counts[p] == 0:
+                    del counts[p]
+            j += 1
+        j = i
+        while j &lt; n and events[j][0] == coord:
+            if events[j][1] == 0:
+                p = events[j][2]
+                counts[p] = counts.get(p, 0) + 1
+            j += 1
+        i = j
+
+        if i &lt; n:
+            next_coord = events[i][0]
+            if counts:
+                m = max(counts)
+                if result and result[-1][2] == m and result[-1][1] == coord:
+                    result[-1] = (result[-1][0], next_coord, m)
+                else:
+                    result.append((coord, next_coord, m))
+
+    return result</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=1">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-2"><summary><span class="tid">Task 2</span> <span class="tname">Building a rate limiter (token bucket)</span> <span class="tfam">coding &middot; 8 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-2"><summary><span class="tid">Task 2</span> <span class="tname">Building a rate limiter (token bucket)</span> <span class="tfam">coding &middot; 8 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> A token bucket is the standard way apps throttle traffic - you get a pool of tokens that refills over time, and each action costs tokens. This tests whether a model can correctly model continuous time-based refill using a caller-supplied clock rather than the real system clock, which is a common source of subtle bugs (like refilling backwards if time appears to go in reverse).</p>
 <p class="how"><strong>How it is scored:</strong> The checks call the bucket with a sequence of timestamps and expected token costs, verifying refill math, capping at capacity, and safe handling of a timestamp that goes backwards.</p>
@@ -852,10 +895,29 @@ Return only the complete class in one code block.</pre></details>
         if self.tokens &gt;= n:
             self.tokens -= n
             return True
+        return False</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">passed</span></div><pre>class TokenBucket:
+    def __init__(self, capacity: float, refill_rate: float):
+        self.capacity = capacity
+        self.refill_rate = refill_rate
+        self._tokens = capacity
+        self._last = None
+
+    def allow(self, n: float = 1.0, now: float = 0.0) -&gt; bool:
+        if self._last is None:
+            self._last = now
+        else:
+            elapsed = now - self._last
+            if elapsed &gt; 0:
+                self._tokens = min(self.capacity, self._tokens + elapsed * self.refill_rate)
+            self._last = now
+        if self._tokens &gt;= n:
+            self._tokens -= n
+            return True
         return False</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=2">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-3"><summary><span class="tid">Task 3</span> <span class="tname">Parsing a messy bank statement</span> <span class="tfam">coding &middot; 6 checks</span> <span class="tmini">Sonnet 4/4 &middot; Opus 4.8 1/4 &middot; Fable 2/4 &middot; Grok 3/4 &middot; DeepSeek 2/4 &middot; Qwen 4/4 &middot; Gemini 0/4 (both) &middot; Claude Opus 5 3/4</span></summary>
+<details class="task" id="task-3"><summary><span class="tid">Task 3</span> <span class="tname">Parsing a messy bank statement</span> <span class="tfam">coding &middot; 6 checks</span> <span class="tmini">Sonnet 4/4 &middot; Opus 4.8 1/4 &middot; Fable 2/4 &middot; Grok 3/4 &middot; DeepSeek 2/4 &middot; Qwen 4/4 &middot; Gemini 0/4 (both) &middot; Claude Opus 5 3/4 &middot; DeepSeek V4-Flash 1/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> Real-world data is messy, and this task hands the model a bank statement with three different date formats, currency symbols, thousands-separator commas, and two different ways of marking a debit (parentheses or a trailing "DR"). It is a fair test because careful parsing under ambiguity - especially not letting a plain formatting comma get confused with the field-separating comma - separates models that handle edge cases from ones that pattern-match the common case.</p>
 <p class="how"><strong>How it is scored:</strong> The checks include amounts with thousands separators, all three date formats, both debit notations, and deliberately invalid or impossible dates that should be silently skipped.</p>
@@ -1626,10 +1688,80 @@ def parse_statement(text):
         })
 
     return sorted(rows, key=lambda row: row["date"])</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">passed</span></div><pre>def parse_statement(text):
+    import re
+    from datetime import datetime
+
+    MONTHS = {
+        "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+        "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12,
+    }
+
+    def valid_date(y, mo, d):
+        try:
+            return datetime(y, mo, d).strftime("%Y-%m-%d")
+        except ValueError:
+            return None
+
+    def parse_date(s):
+        m = re.match(r"^(\d{4})-(\d{1,2})-(\d{1,2})$", s)
+        if m:
+            y, mo, d = map(int, m.groups())
+            return valid_date(y, mo, d)
+        m = re.match(r"^(\d{1,2})/(\d{1,2})/(\d{4})$", s)
+        if m:
+            d, mo, y = map(int, m.groups())
+            return valid_date(y, mo, d)
+        m = re.match(r"^(\d{1,2}) ([A-Za-z]{3}) (\d{4})$", s)
+        if m:
+            d, mon, y = m.groups()
+            mo = MONTHS.get(mon.lower())
+            return valid_date(int(y), mo, int(d)) if mo else None
+        return None
+
+    def parse_amount(s):
+        s = s.strip()
+        negative = False
+        if s.startswith("(") and s.endswith(")"):
+            negative = True
+            s = s[1:-1].strip()
+        elif s.endswith(" DR"):
+            negative = True
+            s = s[:-3].strip()
+        for cur in ("\u20b9", "$"):
+            if s.startswith(cur):
+                s = s[1:].strip()
+                break
+        s = s.replace(",", "").strip()
+        try:
+            value = float(s)
+        except ValueError:
+            return None
+        return -value if negative else value
+
+    rows = []
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        parts = line.split(",")
+        if len(parts) &lt; 3:
+            continue
+        date = parse_date(parts[0].strip())
+        if date is None:
+            continue
+        description = parts[1].strip()
+        amount = parse_amount(",".join(parts[2:]))
+        if amount is None:
+            continue
+        rows.append({"date": date, "description": description, "amount": amount})
+
+    rows.sort(key=lambda r: r["date"])
+    return rows</pre></div>
 <p class="failnote">Two bugs here. First, the same every-comma split problem as above breaks on thousands-separator amounts. Second, dates are checked with a simple numeric range (day between 1 and 31) instead of a real calendar, so impossible dates like February 29 or April 31 get wrongly accepted.</p></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=3">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-4"><summary><span class="tid">Task 4</span> <span class="tname">Fixing a broken binary search</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-4"><summary><span class="tid">Task 4</span> <span class="tname">Fixing a broken binary search</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> This hands the model a binary search over a rotated sorted array that has two bugs baked in, and asks for a fix without changing its shape. It tests whether a model can actually read code carefully rather than rewrite from scratch blindly - spotting a floating-point division where integer division was needed, and an off-by-one in how the search window is set up.</p>
 <p class="how"><strong>How it is scored:</strong> The checks run the fixed function against rotated arrays of various sizes and rotation amounts, plus the empty-list edge case, confirming it always returns the index of the smallest element.</p>
@@ -1750,10 +1882,21 @@ def rotation_index(a):
             lo = mid + 1
         else:
             hi = mid
+    return lo</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">passed</span></div><pre>def rotation_index(a):
+    if not a:
+        return -1
+    lo, hi = 0, len(a) - 1
+    while lo &lt; hi:
+        mid = (lo + hi) // 2
+        if a[mid] &gt; a[hi]:
+            lo = mid + 1
+        else:
+            hi = mid
     return lo</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=4">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-5"><summary><span class="tid">Task 5</span> <span class="tname">Finding the top cities by sales (SQL)</span> <span class="tfam">coding &middot; 3 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-5"><summary><span class="tid">Task 5</span> <span class="tname">Finding the top cities by sales (SQL)</span> <span class="tfam">coding &middot; 3 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> An everyday reporting query: join two tables, filter to a date range, group by city, and return the top few by total spend. This is a fair baseline test of SQL fluency - correct joins, correct filtering on NULLs, and correct tie-breaking in the ORDER BY.</p>
 <p class="how"><strong>How it is scored:</strong> The checks verify the query excludes orders with missing customer links or missing city data, correctly bounds the date range, and breaks ties alphabetically by city.</p>
@@ -1856,10 +1999,20 @@ WHERE o.customer_id IS NOT NULL
   AND o.created_at &lt; '2026-04-01'
 GROUP BY c.city
 ORDER BY total DESC, city ASC
+LIMIT 3;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">passed</span></div><pre>SELECT c.city AS city, SUM(o.amount) AS total
+FROM orders o
+JOIN customers c ON c.id = o.customer_id
+WHERE o.created_at &gt;= '2026-01-01'
+  AND o.created_at &lt;= '2026-03-31'
+  AND o.customer_id IS NOT NULL
+  AND c.city IS NOT NULL
+GROUP BY c.city
+ORDER BY total DESC, city ASC
 LIMIT 3;</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=5">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-6"><summary><span class="tid">Task 6</span> <span class="tname">Merging busy blocks, now with cancellations</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-6"><summary><span class="tid">Task 6</span> <span class="tname">Merging busy blocks, now with cancellations</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> A harder version of the priority-merge task above: after resolving which priority wins at each moment, a second list of "cancel" ranges comes along and blanks out any time it touches, potentially splitting a single winning block into two pieces. It tests whether a model can layer a second pass of logic on top of the first without losing track of the coalescing rules.</p>
 <p class="how"><strong>How it is scored:</strong> The checks include cancels that fully remove a segment, cancels that only clip an edge, cancels that only touch a boundary point (and so should remove nothing), and cases where clipping should still allow equal-priority neighbors to glue back together.</p>
@@ -2413,10 +2566,68 @@ def merge_busy2(intervals, cancels):
         else:
             result.append((x, y, prio))
 
+    return result</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">passed</span></div><pre>import heapq
+from collections import Counter
+
+def merge_busy2(intervals, cancels):
+    if not intervals:
+        return []
+    coords = set()
+    for s, e, _p in intervals:
+        coords.add(s)
+        coords.add(e)
+    for s, e in cancels:
+        coords.add(s)
+        coords.add(e)
+    coords = sorted(coords)
+
+    merged = []
+    for s, e in sorted(cancels):
+        if merged and s &lt;= merged[-1][1]:
+            if e &gt; merged[-1][1]:
+                merged[-1] = (merged[-1][0], e)
+        else:
+            merged.append((s, e))
+
+    adds = {c: [] for c in coords}
+    removes = {c: [] for c in coords}
+    for s, e, p in intervals:
+        adds[s].append(p)
+        removes[e].append(p)
+
+    count = Counter()
+    heap = []
+    result = []
+    for i, c in enumerate(coords):
+        for p in removes[c]:
+            count[p] -= 1
+        for p in adds[c]:
+            count[p] += 1
+            heapq.heappush(heap, -p)
+        while heap and count[-heap[0]] &lt;= 0:
+            heapq.heappop(heap)
+        if i + 1 &gt;= len(coords):
+            break
+        nxt = coords[i + 1]
+        prio = -heap[0] if heap else None
+        cancelled = False
+        for sc, ec in merged:
+            if c &gt;= ec:
+                continue
+            if c &gt;= sc and nxt &lt;= ec:
+                cancelled = True
+            break
+        if cancelled or prio is None:
+            continue
+        if result and result[-1][1] == c and result[-1][2] == prio:
+            result[-1] = (result[-1][0], nxt, prio)
+        else:
+            result.append((c, nxt, prio))
     return result</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=6">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-7"><summary><span class="tid">Task 7</span> <span class="tname">A rate limiter with nested budgets</span> <span class="tfam">coding &middot; 8 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-7"><summary><span class="tid">Task 7</span> <span class="tname">A rate limiter with nested budgets</span> <span class="tfam">coding &middot; 8 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> This extends the token-bucket idea into a tree: a request against a child node must also have enough budget in every parent above it, all the way to the root, and a request only succeeds if the whole chain has room - otherwise nothing is charged anywhere. It is a good test of careful state management, since each node refills independently based on when it was last touched, not on a single global clock.</p>
 <p class="how"><strong>How it is scored:</strong> The checks build small trees of nested budgets and verify that a request debits every ancestor atomically on success, debits nothing on failure, and that refill timing is tracked separately per node.</p>
@@ -2870,10 +3081,40 @@ Return only the complete class in one code block.</pre></details>
                 return False
         for node in path:
             self._tokens[node] -= n
+        return True</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">passed</span></div><pre>class RateTree:
+    def __init__(self, spec):
+        self.spec = spec
+        self.tokens = {}
+        self.last = {}
+        for name, (capacity, refill_rate, parent) in spec.items():
+            self.tokens[name] = capacity
+            self.last[name] = 0.0
+
+    def _refill(self, name, now):
+        capacity, refill_rate = self.spec[name][0], self.spec[name][1]
+        elapsed = now - self.last[name]
+        if elapsed &gt; 0:
+            self.tokens[name] = min(capacity, self.tokens[name] + elapsed * refill_rate)
+            self.last[name] = now
+
+    def allow(self, name, n=1.0, now=0.0):
+        chain = []
+        cur = name
+        while cur is not None:
+            chain.append(cur)
+            cur = self.spec[cur][2]
+        for node in chain:
+            self._refill(node, now)
+        for node in chain:
+            if self.tokens[node] &lt; n:
+                return False
+        for node in chain:
+            self.tokens[node] -= n
         return True</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=7">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-8"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">Sonnet 4/4 &middot; Opus 4.8 4/4 &middot; Fable 1/4 &middot; Grok 2/4 &middot; DeepSeek 0/4 &middot; Qwen 3/3 runs &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 0/4 &middot; Claude Opus 5 4/4</span></summary>
+<details class="task" id="task-8"><summary><span class="tid">Task 8</span> <span class="tname">Parsing a multi-currency ledger with quoted fields</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">Sonnet 4/4 &middot; Opus 4.8 4/4 &middot; Fable 1/4 &middot; Grok 2/4 &middot; DeepSeek 0/4 &middot; Qwen 3/3 runs &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 0/4 &middot; Claude Opus 5 4/4 &middot; DeepSeek V4-Flash 1/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> This pushes the messy-parsing idea further: descriptions can now be wrapped in quotes so they are allowed to contain commas, dates come in four formats (including one where a comma is legitimately part of the date itself), amounts can be in three currencies that all need converting to a common one, and duplicate rows need to be dropped. It is a strong test of handling several layers of ambiguous formatting at once without them interfering with each other.</p>
 <p class="how"><strong>How it is scored:</strong> The checks include quoted descriptions with embedded commas and escaped quotes, all four date formats, currency-symbol mismatches, duplicate rows, and invalid dates that must be silently dropped.</p>
@@ -4199,10 +4440,113 @@ def parse_ledger(text):
         rows.append({"date": iso, "description": desc, "amount_inr": amount_inr})
 
     return sorted(rows, key=lambda r: (r["date"], -abs(r["amount_inr"])))</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag no">failed</span></div><pre>import re
+
+_MONTHS = {name: i + 1 for i, name in enumerate([
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+])}
+
+_RATES = {"INR": 1.0, "USD": 83.5, "EUR": 90.25}
+
+_LINE = re.compile(
+    r'''^\s*
+        (?P&lt;date&gt;
+            (?P&lt;d1&gt;\d{1,2})/(?P&lt;m1&gt;\d{1,2})/(?P&lt;y1&gt;\d{4})
+          | (?P&lt;y2&gt;\d{4})-(?P&lt;m2&gt;\d{2})-(?P&lt;d2&gt;\d{2})
+          | (?P&lt;d3&gt;\d{1,2})\s+(?P&lt;mn3&gt;[A-Za-z]{3})\s+(?P&lt;y3&gt;\d{4})
+          | (?P&lt;mn4&gt;[A-Za-z]{3})\s+(?P&lt;d4&gt;\d{1,2}),\s*(?P&lt;y4&gt;\d{4})
+        )
+        \s*,\s*
+        (?P&lt;desc&gt;
+            (?P&lt;q&gt;"(?:[^"]|"")*")
+          | (?P&lt;u&gt;[^",]*)
+        )
+        \s*,\s*
+        (?P&lt;amount&gt;
+            \(?\s*[$€₹]?\s*\d+(?:,\d{3})*(?:\.\d+)?\s*\)?\s*(?:DR)?
+        )
+        \s*,\s*
+        (?P&lt;currency&gt;INR|USD|EUR)
+        \s*$''',
+    re.VERBOSE,
+)
+
+
+def _parse_date(m):
+    if m.group("d1") is not None:
+        return f"{int(m.group('y1')):04d}-{int(m.group('m1')):02d}-{int(m.group('d1')):02d}"
+    if m.group("y2") is not None:
+        return f"{int(m.group('y2')):04d}-{int(m.group('m2')):02d}-{int(m.group('d2')):02d}"
+    if m.group("mn3") is not None:
+        month = _MONTHS.get(m.group("mn3").title())
+        if month is None:
+            return None
+        return f"{int(m.group('y3')):04d}-{month:02d}-{int(m.group('d3')):02d}"
+    if m.group("mn4") is not None:
+        month = _MONTHS.get(m.group("mn4").title())
+        if month is None:
+            return None
+        return f"{int(m.group('y4')):04d}-{month:02d}-{int(m.group('d4')):02d}"
+    return None
+
+
+def _parse_amount(s):
+    raw = s.strip()
+    negative = False
+    if raw.endswith("DR"):
+        raw = raw[:-2].strip()
+        negative = True
+    if raw.startswith("("):
+        if not raw.endswith(")"):
+            return None
+        raw = raw[1:-1].strip()
+        negative = True
+    elif raw.endswith(")"):
+        return None
+    for sym in ("₹", "$", "€"):
+        if raw.startswith(sym):
+            raw = raw[1:].strip()
+            break
+    try:
+        value = float(raw.replace(",", ""))
+    except ValueError:
+        return None
+    return -value if negative else value
+
+
+def parse_ledger(text):
+    rows = []
+    seen = set()
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        m = _LINE.match(line)
+        if m is None:
+            continue
+        date = _parse_date(m)
+        if date is None:
+            continue
+        if m.group("q") is not None:
+            description = m.group("q")[1:-1].replace('""', '"')
+        else:
+            description = m.group("u")
+        description = description.strip()
+        amount = _parse_amount(m.group("amount"))
+        if amount is None:
+            continue
+        amount_inr = round(amount * _RATES[m.group("currency")], 2)
+        key = (date, description, amount_inr)
+        if key in seen:
+            continue
+        seen.add(key)
+        rows.append({"date": date, "description": description, "amount_inr": amount_inr})
+    rows.sort(key=lambda r: (r["date"], -abs(r["amount_inr"])))
+    return rows</pre></div>
 <p class="failnote">The bug: dates are validated with a simple numeric range (day between 1 and 31) instead of checking against a real calendar, so an impossible date like April 31 slips through and produces a row that should have been silently skipped.</p></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=8">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-9"><summary><span class="tid">Task 9</span> <span class="tname">Fixing a cache that forgets to expire things</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-9"><summary><span class="tid">Task 9</span> <span class="tname">Fixing a cache that forgets to expire things</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> A least-recently-used cache with a time-based expiry is a workhorse piece of real infrastructure code, and this version is handed over with five bugs baked in. It tests whether a model can trace through the intended behavior carefully enough to catch bugs that don't crash - like an expiry check that returns the value anyway, or an eviction order that never gets updated - rather than just skimming for obvious typos.</p>
 <p class="how"><strong>How it is scored:</strong> The checks insert, read, and expire entries in sequence, confirming correct most-recently-used ordering, correct eviction only after expired entries are purged first, and correct counting of only the non-expired entries.</p>
@@ -4708,10 +5052,54 @@ class LRUCache:
         return self._data[key][0]
 
     def size(self, now):
-        return sum(1 for k in self._data if not self._expired(k, now))</pre></div></details>
+        return sum(1 for k in self._data if not self._expired(k, now))</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">passed</span></div><pre>class LRUCache:
+    def __init__(self, capacity, ttl):
+        self.capacity = capacity
+        self.ttl = ttl
+        self._data = {}     # key -&gt; (value, stored_time)
+        self._order = []    # least-recently-used first
+
+    def _expired(self, key, now):
+        return now - self._data[key][1] &gt; self.ttl
+
+    def _purge(self, now):
+        for k in list(self._order):
+            if k in self._data and self._expired(k, now):
+                del self._data[k]
+                self._order.remove(k)
+
+    def _make_mru(self, key):
+        self._order.remove(key)
+        self._order.append(key)
+
+    def put(self, key, value, now):
+        if key in self._data:
+            self._data[key] = (value, now)
+            self._make_mru(key)
+            return
+        if len(self._data) &gt;= self.capacity:
+            self._purge(now)
+        if len(self._data) &gt;= self.capacity:
+            victim = self._order.pop(0)
+            del self._data[victim]
+        self._data[key] = (value, now)
+        self._order.append(key)
+
+    def get(self, key, now):
+        if key not in self._data:
+            return None
+        if self._expired(key, now):
+            return None
+        self._make_mru(key)
+        return self._data[key][0]
+
+    def size(self, now):
+        self._purge(now)
+        return len(self._data)</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=9">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-10"><summary><span class="tid">Task 10</span> <span class="tname">Finding peak concurrent load at scale</span> <span class="tfam">coding &middot; 6 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-10"><summary><span class="tid">Task 10</span> <span class="tname">Finding peak concurrent load at scale</span> <span class="tfam">coding &middot; 6 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> Given up to 200,000 weighted time-spans, find the single moment when the most weight is active at once. This tests two things together: getting the sweep-line logic right (weights stacking and un-stacking as spans start and end) and choosing an algorithm that actually scales, since a naive approach that checks every pair or every point in time would be far too slow.</p>
 <p class="how"><strong>How it is scored:</strong> The checks verify correctness on small hand-checked cases and include a large input to confirm the solution runs fast enough rather than timing out.</p>
@@ -4965,10 +5353,32 @@ Return only the complete function in one code block.</pre></details>
             peak = load
             peak_time = t
 
-    return (peak, peak_time)</pre></div></details>
+    return (peak, peak_time)</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">passed</span></div><pre>def max_load(events):
+    if not events:
+        return (0, 0)
+    points = []
+    for s, e, w in events:
+        points.append((s, w))
+        points.append((e, -w))
+    points.sort()
+    load = 0
+    peak = 0
+    peak_t = 0
+    i = 0
+    n = len(points)
+    while i &lt; n:
+        t = points[i][0]
+        while i &lt; n and points[i][0] == t:
+            load += points[i][1]
+            i += 1
+        if load &gt; peak:
+            peak = load
+            peak_t = t
+    return (peak, peak_t)</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=10">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-11"><summary><span class="tid">Task 11</span> <span class="tname">Ranking top products per city and month (SQL)</span> <span class="tfam">coding &middot; 3 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-11"><summary><span class="tid">Task 11</span> <span class="tname">Ranking top products per city and month (SQL)</span> <span class="tfam">coding &middot; 3 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> This asks for a more advanced report: for every city and month, find the top two best-selling products (with ties sharing a rank) and what share of that city-month's total revenue each one represents. It is a fair test of comfort with SQL window functions, which are the tool professionals reach for whenever a query needs to rank or compare rows within a group rather than just aggregate them.</p>
 <p class="how"><strong>How it is scored:</strong> The checks confirm the ranking correctly keeps tied products, the revenue share percentages are computed against the right denominator, and NULL-related rows are excluded before ranking.</p>
@@ -5286,9 +5696,40 @@ SELECT
     ROUND(100.0 * revenue / city_month_total, 1) AS share
 FROM ranked
 WHERE rnk &lt;= 2
-ORDER BY city ASC, month ASC, revenue DESC, product ASC;</pre></div></details>
+ORDER BY city ASC, month ASC, revenue DESC, product ASC;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">passed</span></div><pre>WITH base AS (
+  SELECT st.city,
+         strftime('%Y-%m', s.sold_on) AS month,
+         s.product,
+         SUM(s.amount) AS revenue
+  FROM sales s
+  JOIN stores st ON st.id = s.store_id
+  WHERE s.store_id IS NOT NULL
+    AND st.city IS NOT NULL
+    AND s.product IS NOT NULL
+  GROUP BY st.city, strftime('%Y-%m', s.sold_on), s.product
+),
+city_month AS (
+  SELECT city, month, SUM(revenue) AS total_rev
+  FROM base
+  GROUP BY city, month
+),
+ranked AS (
+  SELECT city, month, product, revenue,
+         RANK() OVER (PARTITION BY city, month ORDER BY revenue DESC) AS rk
+  FROM base
+)
+SELECT r.city,
+       r.month,
+       r.product,
+       r.revenue,
+       ROUND(100.0 * r.revenue / cm.total_rev, 1) AS share
+FROM ranked r
+JOIN city_month cm ON cm.city = r.city AND cm.month = r.month
+WHERE r.rk &lt;= 2
+ORDER BY r.city ASC, r.month ASC, r.revenue DESC, r.product ASC;</pre></div></details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=11">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
-<details class="task" id="task-12"><summary><span class="tid">Task 12</span> <span class="tname">Elapsed real seconds across a DST change</span> <span class="tfam">coding &middot; 8 checks</span> <span class="tmini">Sonnet 1/4 &middot; Opus 4.8 3/4 &middot; Fable 4/4 &middot; Grok 2/4 &middot; DeepSeek 2/4 &middot; Qwen 1/4 &middot; Gemini 3.6 Flash 2/4 &middot; 3.5 Flash-Lite 0/4 &mdash; a coin-flip for most of the field &middot; Claude Opus 5 4/4</span></summary>
+<details class="task" id="task-12"><summary><span class="tid">Task 12</span> <span class="tname">Elapsed real seconds across a DST change</span> <span class="tfam">coding &middot; 8 checks</span> <span class="tmini">Sonnet 1/4 &middot; Opus 4.8 3/4 &middot; Fable 4/4 &middot; Grok 2/4 &middot; DeepSeek 2/4 &middot; Qwen 1/4 &middot; Gemini 3.6 Flash 2/4 &middot; 3.5 Flash-Lite 0/4 &mdash; a coin-flip for most of the field &middot; Claude Opus 5 4/4 &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> computing the genuine number of elapsed seconds between two local wall-clock readings when a daylight-saving transition might sit anywhere between them, plus two explicit edge cases the prompt spells out: a wall-clock reading that never happens because the clock skips forward over it, and a wall-clock reading that happens twice because the clock falls back over it. It is a fair test because the &ldquo;obvious&rdquo; way to compute a duration in Python &mdash; build two timezone-aware <code>datetime</code> objects and subtract them &mdash; has a documented, easy-to-miss trap: per the CPython docs, if both operands are aware and share the same <code>tzinfo</code> attribute, that shared <code>tzinfo</code> is ignored entirely and the two <em>naive</em> wall-clock values are compared instead, silently discarding any DST offset difference between them.</p>
 <p class="how"><strong>How it is scored:</strong> eight hidden cases run from simple same-day and cross-midnight spans with no DST involved, up through spans that straddle the March spring-forward and November fall-back transitions, and the two explicit resolution rules from the prompt &mdash; a skipped (&ldquo;gap&rdquo;) local time resolved with the pre-jump offset, and a doubled (&ldquo;ambiguous&rdquo;) local time resolved to its first occurrence.</p>
@@ -5545,10 +5986,21 @@ def elapsed_seconds(tz_name, start, end):
         return local.astimezone(timezone.utc)
 
     return (to_utc(end) - to_utc(start)).total_seconds()</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">8/8</span></div><pre>from datetime import datetime
+from zoneinfo import ZoneInfo
+
+
+def elapsed_seconds(tz_name, start, end):
+    tz = ZoneInfo(tz_name)
+    utc = ZoneInfo("UTC")
+    fmt = "%Y-%m-%d %H:%M:%S"
+    s = datetime.strptime(start, fmt).replace(tzinfo=tz, fold=0)
+    e = datetime.strptime(end, fmt).replace(tzinfo=tz, fold=0)
+    return (e.astimezone(utc) - s.astimezone(utc)).total_seconds()</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=12">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-13"><summary><span class="tid">Task 13</span> <span class="tname">Splitting a bill to the exact cent</span> <span class="tfam">coding &middot; 8 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-13"><summary><span class="tid">Task 13</span> <span class="tname">Splitting a bill to the exact cent</span> <span class="tfam">coding &middot; 8 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> splitting a bill down to the exact cent requires exact decimal arithmetic the whole way through &mdash; never rounding through binary floating point at any intermediate step &mdash; correctly applying Python&rsquo;s less-common ROUND_HALF_EVEN &ldquo;banker&rsquo;s rounding&rdquo; when a total lands exactly halfway between two cents, and then distributing whatever leftover cents remain to the first N parts in a fixed, deterministic order.</p>
 <p class="how"><strong>How it is scored:</strong> cases check ordinary splits, an exactly-halfway total (2.675) that must round <em>up</em> because the digit before the 5 is odd, another exactly-halfway total (1.005) that must stay <em>down</em> because that digit is even, and remainder distribution of one or two leftover cents &mdash; verifying every case that the returned parts sum back to the exact rounded total, with no cent lost or invented.</p>
@@ -5779,10 +6231,25 @@ def split_bill(amounts, n):
         cents = base + 1 if i &lt; extra else base
         parts.append(str(Decimal(cents).scaleb(-2).quantize(Decimal("0.01"))))
     return parts</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">8/8</span></div><pre>from decimal import Decimal, ROUND_HALF_EVEN
+
+
+def split_bill(amounts, n):
+    total = Decimal("0")
+    for amount in amounts:
+        total += Decimal(amount)
+    rounded = total.quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
+    total_cents = int(rounded * 100)
+    base, leftover = divmod(total_cents, n)
+    parts = []
+    for i in range(n):
+        cents = base + (1 if i &lt; leftover else 0)
+        parts.append(f"{cents // 100}.{cents % 100:02d}")
+    return parts</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=13">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-14"><summary><span class="tid">Task 14</span> <span class="tname">Truncating to N user-perceived characters</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-14"><summary><span class="tid">Task 14</span> <span class="tname">Truncating to N user-perceived characters</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> what a person perceives as one &ldquo;character&rdquo; often spans several Unicode code points &mdash; a base letter plus a combining accent mark, or a chain of emoji glued together end to end with zero-width joiners into a single glyph (the way a family emoji is really several people-emoji joined into one picture). This tests whether a model implements that clustering logic explicitly, code point by code point, rather than assuming <code>len(s)</code> or a naive slice lines up with what a user would call one character.</p>
 <p class="how"><strong>How it is scored:</strong> cases include plain ASCII truncation and an exact-boundary case that should NOT be truncated, a combining accent mark that must stay glued to the base letter it follows, an astral-plane emoji that must still count as a single cluster, and a ZWJ-joined emoji sequence that must never be split apart even though it spans multiple code points.</p>
@@ -6096,10 +6563,35 @@ def truncate_graphemes(s, n):
     if len(clusters) &lt;= n:
         return s
     return "".join(clusters[:n]) + "..."</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">7/7</span></div><pre>import unicodedata
+
+def truncate_graphemes(s, n):
+    clusters = []
+    cur = ""
+    forced = False
+    for c in s:
+        if unicodedata.category(c) == "Mn":
+            cur += c
+            forced = False
+        elif c == "\u200d":
+            cur += c
+            forced = True
+        else:
+            if cur and not forced:
+                clusters.append(cur)
+                cur = c
+            else:
+                cur += c
+            forced = False
+    if cur:
+        clusters.append(cur)
+    if len(clusters) &lt;= n:
+        return s
+    return "".join(clusters[:n]) + "..."</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=14">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-15"><summary><span class="tid">Task 15</span> <span class="tname">SQL: NULL semantics and join fan-out</span> <span class="tfam">coding &middot; 6 checks</span> <span class="tmini">Sonnet 4/4 &middot; Opus 4.8 4/4 &middot; Fable 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Qwen 4/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 2/4 &middot; Claude Opus 5 4/4</span></summary>
+<details class="task" id="task-15"><summary><span class="tid">Task 15</span> <span class="tname">SQL: NULL semantics and join fan-out</span> <span class="tfam">coding &middot; 6 checks</span> <span class="tmini">Sonnet 4/4 &middot; Opus 4.8 4/4 &middot; Fable 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Qwen 4/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 2/4 &middot; Claude Opus 5 4/4 &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> aggregating two independent one-to-many child tables (a customer&rsquo;s orders and their notes) off the same parent row without letting a join between the two multiply rows against each other &mdash; the classic &ldquo;join fan-out&rdquo; bug &mdash; while also getting three-valued NULL logic right: an order that exists but has not yet been priced should still count toward <code>total_orders</code> without counting toward <code>priced_orders</code> or <code>total_revenue</code>, and a stray NULL row in the exclusion table must not accidentally flag (or unflag) everyone.</p>
 <p class="how"><strong>How it is scored:</strong> checks confirm a customer&rsquo;s order totals do not change depending on how many notes they have and vice versa, that unpriced orders are counted separately from priced ones, that a customer with no children at all gets zeros rather than NULLs, and that a NULL row inserted into the flagged table does not silently exclude every customer via an unfiltered <code>NOT IN</code>.</p>
@@ -6359,10 +6851,19 @@ WHERE NOT EXISTS (
     WHERE f.customer_id = c.id
 )
 ORDER BY c.name ASC;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">6/6</span></div><pre>SELECT
+  c.name,
+  (SELECT COUNT(*) FROM orders o WHERE o.customer_id = c.id) AS total_orders,
+  (SELECT COUNT(*) FROM orders o WHERE o.customer_id = c.id AND o.amount IS NOT NULL) AS priced_orders,
+  COALESCE((SELECT SUM(o.amount) FROM orders o WHERE o.customer_id = c.id), 0) AS total_revenue,
+  (SELECT COUNT(*) FROM notes n WHERE n.customer_id = c.id) AS note_count
+FROM customers c
+WHERE NOT EXISTS (SELECT 1 FROM flagged f WHERE f.customer_id = c.id)
+ORDER BY c.name;</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=15">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-16"><summary><span class="tid">Task 16</span> <span class="tname">Finding every pattern occurrence, in linear time</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-16"><summary><span class="tid">Task 16</span> <span class="tname">Finding every pattern occurrence, in linear time</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> implementing substring search entirely from scratch &mdash; no <code>str.find</code>, no <code>in</code>, no <code>re</code> &mdash; while guaranteeing linear time. This is the kind of task where a solution that looks correct on small inputs (re-comparing characters from scratch at every starting position) is secretly quadratic, and only an adversarial large input exposes it.</p>
 <p class="how"><strong>How it is scored:</strong> small correctness cases check overlapping matches, a pattern longer than the text, and partial-overlap edge cases; a hidden 250,000-character adversarial case (a near-total-match pattern that never actually matches) is timed against a hard wall-clock budget that only a genuinely linear algorithm &mdash; every model here reached for KMP &mdash; can clear.</p>
@@ -6673,10 +7174,33 @@ Return only the complete function in one code block.</pre></details>
             result.append(i - m + 1)
             k = fail[k - 1]  # fall back, allowing overlapping matches
     return result</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">7/7</span></div><pre>def find_all_occurrences(text, pattern):
+    n, m = len(text), len(pattern)
+    if m &gt; n:
+        return []
+    lps = [0] * m
+    j = 0
+    for i in range(1, m):
+        while j &gt; 0 and pattern[i] != pattern[j]:
+            j = lps[j - 1]
+        if pattern[i] == pattern[j]:
+            j += 1
+            lps[i] = j
+    result = []
+    j = 0
+    for i in range(n):
+        while j &gt; 0 and text[i] != pattern[j]:
+            j = lps[j - 1]
+        if text[i] == pattern[j]:
+            j += 1
+            if j == m:
+                result.append(i - m + 1)
+                j = lps[j - 1]
+    return result</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=16">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-17"><summary><span class="tid">Task 17</span> <span class="tname">SQL: the window-frame default trap</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-17"><summary><span class="tid">Task 17</span> <span class="tname">SQL: the window-frame default trap</span> <span class="tfam">coding &middot; 7 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> SQLite&rsquo;s window functions have a subtle default: a window with an <code>ORDER BY</code> but no explicit <code>ROWS</code>/<code>RANGE</code> clause defaults to a frame that only reaches the <em>current row</em>, not the whole partition. A <code>LAST_VALUE(...) OVER (PARTITION BY ... ORDER BY ...)</code> written without an explicit unbounded frame silently returns each row&rsquo;s own value instead of the true last event for that user &mdash; a bug invisible unless you know to look for it.</p>
 <p class="how"><strong>How it is scored:</strong> checks confirm <code>latest_amt</code> is identical across every row belonging to one user (not row-dependent), that a tie on the greatest timestamp is broken by the greatest <code>event_id</code>, and that a single-event user still comes out right &mdash; a case a naive default-frame query would still pass, which is exactly what makes the trap easy to miss.</p>
@@ -6804,10 +7328,14 @@ ORDER BY user_id ASC, ts ASC, event_id ASC;</pre></div>
     ) AS latest_amt
 FROM events
 ORDER BY user_id, ts, event_id;</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">7/7</span></div><pre>SELECT event_id, user_id, ts, amt,
+       FIRST_VALUE(amt) OVER (PARTITION BY user_id ORDER BY ts DESC, event_id DESC) AS latest_amt
+FROM events
+ORDER BY user_id ASC, ts ASC, event_id ASC;</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=17">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-18"><summary><span class="tid">Task 18</span> <span class="tname">A factory of validators (closures &amp; caches)</span> <span class="tfam">coding &middot; 8 checks</span> <span class="tmini">all nine pass</span></summary>
+<details class="task" id="task-18"><summary><span class="tid">Task 18</span> <span class="tname">A factory of validators (closures &amp; caches)</span> <span class="tfam">coding &middot; 8 checks</span> <span class="tmini">all nine pass &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> a classic Python late-binding closure trap: build several callables in a loop, each one supposed to remember its <em>own</em> spec from the moment it was created. A careless implementation lets every closure share the loop variable&rsquo;s final value instead of capturing it at creation time, so every validator silently ends up enforcing the <em>last</em> spec in the list. On top of that, each validator needs its own private cache dict rather than sharing one with its siblings.</p>
 <p class="how"><strong>How it is scored:</strong> checks confirm each validator enforces its own <code>min_len</code> (not the last spec&rsquo;s), boundary lengths pass/fail correctly, caches stay private per validator and per separate call to <code>make_validators</code>, and repeated calls with the same value are stable and never create duplicate cache entries.</p>
@@ -6970,10 +7498,24 @@ Validators may be called in any order, and any number of times.</pre></details>
         return validator
 
     return [make_one(field_name, min_len) for field_name, min_len in specs]</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">8/8</span></div><pre>def make_validators(specs):
+    validators = []
+    for name, min_len in specs:
+        cache = {}
+        def validate(value, _cache=cache, _min_len=min_len):
+            if value in _cache:
+                return _cache[value]
+            result = len(value) &gt;= _min_len
+            _cache[value] = result
+            return result
+        validate.field_name = name
+        validate.cache = cache
+        validators.append(validate)
+    return validators</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=18">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-19"><summary><span class="tid">Task 19</span> <span class="tname">Character &amp; token-counting traps</span> <span class="tfam">language &middot; 5 questions</span> <span class="tmini">never a perfect 5/5, any run: Sonnet, Opus 4.8, Fable, Grok, DeepSeek, Qwen, Gemini 3.6 Flash &middot; Gemini 3.5 Flash-Lite: perfect in 3 of 4 runs &middot; Claude Opus 5 0/4</span></summary>
+<details class="task" id="task-19"><summary><span class="tid">Task 19</span> <span class="tname">Character &amp; token-counting traps</span> <span class="tfam">language &middot; 5 questions</span> <span class="tmini">never a perfect 5/5, any run: Sonnet, Opus 4.8, Fable, Grok, DeepSeek, Qwen, Gemini 3.6 Flash &middot; Gemini 3.5 Flash-Lite: perfect in 3 of 4 runs &middot; Claude Opus 5 0/4 &middot; DeepSeek V4-Flash 0/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model actually reasons over a word&rsquo;s literal character sequence or just pattern-matches against a memorized &ldquo;shape&rdquo; of it &mdash; the same family of trap as the well-known &ldquo;how many r&rsquo;s in strawberry&rdquo; question. Five independent sub-questions: two letter-counting tasks, a full backwards spelling of a longer word, a vowel count, and a hyphen-aware word count where a hyphenated compound counts as exactly one word and a standalone em dash counts as none.</p>
 <p class="how"><strong>How it is scored:</strong> each of the five answers (Q1-Q5) is checked independently against its exact correct value or string, so a partial score is visible rather than an all-or-nothing pass.</p>
@@ -7048,10 +7590,15 @@ Q2: 3
 Q3: yllacihcrareih
 Q4: 8
 Q5: 12</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag no">4/5</span></div><pre>Q1: 3
+Q2: 3
+Q3: yllacihcrareih
+Q4: 8
+Q5: 12</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=19">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-20"><summary><span class="tid">Task 20</span> <span class="tname">A constrained WAVE acrostic poem</span> <span class="tfam">language &middot; 4 rules</span> <span class="tmini">Sonnet 4/4 &middot; Opus 4.8 4/4 &middot; Fable 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Qwen 3/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 1/4 &middot; Claude Opus 5 4/4</span></summary>
+<details class="task" id="task-20"><summary><span class="tid">Task 20</span> <span class="tname">A constrained WAVE acrostic poem</span> <span class="tfam">language &middot; 4 rules</span> <span class="tmini">Sonnet 4/4 &middot; Opus 4.8 4/4 &middot; Fable 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Qwen 3/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 1/4 &middot; Claude Opus 5 4/4 &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> a creative-writing task scored with zero subjectivity &mdash; four independent structural constraints must all hold at once: exactly 4 lines, the first letters spelling &ldquo;WAVE&rdquo; top to bottom, exactly 7 words on every single line, and lines 2 and 4 ending in the identical word. It tests whether a model can hold several hard formatting constraints in its head simultaneously while still producing readable language, not whether the poem is any good.</p>
 <p class="how"><strong>How it is scored:</strong> this is graded purely on structure, not taste &mdash; line count, the four acrostic letters, the per-line word count, and whether lines 2 and 4 share a last word are each checked mechanically and independently. All six original models satisfied every constraint. Both Gemini models were checked across four separate runs: <strong>3.6 Flash is clean 4 of 4</strong>, but <strong>3.5 Flash-Lite is clean only 1 of 4</strong> &mdash; its poems keep the acrostic and the shared last word on lines 2 and 4, but three of its four runs go long on the seven-words-per-line count (8 words instead of 7 on at least one line), a constraint every other model here hits consistently.</p>
@@ -7104,10 +7651,14 @@ Echoes of waves upon the blue sea.</pre></div>
 Ancient tides keep rolling toward the shore
 Vast water breathes beneath a silver moon
 Every wave returns me to that shore</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">4/4</span></div><pre>Waves kiss the sand while stars drift
+And sea foam reaches toward the shore
+Vast depths hold secrets none can hear
+Every restless wave returns back to shore</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=20">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-21"><summary><span class="tid">Task 21</span> <span class="tname">Misdirection reasoning</span> <span class="tfam">language &middot; 4 puzzles</span> <span class="tmini">Qwen 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Fable 4/4 &middot; Sonnet 4/4 &middot; Opus 4.8 4/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 0/4 (the only model to fail this consistently) &middot; Claude Opus 5 4/4</span></summary>
+<details class="task" id="task-21"><summary><span class="tid">Task 21</span> <span class="tname">Misdirection reasoning</span> <span class="tfam">language &middot; 4 puzzles</span> <span class="tmini">Qwen 4/4 &middot; Grok 4/4 &middot; DeepSeek 4/4 &middot; Fable 4/4 &middot; Sonnet 4/4 &middot; Opus 4.8 4/4 &middot; Gemini 3.6 Flash 4/4 &middot; 3.5 Flash-Lite 0/4 (the only model to fail this consistently) &middot; Claude Opus 5 4/4 &middot; DeepSeek V4-Flash 3/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> four classic &ldquo;trick&rdquo; logic questions, each restated just enough to defeat rote memorization of its textbook answer: the bat-and-ball problem, the parallel-machines-and-widgets problem, a river-crossing puzzle rewritten with a two-item boat instead of the classic one-item boat, and the gambler&rsquo;s-fallacy coin-flip question. Each one rewards actually working through the constraint rather than pattern-matching to a memorized answer.</p>
 <p class="how"><strong>How it is scored:</strong> each of the four answers (Q1-Q4) is checked independently against its correct value, so partial credit is visible. Q3 in particular needs the true minimum number of crossings under the rewritten two-item-boat rule (3), not the classic single-item puzzle&rsquo;s answer.</p>
@@ -7176,9 +7727,13 @@ Q4. 1/2; Coin flips are independent events, so past results do not affect the pr
 Q2. 5 minutes — each machine takes 5 minutes per widget, so 100 machines make 100 widgets in parallel.
 Q3. 3 crossings — take fox + grain over, return empty, bring the chicken (chicken alone, then fox+grain alone, are both safe).
 Q4. 1/2 — the coin is fair and flips are independent, so past results don't matter.</pre></div>
+<div class="modelout"><div class="mo-h"><span class="mo-name">DeepSeek V4-Flash</span><span class="tag ok">4/4</span></div><pre>Q1. $0.05.
+Q2. 5 minutes.
+Q3. 3 crossings.
+Q4. 1/2.</pre></div>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=21">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
-<details class="task" id="task-22"><summary><span class="tid">Task 22</span> <span class="tname">Recall from a big messy archive</span> <span class="tfam">reading &middot; 5 questions</span> <span class="tmini">Sonnet 4/4 · Opus 4.8 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.6 Flash 4/4 · 3.5 Flash-Lite 4/4 · Qwen 4/4 · DeepSeek 4/4 &middot; Claude Opus 5 4/4</span></summary>
+<details class="task" id="task-22"><summary><span class="tid">Task 22</span> <span class="tname">Recall from a big messy archive</span> <span class="tfam">reading &middot; 5 questions</span> <span class="tmini">Sonnet 4/4 · Opus 4.8 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.6 Flash 4/4 · 3.5 Flash-Lite 4/4 · Qwen 4/4 · DeepSeek 4/4 &middot; Claude Opus 5 4/4 &middot; DeepSeek V4-Flash collected</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can find and reconcile specific facts that are scattered across a long, messy, contradictory-looking document without inventing anything. The model is given a roughly 51KB archive of 42 meeting-minutes for a fictional project (pasted directly into the conversation) and then asked five precise factual questions: the final approved budget after several revisions, who owns a migration task and their role, when a load-test target changed and to what, how many times a launch was deferred and its final date, and which vendor was rejected and why.</p>
 <p class="how"><strong>How it is scored:</strong> each of the five answers is checked against the one correct fact buried in the document. Every model answers all five questions correctly &mdash; exact facts and meeting references intact &mdash; in every run it has completed.</p>
@@ -7253,7 +7808,7 @@ Meeting 12 (2026-02-19); Nimbara was selected as primary vendor instead.</pre></
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=22">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-23"><summary><span class="tid">Task 23</span> <span class="tname">Spot the contradictions</span> <span class="tfam">reading &middot; 4 contradictions</span> <span class="tmini">Sonnet 4/4 · Opus 4.8 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.6 Flash 4/4 · 3.5 Flash-Lite 0/4 · Qwen 4/4 · DeepSeek 4/4 &middot; Claude Opus 5 4/4</span></summary>
+<details class="task" id="task-23"><summary><span class="tid">Task 23</span> <span class="tname">Spot the contradictions</span> <span class="tfam">reading &middot; 4 contradictions</span> <span class="tmini">Sonnet 4/4 · Opus 4.8 4/4 · Fable 4/4 · Grok 4/4 · Gemini 3.6 Flash 4/4 · 3.5 Flash-Lite 0/4 · Qwen 4/4 · DeepSeek 4/4 &middot; Claude Opus 5 4/4 &middot; DeepSeek V4-Flash collected</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> careful reading and logical consistency-checking over a long text. The model is given a single product-specification document (pasted directly into the conversation) that has contradictions deliberately planted in it — statements that cannot both be true — and has to find every one of them, quote both sides, and cite the section numbers, without getting distracted by mere style issues that aren't actual contradictions.</p>
 <p class="how"><strong>How it is scored:</strong> did the model find every planted contradiction, and did it avoid raising false alarms about things that weren't real contradictions? Every model finds all four with zero false alarms in every completed run &mdash; quoting both sides and citing sections &mdash; except Gemini&nbsp;3.5&nbsp;Flash-Lite, which always finds the device and timeout conflicts but dismisses at least one of the other two.</p>
@@ -7441,7 +7996,7 @@ Note on scope: §5 and §6 are both titled "On-Call Rotation," as are §7/§8/§
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=23">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-24"><summary><span class="tid">Task 24</span> <span class="tname">Draw a scene, freely</span> <span class="tfam">drawing &middot; judged by eye</span> <span class="tmini">Claude Opus 5 1st &middot; Gemini 3.6 Flash 1st &middot; Qwen3.8-Max-Preview 1st &middot; Claude Fable 5 2nd &middot; DeepSeek 3rd &middot; Claude Opus 4.8 4th &middot; Gemini 3.5 Flash-Lite 4th &middot; Claude Sonnet 5 5th &middot; Grok 4.5 6th</span></summary>
+<details class="task" id="task-24"><summary><span class="tid">Task 24</span> <span class="tname">Draw a scene, freely</span> <span class="tfam">drawing &middot; judged by eye</span> <span class="tmini">Claude Opus 5 1st &middot; Gemini 3.6 Flash 1st &middot; Qwen3.8-Max-Preview 1st &middot; Claude Fable 5 2nd &middot; DeepSeek 3rd &middot; Claude Opus 4.8 4th &middot; Gemini 3.5 Flash-Lite 4th &middot; Claude Sonnet 5 5th &middot; Grok 4.5 6th &middot; DeepSeek V4-Flash collected</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> spatial imagination and the ability to turn a described scene into working drawing-code. Each model was asked to generate an SVG &#8212; a text-based image format where the model literally writes code that a browser renders into a picture &#8212; of an auto-rickshaw towing a server rack up a steep hill in monsoon rain, with no constraints on how to do it.</p>
 <p class="how"><strong>How it is scored:</strong> graded twice. Quantitative: the element checklist below, checked mechanically picture by picture and totalled into a score. Qualitative: I rank the drawings myself and say why under each one. All nine drawings are now ranked.</p>
@@ -7461,7 +8016,7 @@ monsoon rain falling. Return only the SVG in one code block.</pre></details>
 </details>
 <p class="note"><a class="tlink" href="bench-compare.html#compare=24">See every model&rsquo;s runs on this task, side by side</a></p></div></details>
 
-<details class="task" id="task-25"><summary><span class="tid">Task 25</span> <span class="tname">Draw a scene under strict rules</span> <span class="tfam">drawing &middot; 10 rules</span> <span class="tmini">Claude Opus 5 1st &middot; Qwen3.8-Max-Preview 1st &middot; Claude Fable 5 2nd &middot; Gemini 3.6 Flash 3rd &middot; Claude Opus 4.8 4th &middot; Claude Sonnet 5 4th &middot; DeepSeek 4th &middot; Gemini 3.5 Flash-Lite 4th &middot; Grok 4.5 5th</span></summary>
+<details class="task" id="task-25"><summary><span class="tid">Task 25</span> <span class="tname">Draw a scene under strict rules</span> <span class="tfam">drawing &middot; 10 rules</span> <span class="tmini">Claude Opus 5 1st &middot; Qwen3.8-Max-Preview 1st &middot; Claude Fable 5 2nd &middot; Gemini 3.6 Flash 3rd &middot; Claude Opus 4.8 4th &middot; Claude Sonnet 5 4th &middot; DeepSeek 4th &middot; Gemini 3.5 Flash-Lite 4th &middot; Grok 4.5 5th &middot; DeepSeek V4-Flash 4/4</span></summary>
 <div class="body">
 <p class="what"><strong>What it probes:</strong> whether a model can hold many precise, simultaneous requirements in mind while still producing something that looks right. Each model was asked to generate an SVG of a Chennai monsoon street market at dusk that must satisfy 10 exact, machine-checked rules: a specific canvas size, exactly one element marked as the moon, a group of at least 3 market-stall rectangles, a group of at least 40 rain lines, a puddle drawn as a path, some text containing the word "KAAPI" (South Indian filter coffee), a sky gradient that is defined and actually used, only hex colors (no color names), no more than 400 total drawing elements, and a technically valid file.</p>
 <p class="how"><strong>How it is scored:</strong> an automated check runs through all 10 rules and confirms each one is satisfied &#8212; no human judgment involved. Every completed run but one passes all 10 rules; the single exception is one Gemini&nbsp;3.6&nbsp;Flash run that satisfied 9 of the 10. Interestingly, that doesn't mean the drawings are equally detailed: this check rewards following the rules, not adding extra detail &#8212; Grok passed with about 79 drawing elements while Qwen used roughly 237.</p>
