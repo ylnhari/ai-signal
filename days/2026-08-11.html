@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI Signal — a daily curated brief on AI models, infrastructure, and research">
+<title>AI Signal — 2026-08-11</title>
+<style>
+:root{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+    --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+    --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+  --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+  --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+}
+:root[data-theme="light"]{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+}
+*{box-sizing:border-box}
+body,.ai-signal{margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;
+  -webkit-font-smoothing:antialiased;}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 64px;}
+.mono{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;}
+.serif{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px;}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:20;background:var(--bar);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);}
+.topbar-inner{max-width:860px;margin:0 auto;padding:12px 24px 10px;}
+.wordmark{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-weight:600;letter-spacing:.12em;font-size:.86rem;text-align:center;
+  text-transform:uppercase;color:var(--ink);}
+.cursor{color:var(--accent);animation:pulse 2s steps(1) infinite;}
+@keyframes pulse{0%,49%{opacity:1}50%,100%{opacity:.15}}
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-top:10px;padding-bottom:2px;
+  scrollbar-width:thin;}
+.chip{flex:0 0 auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;letter-spacing:.04em;padding:4px 10px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted);
+  cursor:pointer;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);
+  border-color:var(--accent);}
+
+/* day section */
+.day{padding-top:34px;}
+.day-head{display:flex;justify-content:space-between;align-items:baseline;
+  gap:16px;border-bottom:1px solid var(--line);padding-bottom:10px;
+  margin-bottom:22px;}
+.day-date{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-weight:500;font-size:1.5rem;margin:0;}
+.day-stats{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;color:var(--muted);text-align:right;
+  font-variant-numeric:tabular-nums;max-width:44%;}
+@media (max-width:560px){
+  .day-head{flex-direction:column;gap:4px;}
+  .day-stats{text-align:left;max-width:100%;}
+}
+
+.eyebrow{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  text-transform:uppercase;letter-spacing:.08em;font-size:.7rem;
+  color:var(--muted);margin:26px 0 12px;}
+
+/* urgent / open pitch */
+.urgent{background:var(--urgent-bg);border-left:3px solid var(--urgent);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:0 0 8px;}
+.urgent-eyebrow{color:var(--urgent);margin:0 0 6px;}
+.urgent-title{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.15rem;margin:0 0 6px;color:var(--ink);}
+.urgent .why{margin:0 0 8px;color:var(--ink);font-size:.95rem;}
+.urgent-link{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;color:var(--urgent);}
+
+/* story card */
+.story{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:18px 20px;margin:0 0 16px;}
+.story h3{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-weight:600;font-size:clamp(1.35rem,4.5vw,1.75rem);line-height:1.22;
+  text-wrap:balance;margin:0 0 10px;}
+.story p{margin:0 0 10px;max-width:68ch;}
+.story p:last-of-type{margin-bottom:0;}
+
+/* details / sources */
+.deeper{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;}
+.deeper>summary,.mesh>summary{list-style:none;cursor:pointer;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.75rem;
+  letter-spacing:.04em;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.deeper>summary::-webkit-details-marker,
+.mesh>summary::-webkit-details-marker{display:none;}
+.deeper>summary::before,.mesh>summary::before{content:"\25B8";
+  color:var(--accent);transition:transform .18s ease;display:inline-block;}
+.deeper[open]>summary::before,.mesh[open]>summary::before{transform:rotate(90deg);}
+@media (prefers-reduced-motion:reduce){
+  .deeper>summary::before,.mesh>summary::before{transition:none;}
+}
+.src-list{list-style:none;margin:12px 0 0;padding:0;counter-reset:src;}
+.src{display:flex;align-items:baseline;gap:10px;padding:5px 0 5px 26px;
+  flex-wrap:wrap;counter-increment:src;position:relative;}
+.src::before{content:counter(src) ".";position:absolute;left:0;top:5px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.7rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;}
+.sid{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.66rem;
+  background:var(--line);color:var(--muted);padding:2px 6px;border-radius:5px;
+  letter-spacing:.02em;white-space:nowrap;}
+.src-title{flex:1;min-width:60%;}
+.ts{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.68rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+/* by beat */
+.beats{display:flex;flex-direction:column;gap:16px;}
+.beat-name{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  padding:2px 8px;display:inline-block;margin-bottom:8px;}
+.beat-items{list-style:none;margin:0;padding:0;}
+.beat-item{padding:6px 0 6px 16px;border-bottom:1px solid var(--line);
+  position:relative;display:block;max-width:none;}
+.beat-item::before{content:"\25B8";position:absolute;left:0;top:6px;
+  color:var(--accent);font-size:.8rem;}
+.beat-item .sid{margin-left:8px;}
+.beat-note{padding:5px 0 5px 16px;color:var(--muted);font-size:.85rem;
+  border-bottom:1px solid var(--line);}
+.beat-note:last-child{border-bottom:none;}
+.beat-item:last-child{border-bottom:none;}
+
+/* mesh + passthrough */
+.mesh{margin-top:30px;}
+.mesh-body{color:var(--muted);font-size:.85rem;margin-top:10px;}
+.mesh-body code,.story code,.beat-item code,.mesh-body strong{
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.9em;}
+.mesh-body ul{margin:6px 0;padding-left:18px;}
+.passthrough{color:var(--muted);font-size:.9rem;margin:12px 0;}
+.lede{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.08rem;color:var(--ink);max-width:68ch;margin:4px 0 6px;}
+.pt-title{font-weight:600;}
+
+/* footer */
+.foot{margin-top:52px;padding-top:16px;border-top:1px solid var(--line);
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.72rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;}
+.topnav{margin-top:8px;font-size:.85rem;}
+.topnav a{color:var(--muted);text-decoration:none;}
+.topnav a:hover{color:var(--accent);}
+.foot-links{margin-top:6px;}
+.foot-links a{color:var(--muted);}
+.foot-links a:hover{color:var(--accent);}
+
+/* index rows */
+.idx{display:flex;flex-direction:column;margin-top:26px;}
+.idx-row{display:grid;grid-template-columns:150px 1fr auto;gap:14px;
+  align-items:baseline;padding:13px 4px;border-bottom:1px solid var(--line);
+  color:var(--ink);}
+.idx-row:hover{text-decoration:none;background:var(--surface);}
+.idx-row[hidden]{display:none;}
+.idx-date{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums;
+  white-space:nowrap;}
+.idx-head{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.05rem;line-height:1.35;}
+.idx-row:hover .idx-head{color:var(--accent);}
+.idx-stats{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums;
+  white-space:nowrap;}
+@media (max-width:560px){
+  .idx-row{grid-template-columns:1fr;gap:3px;}
+  .idx-stats{display:none;}
+}
+
+/* index: wide two-column layout (feed + metadata sidebar) */
+.wrap.wide{max-width:1200px;}
+.topbar-inner.wide{max-width:1200px;}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:56px;
+  align-items:start;padding-top:26px;}
+.layout .idx{margin-top:0;}
+.side{display:flex;flex-direction:column;gap:16px;}
+.sidecard{background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;padding:14px 18px 16px;}
+.side-h{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  text-transform:uppercase;letter-spacing:.08em;font-size:.68rem;
+  color:var(--muted);font-weight:600;margin:0 0 8px;}
+.side-about{margin:0;font-size:.9rem;color:var(--muted);line-height:1.55;}
+.side-list{list-style:none;margin:0;padding:0;}
+.side-list li{border-bottom:1px solid var(--line);}
+.side-list li:last-child{border-bottom:none;}
+.side-list a{display:block;padding:6px 0;color:var(--ink);font-size:.9rem;}
+.side-list a:hover{color:var(--accent);text-decoration:none;}
+.browse{font-size:.9rem;}
+.br-b{display:flex;width:100%;align-items:baseline;gap:8px;background:none;
+  border:0;padding:5px 6px;border-radius:7px;cursor:pointer;color:var(--ink);
+  font:inherit;text-align:left;}
+.br-b:hover{background:var(--code-bg);}
+.br-b[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);}
+.br-b[aria-pressed="true"] .br-n{color:inherit;opacity:.8;}
+.br-n{margin-left:auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums;}
+.br-mon{border-top:1px solid var(--line);margin-top:4px;padding-top:4px;}
+.br-mon:first-of-type{border-top:0;margin-top:0;}
+.br-mon>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;
+  gap:8px;padding:5px 6px;border-radius:7px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.78rem;
+  color:var(--muted);}
+.br-mon>summary::-webkit-details-marker{display:none;}
+.br-mon>summary::before{content:"\25B8";transition:transform .15s ease;
+  display:inline-block;color:var(--accent);
+  /* the summary is monospace, and Consolas has no U+25B8 - it renders as
+     tofu unless the marker gets a font stack that actually carries it */
+  font-family:'Segoe UI Symbol','Apple Symbols',system-ui,sans-serif;}
+.br-mon[open]>summary::before{transform:rotate(90deg);}
+.br-mon>summary:hover{background:var(--code-bg);color:var(--ink);}
+.br-wk{margin:2px 0 6px;padding-left:12px;}
+.br-wk .br-b{font-size:.85rem;}
+.br-none{margin:8px 0 0;font-size:.82rem;color:var(--muted);}
+@media (prefers-reduced-motion:reduce){.br-mon>summary::before{transition:none;}}
+.side-stats{display:grid;grid-template-columns:1fr auto;gap:4px 14px;margin:0;}
+.side-stats dt{color:var(--muted);font-size:.84rem;}
+.side-stats dd{margin:0;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.78rem;text-align:right;font-variant-numeric:tabular-nums;
+  align-self:baseline;}
+@media (max-width:960px){
+  .layout{grid-template-columns:1fr;gap:12px;}
+  .side{margin-top:30px;}
+}
+
+/* day-page nav */
+.daynav{display:flex;justify-content:space-between;gap:12px;margin-top:34px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.76rem;}
+.backlink{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;}
+</style>
+</head>
+<body>
+<div class="ai-signal"><div class="topbar"><div class="topbar-inner"><div class="wordmark"><a href="../index.html" style="color:inherit">AI SIGNAL</a> <span class="cursor">▮</span></div></div></div><main class="wrap"><section class="day" data-month="2026-08" data-week="2026-08-10"><header class="day-head"><h2 class="day-date">Tuesday, Aug 11, 2026</h2></header><div class="eyebrow">Top stories</div><article class="story"><h3>Meta Superintelligence Labs ships Muse Glimmer, its first open model</h3><p>Meta Superintelligence Labs released Muse Glimmer, its first open model — a 30-billion-parameter dense, multimodal model distilled from the larger Muse Spark and tuned for local agentic workflows: function calling, code generation, document analysis, and LLM-as-judge evaluation. It&#x27;s released under Apache 2.0, and quantized to roughly 4-bit precision it fits in about 20GB of RAM/VRAM, running on a single consumer GPU or a high-end Mac. Day-one support is already live across Ollama, Hugging Face&#x27;s <code>transformers</code>, and Unsloth&#x27;s dynamic quants, with llama.cpp, MLX, and ExecuTorch integrations &quot;launching shortly.&quot; Meta&#x27;s own benchmarks put it competitive with similarly-sized open models — Gemma4-31B and Qwen3.6-27B — on agentic, coding, and reasoning tests; that&#x27;s a vendor claim, not yet independently verified. The release lands the same week Mark Zuckerberg publicly criticized &quot;closed&quot; AI rivals, underscoring Meta&#x27;s return to an open-weights strategy after Llama&#x27;s earlier stumbles — and it&#x27;s a distinct model from the Muse Code terminal coding agent Meta shipped five days ago on updated Muse Spark 1.2.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">research.meta.ai</span><a class="src-title" href="https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model">Muse Glimmer: 30B-parameter model optimized for always-on local agent workflows</a><span class="ts">2026-08-10</span></li><li class="src"><span class="sid">huggingface.co</span><a class="src-title" href="https://huggingface.co/blog/muse-glimmer">Meta is back with Muse Glimmer: local, agentic, multimodal, and open source</a><span class="ts">2026-08-10</span></li><li class="src"><span class="sid">simonwillison.net</span><a class="src-title" href="https://simonwillison.net/2026/Aug/10/introducing-muse-glimmer">Introducing Muse Glimmer</a><span class="ts">2026-08-10</span></li><li class="src"><span class="sid">github.com</span><a class="src-title" href="https://github.com/ollama/ollama/releases/tag/v0.32.7">v0.32.7 / v0.32.8 (ollama — initial Muse Glimmer support via MLX)</a><span class="ts">2026-08-10 16:43 IST</span></li><li class="src"><span class="sid">github.com</span><a class="src-title" href="https://github.com/huggingface/transformers/releases/tag/v5.15.0">Release: v5.15.0 (transformers — adds Muse Glimmer)</a><span class="ts">2026-08-10 15:58 IST</span></li><li class="src"><span class="sid">github.com</span><a class="src-title" href="https://github.com/unslothai/unsloth/releases/tag/v0.1.60-beta">v0.1.60-beta / v0.1.61-beta (unsloth — Muse Glimmer dynamic quants)</a><span class="ts">2026-08-10 18:06 IST</span></li><li class="src"><span class="sid">ft.com</span><a class="src-title" href="https://www.ft.com/content/4e3957f8-ea7c-4c46-a3de-cdce8e526878">Mark Zuckerberg attacks &#x27;closed&#x27; AI rivals as Meta returns to open models</a><span class="ts">2026-08-10</span></li></ul></details></article><article class="story"><h3>Nvidia lines up six financial giants to bankroll $500B of AI compute</h3><p>Nvidia announced non-binding agreements with Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs, and KKR to build independent financing platforms aimed at mobilizing over $500 billion in third-party capital for AI compute infrastructure. The pitch, from CEO Jensen Huang, is to turn Nvidia-powered data centers into an investable asset class of their own — &quot;AI factories&quot; that generate revenue like any other productive infrastructure, backed by arguments about GPU longevity, workload flexibility, and resale value across customers. This is a set of memoranda of understanding, not signed deals: no specific allocations, rates, or per-partner commitments were disclosed, and everything is contingent on final agreements. It&#x27;s the clearest signal yet that the next bottleneck in the AI buildout is financing capacity, not chip supply.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">nvidianews.nvidia.com</span><a class="src-title" href="https://nvidianews.nvidia.com/news/nvidia-partners-with-apollo-blackrock-blackstone-brookfield-goldman-sachs-and-kkr-to-establish-ai-compute-infrastructure-financing-platforms-to-mobilize-over-500-billion-of-third-party-capital">NVIDIA Partners With Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs and KKR to Establish AI Compute Infrastructure Financing Platforms to Mobilize Over $500 Billion of Third-Party Capital</a><span class="ts">2026-08-10</span></li></ul></details></article><article class="story"><h3>vLLM v0.27.0 ships full-stack Kimi K3 support</h3><p>vLLM shipped v0.27.0, a major release spanning 561 commits from 242 contributors, headlined by full-stack support for Moonshot&#x27;s Kimi K3 — core model and kernel code, Python and Rust frontends, DeepGEMM integration, and compressed-tensors quantized checkpoints all land in a single release. The release also adds FlashAttention 4 integration on newer hardware, a PyTorch 2.13 upgrade, faster DeepSeek-V4 serving, day-one support for Qwen3.5 and several other new models, and a fault-tolerance framework for large-scale distributed deployments. It&#x27;s one of the more consequential vLLM releases this year for anyone serving open-weight models at scale.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">github.com</span><a class="src-title" href="https://github.com/vllm-project/vllm/releases/tag/v0.27.0">v0.27.0</a><span class="ts">2026-08-11 02:48 IST</span></li></ul></details></article><article class="story"><h3>Needle2: a 14MB agentic LLM for microcontrollers and $200 phones</h3><p>Cactus Compute released Needle2, a follow-up to its earlier Needle model: a 45M-parameter agentic LLM compressed to a single 14MB binary via quantization-aware training (not post-hoc compression), aimed at tool calling and structured extraction on genuinely resource-constrained hardware — microcontrollers, wearables, and sub-$200 phones, which the team notes make up roughly four in five edge devices. It runs a full session in 28MB of RAM, decodes at 500+ tokens/sec on a Raspberry Pi 5, and uses a bounded 256-token sliding window plus grammar-constrained decoding to keep memory and output format predictable with no GPU. It&#x27;s Apache 2.0-licensed and ships as a dependency-free C++ binary — a niche but genuine data point on how small a useful tool-calling model can get.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">cactuscompute.com</span><a class="src-title" href="https://cactuscompute.com/needle">Show HN: Needle2: 14MB agentic LLM for phones, wearables, smart home and robots</a><span class="ts">2026-08-10 22:52 IST</span></li></ul></details></article><div class="eyebrow">Also today</div><div class="beats"><div class="beat"><div class="beat-name">Frontier releases</div><ul class="beat-items"><li class="beat-item"><a href="https://openai.com/index/putting-frontier-cyber-models-in-more-trusted-hands">Putting frontier cyber models in more trusted hands</a><span class="sid">openai.com</span></li><li class="beat-item"><a href="https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows">Expanding Daybreak as the Cyber Defense Window Narrows</a><span class="sid">openai.com</span></li><li class="beat-item"><a href="https://openai.com/index/responsible-ai-infrastructure-texas">OpenAI&#x27;s letter to Governor Abbott on responsible AI infrastructure in Texas</a><span class="sid">openai.com</span></li><li class="beat-item"><a href="https://openai.com/index/premium-seats-chatgpt-business">Premium seats are coming to ChatGPT Business</a><span class="sid">openai.com</span></li><li class="beat-item"><a href="https://www.anthropic.com/research/riemann-zeta">Learning more about Claude&#x27;s mathematical capabilities</a><span class="sid">anthropic.com</span></li><li class="beat-item"><a href="https://www.interconnects.ai/p/5-useful-things-youll-learn-in-my">5 useful things you&#x27;ll learn in my new post-training textbook (shipping now!)</a><span class="sid">interconnects.ai</span></li><li class="beat-item"><a href="https://blog.sshh.io/p/exploring-claudegpt-knowledge-cutoffs">Exploring Claude/GPT Knowledge Cutoffs and Pre-Training Timelines</a><span class="sid">blog.sshh.io</span></li><li class="beat-item"><a href="https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content">How Claude marks AI-generated content</a><span class="sid">support.claude.com</span></li></ul></div><div class="beat"><div class="beat-name">Inference &amp; serving</div><ul class="beat-items"><li class="beat-item"><a href="https://huggingface.co/blog/MultiverseComputingCAI/efficient-knowledge-distillation">Making Knowledge Distillation Cheap Enough to Run at Scale</a><span class="sid">huggingface.co</span></li><li class="beat-item"><a href="https://huggingface.co/blog/nvidia/magpie-tts-multilingual-voice-agents">Build Low-Latency Multilingual Voice Agents: Open Weights &amp; Full Deployment Control with NVIDIA Magpie TTS</a><span class="sid">huggingface.co</span></li><li class="beat-item"><a href="https://github.com/antirez/h3.c">Antirez/h3.c: MiniMax H3 inference engine for Mac computers</a><span class="sid">github.com</span></li></ul></div><div class="beat"><div class="beat-name">Open weights</div><ul class="beat-items"><li class="beat-item"><a href="https://twitter.com/thdxr/status/2086599224674681242">DeepSeek costs OpenCode Go user $1.14/day; dual DGX breaks even in 24 years</a><span class="sid">twitter.com</span></li></ul></div><div class="beat"><div class="beat-name">Hardware</div><ul class="beat-items"><li class="beat-item"><a href="https://www.stoaexchange.com/">Launch HN: Stoa Markets (YC S26) – A Marketplace for GPUs and AI Servers</a><span class="sid">stoaexchange.com</span></li></ul></div><div class="beat"><div class="beat-name">Benchmarks</div><ul class="beat-items"><li class="beat-item"><a href="https://portal.spotify.com/blog/introducing-xirp">Xirp: The Agentic Development Environment Built by Spotify</a><span class="sid">portal.spotify.com</span></li></ul></div><div class="beat"><div class="beat-name">From the community</div><ul class="beat-items"><li class="beat-item"><a href="https://www.ft.com/content/4e3957f8-ea7c-4c46-a3de-cdce8e526878">Mark Zuckerberg attacks &#x27;closed&#x27; AI rivals as Meta returns to open models</a><span class="sid">ft.com</span></li><li class="beat-item"><a href="https://www.bbc.com/news/articles/cvgx4yd1gl2o">Tech leaders say AI means less work – staff say they work up to 90 hours a week</a><span class="sid">bbc.com</span></li><li class="beat-item"><a href="https://www.wcax.com/2026/08/07/kinney-drugs-pulls-back-ai-phone-assistant-after-hundreds-customer-complaints">Kinney Drugs pulls back AI phone assistant after hundreds of customer complaints</a><span class="sid">wcax.com</span></li><li class="beat-item"><a href="https://www.seattletimes.com/business/technology/pervert-glasses-backlash-against-metas-smart-glasses-grows">&#x27;Pervert glasses&#x27;: Backlash against Meta&#x27;s smart glasses grows</a><span class="sid">seattletimes.com</span></li><li class="beat-item"><a href="https://www.mikeayles.com/blog/on-chip-llm-kv260">Show HN: A tiny LLM running at 21,000 tok/s on a $250 FPGA (Live Demo)</a><span class="sid">mikeayles.com</span></li><li class="beat-item"><a href="https://www.meta.com/thefutureisforeveryone">The Future Is for Everyone – The Path to a Positive AI Future</a><span class="sid">meta.com</span></li></ul></div></div></section><nav class="daynav"><a href="2026-08-10.html">&larr; 2026-08-10</a><a class="backlink" href="../index.html">all days</a><span></span></nav><footer class="foot">AI SIGNAL &mdash; a daily curated brief on AI models, infrastructure, and research &middot; curated by <a href="https://ylnhari.github.io">Hari Yelesetty</a><div class="foot-links"><a href="https://ylnhari.github.io">Portfolio</a> &middot; <a href="https://github.com/ylnhari">GitHub</a> &middot; <a href="https://www.linkedin.com/in/ylnhari">LinkedIn</a> &middot; <a href="https://ylnhari.github.io/blog">Blog</a> &middot; <a href="bench.html">Model Bench</a></div></footer></main></div>
+
+</body>
+</html>
