@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI Signal — a daily curated brief on AI models, infrastructure, and research">
+<title>AI Signal — 2026-08-13</title>
+<style>
+:root{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+    --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+    --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+  --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+  --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+}
+:root[data-theme="light"]{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+}
+*{box-sizing:border-box}
+body,.ai-signal{margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;
+  -webkit-font-smoothing:antialiased;}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 64px;}
+.mono{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;}
+.serif{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px;}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:20;background:var(--bar);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);}
+.topbar-inner{max-width:860px;margin:0 auto;padding:12px 24px 10px;}
+.wordmark{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-weight:600;letter-spacing:.12em;font-size:.86rem;text-align:center;
+  text-transform:uppercase;color:var(--ink);}
+.cursor{color:var(--accent);animation:pulse 2s steps(1) infinite;}
+@keyframes pulse{0%,49%{opacity:1}50%,100%{opacity:.15}}
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-top:10px;padding-bottom:2px;
+  scrollbar-width:thin;}
+.chip{flex:0 0 auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;letter-spacing:.04em;padding:4px 10px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted);
+  cursor:pointer;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);
+  border-color:var(--accent);}
+
+/* day section */
+.day{padding-top:34px;}
+.day-head{display:flex;justify-content:space-between;align-items:baseline;
+  gap:16px;border-bottom:1px solid var(--line);padding-bottom:10px;
+  margin-bottom:22px;}
+.day-date{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-weight:500;font-size:1.5rem;margin:0;}
+.day-stats{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;color:var(--muted);text-align:right;
+  font-variant-numeric:tabular-nums;max-width:44%;}
+@media (max-width:560px){
+  .day-head{flex-direction:column;gap:4px;}
+  .day-stats{text-align:left;max-width:100%;}
+}
+
+.eyebrow{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  text-transform:uppercase;letter-spacing:.08em;font-size:.7rem;
+  color:var(--muted);margin:26px 0 12px;}
+
+/* urgent / open pitch */
+.urgent{background:var(--urgent-bg);border-left:3px solid var(--urgent);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:0 0 8px;}
+.urgent-eyebrow{color:var(--urgent);margin:0 0 6px;}
+.urgent-title{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.15rem;margin:0 0 6px;color:var(--ink);}
+.urgent .why{margin:0 0 8px;color:var(--ink);font-size:.95rem;}
+.urgent-link{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;color:var(--urgent);}
+
+/* story card */
+.story{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:18px 20px;margin:0 0 16px;}
+.story h3{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-weight:600;font-size:clamp(1.35rem,4.5vw,1.75rem);line-height:1.22;
+  text-wrap:balance;margin:0 0 10px;}
+.story p{margin:0 0 10px;max-width:68ch;}
+.story p:last-of-type{margin-bottom:0;}
+
+/* details / sources */
+.deeper{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;}
+.deeper>summary,.mesh>summary{list-style:none;cursor:pointer;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.75rem;
+  letter-spacing:.04em;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.deeper>summary::-webkit-details-marker,
+.mesh>summary::-webkit-details-marker{display:none;}
+.deeper>summary::before,.mesh>summary::before{content:"\25B8";
+  color:var(--accent);transition:transform .18s ease;display:inline-block;}
+.deeper[open]>summary::before,.mesh[open]>summary::before{transform:rotate(90deg);}
+@media (prefers-reduced-motion:reduce){
+  .deeper>summary::before,.mesh>summary::before{transition:none;}
+}
+.src-list{list-style:none;margin:12px 0 0;padding:0;counter-reset:src;}
+.src{display:flex;align-items:baseline;gap:10px;padding:5px 0 5px 26px;
+  flex-wrap:wrap;counter-increment:src;position:relative;}
+.src::before{content:counter(src) ".";position:absolute;left:0;top:5px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.7rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;}
+.sid{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.66rem;
+  background:var(--line);color:var(--muted);padding:2px 6px;border-radius:5px;
+  letter-spacing:.02em;white-space:nowrap;}
+.src-title{flex:1;min-width:60%;}
+.ts{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.68rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+/* by beat */
+.beats{display:flex;flex-direction:column;gap:16px;}
+.beat-name{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  padding:2px 8px;display:inline-block;margin-bottom:8px;}
+.beat-items{list-style:none;margin:0;padding:0;}
+.beat-item{padding:6px 0 6px 16px;border-bottom:1px solid var(--line);
+  position:relative;display:block;max-width:none;}
+.beat-item::before{content:"\25B8";position:absolute;left:0;top:6px;
+  color:var(--accent);font-size:.8rem;}
+.beat-item .sid{margin-left:8px;}
+.beat-note{padding:5px 0 5px 16px;color:var(--muted);font-size:.85rem;
+  border-bottom:1px solid var(--line);}
+.beat-note:last-child{border-bottom:none;}
+.beat-item:last-child{border-bottom:none;}
+
+/* mesh + passthrough */
+.mesh{margin-top:30px;}
+.mesh-body{color:var(--muted);font-size:.85rem;margin-top:10px;}
+.mesh-body code,.story code,.beat-item code,.mesh-body strong{
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.9em;}
+.mesh-body ul{margin:6px 0;padding-left:18px;}
+.passthrough{color:var(--muted);font-size:.9rem;margin:12px 0;}
+.lede{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.08rem;color:var(--ink);max-width:68ch;margin:4px 0 6px;}
+.pt-title{font-weight:600;}
+
+/* footer */
+.foot{margin-top:52px;padding-top:16px;border-top:1px solid var(--line);
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.72rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;}
+.topnav{margin-top:8px;font-size:.85rem;}
+.topnav a{color:var(--muted);text-decoration:none;}
+.topnav a:hover{color:var(--accent);}
+.foot-links{margin-top:6px;}
+.foot-links a{color:var(--muted);}
+.foot-links a:hover{color:var(--accent);}
+
+/* index rows */
+.idx{display:flex;flex-direction:column;margin-top:26px;}
+.idx-row{display:grid;grid-template-columns:150px 1fr auto;gap:14px;
+  align-items:baseline;padding:13px 4px;border-bottom:1px solid var(--line);
+  color:var(--ink);}
+.idx-row:hover{text-decoration:none;background:var(--surface);}
+.idx-row[hidden]{display:none;}
+.idx-date{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums;
+  white-space:nowrap;}
+.idx-head{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.05rem;line-height:1.35;}
+.idx-row:hover .idx-head{color:var(--accent);}
+.idx-stats{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums;
+  white-space:nowrap;}
+@media (max-width:560px){
+  .idx-row{grid-template-columns:1fr;gap:3px;}
+  .idx-stats{display:none;}
+}
+
+/* index: wide two-column layout (feed + metadata sidebar) */
+.wrap.wide{max-width:1200px;}
+.topbar-inner.wide{max-width:1200px;}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:56px;
+  align-items:start;padding-top:26px;}
+.layout .idx{margin-top:0;}
+.side{display:flex;flex-direction:column;gap:16px;}
+.sidecard{background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;padding:14px 18px 16px;}
+.side-h{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  text-transform:uppercase;letter-spacing:.08em;font-size:.68rem;
+  color:var(--muted);font-weight:600;margin:0 0 8px;}
+.side-about{margin:0;font-size:.9rem;color:var(--muted);line-height:1.55;}
+.side-list{list-style:none;margin:0;padding:0;}
+.side-list li{border-bottom:1px solid var(--line);}
+.side-list li:last-child{border-bottom:none;}
+.side-list a{display:block;padding:6px 0;color:var(--ink);font-size:.9rem;}
+.side-list a:hover{color:var(--accent);text-decoration:none;}
+.browse{font-size:.9rem;}
+.br-b{display:flex;width:100%;align-items:baseline;gap:8px;background:none;
+  border:0;padding:5px 6px;border-radius:7px;cursor:pointer;color:var(--ink);
+  font:inherit;text-align:left;}
+.br-b:hover{background:var(--code-bg);}
+.br-b[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);}
+.br-b[aria-pressed="true"] .br-n{color:inherit;opacity:.8;}
+.br-n{margin-left:auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums;}
+.br-mon{border-top:1px solid var(--line);margin-top:4px;padding-top:4px;}
+.br-mon:first-of-type{border-top:0;margin-top:0;}
+.br-mon>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;
+  gap:8px;padding:5px 6px;border-radius:7px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.78rem;
+  color:var(--muted);}
+.br-mon>summary::-webkit-details-marker{display:none;}
+.br-mon>summary::before{content:"\25B8";transition:transform .15s ease;
+  display:inline-block;color:var(--accent);
+  /* the summary is monospace, and Consolas has no U+25B8 - it renders as
+     tofu unless the marker gets a font stack that actually carries it */
+  font-family:'Segoe UI Symbol','Apple Symbols',system-ui,sans-serif;}
+.br-mon[open]>summary::before{transform:rotate(90deg);}
+.br-mon>summary:hover{background:var(--code-bg);color:var(--ink);}
+.br-wk{margin:2px 0 6px;padding-left:12px;}
+.br-wk .br-b{font-size:.85rem;}
+.br-none{margin:8px 0 0;font-size:.82rem;color:var(--muted);}
+@media (prefers-reduced-motion:reduce){.br-mon>summary::before{transition:none;}}
+.side-stats{display:grid;grid-template-columns:1fr auto;gap:4px 14px;margin:0;}
+.side-stats dt{color:var(--muted);font-size:.84rem;}
+.side-stats dd{margin:0;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.78rem;text-align:right;font-variant-numeric:tabular-nums;
+  align-self:baseline;}
+@media (max-width:960px){
+  .layout{grid-template-columns:1fr;gap:12px;}
+  .side{margin-top:30px;}
+}
+
+/* day-page nav */
+.daynav{display:flex;justify-content:space-between;gap:12px;margin-top:34px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.76rem;}
+.backlink{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;}
+</style>
+</head>
+<body>
+<div class="ai-signal"><div class="topbar"><div class="topbar-inner"><div class="wordmark"><a href="../index.html" style="color:inherit">AI SIGNAL</a> <span class="cursor">▮</span></div></div></div><main class="wrap"><section class="day" data-month="2026-08" data-week="2026-08-10"><header class="day-head"><h2 class="day-date">Thursday, Aug 13, 2026</h2></header><div class="eyebrow">Top stories</div><article class="story"><h3>Grok 4.6</h3><p>xAI shipped Grok 4.6 on 2026-08-12, framed less as a raw capability jump and more as an agent-and-visual-work release — &quot;stronger first passes on visual and interactive projects&quot; and better self-testing on long-running tasks than Grok 4.5. Pricing holds at $2/MTok in, $6/MTok out (a faster variant at 2x price), with double usage in Grok Build and Cursor for the first week. Artificial Analysis has it tying GPT-5.6 Sol at 61 on their Intelligence Index (Grok 4.5 scored 56); xAI&#x27;s own release notes claim CursorBench 3.2 69.9% (vs 4.5&#x27;s 66.7%) and DeepSWE 1.1 65.9% (vs 4.5&#x27;s 54%) — both xAI-selected comparisons, not yet independently reproduced.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">x.ai</span><a class="src-title" href="https://x.ai/news/grok-4-6">Grok 4.6</a><span class="ts">2026-08-12 21:02 IST</span></li><li class="src"><span class="sid">artificialanalysis.ai</span><a class="src-title" href="https://artificialanalysis.ai/articles/grok-4-6-benchmarks-and-analysis">Grok 4.6 scores 61 on the Artificial Analysis Intelligence Index</a><span class="ts">2026-08-12 22:24 IST</span></li></ul></details></article><article class="story"><h3>DeepSeek V4 Pro 0813</h3><p>DeepSeek quietly moved its Pro-tier API to a new GA build, DeepSeek-V4-Pro-0813 — no blog post, just a docs update and an OpenRouter listing (both fetched this session). It&#x27;s API-only for now: $0.435/MTok input (cache miss; $0.003625 on a cache hit), $0.87/MTok output, 1M-token context with up to 384K output tokens. DeepSeek&#x27;s own docs warn &quot;a significant increase&quot; to overall pricing is coming &quot;in the near future&quot; — no open weights yet, unlike the Flash tier&#x27;s 304B MIT release three weeks ago. Simon Willison flags the benchmark numbers circulating for it trace back through a WeChat group and a since-deleted Reddit post to an HN ASCII table — unverified, treat as rumor, not a claim.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">openrouter.ai</span><a class="src-title" href="https://openrouter.ai/deepseek/deepseek-v4-pro-0813">DeepSeek V4 Pro 0813</a><span class="ts">2026-08-12 21:34 IST</span></li><li class="src"><span class="sid">api-docs.deepseek.com</span><a class="src-title" href="https://api-docs.deepseek.com/">DeepSeek-V4-Pro-0813 Publish</a><span class="ts">2026-08-12 21:02 IST</span></li><li class="src"><span class="sid">simonwillison.net</span><a class="src-title" href="https://simonwillison.net/2026/Aug/12/deepseek-v4-pro-0813">DeepSeek V4 Pro 0813 (on OpenRouter)</a><span class="ts">2026-08-13 05:29 IST</span></li></ul></details></article><article class="story"><h3>Qwen3.8-2.4T</h3><p>Alibaba followed through on the open-weighting it promised three weeks ago: Qwen3.8-2.4T-A95B is now live on Hugging Face and ModelScope, in FP8 and full precision. It&#x27;s 2.4T total / 95B active parameters across 92 layers, mixing Gated DeltaNet and Gated Attention with a 512-expert MoE (11 active per token) — a genuinely new architecture, not a scaled Qwen3.5 clone. Context is 262,144 tokens natively, extensible to just over a million. Qwen&#x27;s own numbers: 92.6 on GPQA Diamond, 67.7 on SWE-bench Pro, 86.6 on Terminal Bench 2.1. It&#x27;s &quot;thinking-only&quot; — every response reasons in <code>&lt;think&gt;</code> tags first, no non-reasoning mode. Licensed under the Qwen3.8-Max license, not a permissive OSI license.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">huggingface.co</span><a class="src-title" href="https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B">Qwen3.8-2.4T</a><span class="ts">2026-08-12 20:31 IST</span></li><li class="src"><span class="sid">huggingface.co</span><a class="src-title" href="https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B-FP8">Qwen3.8-2.4T</a><span class="ts">2026-08-12 21:56 IST</span></li><li class="src"><span class="sid">modelscope.cn</span><a class="src-title" href="https://modelscope.cn/models/Qwen/Qwen3.8-2.4T-A95B">Qwen3.8 Weights Released</a><span class="ts">2026-08-12 20:19 IST</span></li></ul></details></article><article class="story"><h3>Ollama speeds up prefill for double-scale NVFP4 models</h3><p>A small but concrete inference-serving win: Ollama&#x27;s v0.32.10-rc0 fuses the float32 global-scale multiply and the dtype cast — previously two separate eager ops per projection — into a single compiled kernel. It only helps models whose ModelOpt checkpoints carry a global scale on top of per-group quantization (single-scale NVFP4, MXFP8, and affine checkpoints see no change). On an M5 Max, Ollama&#x27;s own order-swapped A/B numbers show Qwen3.6:27b prefill going from 703 to 769 tok/s (+7.9%) and Muse-Glimmer:30b from 790 to 843 tok/s (+6.7%); speculative-decode throughput was unaffected on both.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">github.com</span><a class="src-title" href="https://github.com/ollama/ollama/releases/tag/v0.32.10-rc0">v0.32.10-rc0: nn: speed up prefill on double-scale nvfp4 models</a><span class="ts">2026-08-13 01:55 IST</span></li><li class="src"><span class="sid">github.com</span><a class="src-title" href="https://github.com/ollama/ollama/releases/tag/v0.32.10-rc1">v0.32.10</a><span class="ts">2026-08-13 04:06 IST</span></li></ul></details></article><div class="eyebrow">Also today</div><div class="beats"><div class="beat"><div class="beat-name">Inference &amp; serving</div><ul class="beat-items"><li class="beat-item"><a href="https://github.com/huggingface/trl/releases/tag/v1.10.0">v1.10.0</a><span class="sid">github.com</span></li><li class="beat-item"><a href="https://github.com/ggml-org/llama.cpp/releases/tag/b10373">b10373</a><span class="sid">github.com</span></li><li class="beat-item"><a href="https://github.com/vllm-project/vllm/releases/tag/v0.27.2rc0">v0.27.2rc0: [Spec Decode] DSpark confidence-scheduled verification (#47808)</a><span class="sid">github.com</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2608.11701v1">Consolidator: Learning Persistent Routed Memory Across Context Boundaries</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2608.11770v1">Achieving Near-Zero-Overhead Multi-Model Hierarchical Classification in Real-Time Detection Pipelines</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2608.11797v1">Orientation, not magnitude: the causal structure of task-vector interference in merged language models</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2608.12026v1">SoftWater: Class-Aware Rate Allocation for Softmax Quantization</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2608.12140v1">FQTree: Fine-grained Quantization and Hardware Generation of Boosted Decision Trees</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2608.12259v1">Calibration Bets on the Past: Post-Training Quantization for Financial Time-Series Forecasting</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://huggingface.co/blog/LiquidAI/lfm2-5-vl-3b">LFM2.5-VL-3B for Better and Faster Vision Capabilities for the Edge</a><span class="sid">huggingface.co</span></li><li class="beat-item"><a href="https://huggingface.co/blog/allenai/olmoearth-embeddings">Introducing OlmoEarth embeddings: Custom embedding exports from OlmoEarth Studio for downstream analysis</a><span class="sid">huggingface.co</span></li><li class="beat-item"><a href="https://simonwillison.net/2026/Aug/12/florian-herrengt">Quoting Florian Herrengt</a><span class="sid">simonwillison.net</span></li><li class="beat-item"><a href="https://simonwillison.net/2026/Aug/12/alchemy-utils">alchemy-utils 0.1a0</a><span class="sid">simonwillison.net</span></li><li class="beat-item"><a href="https://llama.app/">Apple Silicon and macOS VMs: Faster LLM Inference with llama.cpp</a><span class="sid">llama.app</span></li></ul></div><div class="beat"><div class="beat-name">Frontier releases</div><ul class="beat-items"><li class="beat-item"><a href="https://deepmind.google/blog/putting-sign-language-ai-into-users-hands">Putting sign language AI into users’ hands</a><span class="sid">deepmind.google</span></li><li class="beat-item"><a href="https://openai.com/index/ringcentral">How RingCentral builds AI-native work from engineering to ops</a><span class="sid">openai.com</span></li><li class="beat-item"><a href="https://openai.com/index/how-enterprises-put-ai-to-work">From assistance to execution: How enterprises put AI to work</a><span class="sid">openai.com</span></li><li class="beat-item"><a href="https://www.interconnects.ai/p/i-wrote-an-ai-textbook-how-long-until">I wrote an AI textbook — how long until AI can do it better?</a><span class="sid">interconnects.ai</span></li></ul></div><div class="beat"><div class="beat-name">Open weights</div><ul class="beat-items"><li class="beat-item"><a href="https://discoveredmaterials.com/research">Launch HN: Discovered Materials (YC P26) – AI agents to discover new materials</a><span class="sid">discoveredmaterials.com</span></li></ul></div><div class="beat"><div class="beat-name">Hardware</div><ul class="beat-items"><li class="beat-item"><a href="https://blogs.nvidia.com/blog/nvidia-life-glassdoor-best-ceo-2026">NVIDIA CEO Tops Glassdoor’s 2026 List of Best CEOs</a><span class="sid">blogs.nvidia.com</span></li></ul></div><div class="beat"><div class="beat-name">From the community</div><ul class="beat-items"><li class="beat-item"><a href="https://knownagents.com/insights">Someone is running mass vulnerability scans while spoofing AI-crawler identities (Googlebot, GPTBot, PerplexityBot, ClaudeBot and others) to probe credential/config paths used by AI coding tools</a><span class="sid">knownagents.com</span></li><li class="beat-item"><a href="https://blog.florianherrengt.com/ai-removing-middle-class-software-engineering.html">AI is removing the middle class of software engineering?</a><span class="sid">blog.florianherrengt.com</span></li><li class="beat-item"><a href="https://tailscale.com/blog/sqlite-wal-reset-bug">Tailscale Traces Database Corruption to 16y/o SQLite WAL-Reset Bug</a><span class="sid">tailscale.com</span></li><li class="beat-item"><a href="https://woxi.ad-si.com/">Show HN: Woxi - Open-source Mathematica / Wolfram Language reimplementation</a><span class="sid">woxi.ad-si.com</span></li><li class="beat-item"><a href="https://guillaumetech.github.io/posts/jpg-scaling-chrome">Why tiny JPEGs look different in Chrome</a><span class="sid">guillaumetech.github.io</span></li><li class="beat-item"><a href="https://gowers.wordpress.com/2026/08/12/what-sort-of-maths-are-llms-good-at">What sort of maths are LLMs good at?</a><span class="sid">gowers.wordpress.com</span></li><li class="beat-item"><a href="https://www.oxfordmartin.ox.ac.uk/news/beef-and-dairy-drive-41-of-biodiversity-damage-linked-to-global-farmland">Beef and dairy drive 41% of biodiversity damage linked to global farmland</a><span class="sid">oxfordmartin.ox.ac.uk</span></li><li class="beat-item"><a href="https://www.severe-weather.eu/global-weather/excessive-heat-dome-heatwave-western-europe-mid-august-2026-mk">5th Heat Dome Expands Across Europe: 40°C+ Target Western and Central Europe</a><span class="sid">severe-weather.eu</span></li><li class="beat-item"><a href="https://www.reuters.com/legal/government/german-advocacy-group-lodges-criminal-complaint-over-meta-ai-glasses-2026-08-12">German advocacy group lodges criminal complaint over Meta AI glasses</a><span class="sid">reuters.com</span></li><li class="beat-item"><a href="https://lovable.dev/blog/series-c">Lovable raises $400M Series C</a><span class="sid">lovable.dev</span></li><li class="beat-item"><a href="https://climate.metoffice.cloud/glaciers.html">Glaciers on the Climate Dashboard</a><span class="sid">climate.metoffice.cloud</span></li><li class="beat-item"><a href="https://usehax.dev/">Hax – a minimalist, terminal-native coding agent written in C</a><span class="sid">usehax.dev</span></li><li class="beat-item"><a href="https://s-1.vercel.app/posts/why-dropbox-is-a-obvious-pe-target">Dropbox is an obvious PE Target?</a><span class="sid">s-1.vercel.app</span></li><li class="beat-item"><a href="https://flutter.dev/blog/whats-new-in-flutter-3-47">What&#x27;s New in Flutter 3.47</a><span class="sid">flutter.dev</span></li><li class="beat-item"><a href="https://www.githubstatus.com/incidents/76t89hbfb09h">Incident with Pull Requests and Issues – Resolved</a><span class="sid">githubstatus.com</span></li><li class="beat-item"><a href="https://www.bbc.com/news/articles/cn0nww2qlp7o">AI agent hacks gym to get its user a spot in pilates class</a><span class="sid">bbc.com</span></li><li class="beat-item"><a href="https://www.theguardian.com/us-news/2026/aug/11/ice-electric-shock-gloves">ICE to spend up to $20M on gloves that can deliver painful electric shocks</a><span class="sid">theguardian.com</span></li></ul></div></div></section><nav class="daynav"><a href="2026-08-12.html">&larr; 2026-08-12</a><a class="backlink" href="../index.html">all days</a><span></span></nav><footer class="foot">AI SIGNAL &mdash; a daily curated brief on AI models, infrastructure, and research &middot; curated by <a href="https://ylnhari.github.io">Hari Yelesetty</a><div class="foot-links"><a href="https://ylnhari.github.io">Portfolio</a> &middot; <a href="https://github.com/ylnhari">GitHub</a> &middot; <a href="https://www.linkedin.com/in/ylnhari">LinkedIn</a> &middot; <a href="https://ylnhari.github.io/blog">Blog</a> &middot; <a href="bench.html">Model Bench</a></div></footer></main></div>
+
+</body>
+</html>
