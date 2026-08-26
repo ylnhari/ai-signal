@@ -186,7 +186,7 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
 <nav class="pagenav" aria-label="Report pages"><a href="bench.html">Overview</a><a href="bench-method.html">How it was run</a><a href="bench-results.html">The results</a><a href="bench-runs.html">Every run</a><a href="bench-traps.html" class="here">The traps</a><a href="bench-tasks.html">All 25 tasks</a><a href="bench-compare.html">Compare</a><a href="bench-notes.html">Notes &amp; writing</a></nav>
 <main class="content">
 <h2>The one kind of task that told them apart</h2>
-  <p>Twelve of the eighteen coding tasks were passed by every model tested, on every run, including the genuinely tricky ones. The gap opened on the tasks that mimic <em>real</em>
+  <p>Eight of the eighteen coding tasks were passed by every model tested, on every run, including the genuinely tricky ones. The gap opened on the tasks that mimic <em>real</em>
   data &mdash; a bank statement, a shared-format ledger &mdash; where the input is
   deliberately messy. Two traps were hidden in that data, and each model's fate
   came down to a single line.</p>
@@ -275,10 +275,11 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
     count the words in a sentence where a hyphenated compound like
     "twenty-first-century" counts as ONE word and a standalone em dash does not
     count as a word at all. The correct count is <strong>13</strong>.
-    <strong>Nine of the ten models &mdash; Sonnet&nbsp;5, Opus&nbsp;4.8,
-    Opus&nbsp;5, Fable, Grok, DeepSeek&nbsp;V4, DeepSeek&nbsp;V4-Flash, Qwen
-    and Gemini&nbsp;3.6&nbsp;Flash &mdash; get this wrong in every one of their
-    four runs, answering 12 instead.</strong> The sole exception is <strong>Gemini 3.5 Flash-Lite,
+    <strong>Twelve of the thirteen models &mdash; Sonnet&nbsp;5, Opus&nbsp;4.8,
+    Opus&nbsp;5, Fable, Grok, DeepSeek&nbsp;V4, DeepSeek&nbsp;V4-Flash, Qwen,
+    Gemini&nbsp;3.6&nbsp;Flash, and all three of GPT-5.6 Sol, Terra and Luna
+    &mdash; get this wrong in every one of their four runs, answering 12
+    instead.</strong> The sole exception is <strong>Gemini 3.5 Flash-Lite,
     which gets it right in 3 of its 4 runs</strong> &mdash; the only model, at
     any sample size, to answer this question correctly at all. Every other
     question on the task, every model gets right almost every run:
@@ -286,22 +287,26 @@ a.tlink:hover{color:var(--accent);border-bottom-color:var(--accent);text-decorat
     (answering 6 where the correct count is 8, so it never scores better than
     3 of 5); Sonnet fumbles the string-reversal question in one of its four
     runs; Gemini 3.6 Flash fumbles the same string-reversal question in two of
-    its four runs. It's the single most consistent finding on this page: ten
-    different systems, from five different labs, almost all landing on the
-    identical wrong number for the same sentence, run after run &mdash; and
+    its four runs. It's the single most consistent finding on this page:
+    thirteen different systems, from six different labs, almost all landing on
+    the identical wrong number for the same sentence, run after run &mdash; and
     the newest and strongest column, Opus&nbsp;5, misses it exactly like the
     rest.</p>
   </div>
 
   <p>A misdirection-reasoning task (Task 21) reworded the classic fox/chicken/grain
   river-crossing puzzle with a boat that holds two items instead of one.
-  <strong>Seven of the nine models solve it correctly (3 crossings) in every one
-  of their four runs</strong> &mdash; Sonnet&nbsp;5, Opus&nbsp;4.8, Opus&nbsp;5,
-  Fable, Grok, DeepSeek, and Qwen, each via a valid 3-crossing route. Gemini splits sharply on this one:
-  <strong>3.6 Flash solves it cleanly in all 4 runs, but 3.5 Flash-Lite gets it
-  wrong in all 4</strong> &mdash; the only model in this comparison, at any
-  sample size, to fail the river-crossing question consistently rather than as
-  an occasional miss.</p>
+  <strong>Eleven of the thirteen models solve it correctly (3 crossings) in
+  every one of their four runs</strong> &mdash; Sonnet&nbsp;5, Opus&nbsp;4.8,
+  Opus&nbsp;5, Fable, Grok, DeepSeek&nbsp;V4, Qwen, Gemini&nbsp;3.6&nbsp;Flash
+  and all three of GPT-5.6 Sol, Terra and Luna, each via a valid 3-crossing
+  route. DeepSeek&nbsp;V4-Flash misses it once in four. The outlier is
+  <strong>Gemini&nbsp;3.5&nbsp;Flash-Lite, which gets it wrong in all 4
+  runs</strong> &mdash; the only model in this comparison, at any sample size,
+  to fail the river-crossing question consistently rather than as an occasional
+  miss. Worth noting against an earlier single-sample impression: Sonnet&nbsp;5
+  was once recorded as failing this puzzle. At four runs it is clean in all of
+  them, which is exactly the kind of verdict a single sample gets wrong.</p>
 
   <p>That is the shape of the gap between the two hardest parsing tasks &mdash;
   the table above has every rate. The details worth keeping: Grok's two ledger
