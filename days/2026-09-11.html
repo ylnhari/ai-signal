@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI Signal — a daily curated brief on AI models, infrastructure, and research">
+<title>AI Signal — 2026-09-11</title>
+<style>
+:root{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+    --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+    --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+  --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+  --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+}
+:root[data-theme="light"]{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+}
+*{box-sizing:border-box}
+body,.ai-signal{margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;
+  -webkit-font-smoothing:antialiased;}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 64px;}
+.mono{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;}
+.serif{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px;}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:20;background:var(--bar);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);}
+.topbar-inner{max-width:860px;margin:0 auto;padding:12px 24px 10px;}
+.wordmark{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-weight:600;letter-spacing:.12em;font-size:.86rem;text-align:center;
+  text-transform:uppercase;color:var(--ink);}
+.cursor{color:var(--accent);animation:pulse 2s steps(1) infinite;}
+@keyframes pulse{0%,49%{opacity:1}50%,100%{opacity:.15}}
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-top:10px;padding-bottom:2px;
+  scrollbar-width:thin;}
+.chip{flex:0 0 auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;letter-spacing:.04em;padding:4px 10px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted);
+  cursor:pointer;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);
+  border-color:var(--accent);}
+
+/* day section */
+.day{padding-top:34px;}
+.day-head{display:flex;justify-content:space-between;align-items:baseline;
+  gap:16px;border-bottom:1px solid var(--line);padding-bottom:10px;
+  margin-bottom:22px;}
+.day-date{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-weight:500;font-size:1.5rem;margin:0;}
+.day-stats{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;color:var(--muted);text-align:right;
+  font-variant-numeric:tabular-nums;max-width:44%;}
+@media (max-width:560px){
+  .day-head{flex-direction:column;gap:4px;}
+  .day-stats{text-align:left;max-width:100%;}
+}
+
+.eyebrow{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  text-transform:uppercase;letter-spacing:.08em;font-size:.7rem;
+  color:var(--muted);margin:26px 0 12px;}
+
+/* urgent / open pitch */
+.urgent{background:var(--urgent-bg);border-left:3px solid var(--urgent);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:0 0 8px;}
+.urgent-eyebrow{color:var(--urgent);margin:0 0 6px;}
+.urgent-title{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.15rem;margin:0 0 6px;color:var(--ink);}
+.urgent .why{margin:0 0 8px;color:var(--ink);font-size:.95rem;}
+.urgent-link{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;color:var(--urgent);}
+
+/* story card */
+.story{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:18px 20px;margin:0 0 16px;}
+.story h3{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-weight:600;font-size:clamp(1.35rem,4.5vw,1.75rem);line-height:1.22;
+  text-wrap:balance;margin:0 0 10px;}
+.story p{margin:0 0 10px;max-width:68ch;}
+.story p:last-of-type{margin-bottom:0;}
+
+/* details / sources */
+.deeper{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;}
+.deeper>summary,.mesh>summary{list-style:none;cursor:pointer;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.75rem;
+  letter-spacing:.04em;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.deeper>summary::-webkit-details-marker,
+.mesh>summary::-webkit-details-marker{display:none;}
+.deeper>summary::before,.mesh>summary::before{content:"\25B8";
+  color:var(--accent);transition:transform .18s ease;display:inline-block;}
+.deeper[open]>summary::before,.mesh[open]>summary::before{transform:rotate(90deg);}
+@media (prefers-reduced-motion:reduce){
+  .deeper>summary::before,.mesh>summary::before{transition:none;}
+}
+.src-list{list-style:none;margin:12px 0 0;padding:0;counter-reset:src;}
+.src{display:flex;align-items:baseline;gap:10px;padding:5px 0 5px 26px;
+  flex-wrap:wrap;counter-increment:src;position:relative;}
+.src::before{content:counter(src) ".";position:absolute;left:0;top:5px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.7rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;}
+.sid{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.66rem;
+  background:var(--line);color:var(--muted);padding:2px 6px;border-radius:5px;
+  letter-spacing:.02em;white-space:nowrap;}
+.src-title{flex:1;min-width:60%;}
+.ts{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.68rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+/* by beat */
+.beats{display:flex;flex-direction:column;gap:16px;}
+.beat-name{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  padding:2px 8px;display:inline-block;margin-bottom:8px;}
+.beat-items{list-style:none;margin:0;padding:0;}
+.beat-item{padding:6px 0 6px 16px;border-bottom:1px solid var(--line);
+  position:relative;display:block;max-width:none;}
+.beat-item::before{content:"\25B8";position:absolute;left:0;top:6px;
+  color:var(--accent);font-size:.8rem;}
+.beat-item .sid{margin-left:8px;}
+.beat-note{padding:5px 0 5px 16px;color:var(--muted);font-size:.85rem;
+  border-bottom:1px solid var(--line);}
+.beat-note:last-child{border-bottom:none;}
+.beat-item:last-child{border-bottom:none;}
+
+/* mesh + passthrough */
+.mesh{margin-top:30px;}
+.mesh-body{color:var(--muted);font-size:.85rem;margin-top:10px;}
+.mesh-body code,.story code,.beat-item code,.mesh-body strong{
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.9em;}
+.mesh-body ul{margin:6px 0;padding-left:18px;}
+.passthrough{color:var(--muted);font-size:.9rem;margin:12px 0;}
+.lede{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.08rem;color:var(--ink);max-width:68ch;margin:4px 0 6px;}
+.pt-title{font-weight:600;}
+
+/* footer */
+.foot{margin-top:52px;padding-top:16px;border-top:1px solid var(--line);
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.72rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;}
+.topnav{margin-top:8px;font-size:.85rem;}
+.topnav a{color:var(--muted);text-decoration:none;}
+.topnav a:hover{color:var(--accent);}
+.foot-links{margin-top:6px;}
+.foot-links a{color:var(--muted);}
+.foot-links a:hover{color:var(--accent);}
+
+/* index rows */
+.idx{display:flex;flex-direction:column;margin-top:26px;}
+.idx-row{display:grid;grid-template-columns:150px 1fr auto;gap:14px;
+  align-items:baseline;padding:13px 4px;border-bottom:1px solid var(--line);
+  color:var(--ink);}
+.idx-row:hover{text-decoration:none;background:var(--surface);}
+.idx-row[hidden]{display:none;}
+.idx-date{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums;
+  white-space:nowrap;}
+.idx-head{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.05rem;line-height:1.35;}
+.idx-row:hover .idx-head{color:var(--accent);}
+.idx-stats{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums;
+  white-space:nowrap;}
+@media (max-width:560px){
+  .idx-row{grid-template-columns:1fr;gap:3px;}
+  .idx-stats{display:none;}
+}
+
+/* index: wide two-column layout (feed + metadata sidebar) */
+.wrap.wide{max-width:1200px;}
+.topbar-inner.wide{max-width:1200px;}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:56px;
+  align-items:start;padding-top:26px;}
+.layout .idx{margin-top:0;}
+.side{display:flex;flex-direction:column;gap:16px;}
+.sidecard{background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;padding:14px 18px 16px;}
+.side-h{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  text-transform:uppercase;letter-spacing:.08em;font-size:.68rem;
+  color:var(--muted);font-weight:600;margin:0 0 8px;}
+.side-about{margin:0;font-size:.9rem;color:var(--muted);line-height:1.55;}
+.side-list{list-style:none;margin:0;padding:0;}
+.side-list li{border-bottom:1px solid var(--line);}
+.side-list li:last-child{border-bottom:none;}
+.side-list a{display:block;padding:6px 0;color:var(--ink);font-size:.9rem;}
+.side-list a:hover{color:var(--accent);text-decoration:none;}
+.browse{font-size:.9rem;}
+.br-b{display:flex;width:100%;align-items:baseline;gap:8px;background:none;
+  border:0;padding:5px 6px;border-radius:7px;cursor:pointer;color:var(--ink);
+  font:inherit;text-align:left;}
+.br-b:hover{background:var(--code-bg);}
+.br-b[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);}
+.br-b[aria-pressed="true"] .br-n{color:inherit;opacity:.8;}
+.br-n{margin-left:auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums;}
+.br-mon{border-top:1px solid var(--line);margin-top:4px;padding-top:4px;}
+.br-mon:first-of-type{border-top:0;margin-top:0;}
+.br-mon>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;
+  gap:8px;padding:5px 6px;border-radius:7px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.78rem;
+  color:var(--muted);}
+.br-mon>summary::-webkit-details-marker{display:none;}
+.br-mon>summary::before{content:"\25B8";transition:transform .15s ease;
+  display:inline-block;color:var(--accent);
+  /* the summary is monospace, and Consolas has no U+25B8 - it renders as
+     tofu unless the marker gets a font stack that actually carries it */
+  font-family:'Segoe UI Symbol','Apple Symbols',system-ui,sans-serif;}
+.br-mon[open]>summary::before{transform:rotate(90deg);}
+.br-mon>summary:hover{background:var(--code-bg);color:var(--ink);}
+.br-wk{margin:2px 0 6px;padding-left:12px;}
+.br-wk .br-b{font-size:.85rem;}
+.br-none{margin:8px 0 0;font-size:.82rem;color:var(--muted);}
+@media (prefers-reduced-motion:reduce){.br-mon>summary::before{transition:none;}}
+.side-stats{display:grid;grid-template-columns:1fr auto;gap:4px 14px;margin:0;}
+.side-stats dt{color:var(--muted);font-size:.84rem;}
+.side-stats dd{margin:0;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.78rem;text-align:right;font-variant-numeric:tabular-nums;
+  align-self:baseline;}
+@media (max-width:960px){
+  .layout{grid-template-columns:1fr;gap:12px;}
+  .side{margin-top:30px;}
+}
+
+/* day-page nav */
+.daynav{display:flex;justify-content:space-between;gap:12px;margin-top:34px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.76rem;}
+.backlink{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;}
+</style>
+</head>
+<body>
+<div class="ai-signal"><div class="topbar"><div class="topbar-inner"><div class="wordmark"><a href="../index.html" style="color:inherit">AI SIGNAL</a> <span class="cursor">▮</span></div></div></div><main class="wrap"><section class="day" data-month="2026-09" data-week="2026-09-07"><header class="day-head"><h2 class="day-date">Friday, Sep 11, 2026</h2></header><div class="eyebrow">Top stories</div><article class="story"><h3>OpenAI ships an Agents API, opening its Codex agent harness to developers</h3><p>OpenAI released an Agents API that gives applications direct access to the managed agent harness behind Codex, rather than leaving orchestration to the calling app. It handles sandboxed command execution, file editing, and MCP tool connections; keeps durable session state so a run can be paused and resumed later; and supports native subagent delegation for splitting work across parallel sub-tasks. That&#x27;s a step beyond the existing Assistants/Responses APIs, where an app has to manage its own execution environment and session bookkeeping. Code samples in the docs are built against gpt-6-astra. Real constraints for now: data residency is US-only, and there&#x27;s no Zero Data Retention option yet, which will matter for regulated users.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">openai.com</span><a class="src-title" href="https://openai.com/index/introducing-the-agents-api">Introducing the Agents API</a><span class="ts">2026-09-10 05:30 IST</span></li><li class="src"><span class="sid">developers.openai.com</span><a class="src-title" href="https://developers.openai.com/api/docs/guides/agents-api/overview">OpenAI Agents API</a><span class="ts">2026-09-11 01:13 IST</span></li></ul></details></article><article class="story"><h3>Cognition launches SWE-2, a coding-agent model built on Kimi K3</h3><p>Cognition (maker of Devin) released SWE-2, built by post-training Kimi K3 (2.8T parameters) with new reinforcement-learning techniques aimed at engineering judgment rather than raw pass rate. By Cognition&#x27;s own numbers it needs 58% fewer steps than its predecessor SWE-1.7 while scoring higher: 50.0% on FrontierCode 1.1 Main (up from 42.0%), 73.0% on DeepSWE 1.1 (up from 37.7%), and 92.8% on Terminal-Bench 2.1. Cognition places it near GPT-5.6 Sol and the Fable 5/5.1 line on FrontierCode at a fraction of their price, and roughly a quarter of GPT-6 Astra&#x27;s cost for slightly lower scores. It&#x27;s live now across Devin Desktop, CLI, Web, and Fusion. All benchmark numbers above are Cognition&#x27;s own — no independent reproduction exists yet.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">cognition.com</span><a class="src-title" href="https://cognition.com/blog/swe-2">Cognition launches new SWE-2 model, Rivaling Fable 5.1 and GPT-Astra</a><span class="ts">2026-09-10 20:59 IST</span></li><li class="src"><span class="sid">tokenstead.ai</span><a class="src-title" href="https://tokenstead.ai/models/swe-2">Cognition&#x27;s SWE-2 achieves 92.8 on Terminal-Bench 2.1</a><span class="ts">2026-09-10 22:22 IST</span></li></ul></details></article><article class="story"><h3>Meta launches Muse, a shopping-and-errands AI agent, amid a trademark scramble</h3><p>Meta unveiled Muse on 2026-09-09, a proactive AI agent meant to handle tasks like shopping, email, and trip-planning on a user&#x27;s behalf. The rollout got overshadowed by a trademark dispute: Meta reassigned the @muse Instagram and X handles — held by the rock band Muse since 1999 — to the new agent, pushing the band&#x27;s own accounts to @museband with no clear public explanation of how the handles changed hands. Meta executives&#x27; launch posts then briefly tagged the band&#x27;s account instead of the agent&#x27;s, which a New York Times reporter called &quot;the best bug in twitter history.&quot; It&#x27;s the same pattern as Meta&#x27;s earlier acquisitions of the @Meta and @threads handles from unrelated prior owners.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">engadget.com</span><a class="src-title" href="https://www.engadget.com/2254419/muse-the-band-lost-its-social-media-handles-to-muse-meta-s-new-ai-agent">Muse, the band, lost its social media handles to Muse, Meta&#x27;s new AI agent</a><span class="ts">2026-09-10 05:27 IST</span></li><li class="src"><span class="sid">the-independent.com</span><a class="src-title" href="https://www.the-independent.com/arts-entertainment/music/news/muse-band-meta-ai-tool-handle-b3047291.html">Rock band Muse lose social media handles to Meta&#x27;s new AI tool</a><span class="ts">2026-09-09 22:13 IST</span></li></ul></details></article><article class="story"><h3>GPT-6 Astra&#x27;s short reasoning traces spark a &#x27;looped transformers&#x27; debate</h3><p>A technical analysis piece digs into reports (originating with The Information) that GPT-6 Astra &quot;hides&quot; its reasoning using looped transformers — reusing the same transformer blocks multiple times per forward pass instead of stacking distinct layers, a technique already visible in smaller open models like Nanbeige4.2-3B (which runs 22 blocks twice), Universal Transformers, and Mixture-of-Recursions. The author argues Astra&#x27;s shorter visible reasoning traces more plausibly reflect real capability gains — a more capable model needing less scratch work, the way a strong student uses less notepaper — than deliberate obscuring, and points to an OpenAI chief scientist&#x27;s comment that architecture changes aren&#x27;t behind current difficulties in monitoring model reasoning. There&#x27;s no official OpenAI confirmation of Astra&#x27;s actual architecture either way.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">magazine.sebastianraschka.com</span><a class="src-title" href="https://magazine.sebastianraschka.com/p/gpt-6-astra-looped-transformers-and">GPT-6 Astra, looped transformers, and hidden reasoning</a><span class="ts">2026-09-09 20:07 IST</span></li><li class="src"><span class="sid">openai.com</span><a class="src-title" href="https://openai.com/index/gpt-6-astra-next-generation-work">GPT-6 Astra: The next generation in intelligence for work</a><span class="ts">2026-09-09 16:30 IST</span></li></ul></details></article><article class="story"><h3>Qwen 3.8&#x27;s reasoning shifts oddly toward GPT-5.5 Pro&#x27;s answers — a distillation clue</h3><p>An independent test fed several open models the first ~1% of GPT-5.5 Pro&#x27;s reasoning trace before their own answer, to see whose answers moved closest to GPT-5.5 Pro&#x27;s. Across 45 problems, Qwen 3.8 moved far more than the others: +18.2 percentage points of answer overlap with the prefilled trace, rising to +27.0pp on STEM problems alone, while DeepSeek, Kimi, and a model called Inkling barely shifted. The author reads the size of that gap as a hint that Qwen 3.8 may have trained on outputs from GPT-5.5 Pro or a closely related OpenAI model — a provenance signal about training data, not a capability score.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">gist.github.com</span><a class="src-title" href="https://gist.github.com/wsxiaoys/e0286dc6bb624ff5fdf49e7f4c528ba3">Qwen 3.8 follows GPT-5.5 Pro reasoning prefills</a><span class="ts">2026-09-09 22:54 IST</span></li></ul></details></article><div class="eyebrow">Also today</div><div class="beats"><div class="beat"><div class="beat-name">Inference &amp; serving</div><ul class="beat-items"><li class="beat-item"><a href="https://github.com/ollama/ollama/releases/tag/v0.34.0-rc4">v0.34.0-rc4</a><span class="sid">github.com</span></li><li class="beat-item"><a href="https://github.com/NVIDIA/TensorRT-LLM/releases/tag/v1.3.0rc26">v1.3.0rc26</a><span class="sid">github.com</span></li><li class="beat-item"><a href="https://github.com/huggingface/trl/releases/tag/v1.13.0">v1.13.0</a><span class="sid">github.com</span></li><li class="beat-item"><a href="https://github.com/huggingface/transformers/releases/tag/v5.17.0">Release 5.17.0</a><span class="sid">github.com</span></li><li class="beat-item"><a href="https://github.com/unslothai/unsloth/releases/tag/v0.1.808-beta">Large Performance Gains + Fixes</a><span class="sid">github.com</span></li><li class="beat-item"><a href="https://github.com/ggml-org/llama.cpp/releases/tag/b10889">b10889</a><span class="sid">github.com</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.07108v1">Online Draft Co-Training for Speculative Decoding in Large-Scale, Long-Context RL Post-Training</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.07276v1">Matryoshka Hash Representations for Model-Aware Compact Semantic Retrieval</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.07664v2">Accuracy is Not Enough: A Divergence-Based Approach to Evaluate Fidelity Loss in Quantized LLMs</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.07966v1">MetaKV: Adaptive KV Cache Compression for Constrained LLM Inference</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.08084v1">Marigold V2: Revisiting Diffusion Transformers for Monocular Depth Estimation</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.08135v1">KBBQ: A Predictive Noise Law and the Limits of Spectrum Flattening in FP4 Quantization</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.08307v1">A Measurement Study of LLM Inference Trade-offs Across Edge Continuum Hardware</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.08759v1">A Note on Scaling in Randomly Rotated Quantization and Its Connection to the CDEF +1 Pythagorean Relation</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.09254v1">DiffLUT-Net: Differentiable Training of FPGA LUT Networks with Learnable Connectivity</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.09662v1">PELM: Power Efficient On-Device LLM Inference with Speculative Decoding and Dynamic Voltage Frequency Scaling</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.09721v1">EFQ-Softmax: Exp-Free Quantization for Softmax</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.09768v1">Fine-Tuning a KV Cache Concatenation-Aware Model or Recomputing KV Caches? Why Not Both?</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.09793v1">How Fragile Is Safety Alignment at Frontier Scale? A Single-Direction Attack on a 320B MoE</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.09854v1">When Does Low-Bit Quantization Preserve the Decisions of Vector Search?</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.09883v1">Forward-Free LLM Depth Pruning via Weight Redundancy</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.10112v1">Storage-Scalable Progressive Semantic Communication via Knowledge-Base Reuse</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.10264v1">Maverick: Private and Verifiable LLM Inference Made Practical via Matrix-Vector Multiplication Delegation</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.10439v1">Forgetting Only What Matters: Layer-Selective Unlearning toward Robust LLMs</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.10479v1">Deep Learning-Based Detection of Electrical Faults and Power Quality Disturbances in Aerospace Power Systems</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.10790v1">Composable CXL Memory as a Kubernetes-Native Shared Memory for LLM Serving</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.10976v1">Phases in a class of associative memories via hidden neurons</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.11133v1">Phase-Decoupled, Model-Calibrated Power Control for Disaggregated LLM Serving</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.11209v1">REVA: Reusable Evidence View Aggregation for Context-Efficient RAG Serving</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.11642v1">ZipCodec: Ultra-Low-Frame-Rate Streaming Speech Coding</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.11716v1">Why Does Post-Training Quantization Work?</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://arxiv.org/abs/2609.11744v1">Building py-kvcache: A Performance Characterization of External KV Caching for vLLM with NVMe SSDs</a><span class="sid">arxiv.org</span></li><li class="beat-item"><a href="https://huggingface.co/blog/ibm-research/ibm-releases-sota-granite-time-series">IBM releases SOTA Granite Time Series PatchTST-FM-r2 model with commercial-friendly license</a><span class="sid">huggingface.co</span></li><li class="beat-item"><a href="https://huggingface.co/blog/gradio-workflow-1111">Rebuilding AUTOMATIC1111 with Gradio Workflow</a><span class="sid">huggingface.co</span></li><li class="beat-item"><a href="https://simonwillison.net/2026/Sep/9/blender-viewer">.blend URL Viewer</a><span class="sid">simonwillison.net</span></li><li class="beat-item"><a href="https://simonwillison.net/2026/Sep/10/calif-research">Quoting Calif Research</a><span class="sid">simonwillison.net</span></li><li class="beat-item"><a href="https://simonwillison.net/2026/Sep/10/shopify-react-native">Native is now the future of mobile at Shopify</a><span class="sid">simonwillison.net</span></li><li class="beat-item"><a href="https://simonwillison.net/2026/Sep/10/trynix">Any Nix package, live in your browser</a><span class="sid">simonwillison.net</span></li><li class="beat-item"><a href="https://simonwillison.net/2026/Sep/11/datasette-security">Datasette 1.0a39 and 0.65.4 security releases</a><span class="sid">simonwillison.net</span></li></ul></div><div class="beat"><div class="beat-name">Frontier releases</div><ul class="beat-items"><li class="beat-item"><a href="https://openai.com/index/paul-christiano-joins-openai-foundation-board">Paul Christiano joins OpenAI Foundation Board</a><span class="sid">openai.com</span></li></ul></div></div></section><nav class="daynav"><a href="2026-09-09.html">&larr; 2026-09-09</a><a class="backlink" href="../index.html">all days</a><span></span></nav><footer class="foot">AI SIGNAL &mdash; a daily curated brief on AI models, infrastructure, and research &middot; curated by <a href="https://ylnhari.github.io">Hari Yelesetty</a><div class="foot-links"><a href="https://ylnhari.github.io">Portfolio</a> &middot; <a href="https://github.com/ylnhari">GitHub</a> &middot; <a href="https://www.linkedin.com/in/ylnhari">LinkedIn</a> &middot; <a href="https://ylnhari.github.io/blog">Blog</a> &middot; <a href="../bench.html">Model Bench</a></div></footer></main></div>
+
+</body>
+</html>
