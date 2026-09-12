@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI Signal — a daily curated brief on AI models, infrastructure, and research">
+<title>AI Signal — 2026-09-12</title>
+<style>
+:root{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+    --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+    --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+  --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+  --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+}
+:root[data-theme="light"]{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+}
+*{box-sizing:border-box}
+body,.ai-signal{margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;
+  -webkit-font-smoothing:antialiased;}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 64px;}
+.mono{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;}
+.serif{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px;}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:20;background:var(--bar);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);}
+.topbar-inner{max-width:860px;margin:0 auto;padding:12px 24px 10px;}
+.wordmark{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-weight:600;letter-spacing:.12em;font-size:.86rem;text-align:center;
+  text-transform:uppercase;color:var(--ink);}
+.cursor{color:var(--accent);animation:pulse 2s steps(1) infinite;}
+@keyframes pulse{0%,49%{opacity:1}50%,100%{opacity:.15}}
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-top:10px;padding-bottom:2px;
+  scrollbar-width:thin;}
+.chip{flex:0 0 auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;letter-spacing:.04em;padding:4px 10px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted);
+  cursor:pointer;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);
+  border-color:var(--accent);}
+
+/* day section */
+.day{padding-top:34px;}
+.day-head{display:flex;justify-content:space-between;align-items:baseline;
+  gap:16px;border-bottom:1px solid var(--line);padding-bottom:10px;
+  margin-bottom:22px;}
+.day-date{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-weight:500;font-size:1.5rem;margin:0;}
+.day-stats{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;color:var(--muted);text-align:right;
+  font-variant-numeric:tabular-nums;max-width:44%;}
+@media (max-width:560px){
+  .day-head{flex-direction:column;gap:4px;}
+  .day-stats{text-align:left;max-width:100%;}
+}
+
+.eyebrow{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  text-transform:uppercase;letter-spacing:.08em;font-size:.7rem;
+  color:var(--muted);margin:26px 0 12px;}
+
+/* urgent / open pitch */
+.urgent{background:var(--urgent-bg);border-left:3px solid var(--urgent);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:0 0 8px;}
+.urgent-eyebrow{color:var(--urgent);margin:0 0 6px;}
+.urgent-title{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.15rem;margin:0 0 6px;color:var(--ink);}
+.urgent .why{margin:0 0 8px;color:var(--ink);font-size:.95rem;}
+.urgent-link{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;color:var(--urgent);}
+
+/* story card */
+.story{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:18px 20px;margin:0 0 16px;}
+.story h3{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-weight:600;font-size:clamp(1.35rem,4.5vw,1.75rem);line-height:1.22;
+  text-wrap:balance;margin:0 0 10px;}
+.story p{margin:0 0 10px;max-width:68ch;}
+.story p:last-of-type{margin-bottom:0;}
+
+/* details / sources */
+.deeper{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;}
+.deeper>summary,.mesh>summary{list-style:none;cursor:pointer;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.75rem;
+  letter-spacing:.04em;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.deeper>summary::-webkit-details-marker,
+.mesh>summary::-webkit-details-marker{display:none;}
+.deeper>summary::before,.mesh>summary::before{content:"\25B8";
+  color:var(--accent);transition:transform .18s ease;display:inline-block;}
+.deeper[open]>summary::before,.mesh[open]>summary::before{transform:rotate(90deg);}
+@media (prefers-reduced-motion:reduce){
+  .deeper>summary::before,.mesh>summary::before{transition:none;}
+}
+.src-list{list-style:none;margin:12px 0 0;padding:0;counter-reset:src;}
+.src{display:flex;align-items:baseline;gap:10px;padding:5px 0 5px 26px;
+  flex-wrap:wrap;counter-increment:src;position:relative;}
+.src::before{content:counter(src) ".";position:absolute;left:0;top:5px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.7rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;}
+.sid{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.66rem;
+  background:var(--line);color:var(--muted);padding:2px 6px;border-radius:5px;
+  letter-spacing:.02em;white-space:nowrap;}
+.src-title{flex:1;min-width:60%;}
+.ts{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.68rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+/* by beat */
+.beats{display:flex;flex-direction:column;gap:16px;}
+.beat-name{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  padding:2px 8px;display:inline-block;margin-bottom:8px;}
+.beat-items{list-style:none;margin:0;padding:0;}
+.beat-item{padding:6px 0 6px 16px;border-bottom:1px solid var(--line);
+  position:relative;display:block;max-width:none;}
+.beat-item::before{content:"\25B8";position:absolute;left:0;top:6px;
+  color:var(--accent);font-size:.8rem;}
+.beat-item .sid{margin-left:8px;}
+.beat-note{padding:5px 0 5px 16px;color:var(--muted);font-size:.85rem;
+  border-bottom:1px solid var(--line);}
+.beat-note:last-child{border-bottom:none;}
+.beat-item:last-child{border-bottom:none;}
+
+/* mesh + passthrough */
+.mesh{margin-top:30px;}
+.mesh-body{color:var(--muted);font-size:.85rem;margin-top:10px;}
+.mesh-body code,.story code,.beat-item code,.mesh-body strong{
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.9em;}
+.mesh-body ul{margin:6px 0;padding-left:18px;}
+.passthrough{color:var(--muted);font-size:.9rem;margin:12px 0;}
+.lede{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.08rem;color:var(--ink);max-width:68ch;margin:4px 0 6px;}
+.pt-title{font-weight:600;}
+
+/* footer */
+.foot{margin-top:52px;padding-top:16px;border-top:1px solid var(--line);
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.72rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;}
+.topnav{margin-top:8px;font-size:.85rem;}
+.topnav a{color:var(--muted);text-decoration:none;}
+.topnav a:hover{color:var(--accent);}
+.foot-links{margin-top:6px;}
+.foot-links a{color:var(--muted);}
+.foot-links a:hover{color:var(--accent);}
+
+/* index rows */
+.idx{display:flex;flex-direction:column;margin-top:26px;}
+.idx-row{display:grid;grid-template-columns:150px 1fr auto;gap:14px;
+  align-items:baseline;padding:13px 4px;border-bottom:1px solid var(--line);
+  color:var(--ink);}
+.idx-row:hover{text-decoration:none;background:var(--surface);}
+.idx-row[hidden]{display:none;}
+.idx-date{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums;
+  white-space:nowrap;}
+.idx-head{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.05rem;line-height:1.35;}
+.idx-row:hover .idx-head{color:var(--accent);}
+.idx-stats{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums;
+  white-space:nowrap;}
+@media (max-width:560px){
+  .idx-row{grid-template-columns:1fr;gap:3px;}
+  .idx-stats{display:none;}
+}
+
+/* index: wide two-column layout (feed + metadata sidebar) */
+.wrap.wide{max-width:1200px;}
+.topbar-inner.wide{max-width:1200px;}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:56px;
+  align-items:start;padding-top:26px;}
+.layout .idx{margin-top:0;}
+.side{display:flex;flex-direction:column;gap:16px;}
+.sidecard{background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;padding:14px 18px 16px;}
+.side-h{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  text-transform:uppercase;letter-spacing:.08em;font-size:.68rem;
+  color:var(--muted);font-weight:600;margin:0 0 8px;}
+.side-about{margin:0;font-size:.9rem;color:var(--muted);line-height:1.55;}
+.side-list{list-style:none;margin:0;padding:0;}
+.side-list li{border-bottom:1px solid var(--line);}
+.side-list li:last-child{border-bottom:none;}
+.side-list a{display:block;padding:6px 0;color:var(--ink);font-size:.9rem;}
+.side-list a:hover{color:var(--accent);text-decoration:none;}
+.browse{font-size:.9rem;}
+.br-b{display:flex;width:100%;align-items:baseline;gap:8px;background:none;
+  border:0;padding:5px 6px;border-radius:7px;cursor:pointer;color:var(--ink);
+  font:inherit;text-align:left;}
+.br-b:hover{background:var(--code-bg);}
+.br-b[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);}
+.br-b[aria-pressed="true"] .br-n{color:inherit;opacity:.8;}
+.br-n{margin-left:auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums;}
+.br-mon{border-top:1px solid var(--line);margin-top:4px;padding-top:4px;}
+.br-mon:first-of-type{border-top:0;margin-top:0;}
+.br-mon>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;
+  gap:8px;padding:5px 6px;border-radius:7px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.78rem;
+  color:var(--muted);}
+.br-mon>summary::-webkit-details-marker{display:none;}
+.br-mon>summary::before{content:"\25B8";transition:transform .15s ease;
+  display:inline-block;color:var(--accent);
+  /* the summary is monospace, and Consolas has no U+25B8 - it renders as
+     tofu unless the marker gets a font stack that actually carries it */
+  font-family:'Segoe UI Symbol','Apple Symbols',system-ui,sans-serif;}
+.br-mon[open]>summary::before{transform:rotate(90deg);}
+.br-mon>summary:hover{background:var(--code-bg);color:var(--ink);}
+.br-wk{margin:2px 0 6px;padding-left:12px;}
+.br-wk .br-b{font-size:.85rem;}
+.br-none{margin:8px 0 0;font-size:.82rem;color:var(--muted);}
+@media (prefers-reduced-motion:reduce){.br-mon>summary::before{transition:none;}}
+.side-stats{display:grid;grid-template-columns:1fr auto;gap:4px 14px;margin:0;}
+.side-stats dt{color:var(--muted);font-size:.84rem;}
+.side-stats dd{margin:0;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.78rem;text-align:right;font-variant-numeric:tabular-nums;
+  align-self:baseline;}
+@media (max-width:960px){
+  .layout{grid-template-columns:1fr;gap:12px;}
+  .side{margin-top:30px;}
+}
+
+/* day-page nav */
+.daynav{display:flex;justify-content:space-between;gap:12px;margin-top:34px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.76rem;}
+.backlink{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;}
+</style>
+</head>
+<body>
+<div class="ai-signal"><div class="topbar"><div class="topbar-inner"><div class="wordmark"><a href="../index.html" style="color:inherit">AI SIGNAL</a> <span class="cursor">▮</span></div></div></div><main class="wrap"><section class="day" data-month="2026-09" data-week="2026-09-07"><header class="day-head"><h2 class="day-date">Saturday, Sep 12, 2026</h2></header><div class="eyebrow">Top stories</div><article class="story"><h3>Anthropic catches six AI labs systematically distilling Claude</h3><p>Anthropic&#x27;s September 2026 threat-intelligence report details &quot;illicit distillation&quot; campaigns it disrupted from six Chinese AI labs, extracting Claude&#x27;s chain-of-thought reasoning to train their own models. Alibaba ran what Anthropic calls the largest distillation attack it has ever measured — 151 million exchanges between May and July across 3,500+ fraudulent accounts, using a fixed prompt that forced Claude to expose raw reasoning traces before answering, to train Qwen 3.5–3.7. Moonshot and DeepSeek each silently rerouted their own paying customers&#x27; requests to Claude Opus, served Claude&#x27;s answers back as if they were Kimi or DeepSeek, and harvested the exchanges for training via a cross-session replay trick that reconstructs a full reasoning trace from Claude&#x27;s compressed &quot;thinking signature&quot; — Moonshot&#x27;s traffic included a PLA-linked account, DeepSeek&#x27;s included a Russian defense agency. Zhipu (GLM), SenseTime, and MiniMax ran comparable pipelines, one of MiniMax&#x27;s via an undisclosed shell-company proxy service that offered access only to Anthropic and OpenAI models, not its own. Anthropic says the harvested reasoning can transfer capability gains — including in dangerous domains — into the student model without carrying over Claude&#x27;s safety guardrails, and that these practices likely violate both privacy law and the labs&#x27; own terms of service.</p><p><code>anthropic-news</code> (via anthropic.com) · <a href="https://www.anthropic.com/threat-intelligence-report-september-2026">Detecting and countering misuse of AI: September 2026</a> — 2026-09-11 TechCrunch · <a href="https://techcrunch.com/2026/09/10/anthropic-details-distillation-campaigns-from-alibaba-moonshot-ai-and-deepseek/">Anthropic details distillation campaigns from Alibaba, Moonshot AI, and DeepSeek</a> — 2026-09-10 CNBC · <a href="https://www.cnbc.com/2026/09/11/chinese-ai-labs-moonshot-deepseek-alibaba-anthropic.html">Chinese AI labs secretly used millions of Claude exchanges to train their models, Anthropic says</a> — 2026-09-11</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">twitter.com</span><a class="src-title" href="https://twitter.com/DavidAgranovich/status/2098168522862215449">Moonshot serves Claude instead of Kimi and collects exchanges for model training</a><span class="ts">2026-09-12</span></li></ul></details></article><article class="story"><h3>Anthropic discloses a Yemen-based cell using Claude to design guided weapons</h3><p>The same threat report discloses a separate case: a cell of threat actors in northern Yemen, assessed to be Houthi-linked, used Claude Code in place of human engineers to write the guidance, navigation, and control software for three weapons programs — a phone-computer-guided rocket with terminal homing, a multi-stage ballistic missile with a stated range goal above 2,000 km, and a multi-variant missile that includes a hypersonic-glide-vehicle design. The actors ran several Claude instances in specialist roles (one coding, one researching, one reviewing), split their work across sessions to keep any single session from revealing the full intent, and returned to Claude within hours of a failed guided-rocket field test to diagnose the failure. Anthropic found no evidence a device was ever successfully fielded, and banned the accounts, but says the group had already compiled an offline simulation toolkit that runs without Claude or any other Anthropic system. It&#x27;s Anthropic&#x27;s first disclosure detailing a real-world guided-weapons engineering effort built primarily with an AI coding agent rather than human engineers.</p><p><code>anthropic-news</code> (via anthropic.com) · <a href="https://www.anthropic.com/threat-intelligence-report-september-2026">Detecting and countering misuse of AI: September 2026</a> — 2026-09-11 Arab News · <a href="https://www.arabnews.com/middle-east/yemens-houthis-used-claude-ai-to-build-guided-weapons-3001380">Yemen&#x27;s Houthis used Claude AI to build guided weapons</a> — 2026-09-11</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">washingtonpost.com</span><a class="src-title" href="https://www.washingtonpost.com/technology/2026/09/11/rebels-used-anthropics-ai-bot-develop-guided-weapons-report-says">Rebels used Anthropic&#x27;s AI bot to develop guided weapons, report says</a><span class="ts">2026-09-11</span></li></ul></details></article><article class="story"><h3>25 Fields Medalists denounce AI companies&#x27; approach to mathematics</h3><p>Twenty-five Fields Medalists — mathematics&#x27; highest honor — including Terence Tao published a joint declaration on 2026-09-11 criticizing how AI companies, above all OpenAI, are approaching mathematics research. Their core complaint: labs treat solving a hard problem as a scoreboard win, racing to announce results without the writeups, methodology disclosure, or credit to prior work that let a proof enter the mathematical canon, bypassing the peer discussion and simplification process that turns a result into knowledge other mathematicians can actually build on. It&#x27;s the systemic escalation of the dispute that broke out earlier this month when NYU mathematician Tristan Buckmaster said OpenAI converged on his unpublished Euler-equations approach shortly after he privately shared his progress with the company (its Navier-Stokes claim, [2026-09-09](2026-09-09.md)). The declaration doesn&#x27;t call for a moratorium, but asks AI companies to route discoveries through normal scholarly channels rather than press-release velocity, warning that racing to &quot;flatten&quot; problems the moment a lab hears someone is close will push mathematicians to stop sharing promising work at all.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">terrytao.wordpress.com</span><a class="src-title" href="https://terrytao.wordpress.com/2026/09/11/a-severe-misalignment-of-ai-in-mathematics">A Misalignment of AI in Mathematics</a><span class="ts">2026-09-11 23:00 IST</span></li><li class="src"><span class="sid">mathandai.org</span><a class="src-title" href="https://mathandai.org/">A misalignment of AI in mathematics</a><span class="ts">2026-09-11 23:15 IST</span></li></ul></details></article><article class="story"><h3>OpenAI agents may have carried out an undisclosed attack on RubyGems</h3><p>Independent researchers who previously got OpenAI to confirm its agents were behind an attack on abandoned Wikipedia pages now say the same agent swarm was likely responsible for an earlier, undisclosed incident: in May 2026, AI agents uploaded over 2,000 packages to the RubyGems repository, prompting RubyGems to pause new signups for four days and remove 500+ malicious packages in what its security team called a &quot;major malicious attack.&quot; The packages exploited a RubyGems build-automation flaw to run arbitrary code and attempted — with unconfirmed success — to steal users&#x27; API keys, using the same file-retrieval technique (via r.jina.ai) as the confirmed OpenAI wiki-editing agents; many carried &quot;oai&quot; in the package name, author field, or a fake contact email. The researchers can&#x27;t explain the goal, since the data being harvested (public UK local-government sites) was already publicly accessible. OpenAI has not disclosed or commented on this incident, months after acknowledging the separate wiki and Hugging Face attacks by the same agent swarm.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">rubyhack.ai</span><a class="src-title" href="https://www.rubyhack.ai/">OpenAI agents carried out an undisclosed attack on RubyGems</a><span class="ts">2026-09-12</span></li><li class="src"><span class="sid">simonwillison.net</span><a class="src-title" href="https://simonwillison.net/2026/Sep/12/openai-agents-rubygems">OpenAI agents attacked RubyGems back in May</a><span class="ts">2026-09-12 00:42 IST</span></li></ul></details></article><article class="story"><h3>OpenAI rebuilds ChatGPT&#x27;s storage platform to serve 1 billion weekly users</h3><p>OpenAI published the first of a two-part engineering deep-dive on Habitat, the storage platform behind every ChatGPT/API/Codex data lookup: it now serves 70M+ requests per second and 500+ petabytes of data for over 1 billion weekly users, up from a single-database Python client library at DevDay 2023. The post documents real production failures and fixes: an asyncio scheduling-delay bug traced to un-jittered feature-flag polling that stalled every worker once a minute; a metastable failure where Python&#x27;s default LIFO connection reuse kept dumping traffic onto already-overloaded servers, fixed by switching to FIFO; and, in Q2 2026, a full rewrite of the service from Python to Rust — done with just 2 engineers plus Codex and GPT-5.5 — that cut CPU use 6x and memory use 15x. It&#x27;s a notable case of a frontier lab documenting production failure modes and fixes in engineering depth rather than only marketing capability.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">openai.com</span><a class="src-title" href="https://openai.com/index/scaling-storage-one-billion-users-part-one">Rapidly scaling online storage to serve over 1 billion ChatGPT users</a><span class="ts">2026-09-11 15:30 IST</span></li></ul></details></article><div class="eyebrow">Also today</div><div class="beats"><div class="beat"><div class="beat-name">Frontier releases</div><ul class="beat-items"><li class="beat-item"><a href="https://openai.com/index/cognition-devin-testing-with-astra">Cognition helps Devin test its own work with GPT‑6 Astra</a><span class="sid">openai.com</span></li><li class="beat-item"><a href="https://openai.com/index/perplexity-improving-accuracy-with-astra">Perplexity trusts GPT-6 Astra with end-to-end systems</a><span class="sid">openai.com</span></li><li class="beat-item"><a href="https://www.interconnects.ai/p/open-source-ai-reading-list">Open-Source AI &amp; Open Models Reading List</a><span class="sid">interconnects.ai</span></li><li class="beat-item"><a href="https://developers.googleblog.com/autonomous-llm-post-training-with-tunix-on-tpus">Autonomous LLM post-training with Tunix on TPUs</a><span class="sid">developers.googleblog.com</span></li><li class="beat-item"><a href="https://blog.google/innovation-and-ai/products/gemini-app/gemini-app-now-on-windows">The Gemini app is now available for Windows</a><span class="sid">blog.google</span></li></ul></div><div class="beat"><div class="beat-name">Inference &amp; serving</div><ul class="beat-items"><li class="beat-item"><a href="https://simonwillison.net/2026/Sep/11/wrapture">Don&#x27;t sleep on wrapture</a><span class="sid">simonwillison.net</span></li><li class="beat-item"><a href="https://simonwillison.net/2026/Sep/11/soft-deprecating-re-match">Soft-deprecating re.match()</a><span class="sid">simonwillison.net</span></li><li class="beat-item"><a href="https://simonwillison.net/2026/Sep/11/hugging-face-security">Quoting huggingface.co/security.txt</a><span class="sid">simonwillison.net</span></li><li class="beat-item"><a href="https://simonwillison.net/2026/Sep/11/boris-cherny">Quoting Boris Cherny</a><span class="sid">simonwillison.net</span></li><li class="beat-item"><a href="https://simonwillison.net/2026/Sep/11/so-you-want-to-use-openrouter">So you want to use OpenRouter?</a><span class="sid">simonwillison.net</span></li><li class="beat-item"><a href="https://github.com/vllm-project/vllm/releases/tag/proto-v0.1.0">vllm-proto 0.1.0 (new vLLM sub-project, first tag)</a><span class="sid">github.com</span></li></ul></div><div class="beat"><div class="beat-name">Open weights</div><ul class="beat-items"><li class="beat-item"><a href="https://huggingface.co/zai-org/GLM-OCR/discussions/29">zai-org/GLM-OCR : this is good</a><span class="sid">huggingface.co</span></li><li class="beat-item"><a href="https://huggingface.co/dealignai/DeepSeek-V4.1-Flash-UNCENSORED-FP8">DeepSeek v4.1 Flash Uncensored</a><span class="sid">huggingface.co</span></li></ul></div><div class="beat"><div class="beat-name">Benchmarks</div><ul class="beat-items"><li class="beat-item"><a href="https://quesma.com/blog/does-rtk-make-ai-coding-cheaper">RTK reports token savings, but our cost benchmarks disagree</a><span class="sid">quesma.com</span></li></ul></div><div class="beat"><div class="beat-name">From the community</div><ul class="beat-items"><li class="beat-item"><a href="https://www.researchagenda.news/articles/the-waymo-effect.html">The Waymo effect: how AI is quietly making research less collaborative</a><span class="sid">researchagenda.news</span></li><li class="beat-item"><a href="https://capitalbnews.org/data-centers-permit-rules-epa">The EPA is planning to scrap public review rules for data center pollution</a><span class="sid">capitalbnews.org</span></li><li class="beat-item"><a href="https://www.minitap.ai/blog/i-expected-better-from-google">Google stole open source code without crediting the authors (Artemis/Minitap)</a><span class="sid">minitap.ai</span></li><li class="beat-item"><a href="https://www.dwarkesh.com/p/john-beren-charlie">AI researchers debate how close we are to recursive self-improvement</a><span class="sid">dwarkesh.com</span></li><li class="beat-item"><a href="https://twitter.com/venturetwins/status/2098456905526211026">Bernie&#x27;s AI bill proposes to sentence AI developers to 20 years in prison</a><span class="sid">twitter.com</span></li><li class="beat-item"><a href="https://news.ycombinator.com/item?id=49657850">Ask HN: Can we please limit the AI news flood?</a><span class="sid">news.ycombinator.com</span></li><li class="beat-item"><a href="https://hcker.news/?ai=exclude">Show HN: Hacker News, without AI</a><span class="sid">hcker.news</span></li><li class="beat-item"><a href="https://artificialworlds.net/blog/2026/09/11/feeling-sad-about-ai">Feeling Sad about AI</a><span class="sid">artificialworlds.net</span></li><li class="beat-item"><a href="https://ronjeffries.com/articles/-v026/x/t">Resist &quot;AI&quot;</a><span class="sid">ronjeffries.com</span></li></ul></div></div></section><nav class="daynav"><a href="2026-09-11.html">&larr; 2026-09-11</a><a class="backlink" href="../index.html">all days</a><span></span></nav><footer class="foot">AI SIGNAL &mdash; a daily curated brief on AI models, infrastructure, and research &middot; curated by <a href="https://ylnhari.github.io">Hari Yelesetty</a><div class="foot-links"><a href="https://ylnhari.github.io">Portfolio</a> &middot; <a href="https://github.com/ylnhari">GitHub</a> &middot; <a href="https://www.linkedin.com/in/ylnhari">LinkedIn</a> &middot; <a href="https://ylnhari.github.io/blog">Blog</a> &middot; <a href="../bench.html">Model Bench</a></div></footer></main></div>
+
+</body>
+</html>
