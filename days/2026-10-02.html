@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI Signal — a daily curated brief on AI models, infrastructure, and research">
+<title>AI Signal — 2026-10-02</title>
+<style>
+:root{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+    --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+    --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1210; --surface:#131B18; --ink:#D9E2DC; --muted:#8FA39A;
+  --line:#22302A; --accent:#3ECF9A; --accent-ink:#06120D;
+  --urgent:#F0A34B; --urgent-bg:#2A2016; --bar:rgba(12,18,16,.85);
+}
+:root[data-theme="light"]{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#16211C; --muted:#5A6B63;
+  --line:#DCE4E0; --accent:#0F7B5F; --accent-ink:#FFFFFF;
+  --urgent:#B25E09; --urgent-bg:#FBF1E4; --bar:rgba(244,246,248,.85);
+}
+*{box-sizing:border-box}
+body,.ai-signal{margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;
+  -webkit-font-smoothing:antialiased;}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 64px;}
+.mono{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;}
+.serif{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px;}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:20;background:var(--bar);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);}
+.topbar-inner{max-width:860px;margin:0 auto;padding:12px 24px 10px;}
+.wordmark{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-weight:600;letter-spacing:.12em;font-size:.86rem;text-align:center;
+  text-transform:uppercase;color:var(--ink);}
+.cursor{color:var(--accent);animation:pulse 2s steps(1) infinite;}
+@keyframes pulse{0%,49%{opacity:1}50%,100%{opacity:.15}}
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-top:10px;padding-bottom:2px;
+  scrollbar-width:thin;}
+.chip{flex:0 0 auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;letter-spacing:.04em;padding:4px 10px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted);
+  cursor:pointer;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);
+  border-color:var(--accent);}
+
+/* day section */
+.day{padding-top:34px;}
+.day-head{display:flex;justify-content:space-between;align-items:baseline;
+  gap:16px;border-bottom:1px solid var(--line);padding-bottom:10px;
+  margin-bottom:22px;}
+.day-date{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-weight:500;font-size:1.5rem;margin:0;}
+.day-stats{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;color:var(--muted);text-align:right;
+  font-variant-numeric:tabular-nums;max-width:44%;}
+@media (max-width:560px){
+  .day-head{flex-direction:column;gap:4px;}
+  .day-stats{text-align:left;max-width:100%;}
+}
+
+.eyebrow{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  text-transform:uppercase;letter-spacing:.08em;font-size:.7rem;
+  color:var(--muted);margin:26px 0 12px;}
+
+/* urgent / open pitch */
+.urgent{background:var(--urgent-bg);border-left:3px solid var(--urgent);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:0 0 8px;}
+.urgent-eyebrow{color:var(--urgent);margin:0 0 6px;}
+.urgent-title{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.15rem;margin:0 0 6px;color:var(--ink);}
+.urgent .why{margin:0 0 8px;color:var(--ink);font-size:.95rem;}
+.urgent-link{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;color:var(--urgent);}
+
+/* story card */
+.story{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:18px 20px;margin:0 0 16px;}
+.story h3{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-weight:600;font-size:clamp(1.35rem,4.5vw,1.75rem);line-height:1.22;
+  text-wrap:balance;margin:0 0 10px;}
+.story p{margin:0 0 10px;max-width:68ch;}
+.story p:last-of-type{margin-bottom:0;}
+
+/* details / sources */
+.deeper{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;}
+.deeper>summary,.mesh>summary{list-style:none;cursor:pointer;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.75rem;
+  letter-spacing:.04em;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.deeper>summary::-webkit-details-marker,
+.mesh>summary::-webkit-details-marker{display:none;}
+.deeper>summary::before,.mesh>summary::before{content:"\25B8";
+  color:var(--accent);transition:transform .18s ease;display:inline-block;}
+.deeper[open]>summary::before,.mesh[open]>summary::before{transform:rotate(90deg);}
+@media (prefers-reduced-motion:reduce){
+  .deeper>summary::before,.mesh>summary::before{transition:none;}
+}
+.src-list{list-style:none;margin:12px 0 0;padding:0;counter-reset:src;}
+.src{display:flex;align-items:baseline;gap:10px;padding:5px 0 5px 26px;
+  flex-wrap:wrap;counter-increment:src;position:relative;}
+.src::before{content:counter(src) ".";position:absolute;left:0;top:5px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.7rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;}
+.sid{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.66rem;
+  background:var(--line);color:var(--muted);padding:2px 6px;border-radius:5px;
+  letter-spacing:.02em;white-space:nowrap;}
+.src-title{flex:1;min-width:60%;}
+.ts{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.68rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+/* by beat */
+.beats{display:flex;flex-direction:column;gap:16px;}
+.beat-name{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  padding:2px 8px;display:inline-block;margin-bottom:8px;}
+.beat-items{list-style:none;margin:0;padding:0;}
+.beat-item{padding:6px 0 6px 16px;border-bottom:1px solid var(--line);
+  position:relative;display:block;max-width:none;}
+.beat-item::before{content:"\25B8";position:absolute;left:0;top:6px;
+  color:var(--accent);font-size:.8rem;}
+.beat-item .sid{margin-left:8px;}
+.beat-note{padding:5px 0 5px 16px;color:var(--muted);font-size:.85rem;
+  border-bottom:1px solid var(--line);}
+.beat-note:last-child{border-bottom:none;}
+.beat-item:last-child{border-bottom:none;}
+
+/* mesh + passthrough */
+.mesh{margin-top:30px;}
+.mesh-body{color:var(--muted);font-size:.85rem;margin-top:10px;}
+.mesh-body code,.story code,.beat-item code,.mesh-body strong{
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.9em;}
+.mesh-body ul{margin:6px 0;padding-left:18px;}
+.passthrough{color:var(--muted);font-size:.9rem;margin:12px 0;}
+.lede{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.08rem;color:var(--ink);max-width:68ch;margin:4px 0 6px;}
+.pt-title{font-weight:600;}
+
+/* footer */
+.foot{margin-top:52px;padding-top:16px;border-top:1px solid var(--line);
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.72rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;}
+.topnav{margin-top:8px;font-size:.85rem;}
+.topnav a{color:var(--muted);text-decoration:none;}
+.topnav a:hover{color:var(--accent);}
+.foot-links{margin-top:6px;}
+.foot-links a{color:var(--muted);}
+.foot-links a:hover{color:var(--accent);}
+
+/* index rows */
+.idx{display:flex;flex-direction:column;margin-top:26px;}
+.idx-row{display:grid;grid-template-columns:150px 1fr auto;gap:14px;
+  align-items:baseline;padding:13px 4px;border-bottom:1px solid var(--line);
+  color:var(--ink);}
+.idx-row:hover{text-decoration:none;background:var(--surface);}
+.idx-row[hidden]{display:none;}
+.idx-tools{margin:20px 0 0;}
+.idx-search{width:100%;padding:9px 11px;border:1px solid var(--line);
+  border-radius:7px;background:var(--surface);color:var(--ink);font:inherit;}
+.idx-count{margin:5px 0 0;color:var(--muted);font-size:.78rem;}
+.idx-date{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums;
+  white-space:nowrap;}
+.idx-head{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  font-size:1.05rem;line-height:1.35;}
+.idx-row:hover .idx-head{color:var(--accent);}
+.idx-stats{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums;
+  white-space:nowrap;}
+@media (max-width:560px){
+  .idx-row{grid-template-columns:1fr;gap:3px;}
+  .idx-stats{display:none;}
+}
+
+/* index: wide two-column layout (feed + metadata sidebar) */
+.wrap.wide{max-width:1200px;}
+.topbar-inner.wide{max-width:1200px;}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:56px;
+  align-items:start;padding-top:26px;}
+.layout .idx{margin-top:0;}
+.side{display:flex;flex-direction:column;gap:16px;}
+.sidecard{background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;padding:14px 18px 16px;}
+.side-h{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  text-transform:uppercase;letter-spacing:.08em;font-size:.68rem;
+  color:var(--muted);font-weight:600;margin:0 0 8px;}
+.side-about{margin:0;font-size:.9rem;color:var(--muted);line-height:1.55;}
+.side-list{list-style:none;margin:0;padding:0;}
+.side-list li{border-bottom:1px solid var(--line);}
+.side-list li:last-child{border-bottom:none;}
+.side-list a{display:block;padding:6px 0;color:var(--ink);font-size:.9rem;}
+.side-list a:hover{color:var(--accent);text-decoration:none;}
+.browse{font-size:.9rem;}
+.br-b{display:flex;width:100%;align-items:baseline;gap:8px;background:none;
+  border:0;padding:5px 6px;border-radius:7px;cursor:pointer;color:var(--ink);
+  font:inherit;text-align:left;}
+.br-b:hover{background:var(--code-bg);}
+.br-b[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);}
+.br-b[aria-pressed="true"] .br-n{color:inherit;opacity:.8;}
+.br-n{margin-left:auto;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums;}
+.br-mon{border-top:1px solid var(--line);margin-top:4px;padding-top:4px;}
+.br-mon:first-of-type{border-top:0;margin-top:0;}
+.br-mon>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;
+  gap:8px;padding:5px 6px;border-radius:7px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.78rem;
+  color:var(--muted);}
+.br-mon>summary::-webkit-details-marker{display:none;}
+.br-mon>summary::before{content:"\25B8";transition:transform .15s ease;
+  display:inline-block;color:var(--accent);
+  /* the summary is monospace, and Consolas has no U+25B8 - it renders as
+     tofu unless the marker gets a font stack that actually carries it */
+  font-family:'Segoe UI Symbol','Apple Symbols',system-ui,sans-serif;}
+.br-mon[open]>summary::before{transform:rotate(90deg);}
+.br-mon>summary:hover{background:var(--code-bg);color:var(--ink);}
+.br-wk{margin:2px 0 6px;padding-left:12px;}
+.br-wk .br-b{font-size:.85rem;}
+.br-none{margin:8px 0 0;font-size:.82rem;color:var(--muted);}
+@media (prefers-reduced-motion:reduce){.br-mon>summary::before{transition:none;}}
+.side-stats{display:grid;grid-template-columns:1fr auto;gap:4px 14px;margin:0;}
+.side-stats dt{color:var(--muted);font-size:.84rem;}
+.side-stats dd{margin:0;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.78rem;text-align:right;font-variant-numeric:tabular-nums;
+  align-self:baseline;}
+@media (max-width:960px){
+  .layout{grid-template-columns:1fr;gap:12px;}
+  .side{margin-top:30px;}
+}
+
+/* day-page nav */
+.daynav{display:flex;justify-content:space-between;gap:12px;margin-top:34px;
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.76rem;}
+.backlink{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.74rem;}
+</style>
+</head>
+<body>
+<div class="ai-signal"><div class="topbar"><div class="topbar-inner"><div class="wordmark"><a href="../index.html" style="color:inherit">AI SIGNAL</a> <span class="cursor">▮</span></div></div></div><main class="wrap"><section class="day" data-month="2026-10" data-week="2026-09-28"><header class="day-head"><h2 class="day-date">Friday, Oct 2, 2026</h2></header><div class="eyebrow">Top stories</div><article class="story"><h3>GPT-6 Astra Ultrafast: up to 8x faster output, running on NVIDIA Blackwell</h3><p>OpenAI has made GPT-6 Astra Ultrafast available in its API and to eligible ChatGPT Work and Codex users. NVIDIA says it generates tokens up to 8x faster than Astra&#x27;s standard mode, aimed at agentic coding and tool-use loops where latency compounds. The speed figure comes from NVIDIA&#x27;s own write-up; pricing was not stated there and is not confirmed.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">blogs.nvidia.com</span><a class="src-title" href="https://blogs.nvidia.com/blog/gpus-openai-gpt-6-astra-ultrafast">How NVIDIA GPUs Help Accelerate OpenAI’s GPT-6 Astra Ultrafast</a><span class="ts">2026-10-02 05:14 IST</span></li></ul></details></article><article class="story"><h3>Cloudflare releases Clef, open decision models built on Qwen</h3><p>Cloudflare published Clef and Clef-flash under Apache 2.0, small models that output typed classifications with probabilities so agents can route or decide rather than generate text. Clef is based on Qwen 3.8-27B and Clef-flash on Qwen 3.5-9B; Cloudflare reports median latency of about 209 ms and 39 ms, a 64K context and image input. They run on Workers AI and are on Hugging Face. Ollama&#x27;s v0.35.1 release candidates already add Clef support. Cloudflare also announced a reinforcement-learning fine-tuning service, hands-on for now with self-serve planned.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">blog.cloudflare.com</span><a class="src-title" href="https://blog.cloudflare.com/clef-decision-models">Clef: Open-weight decision models, and new RL fine-tuning platform</a><span class="ts">2026-10-01 IST</span></li><li class="src"><span class="sid">github.com</span><a class="src-title" href="https://github.com/ollama/ollama/releases/tag/v0.35.1-rc1">v0.35.1-rc1</a><span class="ts">2026-10-02 04:22 IST</span></li><li class="src"><span class="sid">github.com</span><a class="src-title" href="https://github.com/ollama/ollama/releases/tag/v0.35.1-rc2">v0.35.1</a><span class="ts">2026-10-02 08:53 IST</span></li></ul></details></article><article class="story"><h3>Black Forest Labs ships FLUX 3 Image with box-based layout control</h3><p>FLUX 3 Image lets users place each element on a canvas with bounding boxes, renders natively at 2K and 4K (up to 5456×3072), edits several elements at once while leaving the rest untouched, and accepts up to 10 reference images. It is available through a web playground and the BFL API, with weights listed on Hugging Face and GitHub under mixed commercial and non-commercial terms. Pricing and a release date were not on the page.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">bfl.ai</span><a class="src-title" href="https://bfl.ai/models/flux-3-image">FLUX 3 Image</a><span class="ts">2026-10-02 IST</span></li></ul></details></article><article class="story"><h3>SGLang v0.5.21 adds support for a wave of new models</h3><p>SGLang&#x27;s release bundles 779 pull requests from 227 contributors and lists support for DeepSeek-V4.1 Flash, GigaChat 3.5, MiMo-V2.6, Ling-3.0-flash-VL, Qwen-Image 2.1, FLUX 3 and several diffusion models. For anyone self-hosting, it is the serving-stack answer to this week&#x27;s open-model releases.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">github.com</span><a class="src-title" href="https://github.com/sgl-project/sglang/releases/tag/v0.5.21">v0.5.21</a><span class="ts">2026-10-02 06:39 IST</span></li></ul></details></article><article class="story"><h3>arXiv caps authors at two submissions a month</h3><p>Effective October 1, arXiv limits every author to two submissions per calendar month and three active submissions at once. Its stated reason is a small share of authors submitting many low-quality, AI-assisted papers and swamping volunteer moderators; monthly submissions have grown from about 9,900 in 2016 to about 40,400 in September 2026. The policy is described as temporary while better moderation is built.</p><details class="deeper"><summary>Sources &amp; depth</summary><ul class="src-list"><li class="src"><span class="sid">blog.arxiv.org</span><a class="src-title" href="https://blog.arxiv.org/2026/10/01/updated-rate-limit-policy">ArXiv&#x27;s Updated Rate Limit Policy</a><span class="ts">2026-10-01 IST</span></li></ul></details></article><div class="eyebrow">Also today</div><div class="beats"><div class="beat"><div class="beat-name">Inference &amp; serving</div><ul class="beat-items"><li class="beat-item"><a href="https://huggingface.co/blog/allenai/olmocore3">Introducing Olmo-core 3: Open, scalable training infrastructure for large MoEs</a><span class="sid">huggingface.co</span></li><li class="beat-item"><a href="https://github.com/vllm-project/vllm/releases/tag/v0.31.0rc3">v0.31.0rc3: [Model Runner V2] Support randomized dummy inputs (#58411)</a><span class="sid">github.com</span></li></ul></div><div class="beat"><div class="beat-name">Frontier releases</div><ul class="beat-items"><li class="beat-item"><a href="https://news.synopsys.com/2026-09-30-OpenAI-and-Synopsys-Announce-GPT-Synopsys-Frontier-Intelligence-to-Revolutionize-Chip-Design">GPT-Synopsys: Frontier Intelligence to Revolutionize Chip Design</a><span class="sid">news.synopsys.com</span></li><li class="beat-item"><a href="https://www.anthropic.com/news/barclays-scales-claude">Oct 1, 2026 Announcements Barclays scales Claude to upgrade operations and improve client experience</a><span class="sid">anthropic.com</span></li></ul></div><div class="beat"><div class="beat-name">Fine-tuning</div><ul class="beat-items"><li class="beat-item"><a href="https://github.com/unslothai/unsloth/releases/tag/v0.1.902-beta">Command Palette + Desktop UI/UX (Unsloth Desktop, 4-bit LoRA retention for NVFP4/INT4/MXFP4)</a><span class="sid">github.com</span></li></ul></div><div class="beat"><div class="beat-name">Hardware</div><ul class="beat-items"><li class="beat-item"><a href="https://github.com/Vibra-Ingenn/Janus">Show HN: Janus – Go binary that runs GGUF models via Vulkan on AMD/Intel/Nvidia</a><span class="sid">github.com</span></li><li class="beat-item"><a href="https://blogs.nvidia.com/blog/productive-durable-fungible-ai-factories">Productive, Durable, Fungible: How NVIDIA AI Factories Maximize Return on Investment</a><span class="sid">blogs.nvidia.com</span></li></ul></div><div class="beat"><div class="beat-name">From the community</div><ul class="beat-items"><li class="beat-item"><a href="https://www.cnbc.com/2026/09/30/ftc-ai-probe-openai-anthropic.html">FTC is investigating OpenAI, Anthropic and other AI companies over product risks</a><span class="sid">cnbc.com</span></li><li class="beat-item"><a href="https://resobscura.substack.com/p/using-opus-55-to-discover-a-new-eyewitness">Using Opus 5.5 to discover a new eyewitness record of the dodo</a><span class="sid">resobscura.substack.com</span></li><li class="beat-item"><a href="https://www.nytimes.com/2026/09/30/technology/meta-ai-data-centers-taxes.html">Meta Uses A.I. Data Centers to Avoid Billions in Federal Taxes</a><span class="sid">nytimes.com</span></li><li class="beat-item"><a href="https://openid.net/wp-content/uploads/2025/10/Identity-Management-for-Agentic-AI.pdf">Identity Management for Agentic AI [pdf] (2025)</a><span class="sid">openid.net</span></li><li class="beat-item"><a href="https://www.technologyreview.com/2026/09/22/1144867/dont-be-fooled-summer-ai-hype">Don&#x27;t Be Fooled by this Summer of AI Hype</a><span class="sid">technologyreview.com</span></li></ul></div></div></section><nav class="daynav"><a href="2026-10-01.html">&larr; 2026-10-01</a><a class="backlink" href="../index.html">all days</a><span></span></nav><footer class="foot">AI SIGNAL &mdash; a daily curated brief on AI models, infrastructure, and research &middot; curated by <a href="https://ylnhari.github.io">Hari Yelesetty</a><div class="foot-links"><a href="https://ylnhari.github.io">Portfolio</a> &middot; <a href="https://github.com/ylnhari">GitHub</a> &middot; <a href="https://www.linkedin.com/in/ylnhari">LinkedIn</a> &middot; <a href="https://ylnhari.github.io/blog">Blog</a> &middot; <a href="../bench.html">Model Bench</a></div></footer></main></div>
+
+</body>
+</html>
